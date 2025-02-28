@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 /**
  * ApplicationBean
+ * Dinh nghia cac class la bean de co the inject gia tri
  */
 @Configuration
 public class ApplicationBean {
