@@ -1,6 +1,6 @@
-export const Footer = () => { 
+export const Footer = () => {
   return (
-    <div className={" absolute bottom-0 w-full p-6 grid grid-cols-5 text-sm bg-[#D9D9D9]-800 text-black-300"}>
+    <div className={"bottom-0 w-full p-6 grid sm:grid-cols-3 md:grid-cols-5 text-sm bg-[#D9D9D9]-800 text-black-300 content-evenly justify-center"}>
         {[...Array(5)].map((_, index) => (
           <div key={index} className="space-y-2">
             <h3 className="font-semibold">Chính sách chung</h3>
