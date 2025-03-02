@@ -13,7 +13,7 @@ const Brand = () => {
       </div>
       <span className="text-yellow-500 text-xl font-bold">Clockee</span>
       */}
-      <img src="/logo_header.png" alt="C"  />
+      <img src="/logo_header.png" alt="C" className="min-w-40"/>
     </>
   );
 };

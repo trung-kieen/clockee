@@ -11,8 +11,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        colorPrimary: "var(--color-primary)", // Custom primary color (Indigo)
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")], // Add DaisyUI here
+  daisyui: {
+    themes: ['light', 'dark', 'wireframe', 'corporate'],
+  },
 } satisfies Config;
