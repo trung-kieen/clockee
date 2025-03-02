@@ -33,18 +33,18 @@ public class VerificationCode {
   private Long verificationId;
 
   @Setter
-  private boolean emailSent = false;
+  private Boolean emailSent = false;
 
   private String code;
 
   // Owner side
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   public VerificationCode(User user) {
-  this.user = user;
-  this.code = RandomStringUtils.random(6, false, true);
+    this.user = user;
+    this.code = RandomStringUtils.random(6, false, true);
   }
 
 }
