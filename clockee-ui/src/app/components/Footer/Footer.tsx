@@ -11,7 +11,7 @@ export default function Footer () {
           </ul>
         </div>
         <div>
-          <h3 className="font-semibold text-gray-800">Shopee Việt Nam</h3>
+          <h3 className="font-semibold text-gray-800">Clockee Việt Nam</h3>
           <ul className="mt-2 space-y-1">
             <li>Về Clockee</li>
             <li>Tuyển dụng</li>
