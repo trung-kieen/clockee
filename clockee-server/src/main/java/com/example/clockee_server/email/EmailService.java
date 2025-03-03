@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * EmailService
+ * EmailService gui email thong qua mail server
  */
 @Service
 @Slf4j

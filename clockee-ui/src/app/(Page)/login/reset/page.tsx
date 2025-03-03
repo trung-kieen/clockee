@@ -1,7 +1,5 @@
  'use client'
 
-import Footer from "@/app/components/footer/footer";
-import Header_reset from "@/app/components/header/header_reset";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -24,13 +22,12 @@ export default function ResetPassword() {
     <div className="w-full min-h-screen flex flex-col items-center bg-white ">
       {/* Header */}
         <div className="bg-[#FFDA3E]  w-full max-w-6xl flex justify-between items-center border-b-4">
-          <Header_reset/>
         </div>
       {/* Main Content */}
         <div className="bg-white w-[1040px] h-[500px] flex justify-center items-center">
           {/* Form Reset Password */}
             <div className="w-full md:w-[380px] h-[250px] p-0 bg-white rounded-lg shadow-lg border border-yellow-300">
-              {/* Tiêu đề */} 
+              {/* Tiêu đề */}
                 <div className="flex  items-center bg-White rounded-md h-[80px]">
                   <button onClick={() => router.push('/login')} className="px-[10px] py-[1px]">
                     <img src="/goBack.svg"/>
@@ -58,7 +55,7 @@ export default function ResetPassword() {
                   </button>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
   );
 }

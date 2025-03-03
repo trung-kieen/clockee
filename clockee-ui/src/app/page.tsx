@@ -1,18 +1,51 @@
+"use client"
+import Image from 'next/image';
 import React from 'react';
-import Header_home from './components/header/header_home';
 
-export default function Home() {
+
+const MenuItem = () => {
+  const title = "Casio world time";
+  const description = " AE-1000WHD-1AVDF - Nam - Quazt (Pin)";
+  const price = "1.506.000 đ";
+  return (
+    <>
+      <div className="card bg-base-100 w-50 shadow-sm">
+        <figure>
+          <img
+            src="product1.png"
+            alt="Shoes" />
+        </figure>
+        <div className="card-body flex items-center justify-center">
+          <b>{title}</b>
+          <p>{description}</p>
+          <h2 className="card-title">
+            {price}
+          </h2>
+        </div>
+      </div>
+
+    </>
+  )
+
+}
+export default function HomePage() {
 
   return (
     <>
-      <div className='w-full min-h-screen flex flex-col items-center bg-white border-b-2 boder-dashed pb-1 '>
-        <div className='border-b-2 boder-dashed pb-1 w-full flex justify-center items-center '>
-          <Header_home/>
+      {/* Banner  */}
+      <img src="carosel.png" className="w-full" alt="something wrong" />
+
+      <div className='flex justify-center'>
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
+          <MenuItem />
+          <MenuItem />
+          <MenuItem />
+          <MenuItem />
+          <MenuItem />
+          <MenuItem />
         </div>
       </div>
-      <div>
 
-      </div>
     </>
-  );
+  )
 }
