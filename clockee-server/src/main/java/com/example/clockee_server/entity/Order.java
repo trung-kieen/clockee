@@ -23,7 +23,7 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "create_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(name = "create_at", updatable = false, nullable = false)
     private LocalDateTime createAt;
 
     @Column(columnDefinition = "TEXT", nullable = false)
