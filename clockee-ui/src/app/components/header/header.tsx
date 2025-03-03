@@ -1,7 +1,7 @@
 'use client';
 import { ShoppingCart, User } from "lucide-react"
-import Brand from "../Brand"
 import { usePathname } from 'next/navigation'
+import Brand from "../brand";
 
 
 const NavLinks = () => {
@@ -53,7 +53,7 @@ const RightNavIcons = () => {
 
 const NavBar = () => {
   const pathname = usePathname();
-  const simpleIconHeaderPages = ["/login", "logout"];
+  const simpleIconHeaderPages = ["/login", "logout/", "/login/reset"];
   const showHeaderDetail = !(simpleIconHeaderPages.indexOf(pathname) > -1);
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
