@@ -1,4 +1,4 @@
-package com.example.clockee_server.controller;
+package com.example.clockee_server.controller.admin;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
