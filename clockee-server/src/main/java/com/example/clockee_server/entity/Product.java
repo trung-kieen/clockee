@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// TODO: Duong - use pural noun for all entity
 @Table(name = "product")
 public class Product {
     @Id
@@ -35,6 +36,7 @@ public class Product {
     @Column(length = 50)
     private String type;
 
+    // TODO: Duong - default = 0
     @Column(nullable = false)
     private Long stock;
 

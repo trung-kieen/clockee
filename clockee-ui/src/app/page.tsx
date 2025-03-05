@@ -33,7 +33,7 @@ export default function HomePage() {
   return (
     <>
       {/* Banner  */}
-      <img src="carosel.png" className="w-full" alt="something wrong" />
+      <img src="/carosel.png" width={700} height={500} className="w-full" alt="something wrong" />
 
       <div className='flex justify-center'>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
