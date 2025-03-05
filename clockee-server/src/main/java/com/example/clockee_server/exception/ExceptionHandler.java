@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -70,15 +71,34 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<HttpErrorResponse> handleException(BadCredentialsException e) {
     log.info("Handling BadCredentialsException: {}", e.getMessage());
     var response = HttpErrorResponse.of(e.getMessage(), 401, null, null);
-    return new ResponseEntity<>(response, HttpStatus.valueOf(401));
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   @org.springframework.web.bind.annotation.ExceptionHandler(AuthorizationDeniedException.class)
   public ResponseEntity<HttpErrorResponse> handleException(AuthorizationDeniedException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
     var response = HttpErrorResponse.of(e.getMessage(), 403, null, null);
-    return new ResponseEntity<>(response, HttpStatus.valueOf(403));
+    return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
   }
+
+
+
+  /*
+   * Handler for data constraint violent => Roll back before transaction
+   */
+  @org.springframework.web.bind.annotation.ExceptionHandler(value = TransactionSystemException.class)
+  public ResponseEntity<?> handleTransactionRollBack(TransactionSystemException e) {
+    log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
+    var response = HttpErrorResponse.of(e.getMessage(), 400, null, null);
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
+  @org.springframework.web.bind.annotation.ExceptionHandler(value = ResourceNotFoundException.class)
+  public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException e) {
+    var response = HttpErrorResponse.of(e.getMessage(), 404, null, null);
+    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
+
 
   /**
    * Handle cac loi chung chung khong ro nguyen nhan nhu {@link RuntimeException}

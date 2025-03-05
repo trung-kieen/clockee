@@ -12,6 +12,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,7 +75,12 @@ public class SecurityConfiguration {
           });
     });
 
-    http.addFilterBefore(new UsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+    // Change from cookiee base session to stateless => user store jwt token in localStorage
+    http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    // Filter apply on request to put userdetails to application context if exist
+    // TODO: add filter
+    // http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
     http.userDetailsService(userDetailsService);
 
     http.csrf(AbstractHttpConfigurer::disable); // TODO: Implement jwt token based authentication

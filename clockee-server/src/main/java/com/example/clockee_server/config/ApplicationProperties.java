@@ -25,5 +25,7 @@ import lombok.Setter;
 @Getter
 public class ApplicationProperties {
   private List<String> allowedOrigins;
+  private CharSequence jwtSecretKey;
+  private Long jwtTokenExpMillis;
 
 }
