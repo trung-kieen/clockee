@@ -1,4 +1,4 @@
-package com.example.clockee_server.payload.request;
+package com.example.clockee_server.auth.dto;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -29,9 +29,7 @@ public class CreateUserRequest {
   private String password;
   private String passwordConfirmation;
   @Nullable
-  private String firstName;
-  @Nullable
-  private String lastName;
+  private String name;
 
 
 

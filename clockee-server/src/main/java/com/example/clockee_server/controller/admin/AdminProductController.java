@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import com.example.clockee_server.payload.PageResponse;
 import com.example.clockee_server.payload.request.ProductDTO;
 import com.example.clockee_server.payload.response.AdminProductDTO;
@@ -43,7 +43,7 @@ public class AdminProductController {
   }
 
   @PutMapping
-  public ResponseEntity<?> create(ProductDTO dto ){
+  public ResponseEntity<?> create(@RequestBody ProductDTO dto ){
     // Checkout band_id is exists before update or else ResourceNotFoundException
     return null;
   }

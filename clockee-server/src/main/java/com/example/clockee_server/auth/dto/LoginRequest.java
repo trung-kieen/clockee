@@ -1,4 +1,4 @@
-package com.example.clockee_server.payload.request;
+package com.example.clockee_server.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
