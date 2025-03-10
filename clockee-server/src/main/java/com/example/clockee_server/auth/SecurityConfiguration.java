@@ -62,7 +62,8 @@ public class SecurityConfiguration {
           .requestMatchers(antMatcher("/swagger-resources/**")).permitAll()
           .requestMatchers(antMatcher("/webjars/**")).permitAll();
           // TODO: enable authenticated
-          customizer.anyRequest().authenticated();
+          customizer.anyRequest().permitAll();
+          //customizer.anyRequest().authenticated();
     });
 
     // http.oauth2Login(customizer -> {
