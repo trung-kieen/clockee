@@ -15,6 +15,8 @@ services:
         timeout: 3s
     ports:
       - 1433:1433
+    networks:
+        - clockee-network
     # volumes:
     #   - ./init:/docker-entrypoint-initdb.d
     #   - ./mssql-init.sql:/tmp/mssql-init.sql
@@ -29,3 +31,8 @@ services:
     ports:
       - 1080:1080
       - 1025:1025
+    # networks:
+    #     - clockee-network
+networks:
+  clockee-network:
+    driver: bridge

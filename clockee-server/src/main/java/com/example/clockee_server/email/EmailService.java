@@ -30,7 +30,7 @@ public class EmailService {
       helper.setText(htmlBody, true);
       sender.send(message);
     } catch (MessagingException e) {
-      throw new RuntimeException("Error sending email", e);
+      throw new RuntimeException("UNABLE_SENT_EMAIL", e);
     }
   }
 

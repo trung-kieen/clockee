@@ -27,5 +27,7 @@ public class ApplicationProperties {
   private List<String> allowedOrigins;
   private CharSequence jwtSecretKey;
   private Long jwtTokenExpMillis;
+  private String baseUrl;
+  private String applicationName;
 
 }
