@@ -23,8 +23,8 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "image_url", length = 255)
-    private Long imageUrl;
+    @Column(name = "image_url", length = 255) // image url thì phải là String chứ hè
+    private String imageUrl;
 
     @Column(name = "actual_price", precision = 10, nullable = false)
     private Double actualPrice;

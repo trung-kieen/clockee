@@ -57,6 +57,7 @@ public class SecurityConfiguration {
           .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
           .requestMatchers(antMatcher("/swagger-resources/**")).permitAll()
           .requestMatchers(antMatcher("/webjars/**")).permitAll()
+          .requestMatchers(antMatcher("/admin/products/**")).permitAll() // thêm dòng này để test postman
           .anyRequest().authenticated();
     });
 

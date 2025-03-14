@@ -26,6 +26,8 @@ public class Order {
     @Column(name = "create_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime createAt;
 
+
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String address;
 

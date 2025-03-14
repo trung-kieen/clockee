@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * CreateUserRequest
+ * CreateUserRequest / RegisterUserRequest
  */
 @Data
 @PasswordMatch(passwordField = "password", passwordConfirmationFieldName  = "passwordConfirmation")
