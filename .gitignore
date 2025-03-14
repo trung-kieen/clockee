@@ -2,3 +2,4 @@ mssql-init.sql/
 init.sql/
 .idea/
 .idea
+**/idea/
