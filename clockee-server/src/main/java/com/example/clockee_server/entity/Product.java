@@ -45,4 +45,8 @@ public class Product {
     @Column(name = "is_active")
     private Boolean isActive;
     private Boolean visible;
+
+    @Version
+    private Long version;
+
 }
