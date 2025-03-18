@@ -1,5 +1,6 @@
 'use client'
 import { AuthControllerService, LoginRequest } from "@/gen";
+import { AuthManager } from "@/lib/auth/AuthManager";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,8 @@ export default function LoginPage() {
 
 
 
+
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const loginReq: LoginRequest = {
@@ -26,6 +29,7 @@ export default function LoginPage() {
     }
     try {
       const res = await AuthControllerService.login(loginReq);
+      AuthManager.setAccessToken(res.accessToken || null);
       console.log(res)
     } catch (e) {
       console.error(e);
@@ -54,7 +58,6 @@ export default function LoginPage() {
 
             {/* Form đăng nhập */}
             <form action="" onSubmit={handleSubmit}>
-
               <div className="relative">
                 <input
                   type="text"

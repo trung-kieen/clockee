@@ -1,12 +1,11 @@
 import { API_BASE } from "@/utils/config";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { AuthManager } from "@/lib/auth/AuthManager";
 
 /// https://github.com/nextauthjs/next-auth/discussions/3550
 
 
 const HttpClient = () => {
-  // const router = useRouter();
   const instance = axios.create({
     baseURL: API_BASE,
     headers: {
@@ -16,12 +15,12 @@ const HttpClient = () => {
     }
   })
   instance.interceptors.request.use(async (request) => {
-    const token = localStorage.getItem('token');
-    // console.log(`Interceptor ${JSON.stringify(request)}`);
+    // const token = localStorage.getItem('token');
+    const token = AuthManager.getAccessToken()
     if (token) {
-
       request.headers.Authorization = `Bearer ${token}`;
     }
+    console.log(`Interceptor ${JSON.stringify(request)}`);
     return request;
   })
   instance.interceptors.response.use(
@@ -31,8 +30,8 @@ const HttpClient = () => {
     (error) => {
       console.log(`error`, error);
       if (error.response?.status == 401) {
+        // use window action instead of useRouter otherwise violent hooks rule
         window.location.href = "/login";
-        // router.push("/login")
       }
       return Promise.reject(error);
     },
