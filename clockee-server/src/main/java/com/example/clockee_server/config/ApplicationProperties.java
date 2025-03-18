@@ -29,5 +29,6 @@ public class ApplicationProperties {
   private Long jwtTokenExpMillis;
   private String baseUrl;
   private String applicationName;
+  private String uploadPath;
 
 }

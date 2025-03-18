@@ -2,37 +2,68 @@ services:
   clockee-db:
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: example_123
+      SA_PASSWORD: ${SA_PASSWORD:-example_123}
 
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     restart: always
     healthcheck:
-      # For 2022 abot sue mssql-tools18 instead of mssql-tools
-        test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'example_123' -Q 'SELECT 1' || exit 1"]
-        interval: 10s
-        retries: 10
-        start_period: 10s
-        timeout: 3s
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD:-example_123}" -Q "SELECT 1" -C -t 30 || exit 1
+      interval: 15s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     ports:
       - 1433:1433
     networks:
         - clockee-network
-    # volumes:
-    #   - ./init:/docker-entrypoint-initdb.d
-    #   - ./mssql-init.sql:/tmp/mssql-init.sql
+    volumes:
+      - ./db:/scripts
+
+    ###### RUN THIS WHEN DB CREATE SUCCESS ###################
+    # /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD:-example_123}" -i /scripts/init.sql -C -t 30 || exit 1
+
+    # entrypoint:  >
+    #   bash -c "
+    #       /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD:-example_123}" -i /scripts/init.sql -C -t 30 || exit 1
+    #       echo "Init clockeedb successful"
+    #   "
+  sqlserver.configurator:
+    # image: mcr.microsoft.com/mssql-tools
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    container_name: sqlserver.configurator
+    volumes:
+      - ./db:/scripts
+    depends_on:
+      clockee-db:
+        condition: service_healthy
+
     # command: >
     #   bash -c '
-    #   /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P $SA_PASSWORD -C -d master -i docker-entrypoint-initdb.d/init.sql;
+    #   /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD:-example_123} -C -d master -i /scripts/init.sql;
     #   echo "All done!";
     #   '
+
+    # NOTE: current work not as expect
+    entrypoint:  >
+      bash -c "
+      echo 'Waiting for SQL Server to be fully ready...';
+      sleep 15;
+      echo 'Running initialization scripts...';
+      chmod +x /scripts/init.sh;
+      /scripts/init.sh \"${SA_PASSWORD:-example_123}\";
+      "
+    networks:
+        - clockee-network
+
   clockee-mail-server:
     container_name: clockee-mail-server
     image: maildev/maildev
     ports:
       - 1080:1080
       - 1025:1025
-    # networks:
-    #     - clockee-network
+    networks:
+        - clockee-network
 networks:
   clockee-network:
     driver: bridge
