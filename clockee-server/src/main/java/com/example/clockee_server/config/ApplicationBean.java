@@ -1,7 +1,7 @@
 package com.example.clockee_server.config;
 
 import java.util.Properties;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,4 +30,9 @@ public class ApplicationBean {
   //       props.put("mail.smtp.starttls.enable", "false");
   //       return props;
   //   }
+  @Bean
+  public ModelMapper modelMapper(){
+    return new ModelMapper();
+  }
+
 }

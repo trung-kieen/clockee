@@ -46,21 +46,27 @@ public class User implements UserDetails {
   @Column(name = "user_id")
   private Long userId;
 
+  // email
   @Column(nullable = false, length = 255, unique = true)
   private String email;
 
+  // password
   @Column(nullable = false, length = 255)
   private String password;
 
+  // name
   @Column(nullable = false, length = 255)
   private String name;
 
+  // phone
   @Column(length = 20)
   private String phone;
 
+  // address
   @Column(columnDefinition = "TEXT")
   private String address;
 
+  // is_deleted
   @Column(name = "is_deleted")
   private Boolean isDeleted;
 
@@ -72,9 +78,6 @@ public class User implements UserDetails {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   Set<Role> roles;
-
-  // @Setter
-  private Boolean verified = false;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

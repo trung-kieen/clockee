@@ -1,5 +1,6 @@
 package com.example.clockee_server.entity;
 
+
 import org.apache.commons.lang3.RandomStringUtils;
 
 import jakarta.persistence.CascadeType;

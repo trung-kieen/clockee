@@ -1,4 +1,4 @@
-package com.example.clockee_server.controller;
+package com.example.clockee_server.controller.admin;
 
 import com.example.clockee_server.dto.SupplierDTO;
 import com.example.clockee_server.service.SupplierService;
@@ -34,7 +34,6 @@ public class SupplierController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSupplier(@PathVariable Long id) {
         supplierService.deletedSupplier(id);
-        System.out.println("Call delete supplier!");
         return ResponseEntity.noContent().build();
     }
 }

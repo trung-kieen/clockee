@@ -1,65 +1,46 @@
 package com.example.clockee_server.controller.admin;
 
+import com.example.clockee_server.payload.request.AdminProductRequest;
+import com.example.clockee_server.payload.response.AdminProductResponse;
+import com.example.clockee_server.service.AdminProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.example.clockee_server.payload.PageResponse;
-import com.example.clockee_server.payload.request.ProductDTO;
-import com.example.clockee_server.payload.response.AdminProductDTO;
+import org.springframework.web.bind.annotation.*;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
-/**
- * ProductController
- * // TODO: Vi
- */
 @RestController
-@RequestMapping("/admin/products/")
-@RequiredArgsConstructor
+@RequestMapping("/admin/products")
 public class AdminProductController {
 
+    @Autowired
+    AdminProductService adminProductService;
 
-  // TODO: Create service layer for this class
+    @PostMapping
+    public AdminProductResponse createProduct(@RequestBody AdminProductRequest request){
+        return adminProductService.createProdcuct(request);
+    }
 
-  @GetMapping
-  public ResponseEntity<PageResponse<AdminProductDTO>> getAll() {
-    // TODO:
-    return null;
-  }
+    @GetMapping
+    public List<AdminProductResponse> getAllProduct(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return adminProductService.getAllProducts(page, size);
+    }
 
+    @GetMapping("/{id}")
+    public AdminProductResponse getProductById(@PathVariable Long id){
+        return adminProductService.getProductById(id);
+    }
 
-  /**
-   * Admin will access product detail page for edit product information
-   */
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getDetails(@PathVariable Long id ) {
-    // TODO:
-    return null;
-  }
+    @PutMapping("/{id}")
+    public AdminProductResponse updateProduct(@PathVariable Long id, @RequestBody AdminProductRequest request){
+        return adminProductService.updateProduct(id, request);
+    }
 
-  @PutMapping
-  public ResponseEntity<?> create(@RequestBody ProductDTO dto ){
-    // Checkout band_id is exists before update or else ResourceNotFoundException
-    return null;
-  }
-
-  @PutMapping("{id}")
-  public ResponseEntity<?> update(@PathVariable Long id,  ProductDTO dto){
-    // Checkout band_id is exists before update or else ResourceNotFoundException
-    return null;
-  }
-
-  /**
-   * Only allow to delete only for none foreign key product
-   */
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Long id){
-    return null;
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AdminProductResponse> deleteProduct(@PathVariable Long id) {
+        AdminProductResponse deletedProduct = adminProductService.deleteProduct(id);
+        return ResponseEntity.ok(deletedProduct);
+    }
 }

@@ -25,7 +25,7 @@ public class Product {
     private String description;
 
     @Column(name = "image_url", length = 255)
-    private Long imageUrl;
+    private String imageUrl;
 
     @Column(name = "actual_price", precision = 10, nullable = false)
     private Double actualPrice;

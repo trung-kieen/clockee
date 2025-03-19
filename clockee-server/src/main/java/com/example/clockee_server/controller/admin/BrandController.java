@@ -1,4 +1,4 @@
-package com.example.clockee_server.controller;
+package com.example.clockee_server.controller.admin;
 
 import com.example.clockee_server.dto.BrandDTO;
 import com.example.clockee_server.service.BrandService;
