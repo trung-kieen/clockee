@@ -93,4 +93,27 @@ public class JwtTokenProvider {
     byte[] keybytes = Decoders.BASE64.decode(applicationProperties.getJwtSecretKey());
     return Keys.hmacShaKeyFor(keybytes);
   }
+
+  // Create RefreshToken
+  public String generateRefreshToken(UserDetails user) {
+    Date issueAt = new Date(System.currentTimeMillis());
+    Date expiredAt = new Date(System.currentTimeMillis() + applicationProperties.getJwtRefreshTokenExpMillis());
+
+    return Jwts.builder()
+            .claims()
+            .subject(user.getUsername())
+            .issuedAt(issueAt)
+            .expiration(expiredAt)
+            .and()
+            .signWith(getSignKey(), Jwts.SIG.HS256)
+            .compact();
+  }
+
+  public boolean isValidRefreshToken(String token, UserDetails user) {
+    final String email = getUsername(token);
+    final Date expiration = extractClaim(token, Claims::getExpiration);
+    boolean isExpired = expiration.before(new Date());
+
+    return email.equals(user.getUsername()) && !isExpired;
+  }
 }

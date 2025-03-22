@@ -30,5 +30,5 @@ public class ApplicationProperties {
   private String baseUrl;
   private String applicationName;
   private String uploadPath;
-
+  private Long jwtRefreshTokenExpMillis;
 }
