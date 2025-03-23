@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/brands")
+@RequestMapping("/brands")
 public class BrandController {
     @Autowired
     private BrandService brandService;
