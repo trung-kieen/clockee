@@ -7,7 +7,7 @@ import com.example.clockee_server.auth.dto.LoginRequest;
 public interface AuthenticationService {
   public void register(CreateUserRequest req);
 
-public JwtTokenResponse login(LoginRequest req);
+  public JwtTokenResponse login(LoginRequest req);
 
 
 }

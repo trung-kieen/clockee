@@ -12,6 +12,8 @@ import lombok.*;
 @Table(name = "purchase")
 public class Purchase {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "purchase_id")
     private Long purchaseId;
 
     @ManyToOne

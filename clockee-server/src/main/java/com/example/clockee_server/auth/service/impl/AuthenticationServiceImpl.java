@@ -93,10 +93,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }).collect(Collectors.toList());
 
     String jwtToken = jwtTokenProvider.genenerateToken(currentUser);
+    String refreshToken = jwtTokenProvider.generateRefreshToken(currentUser);
     var resp = new JwtTokenResponse();
     resp.setUsername(currentUser.getEmail());
     resp.setId(currentUser.getUserId());
     resp.setAccessToken(jwtToken);
+    resp.setRefreshToken(refreshToken);
     resp.setRoles(roles);
 
     return resp;
