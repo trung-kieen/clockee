@@ -8,6 +8,10 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(AuthManager.getAccessToken());
   useEffect(() => {
+
+
+    // TODO: get token from refresh token for first time
+
     // Callback for notify change token in AuthManager
     const handleTokenChange = (newToken: string) => {
       setToken(newToken);
@@ -26,13 +30,16 @@ export const AuthProvider = ({ children }) => {
   const updateToken = (token: string) => {
     AuthManager.setAccessToken(token);
   }
+  const isLogin = (): boolean => {
+    return token != null && token.length > 0;
+  }
 
   const clearToken = () => {
     AuthManager.clearAccessToken();
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken: updateToken, clearToken }}>
+    <AuthContext.Provider value={{ token, setToken: updateToken, clearToken, isLogin }}>
       {children}
     </AuthContext.Provider>
   )

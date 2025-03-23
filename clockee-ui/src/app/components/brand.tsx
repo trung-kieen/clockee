@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 
@@ -5,15 +6,9 @@ import React from "react";
 const Brand = () => {
   return (
     <>
-      {/* Alternative use text and app favicon
-      <div className="bg-yellow-400 p-2 rounded-full">
-        <span className="text-white font-bold text-lg">
-          <Image src={logo} alt="C" width={20} height={20} />
-        </span>
+      <div className="flex items-center text-xl font-bold text-orange-500">
+        <img className='mr-[-9px] mt-[-5px] cursor-pointer' src="/logo_header.png" alt="logo login" />
       </div>
-      <span className="text-yellow-500 text-xl font-bold">Clockee</span>
-      */}
-      <img src="/logo_header.png" alt="C" className="min-w-40"/>
     </>
   );
 };
