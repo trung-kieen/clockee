@@ -1,10 +1,21 @@
+version: '3.8'
+
+volumes:
+  mssql-data:
+
 services:
   clockee-db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: clockee-db
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: ${SA_PASSWORD:-example_123}
-
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - 1433:1433
+    networks:
+      - clockee-network
+    volumes:
+      - mssql-data:/var/opt/mssql
     restart: always
     healthcheck:
       test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD:-example_123}" -Q "SELECT 1" -C -t 30 || exit 1
@@ -12,49 +23,18 @@ services:
       retries: 5
       start_period: 30s
       timeout: 10s
-    ports:
-      - 1433:1433
-    networks:
-        - clockee-network
-    volumes:
-      - ./db:/scripts
 
-    ###### RUN THIS WHEN DB CREATE SUCCESS ###################
-    # /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD:-example_123}" -i /scripts/init.sql -C -t 30 || exit 1
-
-    # entrypoint:  >
-    #   bash -c "
-    #       /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD:-example_123}" -i /scripts/init.sql -C -t 30 || exit 1
-    #       echo "Init clockeedb successful"
-    #   "
   sqlserver.configurator:
-    # image: mcr.microsoft.com/mssql-tools
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    user: root
+    image: mcr.microsoft.com/mssql-tools
     container_name: sqlserver.configurator
-    volumes:
-      - ./db:/scripts
     depends_on:
       clockee-db:
         condition: service_healthy
-
-    # command: >
-    #   bash -c '
-    #   /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD:-example_123} -C -d master -i /scripts/init.sql;
-    #   echo "All done!";
-    #   '
-
-    # NOTE: current work not as expect
-    entrypoint:  >
-      bash -c "
-      echo 'Waiting for SQL Server to be fully ready...';
-      sleep 15;
-      echo 'Running initialization scripts...';
-      chmod +x /scripts/init.sh;
-      /scripts/init.sh \"${SA_PASSWORD:-example_123}\";
-      "
+    volumes:
+      - ./db:/scripts
+    entrypoint: ["/bin/bash", "-c", "/scripts/init.sh \"${SA_PASSWORD:-example_123}\""]
     networks:
-        - clockee-network
+      - clockee-network
 
   clockee-mail-server:
     container_name: clockee-mail-server
@@ -63,7 +43,8 @@ services:
       - 1080:1080
       - 1025:1025
     networks:
-        - clockee-network
+      - clockee-network
+
 networks:
   clockee-network:
     driver: bridge
