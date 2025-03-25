@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type JwtTokenResponse = {
     accessToken?: string;
+    refreshToken?: string;
     type?: string;
     id?: number;
     username?: string;

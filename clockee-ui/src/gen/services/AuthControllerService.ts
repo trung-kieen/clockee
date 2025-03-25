@@ -25,6 +25,22 @@ export class AuthControllerService {
         });
     }
     /**
+     * @param refreshToken
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static refreshAccessToken(
+        refreshToken?: string,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/auth/refresh',
+            cookies: {
+                'refreshToken': refreshToken,
+            },
+        });
+    }
+    /**
      * @param requestBody
      * @returns JwtTokenResponse OK
      * @throws ApiError

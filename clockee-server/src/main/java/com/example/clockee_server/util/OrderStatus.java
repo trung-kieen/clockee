@@ -1,5 +1,6 @@
 package com.example.clockee_server.util;
 
+@Client
 public enum OrderStatus {
   PENDING("Chưa giải quyết"),
   PROCESSING("Đang xử lý"),

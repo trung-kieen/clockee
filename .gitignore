@@ -5,3 +5,4 @@ init.sql/
 **/idea/
 openapi.json
 .vscode/
+/*.sh

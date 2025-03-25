@@ -1,5 +1,6 @@
 package com.example.clockee_server.entity;
 
+import com.example.clockee_server.util.Client;
 import com.example.clockee_server.util.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "orders")
+@Client
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

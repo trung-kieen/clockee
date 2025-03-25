@@ -1,12 +1,4 @@
-export enum OrderStatus {
-  PENDING = "Chưa giải quyết",
-  PROCESSING = "Đang xử lý",
-  SHIPPED = "Đã giao",
-  RETURNING = "Đang hoàn trả",
-  RETURNED = "Đã hoàn trả",
-  CANCELLED = "Bị hủy",
-  COMPLETED = "Hoàn tất",
-}
+import { OrderStatus } from "@/gen/backend";
 
 export const orderStatusDescription = (status: string) => {
   return OrderStatus[status];

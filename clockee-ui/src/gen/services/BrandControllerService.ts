@@ -21,7 +21,7 @@ export class BrandControllerService {
     ): CancelablePromise<BrandDTO> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/api/brands/{id}',
+            url: '/brands/{id}',
             path: {
                 'id': id,
             },
@@ -39,7 +39,7 @@ export class BrandControllerService {
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/brands/{id}',
+            url: '/brands/{id}',
             path: {
                 'id': id,
             },
@@ -55,7 +55,7 @@ export class BrandControllerService {
     ): CancelablePromise<PageBrandDTO> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/brands',
+            url: '/brands',
             query: {
                 'pageable': pageable,
             },
@@ -71,7 +71,7 @@ export class BrandControllerService {
     ): CancelablePromise<BrandDTO> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/brands',
+            url: '/brands',
             body: requestBody,
             mediaType: 'application/json',
         });

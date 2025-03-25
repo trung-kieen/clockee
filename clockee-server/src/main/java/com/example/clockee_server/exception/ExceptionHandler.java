@@ -106,7 +106,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
   public ResponseEntity<HttpErrorResponse> handleException(Exception e) {
     log.error("Unhandled exception", e);
-    var response = HttpErrorResponse.of("Unexpected error", 500);
+    var response = HttpErrorResponse.of("UNEXPECTED_ERROR", 500);
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 

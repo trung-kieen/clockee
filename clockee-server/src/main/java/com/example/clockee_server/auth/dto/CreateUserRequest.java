@@ -20,7 +20,6 @@ import lombok.Data;
 // @PasswordMatch(passwordField = "password", passwordConfirmationFieldName =
 // "passwordConfirmation")
 @Builder
-@Client
 public class CreateUserRequest {
   @Email
   // @Unique(columnName = "email", tableName = "user", message = "User with this

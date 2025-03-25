@@ -6,8 +6,8 @@ import type { PageableObject } from './PageableObject';
 import type { SortObject } from './SortObject';
 import type { SupplierDTO } from './SupplierDTO';
 export type PageSupplierDTO = {
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     pageable?: PageableObject;
     size?: number;
     content?: Array<SupplierDTO>;

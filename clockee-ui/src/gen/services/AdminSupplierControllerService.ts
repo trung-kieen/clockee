@@ -8,20 +8,20 @@ import type { SupplierDTO } from '../models/SupplierDTO';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-export class SupplierControllerService {
+export class AdminSupplierControllerService {
     /**
      * @param id
      * @param requestBody
      * @returns SupplierDTO OK
      * @throws ApiError
      */
-    public static updateSupplier(
+    public static updateSupplier1(
         id: number,
         requestBody: SupplierDTO,
     ): CancelablePromise<SupplierDTO> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/suppliers/{id}',
+            url: '/admin/suppliers/{id}',
             path: {
                 'id': id,
             },
@@ -34,12 +34,12 @@ export class SupplierControllerService {
      * @returns any OK
      * @throws ApiError
      */
-    public static deleteSupplier(
+    public static deleteSupplier1(
         id: number,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/suppliers/{id}',
+            url: '/admin/suppliers/{id}',
             path: {
                 'id': id,
             },
@@ -50,12 +50,12 @@ export class SupplierControllerService {
      * @returns PageSupplierDTO OK
      * @throws ApiError
      */
-    public static getAllSuppliers(
+    public static getAllSuppliers1(
         pageable: Pageable,
     ): CancelablePromise<PageSupplierDTO> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/suppliers',
+            url: '/admin/suppliers',
             query: {
                 'pageable': pageable,
             },
@@ -66,12 +66,12 @@ export class SupplierControllerService {
      * @returns SupplierDTO OK
      * @throws ApiError
      */
-    public static addSupplier(
+    public static addSupplier1(
         requestBody: SupplierDTO,
     ): CancelablePromise<SupplierDTO> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/suppliers',
+            url: '/admin/suppliers',
             body: requestBody,
             mediaType: 'application/json',
         });

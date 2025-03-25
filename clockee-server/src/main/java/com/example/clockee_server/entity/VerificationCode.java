@@ -3,6 +3,8 @@ package com.example.clockee_server.entity;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.example.clockee_server.util.Client;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "verification_codes")
+@Client
 public class VerificationCode {
 
   @Id

@@ -2,20 +2,20 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PageResponseAdminProductDTO } from '../models/PageResponseAdminProductDTO';
-import type { ProductDTO } from '../models/ProductDTO';
+import type { AdminProductRequest } from '../models/AdminProductRequest';
+import type { AdminProductResponse } from '../models/AdminProductResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class AdminProductControllerService {
     /**
      * @param id
-     * @returns any OK
+     * @returns AdminProductResponse OK
      * @throws ApiError
      */
-    public static getDetails(
+    public static getProductById(
         id: number,
-    ): CancelablePromise<Record<string, any>> {
+    ): CancelablePromise<AdminProductResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/admin/products/{id}',
@@ -26,33 +26,32 @@ export class AdminProductControllerService {
     }
     /**
      * @param id
-     * @param dto
-     * @returns any OK
+     * @param requestBody
+     * @returns AdminProductResponse OK
      * @throws ApiError
      */
-    public static update(
+    public static updateProduct(
         id: number,
-        dto: ProductDTO,
-    ): CancelablePromise<Record<string, any>> {
+        requestBody: AdminProductRequest,
+    ): CancelablePromise<AdminProductResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/admin/products/{id}',
             path: {
                 'id': id,
             },
-            query: {
-                'dto': dto,
-            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
      * @param id
-     * @returns any OK
+     * @returns AdminProductResponse OK
      * @throws ApiError
      */
-    public static delete(
+    public static deleteProduct(
         id: number,
-    ): CancelablePromise<Record<string, any>> {
+    ): CancelablePromise<AdminProductResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/admin/products/{id}',
@@ -62,26 +61,35 @@ export class AdminProductControllerService {
         });
     }
     /**
-     * @returns PageResponseAdminProductDTO OK
+     * @param page
+     * @param size
+     * @returns AdminProductResponse OK
      * @throws ApiError
      */
-    public static getAll(): CancelablePromise<PageResponseAdminProductDTO> {
+    public static getAllProduct(
+        page?: number,
+        size: number = 5,
+    ): CancelablePromise<Array<AdminProductResponse>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/admin/products/',
+            url: '/admin/products',
+            query: {
+                'page': page,
+                'size': size,
+            },
         });
     }
     /**
      * @param requestBody
-     * @returns any OK
+     * @returns AdminProductResponse OK
      * @throws ApiError
      */
-    public static create(
-        requestBody: ProductDTO,
-    ): CancelablePromise<Record<string, any>> {
+    public static createProduct(
+        requestBody: AdminProductRequest,
+    ): CancelablePromise<AdminProductResponse> {
         return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/admin/products/',
+            method: 'POST',
+            url: '/admin/products',
             body: requestBody,
             mediaType: 'application/json',
         });

@@ -1,5 +1,7 @@
 package com.example.clockee_server.entity;
 
+import com.example.clockee_server.util.Client;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "supplier")
+@Table(name = "suppliers")
+@Client
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

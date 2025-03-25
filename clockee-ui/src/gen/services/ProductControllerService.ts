@@ -11,7 +11,7 @@ export class ProductControllerService {
      * @returns any OK
      * @throws ApiError
      */
-    public static getDetails1(
+    public static getDetails(
         id: number,
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {

@@ -1,6 +1,8 @@
 package com.example.clockee_server.entity;
 
 
+import com.example.clockee_server.util.Client;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// TODO: Duong - use pural noun for all entity
-@Table(name = "product")
+@Table(name = "products")
+@Client
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,8 +6,8 @@ import type { BrandDTO } from './BrandDTO';
 import type { PageableObject } from './PageableObject';
 import type { SortObject } from './SortObject';
 export type PageBrandDTO = {
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     pageable?: PageableObject;
     size?: number;
     content?: Array<BrandDTO>;

@@ -1,8 +1,9 @@
 "use client"
-import { disableReturnOrder, enableCancelOrder, OrderStatus, orderStatusDescription } from "@/enum/OrderStatus";
+import { disableReturnOrder, enableCancelOrder, orderStatusDescription } from "@/utils/enum/order-utils";
 import { OrderSummary } from "@/models/common/Order";
 import { ProductItemSummary } from "@/models/common/Order";
 import React, { useRef } from "react";
+import { OrderStatus } from "@/gen/backend";
 
 
 

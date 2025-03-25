@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
+import com.example.clockee_server.util.Client;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +40,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "users")
+@Client
 public class User implements UserDetails {
 
   @Id

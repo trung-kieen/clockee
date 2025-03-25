@@ -2,6 +2,7 @@ package com.example.clockee_server.email;
 
 import java.util.List;
 
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -31,18 +32,22 @@ public class EmailService {
       sender.send(message);
     } catch (MessagingException e) {
       throw new RuntimeException("UNABLE_SENT_EMAIL", e);
+    } catch (MailSendException e) {
+      throw new RuntimeException("EMAIL_SERVICE_NOT_AVAIABLE", e);
     }
   }
 
-
   public void sendSimpleEmail(List<String> to, String subject, String content) {
+    try {
     log.info("Sending email to: {}", to);
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(to.toArray(new String[0]));
     message.setSubject(subject);
     message.setText(content);
     sender.send(message);
+    }catch (MailSendException e) {
+      throw new RuntimeException("EMAIL_SERVICE_NOT_AVAIABLE", e);
+    }
   }
-
 
 }

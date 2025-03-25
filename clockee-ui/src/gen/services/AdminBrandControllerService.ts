@@ -2,26 +2,26 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { BrandDTO } from '../models/BrandDTO';
 import type { Pageable } from '../models/Pageable';
-import type { PageSupplierDTO } from '../models/PageSupplierDTO';
-import type { SupplierDTO } from '../models/SupplierDTO';
+import type { PageBrandDTO } from '../models/PageBrandDTO';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-export class SupplierControllerService {
+export class AdminBrandControllerService {
     /**
      * @param id
      * @param requestBody
-     * @returns SupplierDTO OK
+     * @returns BrandDTO OK
      * @throws ApiError
      */
-    public static updateSupplier(
+    public static updateBrand1(
         id: number,
-        requestBody: SupplierDTO,
-    ): CancelablePromise<SupplierDTO> {
+        requestBody: BrandDTO,
+    ): CancelablePromise<BrandDTO> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/suppliers/{id}',
+            url: '/admin/brands/{id}',
             path: {
                 'id': id,
             },
@@ -34,12 +34,12 @@ export class SupplierControllerService {
      * @returns any OK
      * @throws ApiError
      */
-    public static deleteSupplier(
+    public static deleteBrand1(
         id: number,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/suppliers/{id}',
+            url: '/admin/brands/{id}',
             path: {
                 'id': id,
             },
@@ -47,15 +47,15 @@ export class SupplierControllerService {
     }
     /**
      * @param pageable
-     * @returns PageSupplierDTO OK
+     * @returns PageBrandDTO OK
      * @throws ApiError
      */
-    public static getAllSuppliers(
+    public static getAllBrands1(
         pageable: Pageable,
-    ): CancelablePromise<PageSupplierDTO> {
+    ): CancelablePromise<PageBrandDTO> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/suppliers',
+            url: '/admin/brands',
             query: {
                 'pageable': pageable,
             },
@@ -63,15 +63,15 @@ export class SupplierControllerService {
     }
     /**
      * @param requestBody
-     * @returns SupplierDTO OK
+     * @returns BrandDTO OK
      * @throws ApiError
      */
-    public static addSupplier(
-        requestBody: SupplierDTO,
-    ): CancelablePromise<SupplierDTO> {
+    public static addBrand1(
+        requestBody: BrandDTO,
+    ): CancelablePromise<BrandDTO> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/suppliers',
+            url: '/admin/brands',
             body: requestBody,
             mediaType: 'application/json',
         });
