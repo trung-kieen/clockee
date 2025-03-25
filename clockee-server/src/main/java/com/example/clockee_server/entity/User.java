@@ -4,13 +4,24 @@ package com.example.clockee_server.entity;
 import java.util.Collection;
 import java.util.Set;
 
-import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,7 +70,12 @@ public class User implements UserDetails {
   @Column(name = "is_deleted")
   private Boolean isDeleted;
 
-  @ManyToMany
+  // Opposite side
+  @OneToOne(mappedBy = "user")
+  private VerificationCode verificationCode;
+
+
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   Set<Role> roles;
 
@@ -67,6 +83,12 @@ public class User implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     // return roles;
     return null;
+  }
+  public User (CreateUserRequest req){
+    PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
+    this.name = req.getName();
+    this.email = req.getEmail();
+    this.password = passwordEncoder.encode(req.getPassword());
   }
 
 

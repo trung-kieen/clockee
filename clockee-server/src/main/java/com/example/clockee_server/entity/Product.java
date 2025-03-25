@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// TODO: Duong - use pural noun for all entity
 @Table(name = "product")
 public class Product {
     @Id
@@ -23,7 +24,7 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "image_url", length = 255) // image url thì phải là String chứ hè
+    @Column(name = "image_url", length = 255)
     private String imageUrl;
 
     @Column(name = "actual_price", precision = 10, nullable = false)
@@ -35,6 +36,7 @@ public class Product {
     @Column(length = 50)
     private String type;
 
+    // TODO: Duong - default = 0
     @Column(nullable = false)
     private Long stock;
 

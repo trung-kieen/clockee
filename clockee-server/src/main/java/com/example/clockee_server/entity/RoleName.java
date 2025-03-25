@@ -3,9 +3,9 @@ package com.example.clockee_server.entity;
 import lombok.Getter;
 
 public enum RoleName {
-  ROLE_CUSTOMER("CUSTOMER"),
-  ROLE_PRODUCT("PRODUCT_ADMIN"),
-  ROLE_INVENTORY("INVENTORY_MANAGER");
+  CUSTOMER("CUSTOMER"),
+  PRODUCT_ADMIN("PRODUCT_ADMIN"),
+  INVENTORY_MANAGER("INVENTORY_MANAGER");
   @Getter
   private String name;
   RoleName(String name) {

@@ -1,23 +1,26 @@
 package com.example.clockee_server.util;
 
 public enum OrderStatus {
-    PENDING("Đơn hàng chưa được giải quyết"),
-    PROCESSING("Đơn hàng đang được xử lý"),
-    SHIPPED("Đơn hàng đã được giao"),
-    COMPLETED("Đơn hàng đã hoàn thành");
+  PENDING("Chưa giải quyết"),
+  PROCESSING("Đang xử lý"),
+  SHIPPED("Đã giao"),
+  RETURNING("Đang hoàn trả"),
+  RETURNED("Đã hoàn trả"),
+  CANCELLED("Bị hủy"),
+  COMPLETED("Hoàn tất");
 
-    private final String name;
+  private final String name;
 
-    OrderStatus(String name) {
-        this.name = name;
-    }
+  OrderStatus(String name) {
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public String toString() {
-        return name;
-    }
+  @Override
+  public String toString() {
+    return name;
+  }
 }

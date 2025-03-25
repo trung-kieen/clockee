@@ -24,7 +24,7 @@ public class AdminProductRequest {
     private String type;
 
     @NotNull(message = "brand's id can not be empty")
-    private Integer brandId;
+    private Long brandId;
 
     private boolean isActive;
     private boolean visible;
