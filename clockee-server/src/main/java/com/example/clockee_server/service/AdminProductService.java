@@ -34,13 +34,13 @@ public class AdminProductService {
 
         product.setProductId(null);
 
-        // ✅ Lấy Brand từ DB và gán vào Product
+        // Lấy Brand từ DB và gán vào Product
         Brand brand = brandRepository.findById(Long.valueOf(request.getBrandId()))
                 .orElseThrow(() -> new RuntimeException("Brand not found!"));
         product.setBrand(brand);
 
         product.setStock(0L);
-        product.setVersion(0L);
+//        product.setVersion(0L);
         Product savedProduct = productRepository.save(product);
         return modelMapper.map(savedProduct, AdminProductResponse.class);
     }
@@ -78,8 +78,6 @@ public class AdminProductService {
         // Log ID sau khi map
         System.out.println("After mapping: " + product.getProductId());
 
-        product.setVersion(product.getVersion() + 1); // Tăng version để tránh lỗi StaleObjectStateException
-
         Product updatedProduct = productRepository.save(product);
 
         return modelMapper.map(updatedProduct, AdminProductResponse.class);
@@ -90,7 +88,7 @@ public class AdminProductService {
     @Transactional
     public AdminProductResponse deleteProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại!"));
+                .orElseThrow(() -> new RuntimeException("Product not found!"));
 
         productRepository.delete(product);
         return modelMapper.map(product, AdminProductResponse.class); // Trả về thông tin sản phẩm đã xoá

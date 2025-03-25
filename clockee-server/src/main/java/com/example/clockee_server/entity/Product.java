@@ -48,7 +48,7 @@ public class Product {
     private Boolean isActive;
     private Boolean visible;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
 }
