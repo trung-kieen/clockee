@@ -24,7 +24,7 @@ export const Header = () => {
     { path: '/signup/success', header: <SimpleHeader />, exact: true },
 
     // Regex pattern for header path
-    { pattern: /^\/admin\/.+$/, header: <h1>Admin Header</h1> },
+    { pattern: /^\/admin\/.+$/, header: <>{/* Config in admin layout instead */}</> },
   ];
 
   for (const route of routes) {
