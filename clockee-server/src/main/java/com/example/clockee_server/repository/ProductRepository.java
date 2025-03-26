@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByOrderByStockDesc(); // Sắp xếp tồn kho giảm dần
     List<Product> findAllByOrderByStockAsc();  // Sắp xếp tồn kho tăng dần
     @Query("SELECT p FROM Product p WHERE p.isActive = TRUE")
-    List<Product> getAllActiveProducts();
+    Page<Product> getAllActiveProducts(Pageable pageable);
 }
