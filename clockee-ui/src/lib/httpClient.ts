@@ -35,7 +35,9 @@ const HttpClient = () => {
     }
     console.log(`Interceptor ${JSON.stringify(request)}`);
     return request;
-  })
+  }
+
+  )
   /**
    * Handle response when access token not available or exipred
    * Perform refresh token

@@ -1,6 +1,4 @@
-import { AdminSideBar } from "@/app/components/admin/SideBar";
-import { MainHeader } from "@/app/components/header/MainHeader";
-import SimpleHeader from "@/app/components/header/SimpleHeader";
+import { AdminSideBar } from "@/app/components/sidebar/AdminSideBar";
 import React, { ReactNode } from "react";
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -11,11 +9,11 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         <div>{
           /* TODO: Admin header for logout */
         }</div>
-      <div className="grid gap-4 p-4 grid-cols-[220px,_1fr]">
-        <div className="rounded-lg shadow ">
+      <div className="grid gap-2  grid-cols-[220px,_1fr]">
+        <div className="rounded-lg shadow bg-gray-50">
           <AdminSideBar />
         </div>
-        <div className="bg-white rounded-lg pb-4 shadow ">{children}</div>
+        <div className="bg-white rounded-lg shadow ">{children}</div>
       </div>
       </div>
     </>

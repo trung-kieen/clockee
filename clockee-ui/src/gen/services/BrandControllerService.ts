@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BrandDTO } from '../models/BrandDTO';
-import type { Pageable } from '../models/Pageable';
 import type { PageBrandDTO } from '../models/PageBrandDTO';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -46,18 +45,21 @@ export class BrandControllerService {
         });
     }
     /**
-     * @param pageable
+     * @param page
+     * @param size
      * @returns PageBrandDTO OK
      * @throws ApiError
      */
     public static getAllBrands(
-        pageable: Pageable,
+        page?: number,
+        size: number = 5,
     ): CancelablePromise<PageBrandDTO> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/brands',
             query: {
-                'pageable': pageable,
+                'page': page,
+                'size': size,
             },
         });
     }
