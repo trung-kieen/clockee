@@ -4,6 +4,7 @@ import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.payload.response.user.UserProductResponse;
 import com.example.clockee_server.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,13 @@ public class UserProductService {
         Page<Product> products = productRepository.getAllActiveProducts(pageable);
 
         return products.map(product -> modelMapper.map(product, UserProductResponse.class));
+    }
+
+    // Lấy sản phẩm theo id
+    public UserProductResponse getProductByID(Long id){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product does not exitst!"));
+        return modelMapper.map(product, UserProductResponse.class);
     }
 
 
