@@ -4,92 +4,50 @@ import PaginationControls from "@/app/components/common/PaginationController"
 import { BrandControllerService, PageBrandDTO } from "@/gen";
 import { useSearchParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
+import BrandItem from "./BrandItem";
+import { mockPageResponseInfo } from "./mock-brands";
+import CreateBrandModal from "./CreateBrandModal";
 
-const mockPageResponseInfo = {
-  content: [
-    {
-      brandId: 1,
-      name: "Rolex"
-    },
-    {
-      brandId: 2,
-      name: "Omega"
-    },
-    {
-      brandId: 3,
-      name: "Casio"
-    },
-    {
-      brandId: 4,
-      name: "Seiko"
-    },
-    {
-      brandId: 5,
-      name: "Tag Heuer"
-    },
-  ],
-  pageable: {
-    pageNumber: 0,
-    pageSize: 5,
-    sort: {
-      sorted: false,
-      unsorted: true,
-      empty: true
-    },
-    offset: 0,
-    paged: true,
-    unpaged: false
-  },
-  totalElements: 5,
-  totalPages: 1,
-  last: true,
-  first: true,
-  size: 5,
-  number: 0,
-  sort: {
-    sorted: false,
-    unsorted: true,
-    empty: true
-  },
-  numberOfElements: 5,
-  empty: false
-}
 
 
 export default function BrandAdminPage() {
 
-
-
   // Control pagination information
   const [pageInfo, setPageInfo] = useState<PageBrandDTO>(mockPageResponseInfo as PageBrandDTO);
 
-
-
+  // Get search user track page param
   const params = useSearchParams();
-  const [page, setPage] = useState(Number(params.get("page")) || 0);
 
+  // Get current page from url param
+  const [page, setPage] = useState(Number(params.get("page")) || 1);
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+
+  const fetchBrands = async () => {
+    try {
+      const pageInfo = await BrandControllerService.getAllBrands(page - 1);
+      if (pageInfo)
+        setPageInfo(pageInfo)
+      return pageInfo;
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
+  /**
+   * Update brand when on page change
+   */
   useEffect(() => {
 
-    const getPages = async () => {
-      try {
-        console.log(page)
-        const pageInfo = await BrandControllerService.getAllBrands(page);
-        if (pageInfo)
-          setPageInfo(pageInfo)
-        return pageInfo;
-      } catch (error) {
-      }
-    }
-
-    console.log("Fetch", page);
-    getPages();
-
+    fetchBrands();
   }, [page]);
 
   /**
-   * Manager list data as table
+   * Manager list of brands
    */
   const dataEntries = () => {
+    // Message when not found data
     if (!(pageInfo?.content) || pageInfo.empty) {
 
       console.log("No such data")
@@ -101,33 +59,79 @@ export default function BrandAdminPage() {
       (
         <div>
 
-          {
-            pageInfo.content.map((entry) => {
-              return (
-                <p key={entry.brandId}>{entry.name}</p>
-              )
-            })
-          }
+          {/**
+           * Display brand list using pure table
+           */}
+          <div className="overflow-x-auto">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>Brand id</th>
+                  <th>Brand name</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  pageInfo.content.map((entry) => {
+                    return <BrandItem
+                      key={entry.brandId}
+                      item={entry}
+                      refreshCallBack={fetchBrands} />
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
 
-        </div>
+
+        </div >
       )
     )
   }
 
-
   return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-200 p-4">
+      <div className="bg-white w-full max-w-2xl min-h-[80vh] shadow-lg rounded-lg p-8">
 
-    <div className='flex flex-col gap-2 items-center'>
+        <div className="flex justify-between items-center mb-6">
+          <button onClick={() => setIsAddModalOpen(true)} className="bg-primary  text-white px-4 py-2 rounded-lg flex items-center space-x-2 shadow-md">
+            <i className="fa fa-add"></i>
+            <span>Thêm mới</span>
+          </button>
+        </div>
 
-      {dataEntries()}
-      {pageInfo && pageInfo.content && <PaginationControls
-        // TODO: native by use PageResponse
-        isLast={page == pageInfo.totalPages}
-        isFirst={page == 0}
-        pageNumber={page}
-        setPage={(page: number) => { setPage(page) }}
-      />}
 
+        <div className='flex flex-col gap-2 items-center'>
+
+          {/*
+      * Add new brand button
+      */}
+          <CreateBrandModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            refreshCallBack={fetchBrands} />
+
+          {/*
+       * Display list of brand
+       */}
+          {dataEntries()}
+
+          {/*
+       * Pagination controller
+       */}
+          {pageInfo && pageInfo.content && <PaginationControls
+            isLast={page == pageInfo.totalPages}
+            isFirst={page == 1}
+            pageNumber={page}
+            setPage={(page: number) => { setPage(page) }}
+          />}
+
+        </div>
+
+      </div>
     </div>
   )
 }

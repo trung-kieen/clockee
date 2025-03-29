@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+/**
+ * Header when simple public page like: login, register, reset password, etc
+ */
  export default function SimpleHeader(){
   return(
     <header className="w-full bg-white py-3 px-6 flex justify-between items-center ">

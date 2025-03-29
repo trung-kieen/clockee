@@ -15,6 +15,7 @@ export const Header = () => {
   const pathname = usePathname();
 
 
+  // Manager header base on router path
   const routes = [
     // { path: '/', header: <Header_home />, exact: true },
     { path: '/login/', header: <SimpleHeader />, exact: true },

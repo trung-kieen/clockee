@@ -1,6 +1,9 @@
 import { SidebarItem } from "@/models/SidebarItem";
 import Link from "next/link";
 
+/**
+ * Use to diplay common action for admin to quick navigate: logout, products, brands, etc
+ */
 export const MenuItem = ({ item }: { item: SidebarItem }) => {
 
   return (

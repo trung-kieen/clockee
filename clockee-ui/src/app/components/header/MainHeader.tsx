@@ -1,9 +1,12 @@
 "use client";
 import Link from "next/link"
-import Brand from "../brand"
 import { ShoppingCart, User } from "lucide-react"
 import { useAuth } from "@/lib/hooks/useAuth"
+import Brand from "../Brand";
 
+/**
+ * Input search for product keyword
+ */
 const SearchBar = () => {
   return (
     <div className="w-full max-w-sm min-w-[200px]">
@@ -23,15 +26,14 @@ const SearchBar = () => {
 
 
 
-
-
 export const MainHeader = ({ searchBar = true, filter = true }) => {
-  const { isLogin } = useAuth();
+  const { token } = useAuth();
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-white shadow-md">
       <div className="flex items-center space-x-4">
         <div className="flex items-center">
+          {/*  Logo */}
           <Link href={"/"}>
             <Brand />
           </Link>
@@ -54,7 +56,8 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
       {searchBar && <SearchBar />}
       <div className="flex items-center space-x-10 pr-5">
         {
-          isLogin() && (
+          // Display button login, register base in authentication status
+          token && (
 
             <Link href={"/orders/"}>
               <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-black" />
@@ -63,8 +66,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
         }
 
         {
-          // Display right coner button base on authenticate status
-          (isLogin()) ? (
+          (token) ? (
             <User className="w-6 h-6 text-gray-700 hover:text-black" />
           ) : (
             <>

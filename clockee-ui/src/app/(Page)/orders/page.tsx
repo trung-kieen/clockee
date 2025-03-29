@@ -2,8 +2,9 @@
 import { disableReturnOrder, enableCancelOrder, orderStatusDescription } from "@/utils/enum/order-utils";
 import { OrderSummary } from "@/models/common/Order";
 import { ProductItemSummary } from "@/models/common/Order";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { OrderStatus } from "@/gen/backend";
+import ConfirmModal from "@/app/components/modal/ConfirmModal";
 
 
 
@@ -100,11 +101,14 @@ const OrderStatusPage = () => {
     </>
   );
 };
+
+
+
+/**
+ * Filter tab for order by status: PENDING, SHIPPED, etc
+ *
+ */
 const OrderByStatus: React.FC<{ status: string }> = ({ status }) => {
-  /**
-   * Filter tab for order by status: PENDING, SHIPPED, etc
-   *
-   */
 
   // TODO: fetch order by status with API instead
   const statusValue = orderStatusDescription(status)
@@ -176,10 +180,16 @@ const ProductItem: React.FC<{ product: ProductItemSummary }> = ({ product }) => 
 
 }
 const OrderRow: React.FC<{ order: OrderSummary }> = ({ order }) => {
-  const modalRef = useRef(null);
+  // const modalRef = useRef(null);
+  const [isOpen, setOpen] = useState(false);
 
-  const openModal = () => modalRef.current.showModal();
-  const closeModal = () => modalRef.current.close();
+
+  const closeModal = () => setOpen(false);
+  const openModal = () => setOpen(true);
+
+
+  // const openModal = () => modalRef.current.showModal();
+  // const closeModal = () => modalRef.current.close();
 
   const handleConfirm = () => {
     console.log("Action Confirmed!");
@@ -219,20 +229,17 @@ const OrderRow: React.FC<{ order: OrderSummary }> = ({ order }) => {
 
           {/* Confirm message for cancel order action */}
           <div>
-            <dialog ref={modalRef} className="modal">
-              <div className="modal-box">
-                <h3 className="font-bold text-lg">Xác nhận</h3>
-                <p className="py-4">Bạn có muốn hủy đơn hàng này?</p>
-                <div className="modal-action">
-                  <button className="btn bg-primary" onClick={handleConfirm}>
-                    Đồng ý
-                  </button>
-                  <button className="btn" onClick={closeModal}>
-                    Không
-                  </button>
-                </div>
-              </div>
-            </dialog>
+
+
+
+            <ConfirmModal
+              isOpen={isOpen}
+              onClose={closeModal}
+              onConfirm={handleConfirm}
+              title={"Xác nhận"}
+              content={"Bạn có muốn hủy đơn hàng này?"}
+            />
+
           </div>
         </td>
 

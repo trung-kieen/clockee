@@ -52,7 +52,7 @@ export class BrandControllerService {
      */
     public static getAllBrands(
         page?: number,
-        size: number = 5,
+        size: number = 10,
     ): CancelablePromise<PageBrandDTO> {
         return __request(OpenAPI, {
             method: 'GET',
