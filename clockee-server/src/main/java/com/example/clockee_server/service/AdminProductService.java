@@ -18,6 +18,13 @@ import com.example.clockee_server.payload.request.AdminProductRequest;
 import com.example.clockee_server.payload.response.AdminProductResponse;
 import com.example.clockee_server.repository.BrandRepository;
 import com.example.clockee_server.repository.ProductRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 
@@ -41,7 +48,7 @@ public class AdminProductService {
 
         // Lấy Brand từ DB và gán vào Product
         Brand brand = brandRepository.findById(Long.valueOf(request.getBrandId()))
-                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
+                .orElseThrow(() -> new RuntimeException("Brand not found!"));
         product.setBrand(brand);
 
         product.setStock(0L);
@@ -50,12 +57,24 @@ public class AdminProductService {
         return modelMapper.map(savedProduct, AdminProductResponse.class);
     }
 
+//    // Lấy danh sách sản phẩm có phân trang
+//    public List<AdminProductResponse> getAllProducts(int page, int size) {
+//        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
+//        return products.stream()
+//                .map(product -> modelMapper.map(product, AdminProductResponse.class))
+//                .collect(Collectors.toList());
+//    }
+
     // Lấy danh sách sản phẩm có phân trang
-    public List<AdminProductResponse> getAllProducts(int page, int size) {
-        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
-        return products.stream()
-                .map(product -> modelMapper.map(product, AdminProductResponse.class))
-                .collect(Collectors.toList());
+    public Page<AdminProductResponse> getAllProducts(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products = productRepository.findAll(pageable);
+
+        if (products.isEmpty()){
+            return Page.empty();
+        }
+
+        return products.map(product -> modelMapper.map(product, AdminProductResponse.class));
     }
 
     // Lấy chi tiết sản phẩm theo id
@@ -70,7 +89,7 @@ public class AdminProductService {
     @Transactional
     public AdminProductResponse updateProduct(Long id, AdminProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
+                .orElseThrow(() -> new RuntimeException("Product does not exist!"));
 
         // Log ID trước khi map
         System.out.println("Before mapping: " + product.getProductId());
@@ -93,7 +112,7 @@ public class AdminProductService {
     @Transactional
     public AdminProductResponse deleteProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
+                .orElseThrow(() -> new RuntimeException("Product not found!"));
 
         productRepository.delete(product);
         return modelMapper.map(product, AdminProductResponse.class); // Trả về thông tin sản phẩm đã xoá

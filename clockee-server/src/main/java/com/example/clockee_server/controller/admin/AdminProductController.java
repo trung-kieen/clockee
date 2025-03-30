@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+// Work with page
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @RestController
 @RequestMapping("/admin/products")
@@ -25,13 +27,24 @@ public class AdminProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Lấy danh sách sản phẩm có phân trang
+//    // Lấy danh sách sản phẩm có phân trang
+//    @GetMapping
+//    public ResponseEntity<List<AdminProductResponse>> getAllProduct(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "5") int size) {
+//        List<AdminProductResponse> productList = adminProductService.getAllProducts(page, size);
+//        return ResponseEntity.ok(productList);
+//    }
+
+    // Controller - Lấy danh sách sản phẩm có phân trang
     @GetMapping
-    public ResponseEntity<List<AdminProductResponse>> getAllProduct(
+    public ResponseEntity<Page<AdminProductResponse>> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
-        List<AdminProductResponse> productList = adminProductService.getAllProducts(page, size);
-        return ResponseEntity.ok(productList);
+
+        Page<AdminProductResponse> products = adminProductService.getAllProducts(page, size);
+
+        return ResponseEntity.ok(products);
     }
 
     // Lấy chi tiết sản phẩm theo ID
