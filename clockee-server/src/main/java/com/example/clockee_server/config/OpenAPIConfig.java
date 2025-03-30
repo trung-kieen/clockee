@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecuritySchemes;
  * OpenAPIConfig
  */
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "REST API", version = "1.1",
+@OpenAPIDefinition(info = @Info(title = "Clockee API", version = "1.1",
         contact = @Contact(name = "clockee")),
         security = {@SecurityRequirement(name = "basicAuth"), @SecurityRequirement(name = "bearerToken")}
 )

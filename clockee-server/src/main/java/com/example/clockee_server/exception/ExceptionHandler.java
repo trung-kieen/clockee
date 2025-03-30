@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+
 /**
  * ExceptionHandler
  *
@@ -55,7 +58,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         generalErrors.add(error.getDefaultMessage());
       }
     });
-    HttpErrorResponse response = HttpErrorResponse.of("Unprocessable entity", 422, errors, generalErrors);
+    HttpErrorResponse response = HttpErrorResponse.of(AppMessage.of(MessageKey.UNPROCESSABLE_ENTITY), 422, errors, generalErrors);
 
     return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
   }
@@ -106,7 +109,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
   public ResponseEntity<HttpErrorResponse> handleException(Exception e) {
     log.error("Unhandled exception", e);
-    var response = HttpErrorResponse.of("UNEXPECTED_ERROR", 500);
+    var response = HttpErrorResponse.of(AppMessage.of(MessageKey.SERVER_ERROR), 500);
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 

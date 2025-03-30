@@ -13,6 +13,8 @@ import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
 import com.example.clockee_server.auth.service.AuthenticationService;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +50,13 @@ public class AuthController {
   @PostMapping("/register")
   public ResponseEntity<?>  register(@Valid @RequestBody CreateUserRequest req){
     authService.register(req);
-    return  ResponseEntity.ok().body("Register success, checkout email");
+    return  ResponseEntity.ok().body(AppMessage.of(MessageKey.REGISTER_SUCCESS));
   }
 
 
   @GetMapping("/verify-email")
 
-  public ResponseEntity<JwtTokenResponse> login(@Param("token") int tokenId){
+  public ResponseEntity<JwtTokenResponse> verifyEmail(@Param("token") int tokenId){
     // TODO: verify user status
     return null;
   }

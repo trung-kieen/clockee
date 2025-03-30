@@ -8,6 +8,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -31,22 +34,22 @@ public class EmailService {
       helper.setText(htmlBody, true);
       sender.send(message);
     } catch (MessagingException e) {
-      throw new RuntimeException("UNABLE_SENT_EMAIL", e);
+      throw new RuntimeException(AppMessage.of(MessageKey.UNABLE_SENT_EMAIL), e);
     } catch (MailSendException e) {
-      throw new RuntimeException("EMAIL_SERVICE_NOT_AVAIABLE", e);
+      throw new RuntimeException(AppMessage.of(MessageKey.EMAIL_SERVICE_NOT_AVAIABLE), e);
     }
   }
 
   public void sendSimpleEmail(List<String> to, String subject, String content) {
     try {
-    log.info("Sending email to: {}", to);
-    SimpleMailMessage message = new SimpleMailMessage();
-    message.setTo(to.toArray(new String[0]));
-    message.setSubject(subject);
-    message.setText(content);
-    sender.send(message);
-    }catch (MailSendException e) {
-      throw new RuntimeException("EMAIL_SERVICE_NOT_AVAIABLE", e);
+      log.info("Sending email to: {}", to);
+      SimpleMailMessage message = new SimpleMailMessage();
+      message.setTo(to.toArray(new String[0]));
+      message.setSubject(subject);
+      message.setText(content);
+      sender.send(message);
+    } catch (MailSendException e) {
+      throw new RuntimeException(AppMessage.of(MessageKey.EMAIL_SERVICE_NOT_AVAIABLE), e);
     }
   }
 

@@ -8,6 +8,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
@@ -26,7 +28,7 @@ public class SecurityUtil {
       log.error("Principal not found in Security Context");
       throw ApiException.builder()
           .status(401)
-          .message("USER_PRICIPAL_NOT_FOUND")
+          .message(AppMessage.of(MessageKey.PRINCIPAL_NOT_FOUND))
           .build();
     }
 

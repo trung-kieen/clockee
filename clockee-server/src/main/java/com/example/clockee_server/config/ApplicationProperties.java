@@ -31,4 +31,6 @@ public class ApplicationProperties {
   private String applicationName;
   private String uploadPath;
   private Long jwtRefreshTokenExpMillis;
+  private String messagesFile;
+
 }

@@ -1,20 +1,25 @@
 package com.example.clockee_server.service;
 
-import com.example.clockee_server.entity.Brand;
-import com.example.clockee_server.entity.Product;
-import com.example.clockee_server.payload.request.AdminProductRequest;
-import com.example.clockee_server.payload.response.AdminProductResponse;
-import com.example.clockee_server.repository.BrandRepository;
-import com.example.clockee_server.repository.ProductRepository;
-import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.clockee_server.entity.Brand;
+import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import com.example.clockee_server.payload.request.AdminProductRequest;
+import com.example.clockee_server.payload.response.AdminProductResponse;
+import com.example.clockee_server.repository.BrandRepository;
+import com.example.clockee_server.repository.ProductRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminProductService {
@@ -36,7 +41,7 @@ public class AdminProductService {
 
         // Lấy Brand từ DB và gán vào Product
         Brand brand = brandRepository.findById(Long.valueOf(request.getBrandId()))
-                .orElseThrow(() -> new RuntimeException("Brand not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
         product.setBrand(brand);
 
         product.setStock(0L);
@@ -56,7 +61,7 @@ public class AdminProductService {
     // Lấy chi tiết sản phẩm theo id
     public AdminProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
         return modelMapper.map(product, AdminProductResponse.class);
     }
 
@@ -65,7 +70,7 @@ public class AdminProductService {
     @Transactional
     public AdminProductResponse updateProduct(Long id, AdminProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product does not exist!"));
+                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
 
         // Log ID trước khi map
         System.out.println("Before mapping: " + product.getProductId());
@@ -88,7 +93,7 @@ public class AdminProductService {
     @Transactional
     public AdminProductResponse deleteProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
 
         productRepository.delete(product);
         return modelMapper.map(product, AdminProductResponse.class); // Trả về thông tin sản phẩm đã xoá
