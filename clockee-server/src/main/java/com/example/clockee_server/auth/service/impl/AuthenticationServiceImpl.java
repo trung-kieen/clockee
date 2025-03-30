@@ -24,6 +24,8 @@ import com.example.clockee_server.entity.User;
 import com.example.clockee_server.entity.VerificationCode;
 import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.jobs.SendWelcomeEmailJob;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.repository.RoleRepository;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
@@ -45,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   public void register(CreateUserRequest req) {
     if (userRepository.existsByEmail(req.getEmail())) {
       throw ApiException.builder()
-          .message("EMAIL_ALREADY_EXISTS")
+          .message(AppMessage.of(MessageKey.EMAIL_ALREADY_EXISTS))
           .build();
     }
 

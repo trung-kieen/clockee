@@ -6,6 +6,9 @@ import org.springframework.boot.CommandLineRunner;
  */
 import org.springframework.stereotype.Service;
 
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -14,7 +17,6 @@ public class InitializeRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-
   }
 
 }

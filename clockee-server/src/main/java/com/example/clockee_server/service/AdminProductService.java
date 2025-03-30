@@ -1,7 +1,19 @@
 package com.example.clockee_server.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.example.clockee_server.entity.Brand;
 import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.request.AdminProductRequest;
 import com.example.clockee_server.payload.response.AdminProductResponse;
 import com.example.clockee_server.repository.BrandRepository;
@@ -11,10 +23,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminProductService {
@@ -45,18 +57,30 @@ public class AdminProductService {
         return modelMapper.map(savedProduct, AdminProductResponse.class);
     }
 
+//    // Lấy danh sách sản phẩm có phân trang
+//    public List<AdminProductResponse> getAllProducts(int page, int size) {
+//        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
+//        return products.stream()
+//                .map(product -> modelMapper.map(product, AdminProductResponse.class))
+//                .collect(Collectors.toList());
+//    }
+
     // Lấy danh sách sản phẩm có phân trang
-    public List<AdminProductResponse> getAllProducts(int page, int size) {
-        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
-        return products.stream()
-                .map(product -> modelMapper.map(product, AdminProductResponse.class))
-                .collect(Collectors.toList());
+    public Page<AdminProductResponse> getAllProducts(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products = productRepository.findAll(pageable);
+
+        if (products.isEmpty()){
+            return Page.empty();
+        }
+
+        return products.map(product -> modelMapper.map(product, AdminProductResponse.class));
     }
 
     // Lấy chi tiết sản phẩm theo id
     public AdminProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
         return modelMapper.map(product, AdminProductResponse.class);
     }
 
