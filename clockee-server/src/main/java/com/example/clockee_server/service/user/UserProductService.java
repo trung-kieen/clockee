@@ -3,8 +3,6 @@ package com.example.clockee_server.service.user;
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.payload.response.user.UserProductResponse;
 import com.example.clockee_server.repository.ProductRepository;
-
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.modelmapper.ModelMapper;
@@ -28,6 +26,10 @@ public class UserProductService {
     public Page<UserProductResponse> getAllProducts(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.getAllActiveProducts(pageable);
+
+        if (products.isEmpty()){
+            return Page.empty();
+        }
 
         return products.map(product -> modelMapper.map(product, UserProductResponse.class));
     }

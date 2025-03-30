@@ -26,9 +26,6 @@ public class UserProductController {
             @RequestParam(defaultValue = "5") int size){
 
         Page<UserProductResponse> products = userProductService.getAllProducts(page, size);
-        if(products.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(products);
     }
 
@@ -38,7 +35,5 @@ public class UserProductController {
         UserProductResponse product = userProductService.getProductByID(id);
         return ResponseEntity.ok(product);
     }
-
-
 
 }

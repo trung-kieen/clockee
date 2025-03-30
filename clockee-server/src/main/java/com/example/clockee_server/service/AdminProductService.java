@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,12 +46,24 @@ public class AdminProductService {
         return modelMapper.map(savedProduct, AdminProductResponse.class);
     }
 
+//    // Lấy danh sách sản phẩm có phân trang
+//    public List<AdminProductResponse> getAllProducts(int page, int size) {
+//        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
+//        return products.stream()
+//                .map(product -> modelMapper.map(product, AdminProductResponse.class))
+//                .collect(Collectors.toList());
+//    }
+
     // Lấy danh sách sản phẩm có phân trang
-    public List<AdminProductResponse> getAllProducts(int page, int size) {
-        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
-        return products.stream()
-                .map(product -> modelMapper.map(product, AdminProductResponse.class))
-                .collect(Collectors.toList());
+    public Page<AdminProductResponse> getAllProducts(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products = productRepository.findAll(pageable);
+
+        if (products.isEmpty()){
+            return Page.empty();
+        }
+
+        return products.map(product -> modelMapper.map(product, AdminProductResponse.class));
     }
 
     // Lấy chi tiết sản phẩm theo id
