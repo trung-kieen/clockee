@@ -1,8 +1,9 @@
 'use client'
-import { FormEvent, use, useState } from "react";
+import { FormEvent,  useState } from "react";
 import { Eye, EyeOff, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { AuthControllerService, CreateUserRequest } from "@/gen";
+import { useRouter } from "next/navigation";
 const RegisterForm = () => {
 
   const [email, setEmail] = useState("")
@@ -24,7 +25,9 @@ const RegisterForm = () => {
   const passwordMatch = password && confirmPassword && password == confirmPassword;
   const isFormValid = isPasswordValid && isPasswordNoDiacritics && passwordMatch && isValidEmail(email) && fullName.trim() !== "" && isValidPhone(phoneNumber);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  const router = useRouter();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
     const createUserRequest: CreateUserRequest = {
@@ -37,6 +40,8 @@ const RegisterForm = () => {
     try {
       const res = await AuthControllerService.register(createUserRequest);
       // TODO: redirect to login/success page to notice user confirm email
+      console.log(res);
+      router.push("/login")
     } catch (e) {
       console.error(e);
     }
@@ -150,7 +155,4 @@ export default function RegisterUser() {
       </div >
     </div >
   );
-}
-function removeDiacritics(value: any): import("react").SetStateAction<string> {
-  throw new Error("Function not implemented.");
 }

@@ -1,8 +1,10 @@
 import ClockeeModal from "@/app/components/modal/Modal";
 import ErrorText from "@/app/components/typography/ErrorText";
-import { BrandControllerService, BrandDTO } from "@/gen";
+import { AdminBrandControllerService, BrandDTO } from "@/gen";
+import { mapApiErrorsToForm } from "@/utils/form";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
+import { toast } from "react-toastify";
 const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
   isOpen: boolean,
   onClose: () => void,
@@ -10,14 +12,21 @@ const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
 }) => {
   const {
     register,
+    setError,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<BrandDTO>()
-  const onSubmit: SubmitHandler<BrandDTO> = (data) => {
-    BrandControllerService.addBrand(data);
-    onClose();
-    refreshCallBack();
+  const onSubmit: SubmitHandler<BrandDTO> = async (data) => {
+
+    try {
+      await AdminBrandControllerService.addBrand(data);
+      onClose();
+      refreshCallBack();
+      toast("Thêm thành công");
+
+    } catch (e) {
+      mapApiErrorsToForm(e, setError);
+    }
   }
   return (
     <ClockeeModal
@@ -29,11 +38,14 @@ const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
           <h2 className="font-bold text-lg pb-5">Thêm nhãn hàng</h2>
           <div className="flex items-center gap-2">
             <label className="w-24">Tên:</label>
-            <input className="input input-sm validator flex-1" {...register("name", { required: "Tên không được trống" })} />
+            <input autoFocus={true} className="input input-sm validator flex-1"
+              {...register("name", { required: "Tên không được trống" })}
+            />
           </div>
-          <p className="validator-hint">
+          <div className="validator-hint">
             {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
-          </p>
+            {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
+          </div>
 
         </div>
         <div className="modal-action">

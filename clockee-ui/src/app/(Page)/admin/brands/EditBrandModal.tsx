@@ -1,8 +1,10 @@
 import ClockeeModal from "@/app/components/modal/Modal";
 import ErrorText from "@/app/components/typography/ErrorText";
-import { BrandControllerService, BrandDTO } from "@/gen";
+import { AdminBrandControllerService, BrandDTO } from "@/gen";
+import { mapApiErrorsToForm } from "@/utils/form";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
+import { toast } from "react-toastify";
 const EditBrandModal = ({ isOpen, onClose, refreshCallBack, model }: {
   isOpen: boolean,
   onClose: () => void,
@@ -11,18 +13,24 @@ const EditBrandModal = ({ isOpen, onClose, refreshCallBack, model }: {
 }) => {
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<BrandDTO>()
-  const onSubmit: SubmitHandler<BrandDTO> = (data) => {
+  const onSubmit: SubmitHandler<BrandDTO> = async (data) => {
     // TODO: handle server validation
     if (!model.brandId) {
       // TODO: error mesgage
       return;
     }
-    BrandControllerService.updateBrand(model.brandId, data);
-    onClose();
-    refreshCallBack();
+    try {
+      await AdminBrandControllerService.updateBrand(model.brandId, data);
+      onClose();
+      refreshCallBack();
+      toast("Cập nhập thành công");
+    } catch (e) {
+      mapApiErrorsToForm(e, setError);
+    }
   }
   return (
     <ClockeeModal
@@ -34,11 +42,11 @@ const EditBrandModal = ({ isOpen, onClose, refreshCallBack, model }: {
           <h2 className="font-bold text-lg pb-5">Chỉnh sửa nhãn hàng</h2>
           <div className="flex items-center gap-2">
             <label className="w-24">Tên:</label>
-            <input defaultValue={model.name} className="input input-sm validator flex-1" {...register("name", { required: "Tên không được trống" })} />
+            <input autoFocus={true} defaultValue={model.name} className="input input-sm validator flex-1" {...register("name", { required: "Tên không được trống" })} />
           </div>
-          <p className="validator-hint">
+          <div className="validator-hint">
             {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
-          </p>
+          </div>
 
         </div>
         <div className="modal-action">

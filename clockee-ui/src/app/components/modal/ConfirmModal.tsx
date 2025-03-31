@@ -1,7 +1,13 @@
 import React from "react";
 import ClockeeModal from "./Modal";
 
-const ConfirmModal = ({ isOpen, onClose, onConfirm, title, content }) => {
+const ConfirmModal = ({ isOpen, onClose, onConfirm, title, content }: {
+  isOpen: boolean,
+  onClose: () => void,
+  onConfirm: () => void,
+  title: string,
+  content: string,
+}) => {
   return (
     <ClockeeModal
       isOpen={isOpen}

@@ -1,13 +1,18 @@
 import { API_BASE } from "@/utils/config";
 import axios from "axios";
 import { AuthManager } from "@/lib/auth/AuthManager";
+import { toast } from "react-toastify";
+import { HttpErrorResponse } from "@/models/http/HttpErrorResponse"
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
 
+interface RefreshTokenResponse {
+  accessToken: string;
+}
 const getRefreshToken = async () => {
   try {
-    return await axios.post(`${API_BASE}/auth/refresh`);
+    return await axios.post<RefreshTokenResponse>(`${API_BASE}/auth/refresh`);
   } catch (error) {
     throw error;
   }
@@ -53,41 +58,62 @@ const HttpClient = () => {
 
       const originalConfig = error.config;
 
-      if (
-        error.response.status !== 401
-        || originalConfig.retry
-      ) {
+
+      if (!error.response) {
+        // No network connectivity
+        toast("Network error");
+        return;
+      }
+
+      if (error.response.status === 401) {
+        if (originalConfig.retry) {
+          /**
+           * Unauthorized retry fail
+           * Recursive base case
+           */
+
+          toast("Unable refresh token TODO redirect login")
+          return Promise.reject(error);
+        } else {
+
+          toast("Refresht token retry ")
+          originalConfig.retry = true;
+          try {
+            const refreshResponse = await getRefreshToken();
+            if (refreshResponse.data.accessToken) {
+              const refreshToken = refreshResponse.data.accessToken;
+              AuthManager.setAccessToken(refreshToken);  // Assume { accesstoken: xxyyzzz}
+
+
+
+              // update original  header request
+              originalConfig.headers.Authorization = `Bearer ${refreshToken}`;
+
+
+              // retry request with new header
+              return instance(originalConfig);
+            }
+
+          }
+          catch (refreshError) {
+            AuthManager.clearAccessToken();
+            return Promise.reject(refreshError);
+            // TODO: redirect
+          }
+
+
+        }
+      }
+
+
+      if (error.response.status === 422) {
+        toast("Invalid data")
         return Promise.reject(error);
       }
 
-
-      /**
-       * Refresh retry when get response status 401 (UNAUTHORIZED)
-       */
-      originalConfig.retry = true;
-      try {
-        const refreshResponse = getRefreshToken();
-        if (refreshResponse.data?.accessToken) {
-          const refreshToken = refreshResponse.data.accesstoken;
-          AuthManager.setAccessToken(refreshToken);  // Assume { accesstoken: xxyyzzz}
-
-
-
-          // update original  header request
-          originalConfig.headers.Authorization = `Bearer ${refreshToken}`;
-
-
-          // retry request with new header
-          return instance(originalConfig);
-        }
-
-      }
-      catch {
-      }
+      toast("Unhandle error code");
 
       // Refresh fail => logout
-      AuthManager.clearAccessToken();
-      return Promise.reject(error);
     },
   );
 

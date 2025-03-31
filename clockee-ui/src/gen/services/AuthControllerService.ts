@@ -60,7 +60,7 @@ export class AuthControllerService {
      * @returns JwtTokenResponse OK
      * @throws ApiError
      */
-    public static login1(
+    public static verifyEmail(
         tokenId: number,
     ): CancelablePromise<JwtTokenResponse> {
         return __request(OpenAPI, {

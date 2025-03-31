@@ -10,10 +10,10 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
           /* TODO: Admin header for logout */
         }</div>
       <div className="grid gap-5  grid-cols-[220px,_1fr]">
-        <div className="rounded-lg shadow bg-gray-50">
+        <div className="bg-gray-50">
           <AdminSideBar />
         </div>
-        <div className="bg-white rounded-lg shadow ">{children}</div>
+        <div className="bg-white ">{children}</div>
       </div>
       </div>
     </>

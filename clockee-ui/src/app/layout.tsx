@@ -5,6 +5,7 @@ import Footer from "./components/footer/footer";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { AuthProvider } from "@/lib/hooks/useAuth";
 import { Header } from "./components/header/Header";
+import ToastProvider from "@/lib/provider/toast.provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,11 +34,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="min-h-screen">
-          <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
-          </AuthProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <Header />
+              {children}
+              <Footer />
+            </AuthProvider>
+          </ToastProvider>
         </div>
       </body>
     </html>

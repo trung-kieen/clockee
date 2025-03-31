@@ -15,7 +15,7 @@ export class AdminSupplierControllerService {
      * @returns SupplierDTO OK
      * @throws ApiError
      */
-    public static updateSupplier1(
+    public static updateSupplier(
         id: number,
         requestBody: SupplierDTO,
     ): CancelablePromise<SupplierDTO> {
@@ -34,7 +34,7 @@ export class AdminSupplierControllerService {
      * @returns any OK
      * @throws ApiError
      */
-    public static deleteSupplier1(
+    public static deleteSupplier(
         id: number,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
@@ -50,7 +50,7 @@ export class AdminSupplierControllerService {
      * @returns PageSupplierDTO OK
      * @throws ApiError
      */
-    public static getAllSuppliers1(
+    public static getAllSuppliers(
         pageable: Pageable,
     ): CancelablePromise<PageSupplierDTO> {
         return __request(OpenAPI, {
@@ -66,7 +66,7 @@ export class AdminSupplierControllerService {
      * @returns SupplierDTO OK
      * @throws ApiError
      */
-    public static addSupplier1(
+    public static addSupplier(
         requestBody: SupplierDTO,
     ): CancelablePromise<SupplierDTO> {
         return __request(OpenAPI, {

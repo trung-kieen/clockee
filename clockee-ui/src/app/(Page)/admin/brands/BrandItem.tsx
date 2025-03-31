@@ -1,17 +1,23 @@
 
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
-import { BrandControllerService, BrandDTO } from "@/gen";
+import { AdminBrandControllerService, BrandDTO } from "@/gen";
 import React, { useState } from "react"
 import EditBrandModal from "./EditBrandModal";
+import { toast } from "react-toastify";
 const BrandItem = ({ item, refreshCallBack }: { item: BrandDTO, refreshCallBack: () => void }) => {
 
-  function handleDelete(): void {
+  const handleDelete = async () => {
     if (!item.brandId) {
       return;
     }
-    BrandControllerService.deleteBrand(item.brandId);
-    setIsOpenConfirmModal(false);
-    refreshCallBack();
+    try {
+      await AdminBrandControllerService.deleteBrand(item.brandId);
+      setIsOpenConfirmModal(false);
+      refreshCallBack();
+      toast("Xóa thành công");
+    } catch (e) {
+      toast(e as string);
+    }
 
   }
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);

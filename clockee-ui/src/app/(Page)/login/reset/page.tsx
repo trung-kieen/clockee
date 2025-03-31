@@ -13,7 +13,7 @@ export default function ResetPassword() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleChange = (e: { target: { value: any; }; }) => {
+  const handleChange = (e: { target: { value: string; }; }) => {
     const inputEmail = e.target.value;
     setEmail(inputEmail);
     setIsValid(isValidEmail(inputEmail));

@@ -2,14 +2,15 @@
 import { disableReturnOrder, enableCancelOrder, orderStatusDescription } from "@/utils/enum/order-utils";
 import { OrderSummary } from "@/models/common/Order";
 import { ProductItemSummary } from "@/models/common/Order";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import { OrderStatus } from "@/gen/backend";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 
 
 
 
-export const mockOrders: OrderSummary[] = [
+const mockOrders: OrderSummary[] = [
   {
     orderId: 1001,
     totalPrice: 120.5,
@@ -89,7 +90,7 @@ const OrderStatusPage = () => {
 
           {
             // Filter for each order status
-            Object.keys(OrderStatus).map((status) => (
+            Object.values(OrderStatus).map((status) => (
               <OrderByStatus key={status} status={status} />
             ))
           }
@@ -180,7 +181,6 @@ const ProductItem: React.FC<{ product: ProductItemSummary }> = ({ product }) => 
 
 }
 const OrderRow: React.FC<{ order: OrderSummary }> = ({ order }) => {
-  // const modalRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
 
 

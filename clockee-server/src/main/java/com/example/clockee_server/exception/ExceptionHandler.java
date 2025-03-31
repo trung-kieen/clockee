@@ -24,14 +24,14 @@ import com.example.clockee_server.message.MessageKey;
 
 /**
  * ExceptionHandler
+ * Extend ResponseEntityExceptionHandler for returning a {@link ResponseEntity} with RFC 9457 by convention
+ * Handle specific api error response for application runtime exception
+ * Apply to class that mark with @Controller annotation
  *
- * Quy uoc tra ve phan hoi (response) co cac ngoai le (exception) cu the
- * Moi exception can co status the hien ngu nghia cua loi tra ve cho phia client
+ * Example : program raise ResourceNotFoundException instead of return htttp status 500 (server error)
+ * exception handler specify error is 404 (not found)
  *
- * Ap dung cho loi tra ve trong cac lop thuoc @Controller
- *
- * VD: khi chuong trinh gap loi ResourceNotFoundException thay vi tra ve htttp status 500 (loi server)
- * thi tra ve status 404 (khong tim thay tai nguyen) de cu the ngu nghia
+ * Normalize custom error response is {@link HttpErrorResponse}
  */
 @ControllerAdvice
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
@@ -44,7 +44,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
    * Xem them: spring-boot-starter-validation
    */
   @Override
-  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+  public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatusCode status, WebRequest request) {
     Map<String, String> errors = new HashMap<>();
     List<String> generalErrors = new ArrayList<>();
@@ -73,14 +73,14 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<HttpErrorResponse> handleException(BadCredentialsException e) {
     log.info("Handling BadCredentialsException: {}", e.getMessage());
-    var response = HttpErrorResponse.of(e.getMessage(), 401, null, null);
+    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 401, null, null);
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   @org.springframework.web.bind.annotation.ExceptionHandler(AuthorizationDeniedException.class)
   public ResponseEntity<HttpErrorResponse> handleException(AuthorizationDeniedException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
-    var response = HttpErrorResponse.of(e.getMessage(), 403, null, null);
+    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 403, null, null);
     return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
   }
 
@@ -90,15 +90,15 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
    * Handler for data constraint violent => Roll back before transaction
    */
   @org.springframework.web.bind.annotation.ExceptionHandler(value = TransactionSystemException.class)
-  public ResponseEntity<?> handleTransactionRollBack(TransactionSystemException e) {
+  public ResponseEntity<HttpErrorResponse> handleTransactionRollBack(TransactionSystemException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
-    var response = HttpErrorResponse.of(e.getMessage(), 400, null, null);
+    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 400, null, null);
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
   @org.springframework.web.bind.annotation.ExceptionHandler(value = ResourceNotFoundException.class)
-  public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException e) {
-    var response = HttpErrorResponse.of(e.getMessage(), 404, null, null);
+  public ResponseEntity<HttpErrorResponse> handleResourceNotFound(ResourceNotFoundException e) {
+    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 404, null, null);
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
@@ -109,7 +109,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
   public ResponseEntity<HttpErrorResponse> handleException(Exception e) {
     log.error("Unhandled exception", e);
-    var response = HttpErrorResponse.of(AppMessage.of(MessageKey.SERVER_ERROR), 500);
+    HttpErrorResponse response = HttpErrorResponse.of(AppMessage.of(MessageKey.SERVER_ERROR), 500);
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 

@@ -1,4 +1,3 @@
-// PaginationControls.tsx
 'use client'
 
 import { FC } from 'react'

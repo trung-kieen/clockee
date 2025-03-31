@@ -1,6 +1,6 @@
-import { Role } from "@/enum/Role";
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const roleAccessList = {
   'CUSTOMER': [],
   'PRODUCT_ADMIN': [],

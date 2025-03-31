@@ -1,11 +1,17 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { AuthManager } from "../auth/AuthManager";
 
+type AuthContextType = {
+  token: string | null;
+  setToken: (token: string) => void;
+  clearToken: () => void;
+  isLogin: () => boolean;
+};
 
-const AuthContext = createContext(null);
-export const AuthProvider = ({ children }) => {
+const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState(AuthManager.getAccessToken());
   useEffect(() => {
 

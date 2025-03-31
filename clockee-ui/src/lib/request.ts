@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Custome require file for openapi config
  * Base on this docs
@@ -53,7 +55,6 @@ export const base64 = (str: string): string => {
     try {
         return btoa(str);
     } catch (err) {
-        // @ts-ignore
         return Buffer.from(str).toString('base64');
     }
 };

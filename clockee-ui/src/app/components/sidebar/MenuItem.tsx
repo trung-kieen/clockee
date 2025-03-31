@@ -14,14 +14,14 @@ export const MenuItem = ({ item }: { item: SidebarItem }) => {
         className="overflow-y-scroll p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-200 text-gray-900"
       >
         <div className="flex justify-between w-full items-center">
-          <span className="text-[15px] ml-4 text-gray-800 font-bold">{item.title}</span>
+          <span className="text-md text-[15px] text-gray-800 font-bold">{item.title}</span>
           <span className="text-sm rotate-180" id="arrow">
             <i className="bi bi-chevron-down"></i>
           </span>
         </div>
       </div>
       <div
-        className="text-left text-sm mt-2 w-4/5 mx-auto text-gray-600 font-bold"
+        className="text-left text-sm mt-2 w-4/5 mx-auto text-gray-500 font-bold"
         id="submenu"
       >
         {

@@ -4,6 +4,8 @@ import { AuthManager } from "@/lib/auth/AuthManager";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("")
@@ -15,7 +17,10 @@ const LoginForm = () => {
   // Kiểm tra điều kiện mật khẩu
   const isPasswordValid = password.length >= 6;
   const isFormValid = isPasswordValid && isValidEmail(email);
-  async function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+
+  const router = useRouter();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const loginReq: LoginRequest = {
       email: email,
@@ -24,6 +29,8 @@ const LoginForm = () => {
     try {
       const res = await AuthControllerService.login(loginReq);
       AuthManager.setAccessToken(res.accessToken || null);
+      router.push("/");
+      toast("Login success");
       // TODO: redirect to personal page or homepage
     } catch (e) {
       console.error(e);

@@ -4,7 +4,9 @@
  * Use static class to storage global state
  */
 export class AuthManager {
-  static #listeners: Array<any> = []; // Danh sách các callback để thông báo thay đổi
+
+  // Callback list to notify hook variable change
+  static #listeners: Array<(t: string) => void> = [];
   static addListener(callbackFn: (newToken: string) => void) {
     this.#listeners.push(callbackFn);
   }
@@ -26,6 +28,6 @@ export class AuthManager {
 
 
   static #notifyListeners() {
-    this.#listeners.forEach((callback) => callback(this.token));
+    this.#listeners.forEach((callback) => callback(this.token || ""));
   }
 }

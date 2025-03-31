@@ -14,6 +14,21 @@ const items: Array<SidebarItem> = [
     href: "#",
     subItems: [
       {
+        title: "Danh sách đơn hàng",
+        href: "/admin/orders/",
+        subItems: [],
+      },
+      {
+        title: "Chi tiết đơn hàng",
+        href: "/admin/order-detail/",
+        subItems: [],
+      },
+      {
+        title: "Người dùng",
+        href: "/admin/user/",
+        subItems: [],
+      },
+      {
         title: "Nhà cung cấp",
         href: "/admin/suppliers/",
         subItems: [],
@@ -24,7 +39,17 @@ const items: Array<SidebarItem> = [
         subItems: [],
       },
       {
-        title: "Nhãn hàng",
+        title: "Chi tiết sản phẩm",
+        href: "/admin/product-detail/",
+        subItems: [],
+      },
+      {
+        title: "Nhập hàng",
+        href: "/admin/purcharse",
+        subItems: [],
+      },
+      {
+        title: "Thương hiệu",
         href: "/admin/brands",
         subItems: [],
       },

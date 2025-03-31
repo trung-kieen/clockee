@@ -10,6 +10,7 @@ export type AdminProductResponse = {
     sellPrice?: number;
     type?: string;
     stock?: number;
+    brandName?: string;
     isActive?: boolean;
     visible?: boolean;
 };

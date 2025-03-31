@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BrandDTO } from '../models/BrandDTO';
-import type { Pageable } from '../models/Pageable';
 import type { PageBrandDTO } from '../models/PageBrandDTO';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -15,7 +14,7 @@ export class AdminBrandControllerService {
      * @returns BrandDTO OK
      * @throws ApiError
      */
-    public static updateBrand1(
+    public static updateBrand(
         id: number,
         requestBody: BrandDTO,
     ): CancelablePromise<BrandDTO> {
@@ -34,7 +33,7 @@ export class AdminBrandControllerService {
      * @returns any OK
      * @throws ApiError
      */
-    public static deleteBrand1(
+    public static deleteBrand(
         id: number,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
@@ -46,18 +45,21 @@ export class AdminBrandControllerService {
         });
     }
     /**
-     * @param pageable
+     * @param page
+     * @param size
      * @returns PageBrandDTO OK
      * @throws ApiError
      */
-    public static getAllBrands1(
-        pageable: Pageable,
+    public static getAllBrands(
+        page?: number,
+        size: number = 10,
     ): CancelablePromise<PageBrandDTO> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/admin/brands',
             query: {
-                'pageable': pageable,
+                'page': page,
+                'size': size,
             },
         });
     }
@@ -66,7 +68,7 @@ export class AdminBrandControllerService {
      * @returns BrandDTO OK
      * @throws ApiError
      */
-    public static addBrand1(
+    public static addBrand(
         requestBody: BrandDTO,
     ): CancelablePromise<BrandDTO> {
         return __request(OpenAPI, {

@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { AdminProductRequest } from '../models/AdminProductRequest';
 import type { AdminProductResponse } from '../models/AdminProductResponse';
+import type { PageAdminProductResponse } from '../models/PageAdminProductResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -46,12 +47,12 @@ export class AdminProductControllerService {
     }
     /**
      * @param id
-     * @returns AdminProductResponse OK
+     * @returns void
      * @throws ApiError
      */
     public static deleteProduct(
         id: number,
-    ): CancelablePromise<AdminProductResponse> {
+    ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/admin/products/{id}',
@@ -63,13 +64,13 @@ export class AdminProductControllerService {
     /**
      * @param page
      * @param size
-     * @returns AdminProductResponse OK
+     * @returns PageAdminProductResponse OK
      * @throws ApiError
      */
-    public static getAllProduct(
+    public static getAllProducts(
         page?: number,
         size: number = 5,
-    ): CancelablePromise<Array<AdminProductResponse>> {
+    ): CancelablePromise<PageAdminProductResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/admin/products',

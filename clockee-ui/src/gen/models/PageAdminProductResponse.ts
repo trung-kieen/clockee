@@ -2,17 +2,17 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BrandDTO } from './BrandDTO';
+import type { AdminProductResponse } from './AdminProductResponse';
 import type { PageableObject } from './PageableObject';
 import type { SortObject } from './SortObject';
-export type PageBrandDTO = {
+export type PageAdminProductResponse = {
     totalElements?: number;
     totalPages?: number;
     pageable?: PageableObject;
     first?: boolean;
     last?: boolean;
     size?: number;
-    content?: Array<BrandDTO>;
+    content?: Array<AdminProductResponse>;
     number?: number;
     sort?: SortObject;
     numberOfElements?: number;

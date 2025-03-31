@@ -1,12 +1,13 @@
 "use client";
 
 import PaginationControls from "@/app/components/common/PaginationController"
-import { BrandControllerService, PageBrandDTO } from "@/gen";
+import { AdminBrandControllerService, PageBrandDTO } from "@/gen";
 import { useSearchParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
 import BrandItem from "./BrandItem";
 import { mockPageResponseInfo } from "./mock-brands";
 import CreateBrandModal from "./CreateBrandModal";
+import Subtitle from "@/app/components/typography/SubTitle";
 
 
 
@@ -26,7 +27,7 @@ export default function BrandAdminPage() {
 
   const fetchBrands = async () => {
     try {
-      const pageInfo = await BrandControllerService.getAllBrands(page - 1);
+      const pageInfo = await AdminBrandControllerService.getAllBrands(page - 1);
       if (pageInfo)
         setPageInfo(pageInfo)
       return pageInfo;
@@ -93,13 +94,14 @@ export default function BrandAdminPage() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-200 p-4">
-      <div className="bg-white w-full max-w-2xl min-h-[80vh] shadow-lg rounded-lg p-8">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100  p-4">
+      <div className="bg-white w-full max-w-7xl min-h-[80vh] shadow-lg rounded-lg p-8">
 
+        <Subtitle styleClass={""}>Thương hiệu</Subtitle>
         <div className="flex justify-between items-center mb-6">
-          <button onClick={() => setIsAddModalOpen(true)} className="bg-primary  text-white px-4 py-2 rounded-lg flex items-center space-x-2 shadow-md">
+          <button onClick={() => setIsAddModalOpen(true)} className="bg-primary  text-white px-4 py-2 rounded-lg flex items-center ml-3  shadow">
             <i className="fa fa-add"></i>
-            <span>Thêm mới</span>
+            <span>&nbsp;Thêm mới</span>
           </button>
         </div>
 
