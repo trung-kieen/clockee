@@ -16,7 +16,7 @@ const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
     handleSubmit,
     formState: { errors },
   } = useForm<BrandDTO>()
-  const onSubmit: SubmitHandler<BrandDTO> = async (data) => {
+  const onSubmit: SubmitHandler<BrandDTO> = async (data: BrandDTO) => {
 
     try {
       await AdminBrandControllerService.addBrand(data);
@@ -33,27 +33,37 @@ const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
       isOpen={isOpen}
       onClose={onClose}
     >
-      <form className="flex items-center justify-center flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div >
-          <h2 className="font-bold text-lg pb-5">Thêm nhãn hàng</h2>
-          <div className="flex items-center gap-2">
-            <label className="w-24">Tên:</label>
-            <input autoFocus={true} className="input input-sm validator flex-1"
+      <form className="flex items-center justify-center flex-col " onSubmit={handleSubmit(onSubmit)}>
+        <div>
+
+          <fieldset className="fieldset w-xs">
+            <h1 className="font-bold text-lg">Thêm mới nhãn hàng</h1>
+
+            <label className="fieldset-label">Tên</label>
+            <input autoFocus={true} className="input validator"
               {...register("name", { required: "Tên không được trống" })}
             />
-          </div>
-          <div className="validator-hint">
-            {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
-            {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
+
+          </fieldset>
+
+          {/* Validation error message */}
+          <div className="flex items-center gap-2">
+            <div className="validator-hint">
+              {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
+              {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
+            </div>
+
           </div>
 
+          {/* Save & cancel button  */}
+          <div className="modal-action">
+            <button className="btn bg-primary rounded-lg text-white" onClick={refreshCallBack} style={{ marginRight: "10px" }}>
+              Lưu
+            </button>
+            <button type="submit" className="btn" onClick={onClose}>Hủy</button>
+          </div>
         </div>
-        <div className="modal-action">
-          <button className="btn bg-primary rounded-lg text-white" onClick={refreshCallBack} style={{ marginRight: "10px" }}>
-            Lưu
-          </button>
-          <button type="submit" className="btn" onClick={onClose}>Hủy</button>
-        </div>
+
       </form>
     </ClockeeModal>
   );

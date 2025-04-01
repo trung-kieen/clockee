@@ -1,20 +1,20 @@
 "use client";
 
 import PaginationControls from "@/app/components/common/PaginationController"
-import { AdminBrandControllerService, PageBrandDTO } from "@/gen";
+import { AdminSupplierControllerService, PageSupplierDTO } from "@/gen";
 import { useSearchParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
-import BrandItem from "./BrandItem";
-import { mockPageResponseInfo } from "./mock-brands";
-import CreateBrandModal from "./CreateBrandModal";
 import Subtitle from "@/app/components/typography/SubTitle";
+import { mockPageResponseInfo } from "./mock-supplier";
+import SupplierItem from "./SupplierItem";
+import CreateSupplierModal from "./CreateSupplierModal";
 
 
 
-export default function BrandAdminPage() {
+export default function SupplierAdminPage() {
 
   // Control pagination information
-  const [pageInfo, setPageInfo] = useState<PageBrandDTO>(mockPageResponseInfo as PageBrandDTO);
+  const [pageInfo, setPageInfo] = useState<PageSupplierDTO>(mockPageResponseInfo as PageSupplierDTO);
 
   // Get search user track page param
   const params = useSearchParams();
@@ -25,9 +25,9 @@ export default function BrandAdminPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
 
-  const fetchBrands = async () => {
+  const fetchSuppliers = async () => {
     try {
-      const pageInfo = await AdminBrandControllerService.getAllBrands(page - 1);
+      const pageInfo = await AdminSupplierControllerService.getAllSuppliers({ page: page - 1 });
       if (pageInfo)
         setPageInfo(pageInfo)
       return pageInfo;
@@ -41,7 +41,7 @@ export default function BrandAdminPage() {
    */
   useEffect(() => {
 
-    fetchBrands();
+    fetchSuppliers();
   }, [page]);
 
   /**
@@ -51,7 +51,6 @@ export default function BrandAdminPage() {
     // Message when not found data
     if (!(pageInfo?.content) || pageInfo.empty) {
 
-      console.log("No such data")
       return (
         <div>No brand found</div>
       )
@@ -68,8 +67,11 @@ export default function BrandAdminPage() {
               {/* head */}
               <thead>
                 <tr>
-                  <th>Brand id</th>
-                  <th>Brand name</th>
+                  <th>Supplier id</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Phone</th>
+                  <th>Email</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -77,10 +79,10 @@ export default function BrandAdminPage() {
               <tbody>
                 {
                   pageInfo.content.map((entry) => {
-                    return <BrandItem
-                      key={entry.brandId}
+                    return <SupplierItem
+                      key={entry.supplierId}
                       item={entry}
-                      refreshCallBack={fetchBrands} />
+                      refreshCallBack={fetchSuppliers} />
                   })
                 }
               </tbody>
@@ -97,7 +99,7 @@ export default function BrandAdminPage() {
     <div className="flex justify-center items-center min-h-screen bg-gray-100  p-4">
       <div className="bg-white w-full max-w-7xl min-h-[80vh] shadow-lg rounded-lg p-8">
 
-        <Subtitle styleClass={""}>Thương hiệu</Subtitle>
+        <Subtitle styleClass={""}>Nhà cung cấp</Subtitle>
         <div className="flex justify-between items-center mb-6">
           <button onClick={() => setIsAddModalOpen(true)} className="bg-primary  text-white px-4 py-2 rounded-lg flex items-center ml-3  shadow">
             <i className="fa fa-add"></i>
@@ -109,12 +111,12 @@ export default function BrandAdminPage() {
         <div className='flex flex-col gap-2 items-center'>
 
           {/*
-      * Add new brand button
+      * Add new supplier button
       */}
-          <CreateBrandModal
+          <CreateSupplierModal
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
-            refreshCallBack={fetchBrands} />
+            refreshCallBack={fetchSuppliers} />
 
           {/*
        * Display list of brand

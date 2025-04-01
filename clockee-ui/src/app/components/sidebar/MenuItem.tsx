@@ -9,7 +9,6 @@ export const MenuItem = ({ item }: { item: SidebarItem }) => {
   return (
     <>
       {/* Item in sidebar with link */}
-      {/* TODO: Link to item page*/}
       <div
         className="overflow-y-scroll p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-200 text-gray-900"
       >
@@ -29,11 +28,11 @@ export const MenuItem = ({ item }: { item: SidebarItem }) => {
           item.subItems.map((subItem, index) => {
             return (
               <div key={index}>
-                <h1 className="cursor-pointer p-2 hover:bg-gray-300 rounded-md mt-1">
-                  <Link href={subItem.href}>
-                  {subItem.title}
-                  </Link>
-                </h1>
+                <Link href={subItem.href}>
+                  <h1 className="cursor-pointer p-2 hover:bg-gray-300 rounded-md mt-1">
+                    {subItem.title}
+                  </h1>
+                </Link>
               </div>
             )
           })

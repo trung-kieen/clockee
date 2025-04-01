@@ -2,7 +2,6 @@ import { API_BASE } from "@/utils/config";
 import axios from "axios";
 import { AuthManager } from "@/lib/auth/AuthManager";
 import { toast } from "react-toastify";
-import { HttpErrorResponse } from "@/models/http/HttpErrorResponse"
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
@@ -97,8 +96,9 @@ const HttpClient = () => {
           }
           catch (refreshError) {
             AuthManager.clearAccessToken();
+            const currentRoute = window.location.pathname + window.location.search;
+            window.location.href = "/login" + (currentRoute ? `?redirect=${currentRoute}` : '');
             return Promise.reject(refreshError);
-            // TODO: redirect
           }
 
 
@@ -111,8 +111,13 @@ const HttpClient = () => {
         return Promise.reject(error);
       }
 
-      toast("Unhandle error code");
+      if (error.response.status === 404) {
+        window.location.href = "/not-found";
+      }
 
+      if (error.response.status === 500) {
+        toast.error("Lỗi server");
+      }
       // Refresh fail => logout
     },
   );
