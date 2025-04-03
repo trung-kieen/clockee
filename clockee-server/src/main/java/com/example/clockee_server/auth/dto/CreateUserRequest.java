@@ -2,14 +2,10 @@ package com.example.clockee_server.auth.dto;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.example.clockee_server.util.Client;
-import com.example.clockee_server.validatetor.PasswordMatch;
-
 import io.micrometer.common.lang.Nullable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 

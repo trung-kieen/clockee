@@ -1,22 +1,32 @@
 package com.example.clockee_server.controller;
 
-import com.example.clockee_server.auth.jwt.JwtTokenProvider;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.example.clockee_server.auth.annotation.CurrentUser;
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
+import com.example.clockee_server.auth.jwt.JwtTokenProvider;
 import com.example.clockee_server.auth.service.AuthenticationService;
+import com.example.clockee_server.entity.User;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
+import com.example.clockee_server.payload.response.CurrentUserDetails;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -61,6 +71,17 @@ public class AuthController {
     return null;
   }
 
+
+  // TODO: Move to user controller
+  @PreAuthorize("isAuthenticated()")
+  @GetMapping("/me")
+  public ResponseEntity<?> currentUserDetail(@NotNull @CurrentUser User user){
+    CurrentUserDetails userDetails = authService.currentUserDetails(user);
+    return ResponseEntity.ok(userDetails);
+  }
+
+
+  // TODO: Duong refactor to service layer
   @PostMapping("/refresh")
   public ResponseEntity<?> refreshAccessToken(@CookieValue(name = "refreshToken", required = false) String refreshToken, HttpServletResponse response) {
     if (refreshToken == null) {

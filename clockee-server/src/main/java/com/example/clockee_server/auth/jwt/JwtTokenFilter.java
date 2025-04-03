@@ -41,7 +41,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     String token = header.split(" ")[1].trim();
     String userEmail = tokenProvider.getUsername(token);
-    User user = userRepository.findByEmail(userEmail).orElse(null);
+   User user = userRepository.findByEmail(userEmail).orElse(null);
 
     if (!isValidUserWithToken(user, token)) {
       filterChain.doFilter(request, response);

@@ -8,30 +8,57 @@ import lombok.Getter;
 
 /**
  * PageResponse
- * decomposition of {@link Page}
+ * Decomposition of {@link Page}
  */
 @Getter
 public class PageResponse<T> {
 
+  // Current page
   private final int page;
+
+  // Maxium of element in page
   private final int size;
+
   private final long totalElements;
   private final int totalPages;
-  private final List<T> data;
+  private final List<T> content;
+  private boolean first;
+  private boolean last;
+  private boolean empty;
 
   public PageResponse(int page, int size, long totalElements, int totalPages, List<T> data) {
     this.page = page;
     this.size = size;
     this.totalElements = totalElements;
     this.totalPages = totalPages;
-    this.data = data;
+    this.content = data;
   }
 
+  /**
+   * Convert built-in page result to application standard page result
+   */
   public PageResponse(Page<T> page) {
     this.page = page.getNumber();
     this.size = page.getSize();
     this.totalElements = page.getTotalElements();
     this.totalPages = page.getTotalPages();
-    this.data = page.getContent();
+    this.content = page.getContent();
+    this.last = page.isLast();
+    this.first = page.isFirst();
+    this.empty = page.isEmpty();
+  }
+
+  /**
+   * Build page result from list of DTO entity and original page information
+   */
+  public PageResponse(List<T> dtos, Page<?> pageInfo) {
+    this.page = pageInfo.getNumber();
+    this.size = pageInfo.getSize();
+    this.totalElements = pageInfo.getTotalElements();
+    this.totalPages = pageInfo.getTotalPages();
+    this.content = dtos;
+    this.last = pageInfo.isLast();
+    this.first = pageInfo.isFirst();
+    this.empty = pageInfo.isEmpty();
   }
 }

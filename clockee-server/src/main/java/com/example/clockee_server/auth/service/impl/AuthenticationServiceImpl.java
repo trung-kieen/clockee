@@ -26,10 +26,10 @@ import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.jobs.SendWelcomeEmailJob;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
+import com.example.clockee_server.payload.response.CurrentUserDetails;
 import com.example.clockee_server.repository.RoleRepository;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
-import com.example.clockee_server.service.SendEmailService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +41,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final VerificationCodeRepository verificationCodeRepository;
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
-  private final SendEmailService sendEmailService;
 
   @Transactional
   public void register(CreateUserRequest req) {
@@ -73,7 +72,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     // Sent email async
     var sendWelcomeEmailJob = new SendWelcomeEmailJob(user.getUserId());
     BackgroundJobRequest.enqueue(sendWelcomeEmailJob);
-    // sendEmailService.sendWelcomeEmail(user.getUserId());
   }
 
   @Override
@@ -90,7 +88,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     // Build jwt token for REST stateless
     User currentUser = (User) auth.getPrincipal();
-    List<String> roles = currentUser.getRoles().stream().map((role)-> {
+    List<String> roles = currentUser.getRoles().stream().map((role) -> {
       return role.getRoleName().getName();
     }).collect(Collectors.toList());
 
@@ -104,6 +102,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     resp.setRoles(roles);
 
     return resp;
+  }
+
+  @Override
+  public CurrentUserDetails currentUserDetails(User user) {
+    return CurrentUserDetails.builder()
+        .userId(user.getUserId())
+        .email(user.getUsername())
+        .build();
+
   }
 
 }

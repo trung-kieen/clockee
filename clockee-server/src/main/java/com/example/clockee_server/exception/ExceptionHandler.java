@@ -1,6 +1,7 @@
 package com.example.clockee_server.exception;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(ApiException.class)
   public ResponseEntity<HttpErrorResponse> handleException(ApiException e) {
     log.info("Handling ApiException: {}", e.getMessage());
-    var response = HttpErrorResponse.of(e.getMessage(), e.getStatus(), e.getErrors(), null);
+    var response = HttpErrorResponse.of(e.getMessage(), e.getStatus(), null, Collections.singletonList(AppMessage.of(MessageKey.SERVER_ERROR)));
     return new ResponseEntity<>(response, HttpStatus.valueOf(e.getStatus()));
   }
 

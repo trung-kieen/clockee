@@ -1,18 +1,15 @@
 package com.example.clockee_server.service.user;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.payload.response.user.UserProductResponse;
 import com.example.clockee_server.repository.ProductRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserProductService {

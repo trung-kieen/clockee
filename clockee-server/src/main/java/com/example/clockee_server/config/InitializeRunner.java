@@ -6,9 +6,6 @@ import org.springframework.boot.CommandLineRunner;
  */
 import org.springframework.stereotype.Service;
 
-import com.example.clockee_server.message.AppMessage;
-import com.example.clockee_server.message.MessageKey;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

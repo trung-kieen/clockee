@@ -1,0 +1,111 @@
+package com.example.clockee_server.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.clockee_server.entity.CartItem;
+import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.entity.User;
+import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.mapper.CartMapper;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import com.example.clockee_server.payload.request.CartItemDTO;
+import com.example.clockee_server.payload.response.CartDetailsResponse;
+import com.example.clockee_server.repository.CartRepository;
+import com.example.clockee_server.repository.ProductRepository;
+
+import lombok.RequiredArgsConstructor;
+
+/**
+ * CartService
+ */
+@Service
+@RequiredArgsConstructor
+public class CartService {
+  private final ProductRepository productRepository;
+  private final CartRepository cartRepository;
+  private final CartMapper cartMapper;
+
+  @Transactional
+  public CartItem addProduct(CartItemDTO item, User user) {
+    Product product = getOrThrowProduct(item.getProductId());
+    // Not allow to put more item than stock on hand
+
+    throwIfOutOfStock(product.getStock(), item.getQuantity());
+    var existsCartItem = cartRepository.findByProductIdAndUserId(item.getProductId(), user.getUserId());
+
+    // If exists before just update quantity
+    if (existsCartItem.isPresent()) {
+      // Use uddate controller
+      var cartItem = existsCartItem.get();
+
+      Long totalQuantity = cartItem.getQuantity() + item.getQuantity();
+      throwIfOutOfStock(totalQuantity, product.getStock());
+      cartItem.setQuantity(totalQuantity);
+      return cartRepository.save(cartItem);
+    } else {
+      // Save new cart item
+      var cartItem = CartItem.builder()
+          .product(product)
+          .quantity(item.getQuantity())
+          .user(user)
+          .build();
+
+      return cartRepository.save(cartItem);
+
+    }
+  }
+
+  private void throwIfOutOfStock(Long itemQuantity, Long currentStock) {
+
+    boolean outOfStock = currentStock < currentStock;
+    if (outOfStock) {
+      throw ApiException.builder()
+          .message(AppMessage.of(MessageKey.OUT_OF_STOCK))
+          .build();
+    }
+
+  }
+
+  private Product getOrThrowProduct(Long productId) {
+    return productRepository.findById(productId)
+        .orElseThrow(() -> new ResourceNotFoundException("product"));
+
+  }
+
+  private CartItem getOrThrowCartItem(Long productId, Long userId) {
+    return cartRepository.findByProductIdAndUserId(productId, userId)
+        .orElseThrow(() -> new ResourceNotFoundException("cart item"));
+
+  }
+
+  /*
+   * Update quantity of item in cart
+   */
+  @Transactional
+  public CartItem updateItem(CartItemDTO item, User user) {
+    Product product = getOrThrowProduct(item.getProductId());
+
+    CartItem cartItem = getOrThrowCartItem(item.getProductId(), user.getUserId());
+
+    throwIfOutOfStock(cartItem.getQuantity(), product.getStock());
+    cartItem.setQuantity(cartItem.getQuantity());
+    return cartRepository.save(cartItem);
+  }
+
+  public void removeItem(Long productId, User user) {
+    CartItem cartItem = getOrThrowCartItem(productId, user.getUserId());
+    cartRepository.delete(cartItem);
+  }
+
+  public CartDetailsResponse getAll(User user) {
+    // TOOD: Map to DTO
+    List<CartItem> items = cartRepository.findByUserId(user.getUserId());
+    return cartMapper.cartItemsToDetails(items);
+  }
+
+}

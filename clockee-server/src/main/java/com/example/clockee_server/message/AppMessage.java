@@ -1,6 +1,10 @@
 package com.example.clockee_server.message;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
@@ -19,7 +23,8 @@ import com.example.clockee_server.util.ApplicationContextProvider;
  * Centralize application message with csv file - application prorperties
  * ${app.messages-file}
  * This class provide helper method to get message from this config file
- * You have to provide new message in {@link MessageKey} and provide semantic message
+ * You have to provide new message in {@link MessageKey} and provide semantic
+ * message
  * ${app.messages-file}
  *
  *
@@ -81,13 +86,27 @@ public class AppMessage {
       }
 
       // Default message as enum key when it not define in csv
-      for (MessageKey key : MessageKey.values()) {
-        if (!messages.containsKey(key)) {
-          missingKeys.add(key);
 
-          // Use message key enum name as default name
-          messages.put(key, key.name());
+      // Write to csv file missing key
+      try (BufferedWriter writer = new BufferedWriter(
+          new FileWriter(new File(AppMessage.class.getClassLoader().getResource(messagesFile).toURI()), true))) {
+
+        for (MessageKey key : MessageKey.values()) {
+          if (!messages.containsKey(key)) {
+
+            missingKeys.add(key);
+            // Use message key enum name as default name
+            messages.put(key, key.name());
+
+            // Write append to csv message storeage file
+            writer.write(key.name() + "," + key.name());
+            writer.newLine();
+
+          }
         }
+
+      } catch (IOException e) {
+        System.err.println("Unable to write missing application message: " + e.getMessage());
       }
 
       logger.info("Load application message from file {}", messagesFile);

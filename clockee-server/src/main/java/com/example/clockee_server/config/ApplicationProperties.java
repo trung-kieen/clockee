@@ -26,11 +26,11 @@ import lombok.Setter;
 public class ApplicationProperties {
   private List<String> allowedOrigins;
   private CharSequence jwtSecretKey;
-  private Long jwtTokenExpMillis;
+  private Long jwtTokenExpMinutes;
   private String baseUrl;
   private String applicationName;
   private String uploadPath;
-  private Long jwtRefreshTokenExpMillis;
+  private Long jwtRefreshTokenExpDays;
   private String messagesFile;
 
 }

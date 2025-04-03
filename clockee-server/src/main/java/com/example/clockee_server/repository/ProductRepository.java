@@ -1,15 +1,14 @@
 package com.example.clockee_server.repository;
 
-import com.example.clockee_server.entity.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.example.clockee_server.entity.Product;
 
 
 
@@ -20,5 +19,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> { // Ä‘á
 
     @Query("SELECT p FROM Product p WHERE p.isActive = TRUE")
     Page<Product> getAllActiveProducts(Pageable pageable);
-}
 
+}

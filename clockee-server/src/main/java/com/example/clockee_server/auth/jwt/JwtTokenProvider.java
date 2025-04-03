@@ -26,14 +26,13 @@ import lombok.RequiredArgsConstructor;
 public class JwtTokenProvider {
   private final ApplicationProperties applicationProperties;
 
-
   public boolean isValidToken(String token, UserDetails userDetails) {
 
     final var email = getUsername(token);
     final var exp = extractClaim(token, Claims::getExpiration);
     final boolean isTokenExpired = exp.before(new Date(System.currentTimeMillis()));
 
-    if (email != userDetails.getUsername())
+    if (!email.equals(userDetails.getUsername()))
       return false;
     if (isTokenExpired)
       return false;
@@ -41,7 +40,6 @@ public class JwtTokenProvider {
     return true;
 
   }
-
 
   private <T> T extractClaim(String token, Function<Claims, T> extractorMethod) {
     var claims = extractAllClaims(token);
@@ -53,7 +51,7 @@ public class JwtTokenProvider {
         .verifyWith(getSignKey())
         .build();
 
-    var claims = parser.parseSignedClaims(token)
+   var claims = parser.parseSignedClaims(token)
         .getPayload();
     return claims;
   }
@@ -61,8 +59,6 @@ public class JwtTokenProvider {
   public String getUsername(String token) {
     return extractClaim(token, Claims::getSubject);
   }
-
-
 
   public String genenerateToken(UserDetails user) {
     return genenerateToken(user, new HashMap<>());
@@ -76,7 +72,7 @@ public class JwtTokenProvider {
   public String genenerateToken(UserDetails user, Map<? extends String, ? extends Object> claims) {
     String emailSubject = user.getUsername();
     Date issueAt = new Date(System.currentTimeMillis());
-    Date expiredAt = new Date(System.currentTimeMillis() + applicationProperties.getJwtTokenExpMillis());
+    Date expiredAt = new Date(System.currentTimeMillis() + applicationProperties.getJwtTokenExpMinutes() * 60 * 1000);
     String token = Jwts.builder()
         .claims()
         .subject(emailSubject)
@@ -97,16 +93,16 @@ public class JwtTokenProvider {
   // Create RefreshToken
   public String generateRefreshToken(UserDetails user) {
     Date issueAt = new Date(System.currentTimeMillis());
-    Date expiredAt = new Date(System.currentTimeMillis() + applicationProperties.getJwtRefreshTokenExpMillis());
+    Date expiredAt = new Date(System.currentTimeMillis() + applicationProperties.getJwtTokenExpMinutes() * 60 * 1000);
 
     return Jwts.builder()
-            .claims()
-            .subject(user.getUsername())
-            .issuedAt(issueAt)
-            .expiration(expiredAt)
-            .and()
-            .signWith(getSignKey(), Jwts.SIG.HS256)
-            .compact();
+        .claims()
+        .subject(user.getUsername())
+        .issuedAt(issueAt)
+        .expiration(expiredAt)
+        .and()
+        .signWith(getSignKey(), Jwts.SIG.HS256)
+        .compact();
   }
 
   public boolean isValidRefreshToken(String token, UserDetails user) {
