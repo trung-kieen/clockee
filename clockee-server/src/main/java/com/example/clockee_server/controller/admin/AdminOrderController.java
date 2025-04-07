@@ -17,8 +17,8 @@ public class AdminOrderController {
     private OrderService orderService;
 
     @GetMapping("/by-month-year")
-    public Double getRevenueByMonthAndYear(@RequestParam("month") int month, @RequestParam("year") int year) {
-        return orderService.getRevenueByMonthAndYear(month, year);
+    public Double getRevenueByMonthAndYear(@RequestParam("year") int year, @RequestParam("month") int month) {
+        return orderService.getRevenueByMonthAndYear(year, month);
     }
 
     @GetMapping("/monthly")

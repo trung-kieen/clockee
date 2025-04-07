@@ -16,16 +16,16 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "FROM Order o " +
             "JOIN o.orderItems oi " +
             "JOIN oi.product p " +
-            "WHERE o.status = 'COMPLETED' " +
+            "WHERE o.status = 'SHIPPED' " +
             "GROUP BY YEAR(o.createAt), MONTH(o.createAt) " +
             "ORDER BY YEAR(o.createAt), MONTH(o.createAt)")
     List<Object[]> getMonthlyRevenue();
 
-    @Query("SELECT SUM((p.sellPrice - p.actualPrice) * oi.quantity) as revenue " +
+    @Query("SELECT COALESCE(SUM((COALESCE(p.sellPrice, 0) - COALESCE(p.actualPrice, 0)) * COALESCE(oi.quantity, 0)), 0) as revenue " +
             "FROM Order o " +
             "JOIN o.orderItems oi " +
             "JOIN oi.product p " +
-            "WHERE o.status = 'COMPLETED' " +
+            "WHERE o.status = 'SHIPPED' " +
             "AND YEAR(o.createAt) = :year " +
             "AND MONTH(o.createAt) = :month")
     Optional<Double> getRevenueByMonthAndYear(@Param("year") int year, @Param("month") int month);

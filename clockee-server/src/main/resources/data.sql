@@ -36,20 +36,18 @@ VALUES ('nguyen.van.a@gmail.com', 'hashedpassword1', 'Nguyễn Văn An', '091234
 
 -- Insert into Product
 INSERT INTO product (name, description, image_url, actual_price, sell_price, type, stock, brand_id, is_active, visible)
-VALUES ('Rolex Submariner', 'Đồng hồ lặn cao cấp', 'rolex_sub.jpg', 250000000, 230000000, 'Luxury', 8, 1, 1, 1),
-       ('Omega Speedmaster', 'Dòng Moonwatch nổi tiếng', 'omega_speed.jpg', 180000000, 165000000, 'Luxury', 5, 2, 1, 1),
-       ('Casio G-Shock', 'Đồng hồ thể thao bền bỉ', 'casio_gshock.jpg', 2500000, 2200000, 'Sport', 50, 3, 1, 1),
-       ('Seiko Prospex', 'Đồng hồ lặn chuyên nghiệp', 'seiko_prospex.jpg', 12000000, 11000000, 'Sport', 20, 4, 1, 1),
-       ('Tag Heuer Carrera', 'Đồng hồ đua xe sang trọng', 'tag_carrera.jpg', 90000000, 85000000, 'Luxury', 7, 5, 1, 1),
-       ('Citizen Eco-Drive', 'Đồng hồ năng lượng mặt trời', 'citizen_eco.jpg', 8000000, 7500000, 'Casual', 30, 6, 1, 1),
-       ('Tissot Le Locle', 'Đồng hồ cổ điển thanh lịch', 'tissot_locle.jpg', 15000000, 14000000, 'Classic', 15, 7, 1,
-        1),
-       ('Longines Master', 'Đồng hồ cao cấp Thụy Sĩ', 'longines_master.jpg', 60000000, 55000000, 'Luxury', 10, 8, 1, 1),
-       ('Orient Bambino', 'Đồng hồ cơ giá rẻ', 'orient_bambino.jpg', 5000000, 4500000, 'Classic', 25, 9, 1, 1),
-       ('Patek Philippe Nautilus', 'Đồng hồ siêu sang', 'patek_nautilus.jpg', 1200000000, 1150000000, 'Luxury', 2, 10,
-        1, 1),
-       ('Casio Edifice', 'Đồng hồ doanh nhân', 'casio_edifice.jpg', 3500000, 3200000, 'Casual', 40, 3, 1, 1),
-       ('Seiko Astron', 'Đồng hồ GPS hiện đại', 'seiko_astron.jpg', 45000000, 42000000, 'Tech', 12, 4, 1, 1);
+VALUES ('Rolex Submariner', 'Đồng hồ lặn cao cấp', '101_rolex_sub.jpg', 230000000, 250000000, 'Luxury', 8, 1, 1, 1),
+       ('Omega Speedmaster', 'Dòng Moonwatch nổi tiếng', '102_omega_speed.jpg', 165000000, 180000000, 'Luxury', 5, 2, 1, 1),
+       ('Casio G-Shock', 'Đồng hồ thể thao bền bỉ', '103_casio_gshock.jpg', 2200000, 2500000, 'Sport', 50, 3, 1, 1),
+       ('Seiko Prospex', 'Đồng hồ lặn chuyên nghiệp', '104_seiko_prospex.jpg', 11000000, 12000000, 'Sport', 20, 4, 1, 1),
+       ('Tag Heuer Carrera', 'Đồng hồ đua xe sang trọng', '105_tag_carrera.jpg', 85000000, 90000000, 'Luxury', 7, 5, 1, 1),
+       ('Citizen Eco-Drive', 'Đồng hồ năng lượng mặt trời', '106_citizen_eco.jpg', 7500000, 8000000, 'Casual', 30, 6, 1, 1),
+       ('Tissot Le Locle', 'Đồng hồ cổ điển thanh lịch', '107_tissot_locle.jpg', 14000000, 15000000, 'Classic', 15, 7, 1, 1),
+       ('Longines Master', 'Đồng hồ cao cấp Thụy Sĩ', '108_longines_master.jpg', 55000000, 60000000, 'Luxury', 10, 8, 1, 1),
+       ('Orient Bambino', 'Đồng hồ cơ giá rẻ', '109_orient_bambino.jpg', 4500000, 5000000, 'Classic', 25, 9, 1, 1),
+       ('Patek Philippe Nautilus', 'Đồng hồ siêu sang', '110_patek_nautilus.jpg', 1150000000, 1200000000, 'Luxury', 2, 10, 1, 1),
+       ('Casio Edifice', 'Đồng hồ doanh nhân', '111_casio_edifice.jpg', 3200000, 3500000, 'Casual', 40, 3, 1, 1),
+       ('Seiko Astron', 'Đồng hồ GPS hiện đại', '112_seiko_astron.jpg', 42000000, 45000000, 'Tech', 12, 4, 1, 1);
 
 -- Insert into CartItem
 INSERT INTO cart_item (product_id, user_id, quantity)
