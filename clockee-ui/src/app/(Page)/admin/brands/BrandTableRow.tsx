@@ -4,7 +4,10 @@ import { AdminBrandControllerService, BrandDTO } from "@/gen";
 import React, { useState } from "react"
 import EditBrandModal from "./EditBrandModal";
 import { toast } from "react-toastify";
-const BrandItem = ({ item, refreshCallBack }: { item: BrandDTO, refreshCallBack: () => void }) => {
+
+type BrandRowProps = { item: BrandDTO, refreshCallBack: () => void };
+
+const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
 
   const handleDelete = async () => {
     if (!item.brandId) {
@@ -53,4 +56,4 @@ const BrandItem = ({ item, refreshCallBack }: { item: BrandDTO, refreshCallBack:
   )
 
 }
-export default BrandItem;
+export default BrandTableRow;

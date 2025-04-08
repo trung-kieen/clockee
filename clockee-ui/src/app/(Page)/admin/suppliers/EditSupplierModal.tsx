@@ -17,7 +17,9 @@ const EditSupplierModal = ({ isOpen, onClose, refreshCallBack, model }: {
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<SupplierDTO>()
+  } = useForm<SupplierDTO>({
+    defaultValues: model
+  })
   const onSubmit: SubmitHandler<SupplierDTO> = async (data) => {
     // TODO: handle server validation
     if (!model.supplierId) {
@@ -46,17 +48,17 @@ const EditSupplierModal = ({ isOpen, onClose, refreshCallBack, model }: {
 
             {/* Form input  */}
             <label className="fieldset-label">Tên</label>
-            <input defaultValue={model.name} autoFocus={true} className="input validator"
+            <input autoFocus={true} className="input validator"
               {...register("name", { required: "Tên không được trống" })}
             />
 
             <label className="fieldset-label">Địa chỉ</label>
-            <input defaultValue={model.address} className="input validator"
+            <input className="input validator"
               {...register("address", { required: "Địa chỉ không được trống" })}
             />
 
             <label className="fieldset-label">Số điện thoại</label>
-            <input defaultValue={model.phone} className="input validator"
+            <input className="input validator"
               {...register("phone", {
                 pattern: {
                   value: /^[0-9]+$/,
@@ -67,7 +69,7 @@ const EditSupplierModal = ({ isOpen, onClose, refreshCallBack, model }: {
             />
 
             <label className="fieldset-label">Email</label>
-            <input defaultValue={model.email} className="input validator"
+            <input className="input validator"
               {...register("email", {
                 required: "Email không được trống",
                 pattern: {

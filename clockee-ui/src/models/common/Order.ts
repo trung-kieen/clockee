@@ -8,5 +8,5 @@ export interface OrderSummary {
 export interface ProductItemSummary {
   productId: number;
   name: string;
-  image_url: string; // thumnail
+  imageUrl: string; // thumnail
 }

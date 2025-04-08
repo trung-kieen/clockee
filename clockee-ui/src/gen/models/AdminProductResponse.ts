@@ -13,5 +13,6 @@ export type AdminProductResponse = {
     brandName?: string;
     isActive?: boolean;
     visible?: boolean;
+    image?: string;
 };
 

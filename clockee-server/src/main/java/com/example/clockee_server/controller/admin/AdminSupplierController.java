@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.clockee_server.auth.annotation.HasRole;
-import com.example.clockee_server.dto.SupplierDTO;
+import com.example.clockee_server.payload.dto.SupplierDTO;
 import com.example.clockee_server.service.SupplierService;
 
 import lombok.RequiredArgsConstructor;

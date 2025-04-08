@@ -1,8 +1,8 @@
 package com.example.clockee_server.service;
 
 
-import com.example.clockee_server.dto.SupplierDTO;
 import com.example.clockee_server.entity.Supplier;
+import com.example.clockee_server.payload.dto.SupplierDTO;
 import com.example.clockee_server.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

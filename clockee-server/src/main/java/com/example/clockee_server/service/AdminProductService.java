@@ -6,10 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.clockee_server.entity.Brand;
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.file.FileStorageService;
+import com.example.clockee_server.mapper.ProductMapper;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.request.AdminProductRequest;
@@ -21,91 +24,102 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class AdminProductService {
-    @Autowired
-    private ProductRepository productRepository;
+  @Autowired
+  private ProductRepository productRepository;
 
-    @Autowired
-    private BrandRepository brandRepository;
+  @Autowired
+  private BrandRepository brandRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+  @Autowired
+  private ModelMapper modelMapper;
 
-    // Thêm sản phẩm
-    @Transactional
-    public AdminProductResponse createProduct(AdminProductRequest request) {
-        Product product = modelMapper.map(request, Product.class);
+  @Autowired
+  private FileStorageService fileStorageService;
 
-        product.setProductId(null);
+  @Autowired
+  private ProductMapper productMapper;
 
-        // Lấy Brand từ DB và gán vào Product
-        Brand brand = brandRepository.findById(Long.valueOf(request.getBrandId()))
-                .orElseThrow(() -> new RuntimeException("Brand not found!"));
-        product.setBrand(brand);
+  // Thêm sản phẩm
+  @Transactional
+  public AdminProductResponse createProduct(AdminProductRequest request) {
+    Product product = modelMapper.map(request, Product.class);
 
-        product.setStock(0L);
-//        product.setVersion(0L);
-        Product savedProduct = productRepository.save(product);
-        return modelMapper.map(savedProduct, AdminProductResponse.class);
+    product.setProductId(null);
+
+    // Lấy Brand từ DB và gán vào Product
+    Brand brand = brandRepository.findById(Long.valueOf(request.getBrandId()))
+        .orElseThrow(() -> new RuntimeException("Brand not found!"));
+    product.setBrand(brand);
+
+    product.setStock(0L);
+    // product.setVersion(0L);
+    Product savedProduct = productRepository.save(product);
+
+    // return productMapper.productToAdminResponse(savedProduct);
+    return productMapper.productToAdminResponse(savedProduct);
+  }
+
+  // // Lấy danh sách sản phẩm có phân trang
+  // public List<AdminProductResponse> getAllProducts(int page, int size) {
+  // Page<Product> products = productRepository.findAll(PageRequest.of(page,
+  // size));
+  // return products.stream()
+  // .map(product -> modelMapper.map(product, AdminProductResponse.class))
+  // .collect(Collectors.toList());
+  // }
+
+  // Lấy danh sách sản phẩm có phân trang
+  public Page<AdminProductResponse> getAllProducts(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page<Product> products = productRepository.findAll(pageable);
+
+    if (products.isEmpty()) {
+      return Page.empty();
     }
 
-//    // Lấy danh sách sản phẩm có phân trang
-//    public List<AdminProductResponse> getAllProducts(int page, int size) {
-//        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
-//        return products.stream()
-//                .map(product -> modelMapper.map(product, AdminProductResponse.class))
-//                .collect(Collectors.toList());
-//    }
+    return products.map(product -> productMapper.productToAdminResponse(product));
+  }
 
-    // Lấy danh sách sản phẩm có phân trang
-    public Page<AdminProductResponse> getAllProducts(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Product> products = productRepository.findAll(pageable);
+  // Lấy chi tiết sản phẩm theo id
+  public AdminProductResponse getProductById(Long id) {
+    Product product = productRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
+    return productMapper.productToAdminResponse(product);
+  }
 
-        if (products.isEmpty()){
-            return Page.empty();
-        }
+  // Cập nhật thông tin sản phẩm
+  @Transactional
+  public AdminProductResponse updateProduct(Long id, AdminProductRequest request) {
+    Product product = productRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Product does not exist!"));
 
-        return products.map(product -> modelMapper.map(product, AdminProductResponse.class));
-    }
+    productMapper.mapToExistsProduct(request, product);
 
-    // Lấy chi tiết sản phẩm theo id
-    public AdminProductResponse getProductById(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)));
-        return modelMapper.map(product, AdminProductResponse.class);
-    }
+    Product updatedProduct = productRepository.save(product);
 
+    return productMapper.productToAdminResponse(updatedProduct);
+  }
 
-    // Cập nhật thông tin sản phẩm
-    @Transactional
-    public AdminProductResponse updateProduct(Long id, AdminProductRequest request) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product does not exist!"));
+  // Xoá sản phẩm
+  @Transactional
+  public AdminProductResponse deleteProduct(Long id) {
+    Product product = productRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Product not found!"));
 
-        // Log ID trước khi map
-        System.out.println("Before mapping: " + product.getProductId());
+    productRepository.delete(product);
+    return productMapper.productToAdminResponse(product);
+  }
 
-        // Ánh xạ nhưng bỏ qua productId
-        modelMapper.typeMap(AdminProductRequest.class, Product.class)
-                .addMappings(mapper -> mapper.skip(Product::setProductId))
-                .map(request, product);  // Áp dụng ánh xạ
+  /**
+   * Upload image file from form request to system file
+   * Product image url will be file path to this sysytem file
+   */
+  public void uploadProductImage(Long productId, MultipartFile file) {
+    Product product = productRepository.findById(productId)
+        .orElseThrow(() -> new ResourceNotFoundException("product"));
+    String productImageFilePath = fileStorageService.saveFile(file);
+    product.setImageUrl(productImageFilePath);
+    productRepository.save(product);
 
-        // Log ID sau khi map
-        System.out.println("After mapping: " + product.getProductId());
-
-        Product updatedProduct = productRepository.save(product);
-
-        return modelMapper.map(updatedProduct, AdminProductResponse.class);
-    }
-
-
-    // Xoá sản phẩm
-    @Transactional
-    public AdminProductResponse deleteProduct(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
-
-        productRepository.delete(product);
-        return modelMapper.map(product, AdminProductResponse.class); // Trả về thông tin sản phẩm đã xoá
-    }
+  }
 }

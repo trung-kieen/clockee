@@ -71,4 +71,14 @@ export class AuthControllerService {
             },
         });
     }
+    /**
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static currentUserDetail(): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/auth/me',
+        });
+    }
 }

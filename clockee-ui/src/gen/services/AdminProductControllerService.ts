@@ -95,4 +95,29 @@ export class AdminProductControllerService {
             mediaType: 'application/json',
         });
     }
+    /**
+     * @param productId
+     * @param formData
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static uploadProductImage(
+        productId: number,
+        formData?: {
+            /**
+             * Image file to upload
+             */
+            file: Blob;
+        },
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/admin/products/image/{productId}',
+            path: {
+                'productId': productId,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
+        });
+    }
 }

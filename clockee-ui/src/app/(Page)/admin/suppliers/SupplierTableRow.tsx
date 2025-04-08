@@ -3,7 +3,7 @@ import { AdminSupplierControllerService, SupplierDTO } from "@/gen";
 import React, { useState } from "react"
 import { toast } from "react-toastify";
 import EditSupplierModal from "./EditSupplierModal";
-const SupplierItem = ({ item, refreshCallBack }: { item: SupplierDTO, refreshCallBack: () => void }) => {
+const SupplierTableRow = ({ item, refreshCallBack }: { item: SupplierDTO, refreshCallBack: () => void }) => {
 
   const handleDelete = async () => {
     if (!item.supplierId) {
@@ -55,4 +55,4 @@ const SupplierItem = ({ item, refreshCallBack }: { item: SupplierDTO, refreshCal
   )
 
 }
-export default SupplierItem;
+export default SupplierTableRow;

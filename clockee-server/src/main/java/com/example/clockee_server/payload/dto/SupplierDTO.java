@@ -1,4 +1,4 @@
-package com.example.clockee_server.dto;
+package com.example.clockee_server.payload.dto;
 
 
 import lombok.*;

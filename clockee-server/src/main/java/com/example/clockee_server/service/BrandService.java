@@ -1,7 +1,7 @@
 package com.example.clockee_server.service;
 
-import com.example.clockee_server.dto.BrandDTO;
 import com.example.clockee_server.entity.Brand;
+import com.example.clockee_server.payload.dto.BrandDTO;
 import com.example.clockee_server.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
 

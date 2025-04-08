@@ -75,7 +75,7 @@ export const AdminSideBar = () => {
       >
         <div className="text-gray-950 text-xl">
           <div className="p-2.5 mt-1 flex items-center">
-            <Link href={"/login"}>
+            <Link href={"/"}>
               <Brand />
             </Link>
           </div>

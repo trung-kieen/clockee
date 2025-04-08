@@ -4,10 +4,12 @@ import PaginationControls from "@/app/components/common/PaginationController"
 import { AdminSupplierControllerService, PageSupplierDTO } from "@/gen";
 import { useSearchParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
-import Subtitle from "@/app/components/typography/SubTitle";
 import { mockPageResponseInfo } from "./mock-supplier";
-import SupplierItem from "./SupplierItem";
 import CreateSupplierModal from "./CreateSupplierModal";
+import AdminMainCard from "@/app/components/card/AdminCard";
+import Link from "next/link";
+import PrimaryButton from "@/app/components/button/Button";
+import SupplierTableRow from "./SupplierTableRow";
 
 
 
@@ -79,7 +81,7 @@ export default function SupplierAdminPage() {
               <tbody>
                 {
                   pageInfo.content.map((entry) => {
-                    return <SupplierItem
+                    return <SupplierTableRow
                       key={entry.supplierId}
                       item={entry}
                       refreshCallBack={fetchSuppliers} />
@@ -96,46 +98,44 @@ export default function SupplierAdminPage() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100  p-4">
-      <div className="bg-white w-full max-w-7xl min-h-[80vh] shadow-lg rounded-lg p-8">
-
-        <Subtitle styleClass={""}>Nhà cung cấp</Subtitle>
-        <div className="flex justify-between items-center mb-6">
-          <button onClick={() => setIsAddModalOpen(true)} className="bg-primary  text-white px-4 py-2 rounded-lg flex items-center ml-3  shadow">
+    <AdminMainCard title="Nhà cung cấp">
+      <div className="flex justify-between items-center mb-6">
+        <div onClick={() => setIsAddModalOpen(true)}>
+          <PrimaryButton>
             <i className="fa fa-add"></i>
             <span>&nbsp;Thêm mới</span>
-          </button>
+          </PrimaryButton>
         </div>
+      </div>
 
 
-        <div className='flex flex-col gap-2 items-center'>
+      <div className='flex flex-col gap-2 items-center'>
 
-          {/*
+        {/*
       * Add new supplier button
       */}
-          <CreateSupplierModal
-            isOpen={isAddModalOpen}
-            onClose={() => setIsAddModalOpen(false)}
-            refreshCallBack={fetchSuppliers} />
+        <CreateSupplierModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          refreshCallBack={fetchSuppliers} />
 
-          {/*
+        {/*
        * Display list of brand
        */}
-          {dataEntries()}
+        {dataEntries()}
 
-          {/*
+        {/*
        * Pagination controller
        */}
-          {pageInfo && pageInfo.content && <PaginationControls
-            isLast={page >= Number(pageInfo.totalPages)}
-            isFirst={page == 1}
-            pageNumber={page}
-            setPage={(page: number) => { setPage(page) }}
-          />}
-
-        </div>
+        {pageInfo && pageInfo.content && <PaginationControls
+          isLast={page >= Number(pageInfo.totalPages)}
+          isFirst={page == 1}
+          pageNumber={page}
+          setPage={(page: number) => { setPage(page) }}
+        />}
 
       </div>
-    </div>
+
+    </AdminMainCard>
   )
 }

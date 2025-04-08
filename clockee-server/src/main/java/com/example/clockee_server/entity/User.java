@@ -73,7 +73,7 @@ public class User implements UserDetails {
   private Boolean isDeleted;
 
   // Opposite side
-  @OneToOne(mappedBy = "user")
+  @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
   private VerificationCode verificationCode;
 
 

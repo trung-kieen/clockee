@@ -3,9 +3,9 @@ import { disableReturnOrder, enableCancelOrder, orderStatusDescription } from "@
 import { OrderSummary } from "@/models/common/Order";
 import { ProductItemSummary } from "@/models/common/Order";
 import React, { useState } from "react";
-import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import { OrderStatus } from "@/gen/backend";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
+import ProductThumbnail from "@/app/components/product/ProductThumbnail";
 
 
 
@@ -19,12 +19,12 @@ const mockOrders: OrderSummary[] = [
       {
         productId: 1,
         name: "Casio Nam AE-1200WHD-1AVDF",
-        image_url: "https://www.watchstore.vn/images/products/2024/resized/op990-45adgs-gl-t-1-1131812509-1619214585-1712491626.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/2024/resized/op990-45adgs-gl-t-1-1131812509-1619214585-1712491626.webp"
       },
       {
         productId: 2,
         name: "Casio MTP Nam MTP-1374L-1AVDF",
-        image_url: "https://www.watchstore.vn/images/products/2024/resized/ra-aa0b05r19b-1-1656995523580-1712492091.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/2024/resized/ra-aa0b05r19b-1-1656995523580-1712492091.webp"
       }
     ],
     address: "123 Main St, Cityville, CA 90210"
@@ -37,7 +37,7 @@ const mockOrders: OrderSummary[] = [
       {
         productId: 3,
         name: "Orient SK Nam RA-AA0B02R39B",
-        image_url: "https://www.watchstore.vn/images/products/2024/resized/1-khung-sp-1929946388-952124312-1712483020.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/2024/resized/1-khung-sp-1929946388-952124312-1712483020.webp"
       }
     ],
     address: "456 Oak Dr, Townsville, NY 10001"
@@ -50,12 +50,12 @@ const mockOrders: OrderSummary[] = [
       {
         productId: 4,
         name: "Olym Pianus Nam OP990-45ADGS-GL-D",
-        image_url: "https://www.watchstore.vn/images/products/others/2024/large/op990-45adgs-gl-d-1-1655171724651-1712585288.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/others/2024/large/op990-45adgs-gl-d-1-1655171724651-1712585288.webp"
       },
       {
         productId: 5,
         name: "Đồng hồ Cơ Orient Nam",
-        image_url: "https://www.watchstore.vn/images/products/2024/resized/ra-ar0004s10b-1756195028-1760240517-1712485752.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/2024/resized/ra-ar0004s10b-1756195028-1760240517-1712485752.webp"
       }
     ],
     address: "789 Pine Rd, Villageton, TX 73301"
@@ -68,12 +68,12 @@ const mockOrders: OrderSummary[] = [
       {
         productId: 4,
         name: "Olym Pianus Nam OP990-45ADGS-GL-D",
-        image_url: "https://www.watchstore.vn/images/products/others/2024/large/op990-45adgs-gl-d-1-1655171724651-1712585288.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/others/2024/large/op990-45adgs-gl-d-1-1655171724651-1712585288.webp"
       },
       {
         productId: 3,
         name: "Orient SK Nam RA-AA0B02R39B",
-        image_url: "https://www.watchstore.vn/images/products/2024/resized/1-khung-sp-1929946388-952124312-1712483020.webp"
+        imageUrl: "https://www.watchstore.vn/images/products/2024/resized/1-khung-sp-1929946388-952124312-1712483020.webp"
       }
     ],
     address: "789 Rose Rd, MCat, TX 73301"
@@ -157,20 +157,13 @@ const OrderTab: React.FC<{ orders: OrderSummary[] }> = ({ orders }) => {
   )
 
 }
-const ProductItem: React.FC<{ product: ProductItemSummary }> = ({ product }) => {
+const ProductItem = ({ product }: { product: ProductItemSummary }) => {
 
   return (
     <>
       <div className="flex items-center">
 
-        <div className="avatar">
-          {/* Thumbnail */}
-          <div className="mask mask-squircle h-12 w-12">
-            <img
-              src={product.image_url}
-              alt="" />
-          </div>
-        </div>
+        <ProductThumbnail imageUrl={product.imageUrl} />
         <div>
           <div>{product.name}</div>
         </div>
@@ -180,16 +173,10 @@ const ProductItem: React.FC<{ product: ProductItemSummary }> = ({ product }) => 
   )
 
 }
-const OrderRow: React.FC<{ order: OrderSummary }> = ({ order }) => {
+const OrderRow = ({ order }: { order: OrderSummary }) => {
   const [isOpen, setOpen] = useState(false);
-
-
   const closeModal = () => setOpen(false);
   const openModal = () => setOpen(true);
-
-
-  // const openModal = () => modalRef.current.showModal();
-  // const closeModal = () => modalRef.current.close();
 
   const handleConfirm = () => {
     console.log("Action Confirmed!");

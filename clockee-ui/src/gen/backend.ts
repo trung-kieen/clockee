@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-03-31 18:30:04.
+// Generated using typescript-generator version 3.2.1263 on 2025-04-07 21:43:06.
 
 export interface Brand {
     brandId: number;
@@ -95,12 +95,12 @@ export interface GrantedAuthority extends Serializable {
 
 export interface UserDetails extends Serializable {
     enabled: boolean;
+    username: string;
+    password: string;
+    authorities: GrantedAuthority[];
     accountNonExpired: boolean;
     accountNonLocked: boolean;
     credentialsNonExpired: boolean;
-    authorities: GrantedAuthority[];
-    username: string;
-    password: string;
 }
 
 export interface Serializable {

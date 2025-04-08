@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type BrandDTO = {
-    brandId?: number;
-    name: string;
+export type CartItemDTO = {
+    quantity?: number;
+    productId?: number;
 };
 

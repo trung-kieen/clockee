@@ -32,7 +32,6 @@ const HttpClient = () => {
     }
   })
   instance.interceptors.request.use(async (request) => {
-    // const token = localStorage.getItem('token');
     const token = AuthManager.getAccessToken()
     if (token) {
       request.headers.Authorization = `Bearer ${token}`;

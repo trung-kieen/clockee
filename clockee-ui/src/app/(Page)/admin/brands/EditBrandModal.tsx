@@ -16,7 +16,9 @@ const EditBrandModal = ({ isOpen, onClose, refreshCallBack, model }: {
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<BrandDTO>()
+  } = useForm<BrandDTO>({
+    defaultValues: model,
+  })
   const onSubmit: SubmitHandler<BrandDTO> = async (data) => {
     if (!model.brandId) {
       // TODO: error mesgage
@@ -43,7 +45,7 @@ const EditBrandModal = ({ isOpen, onClose, refreshCallBack, model }: {
             <h1 className="font-bold text-lg">Chỉnh sửa nhãn hàng</h1>
 
             <label className="fieldset-label">Tên</label>
-            <input defaultValue={model.name} autoFocus={true} className="input validator"
+            <input autoFocus={true} className="input validator"
               {...register("name", { required: "Tên không được trống" })}
             />
 
@@ -66,7 +68,6 @@ const EditBrandModal = ({ isOpen, onClose, refreshCallBack, model }: {
             <button type="submit" className="btn" onClick={onClose}>Hủy</button>
           </div>
         </div>
-item
       </form>
     </ClockeeModal>
   );

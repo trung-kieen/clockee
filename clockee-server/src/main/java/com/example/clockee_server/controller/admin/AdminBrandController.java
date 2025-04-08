@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.clockee_server.dto.BrandDTO;
+import com.example.clockee_server.payload.dto.BrandDTO;
 import com.example.clockee_server.service.BrandService;
 
 import jakarta.validation.Valid;
