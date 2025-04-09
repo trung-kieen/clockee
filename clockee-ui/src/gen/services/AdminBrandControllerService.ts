@@ -47,12 +47,14 @@ export class AdminBrandControllerService {
     /**
      * @param page
      * @param size
+     * @param name
      * @returns PageBrandDTO OK
      * @throws ApiError
      */
     public static getAllBrands(
         page?: number,
         size: number = 10,
+        name: string = '',
     ): CancelablePromise<PageBrandDTO> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -60,6 +62,7 @@ export class AdminBrandControllerService {
             query: {
                 'page': page,
                 'size': size,
+                'name': name,
             },
         });
     }

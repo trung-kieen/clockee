@@ -3,12 +3,16 @@ package com.example.clockee_server.service;
 import com.example.clockee_server.entity.Brand;
 import com.example.clockee_server.payload.dto.BrandDTO;
 import com.example.clockee_server.repository.BrandRepository;
+import com.example.clockee_server.specification.BrandSpecification;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,9 +23,11 @@ public class BrandService {
   @Autowired
   private BrandRepository brandRepository;
 
-  public Page<BrandDTO> getAllBrands(int page, int size) {
+  public Page<BrandDTO> getAllBrands(int page, int size,@NotNull String name) {
+    Specification<Brand> specification = BrandSpecification.searchByName(name).and(BrandSpecification.isDeleted());
+
     Pageable pageable = PageRequest.of(page, size);
-    return brandRepository.findByIsDeletedFalse(pageable).map(
+    return brandRepository.findAll(specification, pageable).map(
         brand -> new BrandDTO(brand.getBrandId(), brand.getName()));
   }
 

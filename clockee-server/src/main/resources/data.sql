@@ -67,9 +67,9 @@ INSERT INTO roles_users (user_id, role_id) VALUES
 (2, 2);
 
 -- Insert into Product
-INSERT INTO products (name, description, image_url, actual_price, sell_price, type, stock, brand_id, is_active, visible) VALUES
-('Rolex Submariner', 'Luxury diving watch', 'rolex.jpg', 10000, 9500, 'Luxury', 10, 1, 1, 1),
-('Omega Speedmaster', 'Moonwatch series', 'omega.jpg', 8000, 7500, 'Luxury', 5, 2, 1, 1);
+INSERT INTO [products] (name, description, image_url, actual_price, sell_price, type, stock, brand_id, is_active, visible, is_deleted) VALUES
+('Rolex Submariner', 'Luxury diving watch', 'rolex.jpg', 10000, 9500, 'Luxury', 10, 1, 1, 1, 0),
+('Omega Speedmaster', 'Moonwatch series', 'omega.jpg', 8000, 7500, 'Luxury', 5, 2, 1, 1, 0);
 
 -- Insert into CartItem
 INSERT INTO cart_items (product_id, user_id, quantity) VALUES

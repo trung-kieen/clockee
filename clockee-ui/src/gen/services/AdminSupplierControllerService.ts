@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Pageable } from '../models/Pageable';
 import type { PageSupplierDTO } from '../models/PageSupplierDTO';
 import type { SupplierDTO } from '../models/SupplierDTO';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -46,18 +45,24 @@ export class AdminSupplierControllerService {
         });
     }
     /**
-     * @param pageable
+     * @param page
+     * @param size
+     * @param name
      * @returns PageSupplierDTO OK
      * @throws ApiError
      */
     public static getAllSuppliers(
-        pageable: Pageable,
+        page?: number,
+        size: number = 10,
+        name: string = '',
     ): CancelablePromise<PageSupplierDTO> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/admin/suppliers',
             query: {
-                'pageable': pageable,
+                'page': page,
+                'size': size,
+                'name': name,
             },
         });
     }

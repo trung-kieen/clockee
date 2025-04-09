@@ -49,6 +49,9 @@ public class Product {
   private Boolean isActive;
   private Boolean visible;
 
+  @Column(name = "is_deleted")
+  private Boolean isDeleted = false;
+
   // @Version
   // private Long version;
 

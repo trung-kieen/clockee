@@ -14,20 +14,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.payload.request.AdminProductRequest;
 import com.example.clockee_server.payload.response.AdminProductResponse;
 import com.example.clockee_server.service.AdminProductService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import jakarta.validation.Valid;
 
 @RestController
@@ -44,23 +40,15 @@ public class AdminProductController {
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  // // Lấy danh sách sản phẩm có phân trang
-  // @GetMapping
-  // public ResponseEntity<List<AdminProductResponse>> getAllProduct(
-  // @RequestParam(defaultValue = "0") int page,
-  // @RequestParam(defaultValue = "5") int size) {
-  // List<AdminProductResponse> productList =
-  // adminProductService.getAllProducts(page, size);
-  // return ResponseEntity.ok(productList);
-  // }
 
   // Controller - Lấy danh sách sản phẩm có phân trang
   @GetMapping
   public ResponseEntity<Page<AdminProductResponse>> getAllProducts(
-      @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "5") int size) {
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size,
+      @RequestParam(value = "name", defaultValue = "") String name) {
 
-    Page<AdminProductResponse> products = adminProductService.getAllProducts(page, size);
+    Page<AdminProductResponse> products = adminProductService.getAllProducts(page, size, name );
 
     return ResponseEntity.ok(products);
   }

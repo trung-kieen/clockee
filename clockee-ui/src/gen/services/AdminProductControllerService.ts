@@ -64,12 +64,14 @@ export class AdminProductControllerService {
     /**
      * @param page
      * @param size
+     * @param name
      * @returns PageAdminProductResponse OK
      * @throws ApiError
      */
     public static getAllProducts(
         page?: number,
-        size: number = 5,
+        size: number = 10,
+        name: string = '',
     ): CancelablePromise<PageAdminProductResponse> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -77,6 +79,7 @@ export class AdminProductControllerService {
             query: {
                 'page': page,
                 'size': size,
+                'name': name,
             },
         });
     }

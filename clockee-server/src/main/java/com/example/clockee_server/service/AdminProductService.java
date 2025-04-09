@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,7 @@ import com.example.clockee_server.payload.request.AdminProductRequest;
 import com.example.clockee_server.payload.response.AdminProductResponse;
 import com.example.clockee_server.repository.BrandRepository;
 import com.example.clockee_server.repository.ProductRepository;
+import com.example.clockee_server.specification.ProductSpecification;
 
 import jakarta.transaction.Transactional;
 
@@ -59,19 +61,14 @@ public class AdminProductService {
     return productMapper.productToAdminResponse(savedProduct);
   }
 
-  // // Lấy danh sách sản phẩm có phân trang
-  // public List<AdminProductResponse> getAllProducts(int page, int size) {
-  // Page<Product> products = productRepository.findAll(PageRequest.of(page,
-  // size));
-  // return products.stream()
-  // .map(product -> modelMapper.map(product, AdminProductResponse.class))
-  // .collect(Collectors.toList());
-  // }
-
   // Lấy danh sách sản phẩm có phân trang
-  public Page<AdminProductResponse> getAllProducts(int page, int size) {
+  public Page<AdminProductResponse> getAllProducts(int page, int size, String name) {
+    Specification<Product> specification = ProductSpecification.searchByName(name).and(ProductSpecification.isDeleted());
+    // Specification<Product> specification = ProductSpecification.searchByName(name);
+
     Pageable pageable = PageRequest.of(page, size);
-    Page<Product> products = productRepository.findAll(pageable);
+
+    Page<Product> products = productRepository.findAll(specification, pageable);
 
     if (products.isEmpty()) {
       return Page.empty();
@@ -106,7 +103,8 @@ public class AdminProductService {
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Product not found!"));
 
-    productRepository.delete(product);
+    product.setIsDeleted(true);
+    productRepository.save(product);
     return productMapper.productToAdminResponse(product);
   }
 

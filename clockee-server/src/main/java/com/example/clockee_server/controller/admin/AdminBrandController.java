@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.payload.dto.BrandDTO;
 import com.example.clockee_server.service.BrandService;
 
@@ -26,9 +27,10 @@ public class AdminBrandController {
 
   @GetMapping
   public ResponseEntity<Page<BrandDTO>> getAllBrands(
-      @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int size) {
-    return ResponseEntity.ok(brandService.getAllBrands(page, size));
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size,
+      @RequestParam(value = "name", defaultValue = "") String name) {
+    return ResponseEntity.ok(brandService.getAllBrands(page, size, name));
   }
 
   @PostMapping
@@ -37,7 +39,7 @@ public class AdminBrandController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<BrandDTO> updateBrand(@PathVariable Long id,@Valid @RequestBody BrandDTO dto) {
+  public ResponseEntity<BrandDTO> updateBrand(@PathVariable Long id, @Valid @RequestBody BrandDTO dto) {
     BrandDTO brandDTO = brandService.updateBrand(id, dto);
     return brandDTO != null ? ResponseEntity.ok(brandDTO) : ResponseEntity.notFound().build();
   }

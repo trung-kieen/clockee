@@ -16,7 +16,6 @@ export type { CartItemDTO } from './models/CartItemDTO';
 export type { CreateUserRequest } from './models/CreateUserRequest';
 export type { JwtTokenResponse } from './models/JwtTokenResponse';
 export type { LoginRequest } from './models/LoginRequest';
-export type { Pageable } from './models/Pageable';
 export type { PageableObject } from './models/PageableObject';
 export type { PageAdminProductResponse } from './models/PageAdminProductResponse';
 export type { PageBrandDTO } from './models/PageBrandDTO';
