@@ -37,8 +37,7 @@ public class Product {
   @Column(length = 50)
   private String type;
 
-  // TODO: Duong - default = 0
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
   private Long stock;
 
   @ManyToOne
