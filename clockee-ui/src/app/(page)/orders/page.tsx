@@ -3,9 +3,9 @@ import { disableReturnOrder, enableCancelOrder, orderStatusDescription } from "@
 import { OrderSummary } from "@/models/common/Order";
 import { ProductItemSummary } from "@/models/common/Order";
 import React, { useState } from "react";
-import { OrderStatus } from "@/gen/backend";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import ProductThumbnail from "@/app/components/product/ProductThumbnail";
+import { OrderStatus } from "@/enum/OrderStatus";
 
 
 

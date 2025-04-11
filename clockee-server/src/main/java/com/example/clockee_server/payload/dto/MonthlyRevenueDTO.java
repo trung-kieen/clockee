@@ -1,4 +1,4 @@
-package com.example.clockee_server.dto;
+package com.example.clockee_server.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MonthlyRevenueDTO {
-    private Integer year;
-    private Integer month;
-    private Double revenue;
+  private Integer year;
+  private Integer month;
+  private Double revenue;
 }

@@ -1,6 +1,12 @@
 package com.example.clockee_server.payload.response;
 
-import lombok.*;
+import com.example.clockee_server.payload.dto.BrandDTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -15,7 +21,7 @@ public class AdminProductResponse {
   private Double sellPrice;
   private String type;
   private Long stock;
-  private String brandName;
+  private BrandDTO brand;
   private Boolean isActive;
   private Boolean visible;
   private byte[] image;

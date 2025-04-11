@@ -25,15 +25,4 @@ public class ProductMapper {
     return dto;
   }
 
-  /*
-   * Update product information base in request
-   * Ignore product id
-   */
-  public void mapToExistsProduct(AdminProductRequest dto, Product entity) {
-    mapper.typeMap(AdminProductRequest.class, Product.class)
-        .addMappings(mapper -> mapper.skip(Product::setProductId))
-        .map(dto, entity);
-
-  }
-
 }

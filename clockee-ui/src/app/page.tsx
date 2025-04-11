@@ -1,5 +1,4 @@
 "use client"
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -23,14 +22,14 @@ const products: Product[] = [
   { id: 6, title: "Casio ProTrek", description: "PRG-240-1DR - Nam - Quartz (Pin)", price: "4.800.000 đ" },
 ];
 
-const MenuItem: React.FC<{ product: Product }> = ({ product }) => {
+const MenuItem = ({ product }: MenuItemProps) => {
   return (
     <Link href={`/user/product/${product.id}`} passHref>
       <div className="card bg-base-100 w-50 shadow-sm cursor-pointer transition-transform hover:scale-105">
         <figure>
           <img src="/product1.png" alt={product.title} />
         </figure>
-        <div className="card-body flex items-center justify-center text-center">  
+        <div className="card-body flex items-center justify-center text-center">
           <b>{product.title}</b>
           <p>{product.description}</p>
           <h2 className="card-title">{product.price}</h2>
@@ -74,7 +73,7 @@ export default function HomePage() {
       <img src="/carosel.png" width={700} height={500} className="w-full" alt="calrosel" />
       <div className='flex justify-center'>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
-        {products.map((product) => (
+          {products.map((product) => (
             <MenuItem key={product.id} product={product} />
           ))}
         </div>

@@ -22,7 +22,6 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @Log4j2
 public class FileStorageServiceImpl implements FileStorageService {
-  // TODO:
 
   private final ApplicationProperties applicationProperties;
 
@@ -80,8 +79,8 @@ public class FileStorageServiceImpl implements FileStorageService {
       return null;
     }
 
-    Path filePath = new File(fileUrl).toPath();
     try {
+      Path filePath = new File(fileUrl).toPath();
       return Files.readAllBytes(filePath);
 
     } catch (IOException e) {

@@ -1,5 +1,7 @@
 package com.example.clockee_server.service;
 
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,8 +65,10 @@ public class AdminProductService {
 
   // Lấy danh sách sản phẩm có phân trang
   public Page<AdminProductResponse> getAllProducts(int page, int size, String name) {
-    Specification<Product> specification = ProductSpecification.searchByName(name).and(ProductSpecification.isDeleted());
-    // Specification<Product> specification = ProductSpecification.searchByName(name);
+    Specification<Product> specification = ProductSpecification.searchByName(name)
+        .and(ProductSpecification.isDeleted());
+    // Specification<Product> specification =
+    // ProductSpecification.searchByName(name);
 
     Pageable pageable = PageRequest.of(page, size);
 
@@ -90,7 +94,19 @@ public class AdminProductService {
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Product does not exist!"));
 
-    productMapper.mapToExistsProduct(request, product);
+    Optional<Brand> brand = brandRepository.findById(request.getBrandId());
+    if (brand.isPresent()) {
+      product.setBrand(brand.get());
+    }
+
+    product.setName(request.getName());
+    product.setDescription(request.getDescription());
+    product.setActualPrice(request.getActualPrice());
+    product.setSellPrice(request.getSellPrice());
+    product.setType(request.getType());
+    product.setIsActive(request.isActive());
+    product.setVisible(request.isVisible());
+
 
     Product updatedProduct = productRepository.save(product);
 

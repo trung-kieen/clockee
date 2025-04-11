@@ -30,6 +30,10 @@ public class CartService {
   private final CartRepository cartRepository;
   private final CartMapper cartMapper;
 
+  /*
+   * Create new cart item,
+   * Increase cart item quantity if exists in cart
+   */
   @Transactional
   public CartItem addProduct(CartItemDTO item, User user) {
     Product product = getOrThrowProduct(item.getProductId());
@@ -84,7 +88,7 @@ public class CartService {
   }
 
   /*
-   * Update quantity of item in cart
+   * Update quantity of item in cart, instead of increase
    */
   @Transactional
   public CartItem updateItem(CartItemDTO item, User user) {

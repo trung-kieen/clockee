@@ -1,13 +1,18 @@
 import React, { ReactNode } from 'react';
 
 type ThumbnailProps = {
-  children: ReactNode
+  children: ReactNode,
+  className?: string
 };
 
-const Thumbnail = ({ children }: ThumbnailProps) => {
+export const Thumbnail = (
+  {
+    className = "w-20 h-20",
+    children,
+  }: ThumbnailProps) => {
   return (
     <div className="avatar">
-      <div className="mask mask-squircle h-12 w-12">
+      <div className={`mask mask-squircle ${className}`}>
         {children}
       </div>
     </div>

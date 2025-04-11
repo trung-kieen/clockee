@@ -1,9 +1,10 @@
 "use client";
+import Base64Image from "@/app/components/common/Base64Image";
 import ErrorText from "@/app/components/typography/ErrorText";
-import { AdminBrandControllerService, AdminProductControllerService, AdminProductRequest } from "@/gen";
+import { AdminBrandControllerService, AdminProductControllerService, AdminProductRequest, AdminProductResponse } from "@/gen";
 import { ProductService } from "@/service/ProductService";
 import { mapApiErrorsToForm } from "@/utils/form";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Controller, ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import Select, { SingleValue } from 'react-select';
 import { toast } from "react-toastify";
@@ -18,20 +19,27 @@ type CreateProductWithImage = AdminProductRequest & {
 }
 
 
-const CreateProductForm = () => {
+const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
   const [brandOptions, setBrandOptions] = useState<Array<SelectOption>>([]);
   const [brandQuery, setBrandQuery] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
 
   const {
     register,
     control,
-    reset,
     setFocus,
     getValues,
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateProductWithImage>();
+  } = useForm<CreateProductWithImage>(
+    {
+      defaultValues: {
+        ...model as AdminProductRequest,
+        brandId: model.brand?.brandId
+      }
+    }
+  );
 
   const fetchBrands = async (query: string) => {
     try {
@@ -56,23 +64,28 @@ const CreateProductForm = () => {
 
   const onSubmit: SubmitHandler<CreateProductWithImage> = async (data: CreateProductWithImage) => {
     console.log(data);
+    if (!model.productId) {
+      return;
+    }
     try {
       // Create product with data content
       const productNoImg = data as AdminProductRequest;
-      const savedProduct = await AdminProductControllerService.createProduct(productNoImg);
+      const savedProduct = await AdminProductControllerService.updateProduct(model.productId, productNoImg);
       if (!savedProduct.productId) {
-        toast("UNABLE_ADD_PRODUCT");
+        toast("UNABLE_UPDATE_PRODUCT");
         return;
       }
 
-      await ProductService.uploadProductImage(savedProduct.productId, {
-        file: data.image[0]
-      })
+      if (data.image[0]) {
+        await ProductService.uploadProductImage(savedProduct.productId, {
+          file: data.image[0]
+        })
+      }
 
       // TODO: Partial update image for created project
-      toast("Thêm thành công");
+      toast("Cập nhập thành công");
       setFocus("name");
-      reset();
+      // TODO: check this logic
     } catch (e) {
       mapApiErrorsToForm(e, setError);
     }
@@ -80,6 +93,23 @@ const CreateProductForm = () => {
 
 
 
+
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
+    if (!event.target.files || !event.target.files[0]) {
+      return
+    }
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          setSelectedFile(reader.result as string);
+        }
+      }
+      reader.readAsDataURL(file);
+
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -156,6 +186,20 @@ const CreateProductForm = () => {
           />
         </div>
 
+
+        <div>
+          <label className="label">
+            <span className="label-text">Số lượng</span>
+          </label>
+          <input
+            type="number"
+            className="input input-bordered w-full"
+            defaultValue={model.stock}
+            disabled
+          />
+        </div>
+
+
         <div>
           <label className="label">
             <span className="label-text">Nhãn hiệu</span>
@@ -186,6 +230,12 @@ const CreateProductForm = () => {
                   onInputChange={handleBrandQueryChange}
                   onChange={setInputValueAsSelectValue}
                   value={brandOptions.find((opt) => opt.value === field.value)}
+                  defaultValue={
+                    {
+                      value: model.brand?.brandId,
+                      label: model.brand?.name
+                    } as SelectOption
+                  }
                   placeholder="Chọn thương hiệu..."
                   // Fix hydration mismatch
                   instanceId="brand-select"
@@ -211,6 +261,28 @@ const CreateProductForm = () => {
         </div>
 
         <label className="fieldset-label">Ảnh minh họa</label>
+
+        { // Preview product image
+          selectedFile ? (
+            <div>
+              <img
+                src={selectedFile}
+                alt="Preview"
+                className="rounded-md"
+                width={400}
+                height={400}
+              />
+            </div>
+          ) : (
+            <div>
+              {
+                model.image && <Base64Image className="h-[400px] w-[400px]" data={model.image} />
+              }
+
+            </div>
+          )
+        }
+
         <input
           type="file"
           className="file-input w-full"
@@ -228,8 +300,13 @@ const CreateProductForm = () => {
                 return file.size < 2 * 1024 * 1024 || "Kích thước ảnh phải nhỏ hơn 2MB";
               },
             },
+            onChange: handleFileChange,
           })}
         />
+
+
+
+
 
 
         {/* Validation error message */}

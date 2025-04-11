@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-04-09 09:35:31.
+// Generated using typescript-generator version 3.2.1263 on 2025-04-10 09:34:27.
 
 export interface Brand {
     brandId: number;
@@ -23,6 +23,7 @@ export interface Order {
     phone: string;
     totalPrice: number;
     status: OrderStatus;
+    orderItems: OrderItem[];
 }
 
 export interface OrderItem {
@@ -96,12 +97,12 @@ export interface GrantedAuthority extends Serializable {
 
 export interface UserDetails extends Serializable {
     enabled: boolean;
-    authorities: GrantedAuthority[];
-    username: string;
-    password: string;
     accountNonExpired: boolean;
     accountNonLocked: boolean;
     credentialsNonExpired: boolean;
+    username: string;
+    password: string;
+    authorities: GrantedAuthority[];
 }
 
 export interface Serializable {

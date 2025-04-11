@@ -11,7 +11,7 @@ import PrimaryButton from "@/app/components/button/Button";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import { toast } from "react-toastify";
 import Thumbnail from "@/app/components/common/Thumbnail";
-import Base64Image from "@/app/components/common/Base64Image";
+import { ProductImage } from "@/app/components/common/Base64Image";
 
 
 
@@ -80,13 +80,13 @@ export default function ProductAdminPage() {
               {/* head */}
               <thead>
                 <tr>
-                  <th >productId</th>
-                  <th >preview</th>
-                  <th >name</th>
-                  <th >actualPrice</th>
-                  <th >sellPrice</th>
-                  <th >type</th>
-                  <th >brandName</th>
+                  <th>ID sản phẩm</th>
+                  <th>Hình ảnh</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Giá gốc</th>
+                  <th>Giá bán</th>
+                  <th>Loại</th>
+                  <th>Thương hiệu</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -188,8 +188,8 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
         {
 
           item.image && (
-            <Thumbnail >
-              <Base64Image data={item.image} />
+            <Thumbnail className="h-24 w-24" >
+              <ProductImage data={item.image} />
             </Thumbnail>
           )
         }
@@ -198,7 +198,7 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
       <td >{item.actualPrice}</td>
       <td >{item.sellPrice}</td>
       <td >{item.type}</td>
-      <td >{item.brandName}</td>
+      <td >{item.brand?.name}</td>
       <td className="hover:bg-gray-200">
         <Link href={`/admin/products/${item.productId}/edit`}>
           {/* Action edit */}

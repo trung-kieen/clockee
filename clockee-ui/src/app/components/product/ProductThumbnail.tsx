@@ -8,7 +8,7 @@ type ProductThumbnailProps = {
 
 const ProductThumbnail = ({ imageUrl, alt = '' }: ProductThumbnailProps) => {
   return (
-    <Thumbnail >
+    <Thumbnail>
       <img src={imageUrl} alt={alt} />
     </Thumbnail>
   );

@@ -3,7 +3,7 @@
  * https://github.com/fkhadra/react-toastify/issues/963
  */
 "use client";
-import { ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -16,7 +16,19 @@ export default function ToastProvider({ children }: ToastProviderProps) {
     <>
       {children}
 
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   );
 }
