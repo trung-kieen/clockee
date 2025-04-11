@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 public class CartItemDTO {
   @Min(value = 0, message = "So luong khong duoc am")
   private Long quantity;
+
   private Long productId;
 }

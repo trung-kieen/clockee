@@ -1,6 +1,5 @@
-
 export interface SidebarItem {
-  title: string,
+  title: string;
   href: string;
   subItems: Array<SidebarItem>;
 }

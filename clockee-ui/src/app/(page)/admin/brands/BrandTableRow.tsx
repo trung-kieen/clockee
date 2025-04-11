@@ -1,14 +1,12 @@
-
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import { AdminBrandControllerService, BrandDTO } from "@/gen";
-import React, { useState } from "react"
+import React, { useState } from "react";
 import EditBrandModal from "./EditBrandModal";
 import { toast } from "react-toastify";
 
-type BrandRowProps = { item: BrandDTO, refreshCallBack: () => void };
+type BrandRowProps = { item: BrandDTO; refreshCallBack: () => void };
 
 const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
-
   const handleDelete = async () => {
     if (!item.brandId) {
       return;
@@ -21,20 +19,19 @@ const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
     } catch (e) {
       toast(e as string);
     }
-
-  }
+  };
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   const [isEditModal, setIsEditModal] = useState(false);
 
   return (
-    <tr >
-
+    <tr>
       <EditBrandModal
         isOpen={isEditModal}
         onClose={() => setIsEditModal(false)}
         refreshCallBack={refreshCallBack}
-        model={item} />
+        model={item}
+      />
       <ConfirmModal
         isOpen={isOpenConfirmModal}
         onClose={() => setIsOpenConfirmModal(false)}
@@ -42,18 +39,20 @@ const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
         title={"Xác nhận"}
         content={"Bạn có muốn xóa nhãn hàng này?"}
       />
-      <td >{item.brandId}</td>
-      <td >{item.name}</td>
+      <td>{item.brandId}</td>
+      <td>{item.name}</td>
       <td onClick={() => setIsEditModal(true)} className="hover:bg-gray-200">
         {/* Action edit */}
         <i className="fa fa-edit"></i>
       </td>
-      <td onClick={() => setIsOpenConfirmModal(true)} className="hover:bg-gray-200">
+      <td
+        onClick={() => setIsOpenConfirmModal(true)}
+        className="hover:bg-gray-200"
+      >
         {/* Action delete */}
         <i className="fa fa-trash"></i>
       </td>
     </tr>
-  )
-
-}
+  );
+};
 export default BrandTableRow;

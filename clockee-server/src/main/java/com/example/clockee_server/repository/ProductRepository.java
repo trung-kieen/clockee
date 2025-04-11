@@ -1,7 +1,7 @@
 package com.example.clockee_server.repository;
 
+import com.example.clockee_server.entity.Product;
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -10,19 +10,16 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.clockee_server.entity.Product;
-
-
-
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> { // để kiểu của khóa chính là Long
-    List<Product> findAllByOrderByStockDesc(); // Sắp xếp tồn kho giảm dần
-    List<Product> findAllByOrderByStockAsc();  // Sắp xếp tồn kho tăng dần
+public interface ProductRepository
+    extends JpaRepository<Product, Long>,
+        JpaSpecificationExecutor<Product> { // để kiểu của khóa chính là Long
+  List<Product> findAllByOrderByStockDesc(); // Sắp xếp tồn kho giảm dần
 
-    @Query("SELECT p FROM Product p WHERE p.isActive = TRUE")
-    Page<Product> getAllActiveProducts(Pageable pageable);
+  List<Product> findAllByOrderByStockAsc(); // Sắp xếp tồn kho tăng dần
 
+  @Query("SELECT p FROM Product p WHERE p.isActive = TRUE")
+  Page<Product> getAllActiveProducts(Pageable pageable);
 
-    Page<Product> findAll(Specification<Product> specification, Pageable pageable);
-
+  Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 }

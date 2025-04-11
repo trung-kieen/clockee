@@ -1,4 +1,3 @@
-
 // Mock data diplay with paginate when not run server
 export const mockPageResponseInfo = {
   content: [
@@ -33,11 +32,11 @@ export const mockPageResponseInfo = {
     sort: {
       sorted: false,
       unsorted: true,
-      empty: true
+      empty: true,
     },
     offset: 0,
     paged: true,
-    unpaged: false
+    unpaged: false,
   },
   totalElements: 2,
   totalPages: 1,
@@ -48,8 +47,8 @@ export const mockPageResponseInfo = {
   sort: {
     sorted: false,
     unsorted: true,
-    empty: true
+    empty: true,
   },
   numberOfElements: 2,
-  empty: false
-}
+  empty: false,
+};

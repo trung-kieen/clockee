@@ -14,6 +14,5 @@ import lombok.Setter;
 @Builder
 public class BrandDTO {
   private Long brandId;
-  @NotBlank
-  private String name;
+  @NotBlank private String name;
 }

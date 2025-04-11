@@ -1,14 +1,10 @@
 package com.example.clockee_server.file;
 
+import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.NonNull;
-
-/**
- * FilteStorageService
- */
+/** FilteStorageService */
 public interface FileStorageService {
-
 
   /**
    * @return byte[] stream of file data from upload path or return null if read file fail
@@ -20,5 +16,6 @@ public interface FileStorageService {
    * @return filePath if success else null
    */
   public String saveFile(@NonNull MultipartFile file);
+
   public String saveFile(@NonNull MultipartFile file, @NonNull String relativePath);
 }

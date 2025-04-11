@@ -1,10 +1,8 @@
-
 /**
  * Handle XSS attack to token via LocalStorage or SessionStorage
  * Use static class to storage global state
  */
 export class AuthManager {
-
   // Callback list to notify hook variable change
   static #listeners: Array<(t: string) => void> = [];
   static addListener(callbackFn: (newToken: string) => void) {
@@ -25,7 +23,6 @@ export class AuthManager {
   static getAccessToken() {
     return this.token;
   }
-
 
   static #notifyListeners() {
     this.#listeners.forEach((callback) => callback(this.token || ""));

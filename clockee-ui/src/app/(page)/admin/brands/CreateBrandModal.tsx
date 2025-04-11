@@ -3,47 +3,49 @@ import ErrorText from "@/app/components/typography/ErrorText";
 import { AdminBrandControllerService, BrandDTO } from "@/gen";
 import { mapApiErrorsToForm } from "@/utils/form";
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
-const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
-  isOpen: boolean,
-  onClose: () => void,
-  refreshCallBack: () => void,
+const CreateBrandModal = ({
+  isOpen,
+  onClose,
+  refreshCallBack,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  refreshCallBack: () => void;
 }) => {
   const {
     register,
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<BrandDTO>()
+  } = useForm<BrandDTO>();
   const onSubmit: SubmitHandler<BrandDTO> = async (data: BrandDTO) => {
-
     try {
       await AdminBrandControllerService.addBrand(data);
       onClose();
       refreshCallBack();
       toast("Thêm thành công");
-
     } catch (e) {
       mapApiErrorsToForm(e, setError);
     }
-  }
+  };
   return (
-    <ClockeeModal
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <form className="flex items-center justify-center flex-col " onSubmit={handleSubmit(onSubmit)}>
+    <ClockeeModal isOpen={isOpen} onClose={onClose}>
+      <form
+        className="flex items-center justify-center flex-col "
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div>
-
           <fieldset className="fieldset w-xs">
             <h1 className="font-bold text-lg">Thêm mới nhãn hàng</h1>
 
             <label className="fieldset-label">Tên</label>
-            <input autoFocus={true} className="input validator"
+            <input
+              autoFocus={true}
+              className="input validator"
               {...register("name", { required: "Tên không được trống" })}
             />
-
           </fieldset>
 
           {/* Validation error message */}
@@ -52,18 +54,22 @@ const CreateBrandModal = ({ isOpen, onClose, refreshCallBack }: {
               {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
               {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
             </div>
-
           </div>
 
           {/* Save & cancel button  */}
           <div className="modal-action">
-            <button className="btn bg-primary rounded-lg text-white" onClick={refreshCallBack} style={{ marginRight: "10px" }}>
+            <button
+              className="btn bg-primary rounded-lg text-white"
+              onClick={refreshCallBack}
+              style={{ marginRight: "10px" }}
+            >
               Lưu
             </button>
-            <button type="submit" className="btn" onClick={onClose}>Hủy</button>
+            <button type="submit" className="btn" onClick={onClose}>
+              Hủy
+            </button>
           </div>
         </div>
-
       </form>
     </ClockeeModal>
   );

@@ -1,5 +1,7 @@
 package com.example.clockee_server.message;
 
+import com.example.clockee_server.config.ApplicationProperties;
+import com.example.clockee_server.util.ApplicationContextProvider;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,23 +13,14 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.example.clockee_server.config.ApplicationProperties;
-import com.example.clockee_server.util.ApplicationContextProvider;
-
 /**
- * AppMessage
- * Centralize application message with csv file - application prorperties
+ * AppMessage Centralize application message with csv file - application prorperties
+ * ${app.messages-file} This class provide helper method to get message from this config file You
+ * have to provide new message in {@link MessageKey} and provide semantic message
  * ${app.messages-file}
- * This class provide helper method to get message from this config file
- * You have to provide new message in {@link MessageKey} and provide semantic
- * message
- * ${app.messages-file}
- *
- *
  */
 public class AppMessage {
 
@@ -42,11 +35,9 @@ public class AppMessage {
   }
 
   /**
-   * In this ${app.messages-file} content may be
-   * RESOURCE_NOT_FOUND,Resource is not found
+   * In this ${app.messages-file} content may be RESOURCE_NOT_FOUND,Resource is not found
    *
-   * Usage:
-   * AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)
+   * <p>Usage: AppMessage.of(MessageKey.RESOURCE_NOT_FOUND)
    *
    * @param key the message key (enum)
    * @return the corresponding message, or the enum name if missing
@@ -58,14 +49,16 @@ public class AppMessage {
   private static void loadMessages() {
 
     Logger logger = LoggerFactory.getLogger(AppMessage.class);
-    ApplicationProperties applicationProperties = ApplicationContextProvider.bean(ApplicationProperties.class);
+    ApplicationProperties applicationProperties =
+        ApplicationContextProvider.bean(ApplicationProperties.class);
     String messagesFile = applicationProperties.getMessagesFile();
 
     // Using outer try for close resource automatically
-    try (BufferedReader reader = new BufferedReader(
-        new InputStreamReader(
-            AppMessage.class.getClassLoader().getResourceAsStream(messagesFile),
-            StandardCharsets.UTF_8))) {
+    try (BufferedReader reader =
+        new BufferedReader(
+            new InputStreamReader(
+                AppMessage.class.getClassLoader().getResourceAsStream(messagesFile),
+                StandardCharsets.UTF_8))) {
       String line;
 
       // Read message from csv file as 2 part
@@ -81,15 +74,17 @@ public class AppMessage {
           } catch (IllegalArgumentException e) {
             logger.info("Ignoring invalid message key: {}", line);
           }
-
         }
       }
 
       // Default message as enum key when it not define in csv
 
       // Write to csv file missing key
-      try (BufferedWriter writer = new BufferedWriter(
-          new FileWriter(new File(AppMessage.class.getClassLoader().getResource(messagesFile).toURI()), true))) {
+      try (BufferedWriter writer =
+          new BufferedWriter(
+              new FileWriter(
+                  new File(AppMessage.class.getClassLoader().getResource(messagesFile).toURI()),
+                  true))) {
 
         for (MessageKey key : MessageKey.values()) {
           if (!messages.containsKey(key)) {
@@ -101,7 +96,6 @@ public class AppMessage {
             // Write append to csv message storeage file
             writer.write(key.name() + "," + key.name());
             writer.newLine();
-
           }
         }
 
@@ -115,5 +109,4 @@ public class AppMessage {
       throw new RuntimeException("Failed to load messages from CSV", e);
     }
   }
-
 }

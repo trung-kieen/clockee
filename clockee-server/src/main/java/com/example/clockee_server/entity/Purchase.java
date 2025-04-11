@@ -1,7 +1,6 @@
 package com.example.clockee_server.entity;
 
 import com.example.clockee_server.util.Client;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,25 +13,25 @@ import lombok.*;
 @Table(name = "purchases")
 @Client
 public class Purchase {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_id")
-    private Long purchaseId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "purchase_id")
+  private Long purchaseId;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+  @ManyToOne
+  @JoinColumn(name = "product_id", nullable = false)
+  private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
-    private Supplier supplier;
+  @ManyToOne
+  @JoinColumn(name = "supplier_id", nullable = false)
+  private Supplier supplier;
 
-    @Column(precision = 10, nullable = false)
-    private Double price;
+  @Column(precision = 10, nullable = false)
+  private Double price;
 
-    @Column(nullable = false)
-    private Long quantity;
+  @Column(nullable = false)
+  private Long quantity;
 
-    @Column(name = "total_price", precision = 10, nullable = false)
-    private Double totalPrice;
+  @Column(name = "total_price", precision = 10, nullable = false)
+  private Double totalPrice;
 }

@@ -1,4 +1,3 @@
-
 package com.example.clockee_server.email;
 
 import org.springframework.context.annotation.Bean;
@@ -8,10 +7,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-/**
- * EmailConfig
- * Thiet lap thymeleaf la template engine cho email duoc gui
- */
+/** EmailConfig Thiet lap thymeleaf la template engine cho email duoc gui */
 @Configuration
 public class EmailConfig {
   @Bean
@@ -31,5 +27,4 @@ public class EmailConfig {
     templateEngine.setTemplateResolver(templateResolver);
     return templateEngine;
   }
-
 }

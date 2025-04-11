@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserProductResponse = {
-    name?: string;
-    imageUrl?: string;
-    sellPrice?: number;
+  name?: string;
+  imageUrl?: string;
+  sellPrice?: number;
 };
-

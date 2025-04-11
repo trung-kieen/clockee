@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
-
 interface RefreshTokenResponse {
   accessToken: string;
 }
@@ -15,8 +14,7 @@ const getRefreshToken = async () => {
   } catch (error) {
     throw error;
   }
-
-}
+};
 /**
  * Main axios config for the whole application
  * interceptor inject jwt token and refresh token when exipred
@@ -26,21 +24,19 @@ const HttpClient = () => {
     baseURL: API_BASE,
     withCredentials: true,
     headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
-  })
+      "X-Requested-With": "XMLHttpRequest",
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
   instance.interceptors.request.use(async (request) => {
-    const token = AuthManager.getAccessToken()
+    const token = AuthManager.getAccessToken();
     if (token) {
       request.headers.Authorization = `Bearer ${token}`;
     }
     console.log(`Interceptor ${JSON.stringify(request)}`);
     return request;
-  }
-
-  )
+  });
   /**
    * Handle response when access token not available or exipred
    * Perform refresh token
@@ -53,9 +49,7 @@ const HttpClient = () => {
      * Perform refresh token action only when error occur
      */
     async (error) => {
-
       const originalConfig = error.config;
-
 
       if (!error.response) {
         // No network connectivity
@@ -70,43 +64,36 @@ const HttpClient = () => {
            * Recursive base case
            */
 
-          toast("Unable refresh token TODO redirect login")
+          toast("Unable refresh token TODO redirect login");
           return Promise.reject(error);
         } else {
-
-          toast("Refresht token retry ")
+          toast("Refresht token retry ");
           originalConfig.retry = true;
           try {
             const refreshResponse = await getRefreshToken();
             if (refreshResponse.data.accessToken) {
               const refreshToken = refreshResponse.data.accessToken;
-              AuthManager.setAccessToken(refreshToken);  // Assume { accesstoken: xxyyzzz}
-
-
+              AuthManager.setAccessToken(refreshToken); // Assume { accesstoken: xxyyzzz}
 
               // update original  header request
               originalConfig.headers.Authorization = `Bearer ${refreshToken}`;
 
-
               // retry request with new header
               return instance(originalConfig);
             }
-
-          }
-          catch (refreshError) {
+          } catch (refreshError) {
             AuthManager.clearAccessToken();
-            const currentRoute = window.location.pathname + window.location.search;
-            window.location.href = "/login" + (currentRoute ? `?redirect=${currentRoute}` : '');
+            const currentRoute =
+              window.location.pathname + window.location.search;
+            window.location.href =
+              "/login" + (currentRoute ? `?redirect=${currentRoute}` : "");
             return Promise.reject(refreshError);
           }
-
-
         }
       }
 
-
       if (error.response.status === 422) {
-        toast("Invalid data")
+        toast("Invalid data");
         return Promise.reject(error);
       }
 
@@ -122,7 +109,6 @@ const HttpClient = () => {
   );
 
   return instance;
-
-}
+};
 
 export default HttpClient();

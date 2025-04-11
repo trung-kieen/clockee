@@ -1,5 +1,9 @@
 package com.example.clockee_server.controller.admin;
 
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.payload.dto.BrandDTO;
+import com.example.clockee_server.service.BrandService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.clockee_server.config.ApplicationConstants;
-import com.example.clockee_server.payload.dto.BrandDTO;
-import com.example.clockee_server.service.BrandService;
-
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/admin/brands")
 public class AdminBrandController {
-  @Autowired
-  private BrandService brandService;
+  @Autowired private BrandService brandService;
 
   @GetMapping
   public ResponseEntity<Page<BrandDTO>> getAllBrands(
@@ -39,7 +36,8 @@ public class AdminBrandController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<BrandDTO> updateBrand(@PathVariable Long id, @Valid @RequestBody BrandDTO dto) {
+  public ResponseEntity<BrandDTO> updateBrand(
+      @PathVariable Long id, @Valid @RequestBody BrandDTO dto) {
     BrandDTO brandDTO = brandService.updateBrand(id, dto);
     return brandDTO != null ? ResponseEntity.ok(brandDTO) : ResponseEntity.notFound().build();
   }

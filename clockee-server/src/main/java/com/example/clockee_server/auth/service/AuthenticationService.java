@@ -12,6 +12,4 @@ public interface AuthenticationService {
   public JwtTokenResponse login(LoginRequest req);
 
   public CurrentUserDetails currentUserDetails(User user);
-
-
 }

@@ -1,24 +1,19 @@
 package com.example.clockee_server.email;
 
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.example.clockee_server.message.AppMessage;
-import com.example.clockee_server.message.MessageKey;
-
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-/**
- * EmailService gui email thong qua mail server
- */
+/** EmailService gui email thong qua mail server */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -52,5 +47,4 @@ public class EmailService {
       throw new RuntimeException(AppMessage.of(MessageKey.EMAIL_SERVICE_NOT_AVAIABLE), e);
     }
   }
-
 }

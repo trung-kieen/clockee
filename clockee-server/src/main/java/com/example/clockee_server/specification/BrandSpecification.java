@@ -1,12 +1,9 @@
 package com.example.clockee_server.specification;
 
+import com.example.clockee_server.entity.Brand;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.example.clockee_server.entity.Brand;
-
-/**
- * BrandSpecification
- */
+/** BrandSpecification */
 public class BrandSpecification {
 
   public static Specification<Brand> searchByName(String name) {
@@ -16,5 +13,4 @@ public class BrandSpecification {
   public static Specification<Brand> isDeleted() {
     return (root, query, builder) -> builder.isFalse(root.get("isDeleted"));
   }
-
 }

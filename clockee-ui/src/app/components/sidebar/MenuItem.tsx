@@ -5,15 +5,14 @@ import Link from "next/link";
  * Use to diplay common action for admin to quick navigate: logout, products, brands, etc
  */
 export const MenuItem = ({ item }: { item: SidebarItem }) => {
-
   return (
     <>
       {/* Item in sidebar with link */}
-      <div
-        className="overflow-y-scroll p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-200 text-gray-900"
-      >
+      <div className="overflow-y-scroll p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-200 text-gray-900">
         <div className="flex justify-between w-full items-center">
-          <span className="text-md text-[15px] text-gray-800 font-bold">{item.title}</span>
+          <span className="text-md text-[15px] text-gray-800 font-bold">
+            {item.title}
+          </span>
           <span className="text-sm rotate-180" id="arrow">
             <i className="bi bi-chevron-down"></i>
           </span>
@@ -34,10 +33,10 @@ export const MenuItem = ({ item }: { item: SidebarItem }) => {
                   </h1>
                 </Link>
               </div>
-            )
+            );
           })
         }
       </div>
     </>
-  )
-}
+  );
+};

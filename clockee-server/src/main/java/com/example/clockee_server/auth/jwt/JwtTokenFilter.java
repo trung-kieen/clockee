@@ -1,25 +1,20 @@
 package com.example.clockee_server.auth.jwt;
 
-import java.io.IOException;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import com.example.clockee_server.auth.SecurityUtil;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.repository.UserRepository;
-
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * JwtTokenFilter
- */
+/** JwtTokenFilter */
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -28,7 +23,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   private final UserRepository userRepository;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
     // get header token
@@ -41,7 +37,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     String token = header.split(" ")[1].trim();
     String userEmail = tokenProvider.getUsername(token);
-   User user = userRepository.findByEmail(userEmail).orElse(null);
+    User user = userRepository.findByEmail(userEmail).orElse(null);
 
     if (!isValidUserWithToken(user, token)) {
       filterChain.doFilter(request, response);
@@ -59,5 +55,4 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   private boolean isValidUserWithToken(User user, String token) {
     return user != null && tokenProvider.isValidToken(token, user);
   }
-
 }

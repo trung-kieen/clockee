@@ -1,15 +1,10 @@
 package com.example.clockee_server.payload;
 
 import java.util.List;
-
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 
-import lombok.Getter;
-
-/**
- * PageResponse
- * Decomposition of {@link Page}
- */
+/** PageResponse Decomposition of {@link Page} */
 @Getter
 public class PageResponse<T> {
 
@@ -34,9 +29,7 @@ public class PageResponse<T> {
     this.content = data;
   }
 
-  /**
-   * Convert built-in page result to application standard page result
-   */
+  /** Convert built-in page result to application standard page result */
   public PageResponse(Page<T> page) {
     this.page = page.getNumber();
     this.size = page.getSize();
@@ -48,9 +41,7 @@ public class PageResponse<T> {
     this.empty = page.isEmpty();
   }
 
-  /**
-   * Build page result from list of DTO entity and original page information
-   */
+  /** Build page result from list of DTO entity and original page information */
   public PageResponse(List<T> dtos, Page<?> pageInfo) {
     this.page = pageInfo.getNumber();
     this.size = pageInfo.getSize();

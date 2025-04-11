@@ -4,9 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 
-/**
- * PasswordMatchValidator
- */
+/** PasswordMatchValidator */
 public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, Object> {
   private String passwordFieldName;
   private String passwordConfirmationFieldName;
@@ -29,8 +27,10 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
       String passwordMatch = (String) passwordMatchField.get(value);
       return password != null && password.equals(passwordMatch);
 
-
-    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+    } catch (NoSuchFieldException
+        | SecurityException
+        | IllegalArgumentException
+        | IllegalAccessException e) {
       e.printStackTrace();
       return false;
     }

@@ -2,21 +2,18 @@ package com.example.clockee_server.file;
 
 import static java.lang.System.currentTimeMillis;
 
+import com.example.clockee_server.config.ApplicationProperties;
+import io.micrometer.common.lang.NonNull;
+import io.micrometer.common.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.example.clockee_server.config.ApplicationProperties;
-
-import io.micrometer.common.lang.NonNull;
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
@@ -42,7 +39,6 @@ public class FileStorageServiceImpl implements FileStorageService {
       e.printStackTrace();
       return null;
     }
-
   }
 
   public String saveFile(@NonNull MultipartFile file) {
@@ -63,7 +59,6 @@ public class FileStorageServiceImpl implements FileStorageService {
       return folderCreated;
     }
     return true;
-
   }
 
   private String getFileExtension(String filename) {
@@ -89,7 +84,5 @@ public class FileStorageServiceImpl implements FileStorageService {
       e.printStackTrace();
       return null;
     }
-
   }
-
 }

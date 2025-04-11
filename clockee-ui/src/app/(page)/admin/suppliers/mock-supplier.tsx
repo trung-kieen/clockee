@@ -1,12 +1,11 @@
-
 // Mock data diplay with paginate when not run server
-export const mockPageResponseInfo= {
+export const mockPageResponseInfo = {
   content: [
     {
-      name: 'Watch Supplier Ltd.',
-      address: '789 Maple St',
-      phone: '1122334455',
-      email: 'supplier@example.com',
+      name: "Watch Supplier Ltd.",
+      address: "789 Maple St",
+      phone: "1122334455",
+      email: "supplier@example.com",
       supplierId: 1,
     },
   ],
@@ -16,11 +15,11 @@ export const mockPageResponseInfo= {
     sort: {
       sorted: false,
       unsorted: true,
-      empty: true
+      empty: true,
     },
     offset: 0,
     paged: true,
-    unpaged: false
+    unpaged: false,
   },
   totalElements: 1,
   totalPages: 1,
@@ -31,8 +30,8 @@ export const mockPageResponseInfo= {
   sort: {
     sorted: false,
     unsorted: true,
-    empty: true
+    empty: true,
   },
   numberOfElements: 1,
-  empty: false
-}
+  empty: false,
+};

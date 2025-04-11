@@ -14,5 +14,4 @@ public class CartItemDetails {
   private String name;
   private Long quantity;
   private Double price;
-
 }

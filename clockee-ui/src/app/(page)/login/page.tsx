@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { AuthControllerService, LoginRequest } from "@/gen";
 import { AuthManager } from "@/lib/auth/AuthManager";
 import { Eye, EyeOff } from "lucide-react";
@@ -8,12 +8,13 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // Kiểm tra điều kiện email
-  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   // Kiểm tra điều kiện mật khẩu
   const isPasswordValid = password.length >= 6;
   const isFormValid = isPasswordValid && isValidEmail(email);
@@ -25,7 +26,7 @@ const LoginForm = () => {
     const loginReq: LoginRequest = {
       email: email,
       password: password,
-    }
+    };
     try {
       const res = await AuthControllerService.login(loginReq);
       AuthManager.setAccessToken(res.accessToken || null);
@@ -36,7 +37,7 @@ const LoginForm = () => {
       console.error(e);
     }
     // authService.login(email, password);
-  }
+  };
 
   return (
     <form action="" onSubmit={handleSubmit}>
@@ -48,7 +49,11 @@ const LoginForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {email && !isValidEmail(email) && <p className="absolute text-red-500 mt-1 text-sm ml-1">Email không hợp lệ!</p>}
+        {email && !isValidEmail(email) && (
+          <p className="absolute text-red-500 mt-1 text-sm ml-1">
+            Email không hợp lệ!
+          </p>
+        )}
       </div>
       <div className="relative">
         <input
@@ -64,7 +69,11 @@ const LoginForm = () => {
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
-        {password && !isPasswordValid && <p className="absolute text-red-500 mt-1 ml-1 text-sm">Mật khẩu phải có ít nhất 6 ký tự!</p>}
+        {password && !isPasswordValid && (
+          <p className="absolute text-red-500 mt-1 ml-1 text-sm">
+            Mật khẩu phải có ít nhất 6 ký tự!
+          </p>
+        )}
       </div>
       <button
         className={`w-full bg-yellow-400 text-white p-3 rounded mt-7 font-semibold shadow-md ${isFormValid ? "bg-yellow-400 hover:opacity-75" : "bg-yellow-230 cursor-not-allowed "}`}
@@ -73,11 +82,9 @@ const LoginForm = () => {
         Tiếp theo
       </button>
     </form>
-  )
-}
+  );
+};
 export default function LoginPage() {
-
-
   return (
     <div className="w-full min-h-screen flex flex-col items-center bg-white">
       {/* Header */}
@@ -97,8 +104,18 @@ export default function LoginPage() {
 
             <LoginForm />
             <div className="flex justify-between text-sm text-gray-600 mt-6 border-t border-gray-300 pt-2">
-              <Link href={"/login/reset"} className="cursor-pointer hover:text-yellow-600">Quên mật khẩu</Link>
-              <Link href={"/signup"} className="text-yellow-700 cursor-pointer hover:text-yellow-900">Đăng ký</Link>
+              <Link
+                href={"/login/reset"}
+                className="cursor-pointer hover:text-yellow-600"
+              >
+                Quên mật khẩu
+              </Link>
+              <Link
+                href={"/signup"}
+                className="text-yellow-700 cursor-pointer hover:text-yellow-900"
+              >
+                Đăng ký
+              </Link>
             </div>
           </div>
         </main>

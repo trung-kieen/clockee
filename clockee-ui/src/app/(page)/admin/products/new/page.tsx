@@ -2,14 +2,10 @@ import AdminMainCard from "@/app/components/card/AdminCard";
 import React from "react";
 import CreateProductForm from "./CreateProductForm";
 
-
-
-
 /**
-* Page for add new product for admin
+ * Page for add new product for admin
  */
-const NewProductPage = ({ }) => {
-
+const NewProductPage = ({}) => {
   return (
     <>
       <AdminMainCard title="Sản phẩm mới" goBack={true}>
@@ -18,6 +14,5 @@ const NewProductPage = ({ }) => {
     </>
   );
 };
-
 
 export default NewProductPage;

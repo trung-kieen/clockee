@@ -9,11 +9,10 @@ import { FieldValues, UseFormSetError } from "react-hook-form";
  */
 export const mapApiErrorsToForm = <T extends FieldValues>(
   error: unknown,
-  setError: UseFormSetError<T>
+  setError: UseFormSetError<T>,
 ) => {
   if (error instanceof ApiError && error.body) {
     const errorResponse = error.body as HttpErrorResponse;
-
 
     // Set form-wide error message
     if (errorResponse.message) {
@@ -23,7 +22,7 @@ export const mapApiErrorsToForm = <T extends FieldValues>(
     if (errorResponse.errors) {
       Object.entries(errorResponse.errors).forEach(([key, value]) => {
         const errorMessage = `${key} - ${value}`;
-        setError('root', { message: errorMessage });
+        setError("root", { message: errorMessage });
         // setError(key as keyof T, { message: errorMessage });
       });
     }

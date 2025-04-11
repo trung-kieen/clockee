@@ -1,14 +1,11 @@
 package com.example.clockee_server.auth.dto;
 
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * JwtTokenResponse
- */
+/** JwtTokenResponse */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

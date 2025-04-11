@@ -1,5 +1,9 @@
 package com.example.clockee_server.controller.admin;
 
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.payload.dto.SupplierDTO;
+import com.example.clockee_server.service.SupplierService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.clockee_server.auth.annotation.HasRole;
-import com.example.clockee_server.config.ApplicationConstants;
-import com.example.clockee_server.payload.dto.SupplierDTO;
-import com.example.clockee_server.service.SupplierService;
-
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/admin/suppliers")
 @RequiredArgsConstructor
 public class AdminSupplierController {
-  @Autowired
-  private SupplierService supplierService;
+  @Autowired private SupplierService supplierService;
 
   // @HasRole(value = "INVENTORY_MANAGER")
   @GetMapping
@@ -42,7 +38,8 @@ public class AdminSupplierController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable Long id, @RequestBody SupplierDTO dto) {
+  public ResponseEntity<SupplierDTO> updateSupplier(
+      @PathVariable Long id, @RequestBody SupplierDTO dto) {
     return ResponseEntity.ok(supplierService.updateSupplier(id, dto));
   }
 

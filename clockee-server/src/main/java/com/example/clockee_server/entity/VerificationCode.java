@@ -1,10 +1,6 @@
 package com.example.clockee_server.entity;
 
-
-import org.apache.commons.lang3.RandomStringUtils;
-
 import com.example.clockee_server.util.Client;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +14,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 
-/**
- * VerificationCode
- */
+/** VerificationCode */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,8 +31,7 @@ public class VerificationCode {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long verificationId;
 
-  @Setter
-  private Boolean emailSent = false;
+  @Setter private Boolean emailSent = false;
 
   private String code;
 
@@ -50,5 +44,4 @@ public class VerificationCode {
     this.user = user;
     this.code = RandomStringUtils.random(6, false, true);
   }
-
 }

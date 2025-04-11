@@ -1,8 +1,6 @@
 package com.example.clockee_server.message;
 
-/**
- * MessageKey
- */
+/** MessageKey */
 public enum MessageKey {
   RESOURCE_NOT_FOUND,
   BAD_REQUEST,

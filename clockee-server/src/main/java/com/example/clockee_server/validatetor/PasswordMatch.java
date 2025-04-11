@@ -1,25 +1,23 @@
 package com.example.clockee_server.validatetor;
 
+import jakarta.validation.Constraint;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import jakarta.validation.Constraint;
-
-/**
- * PasswordMatch
- */
-
+/** PasswordMatch */
 @Constraint(validatedBy = PasswordMatchValidator.class)
 @Target({java.lang.annotation.ElementType.TYPE})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Documented
-public @interface  PasswordMatch {
+public @interface PasswordMatch {
   String message() default "Password do not match";
-  Class<?>[] groups() default { };
-  Class<?>[] payload() default { };
+
+  Class<?>[] groups() default {};
+
+  Class<?>[] payload() default {};
 
   String passwordField();
-  String passwordConfirmationFieldName();
 
+  String passwordConfirmationFieldName();
 }

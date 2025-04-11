@@ -12,7 +12,6 @@ export const disableReturnOrder = (status: string) => {
 export const enableCancelOrder = (status: string) => {
   const normalized = orderStatusDescription(status);
   return (
-    normalized === OrderStatus.PENDING ||
-    normalized === OrderStatus.PROCESSING
+    normalized === OrderStatus.PENDING || normalized === OrderStatus.PROCESSING
   );
 };

@@ -1,6 +1,6 @@
-"use client"
-import Link from 'next/link';
-import React from 'react';
+"use client";
+import Link from "next/link";
+import React from "react";
 
 interface Product {
   id: number;
@@ -14,12 +14,42 @@ interface MenuItemProps {
 }
 
 const products: Product[] = [
-  { id: 1, title: "Casio World Time", description: "AE-1000WHD-1AVDF - Nam - Quartz (Pin)", price: "1.506.000 đ" },
-  { id: 2, title: "Casio Vintage", description: "A168WG-9WDF - Nam - Quartz (Pin)", price: "1.300.000 đ" },
-  { id: 3, title: "Casio Standard", description: "MW-240-1EVDF - Nam - Quartz (Pin)", price: "800.000 đ" },
-  { id: 4, title: "Casio G-Shock", description: "GA-2100-1A1DR - Nam - Quartz (Pin)", price: "2.500.000 đ" },
-  { id: 5, title: "Casio Edifice", description: "EFR-539D-1A2V - Nam - Quartz (Pin)", price: "3.200.000 đ" },
-  { id: 6, title: "Casio ProTrek", description: "PRG-240-1DR - Nam - Quartz (Pin)", price: "4.800.000 đ" },
+  {
+    id: 1,
+    title: "Casio World Time",
+    description: "AE-1000WHD-1AVDF - Nam - Quartz (Pin)",
+    price: "1.506.000 đ",
+  },
+  {
+    id: 2,
+    title: "Casio Vintage",
+    description: "A168WG-9WDF - Nam - Quartz (Pin)",
+    price: "1.300.000 đ",
+  },
+  {
+    id: 3,
+    title: "Casio Standard",
+    description: "MW-240-1EVDF - Nam - Quartz (Pin)",
+    price: "800.000 đ",
+  },
+  {
+    id: 4,
+    title: "Casio G-Shock",
+    description: "GA-2100-1A1DR - Nam - Quartz (Pin)",
+    price: "2.500.000 đ",
+  },
+  {
+    id: 5,
+    title: "Casio Edifice",
+    description: "EFR-539D-1A2V - Nam - Quartz (Pin)",
+    price: "3.200.000 đ",
+  },
+  {
+    id: 6,
+    title: "Casio ProTrek",
+    description: "PRG-240-1DR - Nam - Quartz (Pin)",
+    price: "4.800.000 đ",
+  },
 ];
 
 const MenuItem = ({ product }: MenuItemProps) => {
@@ -63,15 +93,19 @@ const MenuItem = ({ product }: MenuItemProps) => {
 //   )
 // }
 
-
 export default function HomePage() {
-
   return (
     <>
       {/* Banner
-      */}
-      <img src="/carosel.png" width={700} height={500} className="w-full" alt="calrosel" />
-      <div className='flex justify-center'>
+       */}
+      <img
+        src="/carosel.png"
+        width={700}
+        height={500}
+        className="w-full"
+        alt="calrosel"
+      />
+      <div className="flex justify-center">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
           {products.map((product) => (
             <MenuItem key={product.id} product={product} />
@@ -79,5 +113,5 @@ export default function HomePage() {
         </div>
       </div>
     </>
-  )
+  );
 }

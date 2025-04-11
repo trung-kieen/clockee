@@ -2,8 +2,12 @@ package com.example.clockee_server.auth;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
+import com.example.clockee_server.auth.jwt.JwtTokenFilter;
+import com.example.clockee_server.auth.jwt.LogRequestFilter;
+import com.example.clockee_server.config.ApplicationProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,16 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.example.clockee_server.auth.jwt.JwtTokenFilter;
-import com.example.clockee_server.auth.jwt.LogRequestFilter;
-import com.example.clockee_server.config.ApplicationProperties;
-
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-
-/**
- * SecurityConfiguration
- */
+/** SecurityConfiguration */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -44,28 +39,36 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests(customizer -> {
-      customizer
-          // .requestMatchers(antMatcher(HttpMethod.POST, "/users")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.GET, "/users/verify-email")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.POST, "/users/forgot-password")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.PATCH, "/users/reset-password")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/login")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/register")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/register")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/csrf")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/impersonate")).hasRole("ADMIN")
-          // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/impersonate/exit")).hasRole("PREVIOUS_ADMINISTRATOR")
-          // .requestMatchers(antMatcher(HttpMethod.GET, "/notifications/subscribe")).permitAll()
-          // .requestMatchers(antMatcher(HttpMethod.POST, "/notifications/delivery/**")).permitAll()
-          .requestMatchers(antMatcher("/swagger-ui/**")).permitAll()
-          .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
-          .requestMatchers(antMatcher("/swagger-resources/**")).permitAll()
-          .requestMatchers(antMatcher("/webjars/**")).permitAll();
+    http.authorizeHttpRequests(
+        customizer -> {
+          customizer
+              // .requestMatchers(antMatcher(HttpMethod.POST, "/users")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.GET, "/users/verify-email")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.POST, "/users/forgot-password")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.PATCH, "/users/reset-password")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/login")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/register")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/register")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/csrf")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/impersonate")).hasRole("ADMIN")
+              // .requestMatchers(antMatcher(HttpMethod.GET,
+              // "/auth/impersonate/exit")).hasRole("PREVIOUS_ADMINISTRATOR")
+              // .requestMatchers(antMatcher(HttpMethod.GET,
+              // "/notifications/subscribe")).permitAll()
+              // .requestMatchers(antMatcher(HttpMethod.POST,
+              // "/notifications/delivery/**")).permitAll()
+              .requestMatchers(antMatcher("/swagger-ui/**"))
+              .permitAll()
+              .requestMatchers(antMatcher("/v3/api-docs/**"))
+              .permitAll()
+              .requestMatchers(antMatcher("/swagger-resources/**"))
+              .permitAll()
+              .requestMatchers(antMatcher("/webjars/**"))
+              .permitAll();
           // TODO: enable authenticated
           customizer.anyRequest().permitAll();
-          //customizer.anyRequest().authenticated();
-    });
+          // customizer.anyRequest().authenticated();
+        });
 
     // http.oauth2Login(customizer -> {
     // customizer.successHandler(oauth2LoginSuccessHandler);
@@ -76,9 +79,10 @@ public class SecurityConfiguration {
      * nguoi dung
      */
 
-    http.exceptionHandling(customer -> {
-      customer.authenticationEntryPoint(authEntryPointJwt);
-    });
+    http.exceptionHandling(
+        customer -> {
+          customer.authenticationEntryPoint(authEntryPointJwt);
+        });
 
     // Change from cookiee base session to stateless => user store jwt token in
     // localStorage
@@ -92,9 +96,10 @@ public class SecurityConfiguration {
 
     http.csrf(AbstractHttpConfigurer::disable);
 
-    http.cors(customizer -> {
-      customizer.configurationSource(corsConfigurationSource());
-    });
+    http.cors(
+        customizer -> {
+          customizer.configurationSource(corsConfigurationSource());
+        });
 
     return http.build();
   }
@@ -104,10 +109,7 @@ public class SecurityConfiguration {
     return new BCryptPasswordEncoder();
   }
 
-  /**
-   * Danh sach trang cac origin (ip,port) duoc cho phep request
-   * Giam thieu tan cong cors
-   */
+  /** Danh sach trang cac origin (ip,port) duoc cho phep request Giam thieu tan cong cors */
   private CorsConfigurationSource corsConfigurationSource() {
     return new CorsConfigurationSource() {
       @Override
@@ -122,10 +124,7 @@ public class SecurityConfiguration {
     };
   }
 
-  /**
-   * Cung cap xac thuc nguoi dung
-   * Xac dinh nguoi dung nao thuc hien request
-   */
+  /** Cung cap xac thuc nguoi dung Xac dinh nguoi dung nao thuc hien request */
   @Bean
   public AuthenticationManager authenticationManager() {
     DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -133,5 +132,4 @@ public class SecurityConfiguration {
     daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
     return new ProviderManager(daoAuthenticationProvider);
   }
-
 }

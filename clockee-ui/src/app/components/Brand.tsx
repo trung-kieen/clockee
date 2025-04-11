@@ -1,12 +1,15 @@
 import React from "react";
 
-
 // Show with app name
 const Brand = () => {
   return (
     <>
       <div className="flex items-center text-xl font-bold text-orange-500">
-        <img className='mr-[-9px] mt-[-5px] cursor-pointer' src="/logo_header.png" alt="logo login" />
+        <img
+          className="mr-[-9px] mt-[-5px] cursor-pointer"
+          src="/logo_header.png"
+          alt="logo login"
+        />
       </div>
     </>
   );

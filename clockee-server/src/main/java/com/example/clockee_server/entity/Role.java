@@ -1,17 +1,14 @@
 package com.example.clockee_server.entity;
 
-import java.util.Set;
-
-import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-
 import com.example.clockee_server.util.Client;
-
+import jakarta.persistence.*;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
 @Setter
@@ -19,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 @Client
 public class Role implements GrantedAuthority {
   @Id
@@ -38,5 +35,4 @@ public class Role implements GrantedAuthority {
   public String getAuthority() {
     return roleName.getName();
   }
-
 }

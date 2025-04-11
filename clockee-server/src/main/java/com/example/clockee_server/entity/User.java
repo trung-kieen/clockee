@@ -1,17 +1,8 @@
-
 package com.example.clockee_server.entity;
-
-import java.util.Collection;
-import java.util.Set;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,16 +14,18 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.Collection;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * User
- */
-
+/** User */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -76,9 +69,11 @@ public class User implements UserDetails {
   @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
   private VerificationCode verificationCode;
 
-
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @JoinTable(
+      name = "roles_users",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
   Set<Role> roles;
 
   @Override
@@ -86,14 +81,13 @@ public class User implements UserDetails {
     // return roles;
     return null;
   }
-  public User (CreateUserRequest req){
+
+  public User(CreateUserRequest req) {
     PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
     this.name = req.getName();
     this.email = req.getEmail();
     this.password = passwordEncoder.encode(req.getPassword());
   }
-
-
 
   public void updatePassword(String newPassword) {
     PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
@@ -130,5 +124,4 @@ public class User implements UserDetails {
     // Alow user to login before verified
     return true;
   }
-
 }

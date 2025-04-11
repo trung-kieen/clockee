@@ -1,26 +1,25 @@
-
 // Mock data diplay with paginate when not run server
 export const mockPageResponseInfo = {
   content: [
     {
       brandId: 1,
-      name: "Rolex"
+      name: "Rolex",
     },
     {
       brandId: 2,
-      name: "Omega"
+      name: "Omega",
     },
     {
       brandId: 3,
-      name: "Casio"
+      name: "Casio",
     },
     {
       brandId: 4,
-      name: "Seiko"
+      name: "Seiko",
     },
     {
       brandId: 5,
-      name: "Tag Heuer"
+      name: "Tag Heuer",
     },
   ],
   pageable: {
@@ -29,11 +28,11 @@ export const mockPageResponseInfo = {
     sort: {
       sorted: false,
       unsorted: true,
-      empty: true
+      empty: true,
     },
     offset: 0,
     paged: true,
-    unpaged: false
+    unpaged: false,
   },
   totalElements: 5,
   totalPages: 1,
@@ -44,8 +43,8 @@ export const mockPageResponseInfo = {
   sort: {
     sorted: false,
     unsorted: true,
-    empty: true
+    empty: true,
   },
   numberOfElements: 5,
-  empty: false
-}
+  empty: false,
+};

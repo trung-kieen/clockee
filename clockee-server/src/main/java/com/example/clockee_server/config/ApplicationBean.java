@@ -4,13 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * ApplicationBean
- * Dinh nghia cac class la bean de co the inject gia tri
- */
+/** ApplicationBean Dinh nghia cac class la bean de co the inject gia tri */
 @Configuration
 public class ApplicationBean {
-
 
   // @Bean
   //   public JavaMailSender javaMailSender() {
@@ -28,8 +24,7 @@ public class ApplicationBean {
   //       return props;
   //   }
   @Bean
-  public ModelMapper modelMapper(){
+  public ModelMapper modelMapper() {
     return new ModelMapper();
   }
-
 }

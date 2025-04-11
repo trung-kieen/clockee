@@ -30,7 +30,7 @@ export class ProductService {
         // Mandatory to upload image file
         "Content-Type": "multipart/form-data",
       },
-    })
+    });
 
     return response;
   }

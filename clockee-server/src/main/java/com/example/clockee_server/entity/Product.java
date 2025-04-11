@@ -1,7 +1,6 @@
 package com.example.clockee_server.entity;
 
 import com.example.clockee_server.util.Client;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,6 +45,7 @@ public class Product {
 
   @Column(name = "is_active")
   private Boolean isActive;
+
   private Boolean visible;
 
   @Column(name = "is_deleted")

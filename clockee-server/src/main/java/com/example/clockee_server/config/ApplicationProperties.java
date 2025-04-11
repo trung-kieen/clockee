@@ -1,22 +1,19 @@
 package com.example.clockee_server.config;
 
 import java.util.List;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
- * ApplicationProperties
- * Tap trung cac config cho application.properties vao prefix "app"
- * thay vi su dung config @Value cho ung dung o nhieu file
+ * ApplicationProperties Tap trung cac config cho application.properties vao prefix "app" thay vi su
+ * dung config @Value cho ung dung o nhieu file
  *
- * De su dung inject bean nay roi dung getter de lay gia tri cho config
- * private final ApplicationProperties applicationProperties;
+ * <p>De su dung inject bean nay roi dung getter de lay gia tri cho config private final
+ * ApplicationProperties applicationProperties;
  *
- * Vi du getter properties to applicationProperties
+ * <p>Vi du getter properties to applicationProperties
  * config.setAllowedOrigins(applicationProperties.getAllowedOrigins());
  */
 @Configuration
@@ -32,5 +29,4 @@ public class ApplicationProperties {
   private String uploadPath;
   private Long jwtRefreshTokenExpDays;
   private String messagesFile;
-
 }

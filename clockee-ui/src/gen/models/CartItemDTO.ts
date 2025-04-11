@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CartItemDTO = {
-    quantity?: number;
-    productId?: number;
+  quantity?: number;
+  productId?: number;
 };
-

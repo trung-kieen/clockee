@@ -1,18 +1,13 @@
 package com.example.clockee_server.mapper;
 
+import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.file.FileStorageService;
+import com.example.clockee_server.payload.response.AdminProductResponse;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.example.clockee_server.entity.Product;
-import com.example.clockee_server.file.FileStorageService;
-import com.example.clockee_server.payload.request.AdminProductRequest;
-import com.example.clockee_server.payload.response.AdminProductResponse;
-
-import lombok.RequiredArgsConstructor;
-
-/**
- * ProductMapper
- */
+/** ProductMapper */
 @Service
 @RequiredArgsConstructor
 public class ProductMapper {
@@ -24,5 +19,4 @@ public class ProductMapper {
     dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));
     return dto;
   }
-
 }

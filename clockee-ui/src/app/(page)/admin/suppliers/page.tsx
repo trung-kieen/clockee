@@ -1,21 +1,20 @@
 "use client";
 
-import PaginationControls from "@/app/components/common/PaginationController"
+import PaginationControls from "@/app/components/common/PaginationController";
 import { AdminSupplierControllerService, PageSupplierDTO } from "@/gen";
-import { useSearchParams } from "next/navigation"
-import React, { ChangeEvent, useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { mockPageResponseInfo } from "./mock-supplier";
 import CreateSupplierModal from "./CreateSupplierModal";
 import AdminMainCard from "@/app/components/card/AdminCard";
 import PrimaryButton from "@/app/components/button/Button";
 import SupplierTableRow from "./SupplierTableRow";
 
-
-
 export default function SupplierAdminPage() {
-
   // Control pagination information
-  const [pageInfo, setPageInfo] = useState<PageSupplierDTO>(mockPageResponseInfo as PageSupplierDTO);
+  const [pageInfo, setPageInfo] = useState<PageSupplierDTO>(
+    mockPageResponseInfo as PageSupplierDTO,
+  );
 
   // Get search user track page param
   const params = useSearchParams();
@@ -33,24 +32,26 @@ export default function SupplierAdminPage() {
 
   const refresh = () => {
     fetchSuppliers(page, query);
-  }
+  };
 
   const fetchSuppliers = async (page: number, searchQuery: string) => {
     try {
-      const pageInfo = await AdminSupplierControllerService.getAllSuppliers(page - 1, undefined, searchQuery);
-      if (pageInfo)
-        setPageInfo(pageInfo)
+      const pageInfo = await AdminSupplierControllerService.getAllSuppliers(
+        page - 1,
+        undefined,
+        searchQuery,
+      );
+      if (pageInfo) setPageInfo(pageInfo);
       return pageInfo;
     } catch (error) {
       console.warn(error);
     }
-  }
+  };
 
   /**
    * Update brand when on page change
    */
   useEffect(() => {
-
     fetchSuppliers(page, query);
   }, [page, query]);
 
@@ -59,51 +60,44 @@ export default function SupplierAdminPage() {
    */
   const dataEntries = () => {
     // Message when not found data
-    if (!(pageInfo?.content) || pageInfo.empty) {
-
-      return (
-        <div>No brand found</div>
-      )
+    if (!pageInfo?.content || pageInfo.empty) {
+      return <div>No brand found</div>;
     }
     return (
-      (
-        <div>
-
-          {/**
-           * Display brand list using pure table
-           */}
-          <div className="overflow-x-auto">
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>Supplier id</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  pageInfo.content.map((entry) => {
-                    return <SupplierTableRow
-                      key={entry.supplierId}
-                      item={entry}
-                      refreshCallBack={refresh} />
-                  })
-                }
-              </tbody>
-            </table>
-          </div>
-
-
-        </div >
-      )
-    )
-  }
+      <div>
+        {/**
+         * Display brand list using pure table
+         */}
+        <div className="overflow-x-auto">
+          <table className="table">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>Supplier id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageInfo.content.map((entry) => {
+                return (
+                  <SupplierTableRow
+                    key={entry.supplierId}
+                    item={entry}
+                    refreshCallBack={refresh}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <AdminMainCard title="Nhà cung cấp" goBack={false}>
@@ -116,49 +110,60 @@ export default function SupplierAdminPage() {
         </div>
       </div>
 
-
-      <div className='flex flex-col gap-2 items-center'>
-
-
+      <div className="flex flex-col gap-2 items-center">
         {/*
-          * Search filter
-          */}
+         * Search filter
+         */}
         <div className="relative flex items-center w-1/3">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600">
-            <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+              clipRule="evenodd"
+            />
           </svg>
 
-          <input value={query} onChange={onChangeSearchQuery}
+          <input
+            value={query}
+            onChange={onChangeSearchQuery}
             className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
             placeholder="Tìm kiếm"
           />
         </div>
 
         {/*
-          * Add new supplier button
-          */}
+         * Add new supplier button
+         */}
         <CreateSupplierModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
-          refreshCallBack={refresh} />
+          refreshCallBack={refresh}
+        />
 
         {/*
-          * Display list of brand
-          */}
+         * Display list of brand
+         */}
         {dataEntries()}
 
         {/*
-          * Pagination controller
-          */}
-        {pageInfo && pageInfo.content && <PaginationControls
-          isLast={page >= Number(pageInfo.totalPages)}
-          isFirst={page == 1}
-          pageNumber={page}
-          setPage={(page: number) => { setPage(page) }}
-        />}
-
+         * Pagination controller
+         */}
+        {pageInfo && pageInfo.content && (
+          <PaginationControls
+            isLast={page >= Number(pageInfo.totalPages)}
+            isFirst={page == 1}
+            pageNumber={page}
+            setPage={(page: number) => {
+              setPage(page);
+            }}
+          />
+        )}
       </div>
-
     </AdminMainCard>
-  )
+  );
 }

@@ -1,18 +1,5 @@
 package com.example.clockee_server.auth.service.impl;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.jobrunr.scheduling.BackgroundJobRequest;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
@@ -30,8 +17,18 @@ import com.example.clockee_server.payload.response.CurrentUserDetails;
 import com.example.clockee_server.repository.RoleRepository;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
-
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.jobrunr.scheduling.BackgroundJobRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -45,17 +42,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   @Transactional
   public void register(CreateUserRequest req) {
     if (userRepository.existsByEmail(req.getEmail())) {
-      throw ApiException.builder()
-          .message(AppMessage.of(MessageKey.EMAIL_ALREADY_EXISTS))
-          .build();
+      throw ApiException.builder().message(AppMessage.of(MessageKey.EMAIL_ALREADY_EXISTS)).build();
     }
 
-    Role customerRole = roleRepository.findByRoleName(RoleName.CUSTOMER).orElseThrow(() -> {
-      return ApiException.builder()
-          .message("ROLE_NOT_FOUND")
-          .status(500)
-          .build();
-    });
+    Role customerRole =
+        roleRepository
+            .findByRoleName(RoleName.CUSTOMER)
+            .orElseThrow(
+                () -> {
+                  return ApiException.builder().message("ROLE_NOT_FOUND").status(500).build();
+                });
     User user = new User(req);
     user.setRoles(Set.of(customerRole));
     userRepository.save(user);
@@ -77,8 +73,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   @Override
   public JwtTokenResponse login(LoginRequest req) {
     // Authenticate with username password
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-        req.getEmail(), req.getPassword());
+    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+        new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
 
     Authentication auth = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
     // After authenticate via filter, save context if authenticated user
@@ -88,9 +84,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     // Build jwt token for REST stateless
     User currentUser = (User) auth.getPrincipal();
-    List<String> roles = currentUser.getRoles().stream().map((role) -> {
-      return role.getRoleName().getName();
-    }).collect(Collectors.toList());
+    List<String> roles =
+        currentUser.getRoles().stream()
+            .map(
+                (role) -> {
+                  return role.getRoleName().getName();
+                })
+            .collect(Collectors.toList());
 
     String jwtToken = jwtTokenProvider.genenerateToken(currentUser);
     String refreshToken = jwtTokenProvider.generateRefreshToken(currentUser);
@@ -106,11 +106,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Override
   public CurrentUserDetails currentUserDetails(User user) {
-    return CurrentUserDetails.builder()
-        .userId(user.getUserId())
-        .email(user.getUsername())
-        .build();
-
+    return CurrentUserDetails.builder().userId(user.getUserId()).email(user.getUsername()).build();
   }
-
 }

@@ -1,7 +1,6 @@
 package com.example.clockee_server.payload.response;
 
 import com.example.clockee_server.payload.dto.BrandDTO;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

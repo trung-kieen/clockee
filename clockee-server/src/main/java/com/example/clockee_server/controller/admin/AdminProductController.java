@@ -1,5 +1,11 @@
 package com.example.clockee_server.controller.admin;
 
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.payload.request.AdminProductRequest;
+import com.example.clockee_server.payload.response.AdminProductResponse;
+import com.example.clockee_server.service.AdminProductService;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 // Work with page
 import org.springframework.data.domain.Page;
@@ -18,28 +24,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.clockee_server.config.ApplicationConstants;
-import com.example.clockee_server.payload.request.AdminProductRequest;
-import com.example.clockee_server.payload.response.AdminProductResponse;
-import com.example.clockee_server.service.AdminProductService;
-
-import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/admin/products")
 public class AdminProductController {
 
-  @Autowired
-  private AdminProductService adminProductService;
+  @Autowired private AdminProductService adminProductService;
 
   // Thêm sản phẩm
   @PostMapping
-  public ResponseEntity<AdminProductResponse> createProduct(@Valid @RequestBody AdminProductRequest request) {
+  public ResponseEntity<AdminProductResponse> createProduct(
+      @Valid @RequestBody AdminProductRequest request) {
     AdminProductResponse response = adminProductService.createProduct(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
-
 
   // Controller - Lấy danh sách sản phẩm có phân trang
   @GetMapping
@@ -48,7 +45,7 @@ public class AdminProductController {
       @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size,
       @RequestParam(value = "name", defaultValue = "") String name) {
 
-    Page<AdminProductResponse> products = adminProductService.getAllProducts(page, size, name );
+    Page<AdminProductResponse> products = adminProductService.getAllProducts(page, size, name);
 
     return ResponseEntity.ok(products);
   }
@@ -76,9 +73,8 @@ public class AdminProductController {
   }
 
   /**
-   * Partial update image for product
-   * When create new product image, file not upload in this request but usea
-   * separate controller to upload image file for product
+   * Partial update image for product When create new product image, file not upload in this request
+   * but usea separate controller to upload image file for product
    */
   @PostMapping(value = "/image/{productId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> uploadProductImage(
@@ -88,6 +84,4 @@ public class AdminProductController {
     adminProductService.uploadProductImage(productId, file);
     return ResponseEntity.accepted().build();
   }
-
-
 }

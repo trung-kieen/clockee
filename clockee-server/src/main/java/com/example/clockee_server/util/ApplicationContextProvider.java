@@ -5,26 +5,19 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * ApplicationContextProvider
- * Cung cap cac phuong thuc lam viec voi Bean trong IoC container
- * Example:
- * password = passwordEncoder.encode(newPassword);
+ * ApplicationContextProvider Cung cap cac phuong thuc lam viec voi Bean trong IoC container
+ * Example: password = passwordEncoder.encode(newPassword);
  */
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {
   private static ApplicationContext context;
 
-
-  /**
-   * Lay object type T tu application context theo kieu du lieu T truyen vao
-   */
+  /** Lay object type T tu application context theo kieu du lieu T truyen vao */
   public static <T> T bean(Class<T> beanType) {
     return context.getBean(beanType);
   }
 
-  /**
-   * Lay object tu application context theo theo ten cua bean trong IoC
-   */
+  /** Lay object tu application context theo theo ten cua bean trong IoC */
   public static Object bean(String name) {
     return context.getBean(name);
   }
@@ -33,5 +26,4 @@ public class ApplicationContextProvider implements ApplicationContextAware {
   public void setApplicationContext(@SuppressWarnings("NullableProblems") ApplicationContext ac) {
     context = ac;
   }
-
 }

@@ -1,5 +1,15 @@
 package com.example.clockee_server.controller.user;
 
+import com.example.clockee_server.auth.annotation.CurrentUser;
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.entity.User;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import com.example.clockee_server.payload.request.CartItemDTO;
+import com.example.clockee_server.payload.response.CartDetailsResponse;
+import com.example.clockee_server.service.CartService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,21 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.clockee_server.auth.annotation.CurrentUser;
-import com.example.clockee_server.config.ApplicationConstants;
-import com.example.clockee_server.entity.User;
-import com.example.clockee_server.message.AppMessage;
-import com.example.clockee_server.message.MessageKey;
-import com.example.clockee_server.payload.request.CartItemDTO;
-import com.example.clockee_server.payload.response.CartDetailsResponse;
-import com.example.clockee_server.service.CartService;
-
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-
-/**
- * CartController
- */
+/** CartController */
 @RestController
 @RequestMapping(ApplicationConstants.USER_URL_PREFIX + "/cart")
 @RequiredArgsConstructor
@@ -39,8 +35,7 @@ public class CartController {
   @PostMapping("/items")
   public ResponseEntity<?> addItem(@Valid CartItemDTO item, @CurrentUser User user) {
     cartService.addProduct(item, user);
-    return ResponseEntity
-        .status(HttpStatus.CREATED)
+    return ResponseEntity.status(HttpStatus.CREATED)
         .body(AppMessage.of(MessageKey.CREATED_SUCCESS));
   }
 
@@ -53,9 +48,7 @@ public class CartController {
   @DeleteMapping("/items/{productId}")
   public ResponseEntity<?> removeItem(@PathVariable Long productId, @CurrentUser User user) {
     cartService.removeItem(productId, user);
-    return ResponseEntity
-        .status(HttpStatus.NO_CONTENT)
+    return ResponseEntity.status(HttpStatus.NO_CONTENT)
         .body(AppMessage.of(MessageKey.DELETED_SUCCESS));
   }
-
 }

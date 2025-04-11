@@ -1,12 +1,9 @@
 package com.example.clockee_server.specification;
 
+import com.example.clockee_server.entity.Product;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.example.clockee_server.entity.Product;
-
-/**
- * ProductSpecification
- */
+/** ProductSpecification */
 public class ProductSpecification {
 
   public static Specification<Product> searchByName(String name) {

@@ -3,12 +3,11 @@ package com.example.clockee_server.exception;
 /**
  * HttpErrorResponsee
  *
- * Cac loi tra ve tuy chinh cu the ve loi kem theo
- * trong qua trinh kiem tra du lieu nhap vao (validate errors)
+ * <p>Cac loi tra ve tuy chinh cu the ve loi kem theo trong qua trinh kiem tra du lieu nhap vao
+ * (validate errors)
  */
 import java.util.List;
 import java.util.Map;
-
 import lombok.Getter;
 
 @Getter
@@ -26,7 +25,8 @@ public class HttpErrorResponse {
   // Loi chung chung khong xac dinh
   private List<String> generalErrors;
 
-  public static HttpErrorResponse of(String message, int status, Map<String, String> errors, List<String> generalErrors) {
+  public static HttpErrorResponse of(
+      String message, int status, Map<String, String> errors, List<String> generalErrors) {
     HttpErrorResponse response = new HttpErrorResponse();
     response.message = message;
     response.status = status;

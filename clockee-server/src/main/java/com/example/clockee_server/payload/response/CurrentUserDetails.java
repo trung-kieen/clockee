@@ -1,7 +1,6 @@
 package com.example.clockee_server.payload.response;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
