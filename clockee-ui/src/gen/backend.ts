@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-04-10 09:34:27.
+// Generated using typescript-generator version 3.2.1263 on 2025-04-11 18:32:00.
 
 export interface Brand {
   brandId: number;
@@ -89,6 +89,17 @@ export interface VerificationCode {
   emailSent: boolean;
   code: string;
   user: User;
+}
+
+export interface PageResponse<T> {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  content: T[];
+  first: boolean;
+  last: boolean;
+  empty: boolean;
 }
 
 export interface GrantedAuthority extends Serializable {

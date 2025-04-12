@@ -18,3 +18,8 @@ Running Clockee client Next.js with npm
 npm install 
 npm run dev 
 ```
+# Test 
+Account for test environment 
+- User: `user@clockee.com`/`clockee123`
+- Product admin: `admin@clockee.com`/`clockee123`
+- Inventory manager: `quanlykho@clockee.com`/`clockee123`

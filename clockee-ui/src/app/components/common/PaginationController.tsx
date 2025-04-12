@@ -1,12 +1,10 @@
 "use client";
-
-import { FC } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PageResponse } from "@/gen/backend";
 
 interface PaginationControlsProps {
-  isFirst: boolean;
-  isLast: boolean;
-  pageNumber: number;
+  /* eslint-disable */
+  page: any;
   setPage: (page: number) => void;
 }
 
@@ -14,35 +12,37 @@ interface PaginationControlsProps {
  * Control url search param when user navigate page
  * Example of param: brand?page=5
  */
-const PaginationControls: FC<PaginationControlsProps> = ({
-  isFirst,
-  isLast,
-  pageNumber,
-  setPage,
-}) => {
+const PaginationControls = ({ page, setPage }: PaginationControlsProps) => {
   // react hook to work with router, search param and current url path
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   // Get current page from url param
-  const page = Number(searchParams.get("page") ?? "0");
+  const pageNumber = Number(searchParams.get("page") ?? "0");
 
   /**
    * Handle move to next page, update url param
    */
   function handleNext(): void {
-    changePage(page + 1);
+    changePage(pageNumber + 1);
   }
+
+  const isFirst = () => {
+    return page.page == 1;
+  };
+  const isLast = () => {
+    return page.page >= Number(page.totalPages);
+  };
 
   /**
    * Handle move back previous page, update url param
    */
   function hanlePrevious(): void {
-    if (page <= 0) {
+    if (pageNumber <= 0) {
       return;
     }
-    changePage(page - 1);
+    changePage(pageNumber - 1);
   }
 
   const changePage = (page: number) => {
@@ -61,7 +61,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
       <div className="flex gap-2 p-5">
         <div className="join">
           <button
-            disabled={isFirst}
+            disabled={page.first}
             className="join-item btn"
             onClick={hanlePrevious}
           >
@@ -69,7 +69,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
           </button>
           <button className="join-item btn">Page {pageNumber ?? 0}</button>
           <button
-            disabled={isLast}
+            disabled={page.last}
             className="join-item btn"
             onClick={handleNext}
           >

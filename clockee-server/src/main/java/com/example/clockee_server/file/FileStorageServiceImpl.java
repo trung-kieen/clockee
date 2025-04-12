@@ -32,7 +32,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     Path targetPath = Paths.get(filePath);
     try {
       Files.write(targetPath, file.getBytes());
-      return filePath;
+      return relativePath;
     } catch (IOException e) {
       log.error("Unable to save upload file");
       // TODO Auto-generated catch block
@@ -75,7 +75,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     try {
-      Path filePath = new File(fileUrl).toPath();
+      Path filePath = new File(applicationProperties.getUploadPath() + File.separator + fileUrl).toPath();
       return Files.readAllBytes(filePath);
 
     } catch (IOException e) {

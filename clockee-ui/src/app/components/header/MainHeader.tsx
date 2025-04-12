@@ -9,7 +9,7 @@ import Brand from "../Brand";
  */
 const SearchBar = () => {
   return (
-    <div className="w-full max-w-sm min-w-[200px]">
+    <div className="w-full max-w-sm min-w-[200px]bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
       <div className="relative flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"

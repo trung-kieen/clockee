@@ -1,5 +1,9 @@
-import { base64ImageMap } from "@/utils/image";
 import React from "react";
+
+export const base64ImageMap = (bytes: string) => {
+  return `data:image/png;base64,${bytes}`;
+};
+
 type ImageProps = {
   data: string;
   className?: string;

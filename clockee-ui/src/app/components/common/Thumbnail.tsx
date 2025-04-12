@@ -6,12 +6,16 @@ type ThumbnailProps = {
 };
 
 export const Thumbnail = ({
-  className = "w-20 h-20",
+  className = "w-14 h-14",
   children,
 }: ThumbnailProps) => {
   return (
     <div className="avatar">
-      <div className={`mask mask-squircle ${className}`}>{children}</div>
+      <div
+        className={`mask mask-squircle ${className}`}
+      >
+        {children}
+      </div>
     </div>
   );
 };

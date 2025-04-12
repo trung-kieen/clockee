@@ -9,12 +9,12 @@ export type PageBrandDTO = {
   totalElements?: number;
   totalPages?: number;
   pageable?: PageableObject;
-  first?: boolean;
-  last?: boolean;
   size?: number;
   content?: Array<BrandDTO>;
   number?: number;
   sort?: SortObject;
+  first?: boolean;
+  last?: boolean;
   numberOfElements?: number;
   empty?: boolean;
 };

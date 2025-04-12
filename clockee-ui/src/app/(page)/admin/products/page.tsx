@@ -1,5 +1,4 @@
 "use client";
-
 import PaginationControls from "@/app/components/common/PaginationController";
 import {
   AdminProductControllerService,
@@ -12,10 +11,9 @@ import { mockPageResponseInfo } from "./mock-products";
 import Link from "next/link";
 import AdminMainCard from "@/app/components/card/AdminCard";
 import PrimaryButton from "@/app/components/button/Button";
-import ConfirmModal from "@/app/components/modal/ConfirmModal";
-import { toast } from "react-toastify";
-import Thumbnail from "@/app/components/common/Thumbnail";
-import { ProductImage } from "@/app/components/common/Base64Image";
+import DataTable from "@/app/components/common/DataTable";
+import { PageResponse } from "@/gen/backend";
+import ProductTableRow from "./ProductTableRow";
 
 export default function ProductAdminPage() {
   // Control pagination information
@@ -63,48 +61,6 @@ export default function ProductAdminPage() {
   /**
    * Manager list of brands
    */
-  const dataEntries = () => {
-    // Message when not found data
-    if (!pageInfo?.content || pageInfo.empty) {
-      return <div>Hiện tại chưa có sản phẩm nào để hiển thị.</div>;
-    }
-    return (
-      <div>
-        {/**
-         * Display brand list using pure table
-         */}
-        <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>ID sản phẩm</th>
-                <th>Hình ảnh</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá gốc</th>
-                <th>Giá bán</th>
-                <th>Loại</th>
-                <th>Thương hiệu</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {pageInfo.content.map((entry, idx) => {
-                return (
-                  <ProductTableRow
-                    key={idx}
-                    item={entry}
-                    refreshCallBack={refresh}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <AdminMainCard title="Sản phẩm" goBack={false}>
@@ -146,85 +102,39 @@ export default function ProductAdminPage() {
         {/*
          * Display list of brand
          */}
-        {dataEntries()}
+        <DataTable<AdminProductResponse>
+          data={pageInfo?.content || []}
+          emptyMessage="Không tìm thấy sản phẩm nào"
+          headers={[
+            "ID sản phẩm",
+            "Hình ảnh",
+            "Tên sản phẩm",
+            "Giá gốc",
+            "Giá bán",
+            "Loại",
+            "Thương hiệu",
+            "",
+            "",
+          ]}
+          renderRow={(item, index) => (
+            <ProductTableRow
+              key={index}
+              item={item}
+              refreshCallBack={refresh}
+            />
+          )}
+        />
 
         {/*
          * Pagination controller
          */}
-        {pageInfo && pageInfo.content && (
-          <PaginationControls
-            isLast={page >= Number(pageInfo.totalPages)}
-            isFirst={page == 1}
-            pageNumber={page}
-            setPage={(page: number) => {
-              setPage(page);
-            }}
-          />
-        )}
+        <PaginationControls
+          setPage={(page: number) => {
+            setPage(page);
+          }}
+          page={pageInfo}
+        />
       </div>
     </AdminMainCard>
   );
 }
-
-type ProductRowProps = {
-  item: AdminProductResponse;
-  refreshCallBack: () => void;
-};
-
-const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
-  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
-
-  const handleDelete = async () => {
-    if (!item.productId) {
-      return;
-    }
-    try {
-      await AdminProductControllerService.deleteProduct(item.productId);
-      setIsOpenConfirm(false);
-      refreshCallBack();
-      toast("Xóa thành công");
-    } catch (e) {
-      toast(e as string);
-    }
-  };
-
-  return (
-    <tr>
-      <td>{item.productId}</td>
-      <td>
-        {item.image && (
-          <Thumbnail className="h-24 w-24">
-            <ProductImage data={item.image} />
-          </Thumbnail>
-        )}
-      </td>
-      <td>{item.name}</td>
-      <td>{item.actualPrice}</td>
-      <td>{item.sellPrice}</td>
-      <td>{item.type}</td>
-      <td>{item.brand?.name}</td>
-      <td className="hover:bg-gray-200">
-        <Link href={`/admin/products/${item.productId}/edit`}>
-          {/* Action edit */}
-          <i className="fa fa-external-link-alt  cursor-pointer"></i>
-        </Link>
-      </td>
-      <td
-        onClick={() => {
-          setIsOpenConfirm(true);
-        }}
-        className="hover:bg-gray-200"
-      >
-        {/* Action delete */}
-        <i className="fa fa-trash"></i>
-        <ConfirmModal
-          isOpen={isOpenConfirm}
-          onClose={() => setIsOpenConfirm(false)}
-          onConfirm={handleDelete}
-          title={"Xác nhận"}
-          content={"Bạn có muốn xóa nhãn hàng này?"}
-        />
-      </td>
-    </tr>
-  );
-};
