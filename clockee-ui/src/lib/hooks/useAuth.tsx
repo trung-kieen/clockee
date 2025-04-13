@@ -19,6 +19,7 @@ type AuthContextType = {
   token: string | null;
   isAuthenticated: boolean;
   saveUserDetails: (authDetails: JwtTokenResponse) => void;
+  isAdmin: () => boolean;
   logout: () => void;
 };
 
@@ -81,6 +82,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     AuthManager.clearAccessToken();
   };
 
+  const isAdmin = () => {
+    return (
+      (user &&
+        (user?.roles?.includes("PRODUCT_ADMIN") ||
+          user?.roles?.includes("INVENTORY_MANAGER"))) ||
+      false
+    );
+  };
   const _refreshAuth = async () => {
     try {
       const resp = await getRefreshToken();
@@ -98,6 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         saveUserDetails,
         logout,
+        isAdmin,
       }}
     >
       {children}

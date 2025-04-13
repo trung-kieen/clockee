@@ -1,23 +1,14 @@
 "use client";
 import Link from "next/link";
-import { LogOutIcon, ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, User } from "lucide-react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import Brand from "../Brand";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import { SearchBar } from "./SearchBar";
 import { useCart } from "@/lib/hooks/useCart";
 
 export const MainHeader = ({ searchBar = true, filter = true }) => {
-  const { isAuthenticated, logout } = useAuth();
-  const router = useRouter();
+  const { isAuthenticated, isAdmin } = useAuth();
   const { totalItems } = useCart();
-
-  const handleLogout = () => {
-    logout();
-    toast("Đăng xuất thành công");
-    router.push("/login");
-  };
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-white shadow-md">
@@ -71,15 +62,27 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
         {isAuthenticated ? (
           <>
             <div>
-              <Link href={"/me"}>
-                <User className="w-6 h-6 text-gray-700 hover:text-black" />
-              </Link>
-            </div>
-            <div>
-              <LogOutIcon
-                onClick={handleLogout}
-                className="w-6 h-6 text-gray-700 hover:text-black"
-              />
+              <details className="dropdown dropdown-end">
+                <summary className="btn border-none bg-white">
+                  <User className="text-gray-700 hover:text-black" />
+                </summary>
+                <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
+                    <Link href={"/me"}>Tài khoản của tôi</Link>
+                  </li>
+                  {isAdmin() && (
+                    <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
+                      <Link href={"/admin"}>Quản lý</Link>
+                    </li>
+                  )}
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
+                    <Link href={"/me/change-password"}>Đổi mật khẩu</Link>
+                  </li>
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
+                    <Link href={"/logout"}>Đăng xuất</Link>
+                  </li>
+                </ul>
+              </details>
             </div>
           </>
         ) : (

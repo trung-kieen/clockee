@@ -15,9 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,8 +42,9 @@ public class CartController {
         .body(AppMessage.of(MessageKey.CREATED_SUCCESS));
   }
 
-  @PatchMapping("/items")
-  public ResponseEntity<?> updateItem(@Valid CartItemDTO item, @CurrentUser User user) {
+  @PutMapping("/items")
+  public ResponseEntity<?> updateItem(
+      @Valid @RequestBody CartItemDTO item, @CurrentUser User user) {
     cartService.updateItem(item, user);
     return ResponseEntity.ok(AppMessage.of(MessageKey.UPDATED_SUCCESS));
   }

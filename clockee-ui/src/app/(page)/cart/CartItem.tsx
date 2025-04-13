@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { CartItemDetails } from "@/gen";
 import { useCart } from "@/lib/hooks/useCart";
+import ConfirmModal from "@/app/components/modal/ConfirmModal";
 
 interface CartItemProps {
   item: CartItemDetails;
@@ -10,19 +11,36 @@ interface CartItemProps {
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const { removeFromCart, updateItemQuantity } = useCart();
   const decreaseItemQuantity = () => {
-    item.quantity = (item.quantity || 0) - 1;
-    updateItemQuantity(item);
+    const newItem: CartItemDetails = {
+      ...item,
+      quantity: Number(item.quantity) - 1,
+    };
+    if (newItem.quantity == 0) {
+      setIsOpenConfirmModal(true);
+      return;
+    }
+    updateItemQuantity(newItem);
   };
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const increaseItemQuantity = () => {
-    item.quantity = (item.quantity || 0) - 1;
-    updateItemQuantity(item);
+    const newItem: CartItemDetails = {
+      ...item,
+      quantity: Number(item.quantity) + 1,
+    };
+    updateItemQuantity(newItem);
+  };
+
+  const handleConfirmDelete = () => {
+    removeFromCart(item);
+    setIsOpenConfirmModal(false);
   };
 
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
       <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
         <img
-          src={item.image}
+          // TODO image instead
+          src={item.name}
           alt={item.name}
           className="w-full h-full object-cover"
         />
@@ -54,10 +72,17 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
       <button
         className="h-8 w-8 ml-5 text-gray-500 rounded-full hover:text-red-500 "
-        onClick={() => removeFromCart(item)}
+        onClick={() => setIsOpenConfirmModal(true)}
       >
         <Trash2 size={18} />
       </button>
+      <ConfirmModal
+        isOpen={isOpenConfirmModal}
+        onClose={() => setIsOpenConfirmModal(false)}
+        onConfirm={handleConfirmDelete}
+        title={"Xác nhận"}
+        content={"Bạn có muốn xóa sản phẩm này khỏi giỏ hàng này?"}
+      />
     </div>
   );
 };

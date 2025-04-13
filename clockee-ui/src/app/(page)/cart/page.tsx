@@ -65,7 +65,7 @@ const CartPage = () => {
         {cartItems.length === 0 ? (
           <div className="text-center py-16 bg-gray-50 rounded-lg">
             <ShoppingBag className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-            <h2 className="text-2xl font-semibold mb-2">Your cart is empty</h2>
+            <h2 className="text-2xl font-semibold mb-2">Giỏ hàng đang trống</h2>
             <p className="text-gray-500 mb-8">
               Có vẻ bạn chưa thêm sản phẩm nào vào giỏ hàng.
             </p>

@@ -10,9 +10,9 @@ import lombok.Data;
 public class LoginRequest {
   @Email
   @NotNull
-  @Schema(example = "nguyenvana123@gmail.com")
+  @Schema(example = "admin@clockee.com")
   private String email;
 
-  @Schema(example = "vana123@gmail")
+  @Schema(example = "clockee123")
   private String password;
 }

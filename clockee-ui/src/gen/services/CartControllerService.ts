@@ -9,6 +9,21 @@ import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 export class CartControllerService {
   /**
+   * @param requestBody
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static updateItem(
+    requestBody: CartItemDTO,
+  ): CancelablePromise<Record<string, any>> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/user/cart/items",
+      body: requestBody,
+      mediaType: "application/json",
+    });
+  }
+  /**
    * @param item
    * @returns any OK
    * @throws ApiError
@@ -18,22 +33,6 @@ export class CartControllerService {
   ): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
       method: "POST",
-      url: "/user/cart/items",
-      query: {
-        item: item,
-      },
-    });
-  }
-  /**
-   * @param item
-   * @returns any OK
-   * @throws ApiError
-   */
-  public static updateItem(
-    item: CartItemDTO,
-  ): CancelablePromise<Record<string, any>> {
-    return __request(OpenAPI, {
-      method: "PATCH",
       url: "/user/cart/items",
       query: {
         item: item,

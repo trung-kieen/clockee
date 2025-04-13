@@ -74,7 +74,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
     try {
       CartControllerService.removeItem(item.productId);
-
       setCart((previous) => {
         return {
           ...previous,
@@ -88,7 +87,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateItemQuantity = (updatedItem: CartItemDetails) => {
-    if (updatedItem.quantity && updatedItem.quantity < 1) {
+    if (Number(updatedItem.quantity) < 1) {
       removeFromCart(updatedItem);
       return;
     }
