@@ -25,6 +25,7 @@ export type { PageSupplierDTO } from "./models/PageSupplierDTO";
 export type { PageUserProductResponse } from "./models/PageUserProductResponse";
 export type { Product } from "./models/Product";
 export type { Purchase } from "./models/Purchase";
+export type { RefreshTokenResponse } from "./models/RefreshTokenResponse";
 export type { SortObject } from "./models/SortObject";
 export type { Supplier } from "./models/Supplier";
 export type { SupplierDTO } from "./models/SupplierDTO";

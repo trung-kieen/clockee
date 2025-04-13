@@ -2,16 +2,25 @@
 import { usePathname } from "next/navigation";
 import SimpleHeader from "./SimpleHeader";
 import { MainHeader } from "./MainHeader";
+import { ReactNode } from "react";
 
 /**
  * Manager dynamic header base on route path
  *
  */
+
+type Route = {
+  path?: string;
+  header?: ReactNode;
+  exact?: boolean;
+  /* eslint-disable */
+  pattern?: any;
+};
 export const Header = () => {
   const pathname = usePathname();
 
   // Manager header base on router path
-  const routes = [
+  const routes: Route[] = [
     // { path: '/', header: <Header_home />, exact: true },
     { path: "/login/", header: <SimpleHeader />, exact: true },
     { path: "/login/reset", header: <SimpleHeader />, exact: true },

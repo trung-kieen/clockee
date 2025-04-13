@@ -75,7 +75,8 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     try {
-      Path filePath = new File(applicationProperties.getUploadPath() + File.separator + fileUrl).toPath();
+      Path filePath =
+          new File(applicationProperties.getUploadPath() + File.separator + fileUrl).toPath();
       return Files.readAllBytes(filePath);
 
     } catch (IOException e) {

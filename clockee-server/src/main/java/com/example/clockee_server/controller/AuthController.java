@@ -4,13 +4,12 @@ import com.example.clockee_server.auth.annotation.CurrentUser;
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
-import com.example.clockee_server.auth.jwt.JwtTokenProvider;
+import com.example.clockee_server.auth.dto.RefreshTokenResponse;
 import com.example.clockee_server.auth.service.AuthenticationService;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.response.CurrentUserDetails;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -18,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,24 +30,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
   private final AuthenticationService authService;
-  private final JwtTokenProvider tokenProvider;
-  private final UserDetailsService userDetailsService;
+  private final String refreshTokenCookieName = "refreshToken";
 
   @PostMapping("/login")
   public ResponseEntity<JwtTokenResponse> login(
       @RequestBody LoginRequest req, HttpServletResponse response) {
     JwtTokenResponse tokenResp = authService.login(req);
-
-    Cookie refreshTokenCookie = new Cookie("refreshToken", tokenResp.getRefreshToken());
-    refreshTokenCookie.setHttpOnly(true);
-    refreshTokenCookie.setSecure(true);
-    refreshTokenCookie.setPath("/");
-    refreshTokenCookie.setMaxAge(30 * 24 * 60 * 60);
-
-    response.addCookie(refreshTokenCookie);
-
+    // Add cookie token as header of response
+    authService.addRefreshTokenToCookie(
+        refreshTokenCookieName, tokenResp.getRefreshToken(), response);
     tokenResp.setRefreshToken(null);
-
     return ResponseEntity.ok(tokenResp);
   }
 
@@ -74,25 +63,18 @@ public class AuthController {
     return ResponseEntity.ok(userDetails);
   }
 
-  // TODO: Duong refactor to service layer
+  @GetMapping("/logout")
+  public ResponseEntity<?> logoutUser(HttpServletResponse response) {
+    // Clear cookie
+    authService.clearRefreshTokenCookie(refreshTokenCookieName, response);
+    return ResponseEntity.accepted().build();
+  }
+
   @PostMapping("/refresh")
-  public ResponseEntity<?> refreshAccessToken(
+  public ResponseEntity<RefreshTokenResponse> refreshAccessToken(
       @CookieValue(name = "refreshToken", required = false) String refreshToken,
       HttpServletResponse response) {
-    if (refreshToken == null) {
-      return ResponseEntity.status(401).body("Refresh Token is missing");
-    }
-
-    String username = tokenProvider.getUsername(refreshToken);
-    UserDetails user = userDetailsService.loadUserByUsername(username);
-
-    if (!tokenProvider.isValidRefreshToken(refreshToken, user)) {
-      return ResponseEntity.status(401).body("Refresh Token is invalid");
-    }
-
-    String newAccessToken = tokenProvider.genenerateToken(user);
-
-    return ResponseEntity.ok(
-        new JwtTokenResponse(newAccessToken, refreshToken, "Bearer", null, username, null));
+    RefreshTokenResponse resp = authService.refresh(refreshToken, response);
+    return ResponseEntity.ok(resp);
   }
 }

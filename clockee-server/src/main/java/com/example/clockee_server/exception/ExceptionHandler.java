@@ -2,6 +2,7 @@ package com.example.clockee_server.exception;
 
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
+import io.jsonwebtoken.ExpiredJwtException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -108,6 +109,12 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<HttpErrorResponse> handleResourceNotFound(ResourceNotFoundException e) {
     HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 404, null, null);
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
+
+  @org.springframework.web.bind.annotation.ExceptionHandler(value = ExpiredJwtException.class)
+  public ResponseEntity<HttpErrorResponse> handleTokenExpired(ExpiredJwtException e) {
+    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 401, null, null);
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   /** Handle cac loi chung chung khong ro nguyen nhan nhu {@link RuntimeException} */

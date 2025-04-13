@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartRepository extends JpaRepository<CartItem, Long> {
 
-  @Query("""
+  @Query(
+      """
       SELECT cartItem FROM CartItem cartItem
       WHERE cartItem.product.productId = :productId
       AND cartItem.user.userId = :userId
@@ -20,7 +21,8 @@ public interface CartRepository extends JpaRepository<CartItem, Long> {
   Optional<CartItem> findByProductIdAndUserId(
       @Param("productId") Long productId, @Param("userId") Long userId);
 
-  @Query("""
+  @Query(
+      """
       SELECT cartItem FROM CartItem cartItem
       WHERE cartItem.user.userId = :userId
       """)

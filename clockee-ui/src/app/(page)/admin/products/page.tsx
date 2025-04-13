@@ -12,7 +12,6 @@ import Link from "next/link";
 import AdminMainCard from "@/app/components/card/AdminCard";
 import PrimaryButton from "@/app/components/button/Button";
 import DataTable from "@/app/components/common/DataTable";
-import { PageResponse } from "@/gen/backend";
 import ProductTableRow from "./ProductTableRow";
 
 export default function ProductAdminPage() {
