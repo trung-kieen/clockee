@@ -1,5 +1,6 @@
 package com.example.clockee_server.payload.response.user;
 
+import com.example.clockee_server.payload.dto.BrandDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserProductResponse {
   private String name;
-  private String imageUrl;
+  private byte[] image;
   private Double sellPrice;
+  private String description;
+  private BrandDTO brand;
+  private String type;
+  private Boolean isActive;
+  private Long stock;
 }

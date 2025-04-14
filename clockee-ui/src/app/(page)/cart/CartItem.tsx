@@ -3,13 +3,19 @@ import { Trash2 } from "lucide-react";
 import { CartItemDetails } from "@/gen";
 import { useCart } from "@/lib/hooks/useCart";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
+import Link from "next/link";
 
 interface CartItemProps {
   item: CartItemDetails;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
-  const { removeFromCart, updateItemQuantity } = useCart();
+  const {
+    removeFromCart,
+    updateItemQuantity,
+    handleCheckItem,
+    handleUncheckItem,
+  } = useCart();
   const decreaseItemQuantity = () => {
     const newItem: CartItemDetails = {
       ...item,
@@ -21,6 +27,18 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     }
     updateItemQuantity(newItem);
   };
+
+  function handleCheck(
+    e: React.ChangeEvent<HTMLInputElement>,
+    item: CartItemDetails,
+  ) {
+    if (e.target.checked) {
+      handleCheckItem(item);
+    } else {
+      handleUncheckItem(item);
+    }
+  }
+
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const increaseItemQuantity = () => {
     const newItem: CartItemDetails = {
@@ -37,6 +55,13 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
+      <input
+        className="checkbox mr-3"
+        type="checkbox"
+        onChange={(e) => {
+          handleCheck(e, item);
+        }}
+      />
       <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
         <img
           // TODO image instead
@@ -47,7 +72,9 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
       </div>
 
       <div className="flex-1 ml-4">
-        <h3 className="font-semibold text-lg">{item.name}</h3>
+        <h3 className="font-semibold text-lg">
+          <Link href={`/product/${item.productId}`}>{item.name}</Link>
+        </h3>
         <div className="text-sm text-gray-600 space-y-1"></div>
         <p className="font-bold mt-1">${item.price}</p>
       </div>

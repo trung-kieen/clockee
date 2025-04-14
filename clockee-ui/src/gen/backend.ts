@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-04-13 20:40:00.
+// Generated using typescript-generator version 3.2.1263 on 2025-04-14 15:19:58.
 
 export interface Brand {
   brandId: number;
@@ -56,6 +56,7 @@ export interface Purchase {
   price: number;
   quantity: number;
   totalPrice: number;
+  createAt: Date;
 }
 
 export interface Role extends GrantedAuthority {

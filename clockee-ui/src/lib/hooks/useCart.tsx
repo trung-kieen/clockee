@@ -10,6 +10,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useAuth } from "./useAuth";
@@ -21,12 +22,35 @@ type CartContextType = {
   addToCart: (item: CartItemDetails) => void;
   removeFromCart: (item: CartItemDetails) => void;
   updateItemQuantity: (updatedItem: CartItemDetails) => void;
+  handleCheckItem: (item: CartItemDetails) => void;
+  handleUncheckItem: (item: CartItemDetails) => void;
+  selectedItems: CartItemDetails[];
 };
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartDetailsResponse>({});
   const { isAuthenticated } = useAuth();
+  const [selectedProductId, setSelectedProductId] = useState<number[]>([]);
+  // const [selectedItems, setSelectedItems] = useState<CartItemDetails[]>([]);
+  const selectedItems = useMemo(() => {
+    const updatedSelectedItems = cart.items?.filter((item) => {
+      return (
+        item.productId !== undefined &&
+        selectedProductId.includes(item.productId)
+      );
+    });
+    return updatedSelectedItems || [];
+  }, [selectedProductId, cart]);
+  function handleUncheckItem(item: CartItemDetails): void {
+    setSelectedProductId((previous) =>
+      previous.filter((i) => i !== item.productId),
+    );
+  }
+
+  function handleCheckItem(item: CartItemDetails): void {
+    setSelectedProductId((previous) => [...previous, Number(item.productId)]);
+  }
 
   /**
    * Fetch user cart information for server
@@ -114,12 +138,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider
       value={{
-        cart: cart,
+        cart,
         totalItems: cart.items?.length || 0,
-        fetchCart: fetchCart,
-        addToCart: addToCart,
-        removeFromCart: removeFromCart,
-        updateItemQuantity: updateItemQuantity,
+        fetchCart,
+        addToCart,
+        removeFromCart,
+        updateItemQuantity,
+        handleCheckItem,
+        handleUncheckItem,
+        selectedItems,
       }}
     >
       {children}

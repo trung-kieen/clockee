@@ -31,7 +31,7 @@ public class UserProductController {
   // Api lấy sản phẩm theo id
   @GetMapping("/{id}")
   public ResponseEntity<UserProductResponse> getProductById(@PathVariable Long id) {
-    UserProductResponse product = userProductService.getProductByID(id);
+    UserProductResponse product = userProductService.getProductById(id);
     return ResponseEntity.ok(product);
   }
 }

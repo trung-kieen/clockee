@@ -11,4 +11,5 @@ export type Purchase = {
   price?: number;
   quantity?: number;
   totalPrice?: number;
+  createAt?: string;
 };

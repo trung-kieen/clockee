@@ -31,7 +31,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
           + "AND MONTH(o.createAt) = :month")
   Optional<Double> getRevenueByMonthAndYear(@Param("year") int year, @Param("month") int month);
 
-  @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.status = 'SHIPPED'"
+  @Query(
+      "SELECT SUM(o.totalPrice) FROM Order o WHERE o.status = 'SHIPPED'"
           + "AND YEAR(o.createAt) = :year "
           + "AND MONTH(o.createAt) = :month")
   Double sumTotalPriceSale(@Param("year") int year, @Param("month") int month);

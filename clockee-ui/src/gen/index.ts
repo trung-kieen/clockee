@@ -15,6 +15,7 @@ export type { CartDetailsResponse } from "./models/CartDetailsResponse";
 export type { CartItemDetails } from "./models/CartItemDetails";
 export type { CartItemDTO } from "./models/CartItemDTO";
 export type { CreateUserRequest } from "./models/CreateUserRequest";
+export type { FinancialReportDTO } from "./models/FinancialReportDTO";
 export type { JwtTokenResponse } from "./models/JwtTokenResponse";
 export type { LoginRequest } from "./models/LoginRequest";
 export type { MonthlyRevenueDTO } from "./models/MonthlyRevenueDTO";
@@ -38,4 +39,5 @@ export { AdminPurchaseControllerService } from "./services/AdminPurchaseControll
 export { AdminSupplierControllerService } from "./services/AdminSupplierControllerService";
 export { AuthControllerService } from "./services/AuthControllerService";
 export { CartControllerService } from "./services/CartControllerService";
+export { FinancialReportControllerService } from "./services/FinancialReportControllerService";
 export { UserProductControllerService } from "./services/UserProductControllerService";

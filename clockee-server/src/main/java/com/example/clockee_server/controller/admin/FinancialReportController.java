@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/financial-report")
 public class FinancialReportController {
-    @Autowired
-    private FinancialReportService financialReportService;
+  @Autowired private FinancialReportService financialReportService;
 
-    @GetMapping("/by-year-month")
-    public ResponseEntity<FinancialReportDTO> geFinancialReport(@RequestParam("year") int year, @RequestParam("month") int month) {
-        FinancialReportDTO report = financialReportService.getFinancialReport(year, month);
+  @GetMapping("/by-year-month")
+  public ResponseEntity<FinancialReportDTO> geFinancialReport(
+      @RequestParam("year") int year, @RequestParam("month") int month) {
+    FinancialReportDTO report = financialReportService.getFinancialReport(year, month);
 
-        return ResponseEntity.ok(report);
-    }
+    return ResponseEntity.ok(report);
+  }
 }

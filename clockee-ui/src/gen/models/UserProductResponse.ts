@@ -2,8 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { BrandDTO } from "./BrandDTO";
 export type UserProductResponse = {
   name?: string;
-  imageUrl?: string;
+  image?: string;
   sellPrice?: number;
+  description?: string;
+  brand?: BrandDTO;
+  type?: string;
+  isActive?: boolean;
+  stock?: number;
 };

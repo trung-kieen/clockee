@@ -83,14 +83,14 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<HttpErrorResponse> handleException(BadCredentialsException e) {
     log.info("Handling BadCredentialsException: {}", e.getMessage());
-    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 401, null, null);
+    HttpErrorResponse response = HttpErrorResponse.of(null, 401, null, null);
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   @org.springframework.web.bind.annotation.ExceptionHandler(AuthorizationDeniedException.class)
   public ResponseEntity<HttpErrorResponse> handleException(AuthorizationDeniedException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
-    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 403, null, null);
+    HttpErrorResponse response = HttpErrorResponse.of(null, 403, null, null);
     return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
   }
 
@@ -101,19 +101,22 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
       value = TransactionSystemException.class)
   public ResponseEntity<HttpErrorResponse> handleTransactionRollBack(TransactionSystemException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
-    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 400, null, null);
+
+    HttpErrorResponse response = HttpErrorResponse.of(null, 400, null, null);
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
   @org.springframework.web.bind.annotation.ExceptionHandler(value = ResourceNotFoundException.class)
   public ResponseEntity<HttpErrorResponse> handleResourceNotFound(ResourceNotFoundException e) {
-    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 404, null, null);
+    logger.error(e.getMessage());
+    HttpErrorResponse response = HttpErrorResponse.of(null, 404, null, null);
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
   @org.springframework.web.bind.annotation.ExceptionHandler(value = ExpiredJwtException.class)
   public ResponseEntity<HttpErrorResponse> handleTokenExpired(ExpiredJwtException e) {
-    HttpErrorResponse response = HttpErrorResponse.of(e.getMessage(), 401, null, null);
+    logger.error(e.getMessage());
+    HttpErrorResponse response = HttpErrorResponse.of(null, 401, null, null);
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 

@@ -81,7 +81,7 @@ const CartPage = () => {
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">
-                    Cart Items ({cartItems.length})
+                    Sản phẩm ({cartItems.length})
                   </h2>
                 </div>
 
