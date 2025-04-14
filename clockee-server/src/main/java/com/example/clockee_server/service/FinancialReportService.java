@@ -1,0 +1,26 @@
+package com.example.clockee_server.service;
+
+import com.example.clockee_server.payload.dto.FinancialReportDTO;
+import com.example.clockee_server.repository.OrderRepository;
+import com.example.clockee_server.repository.PurchaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class FinancialReportService {
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PurchaseRepository purchaseRepository;
+
+    public FinancialReportDTO getFinancialReport(int year, int month) {
+        Double totalSale = Optional.ofNullable(orderRepository.sumTotalPriceSale(year, month)).orElse(0.0);
+        Double totalPurchase = Optional.ofNullable(purchaseRepository.totalPricePurchase(year, month)).orElse(0.0);
+
+        Double profit = totalSale - totalPurchase;
+        return new FinancialReportDTO(totalSale, totalPurchase, profit);
+    }
+}

@@ -27,12 +27,10 @@ public class OrderService {
   }
 
   public Double getRevenueByMonthAndYear(int year, int month) {
-    // Log tham số đầu vào để kiểm tra
     System.out.println("Calling getRevenueByMonthAndYear with year: " + year + ", month: " + month);
 
     Optional<Double> revenue = orderRepository.getRevenueByMonthAndYear(year, month);
 
-    // Log kết quả từ repository
     if (revenue.isPresent()) {
       System.out.println("Revenue found: " + revenue.get());
     } else {

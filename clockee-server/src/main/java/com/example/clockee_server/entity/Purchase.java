@@ -4,6 +4,8 @@ import com.example.clockee_server.util.Client;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -34,4 +36,7 @@ public class Purchase {
 
   @Column(name = "total_price", precision = 10, nullable = false)
   private Double totalPrice;
+
+  @Column(name = "create_at", updatable = false, nullable = false)
+  private LocalDateTime createAt;
 }
