@@ -28,6 +28,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   const discount = 0;
   const total = subtotal - discount;
 
+  const formatVND = (value?: number) => new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value ?? 0);
   return (
     <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
       <h2 className="text-xl font-bold mb-4">Tóm tắt đơn hàng</h2>
@@ -38,7 +39,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <div key={index} className="flex justify-between items-center">
               <span className="text-gray-600">{item.name}</span>
               <span className="font-semibold">
-                ${(Number(item.quantity) * Number(item.price)).toFixed(2)}
+                {formatVND(Number(item.quantity) * Number(item.price))}
               </span>
             </div>
           );
@@ -46,20 +47,20 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
         <div className="flex justify-between items-center">
           <span className="text-gray-600">Tạm tính</span>
-          <span className="font-semibold">${subtotal.toFixed(2)}</span>
+          <span className="font-semibold">{formatVND(subtotal)}</span>
         </div>
 
         <div className="flex justify-between items-center">
           <span className="text-gray-600">Giảm giá</span>
           <span className="font-semibold text-shop-discount">
-            -${discount.toFixed(2)}
+            -{formatVND(discount)}
           </span>
         </div>
 
         <div className="border-t border-gray-200 pt-3 mt-3">
           <div className="flex justify-between items-center">
             <span className="font-semibold">Tổng cộng</span>
-            <span className="font-bold text-lg">${total.toFixed(2)}</span>
+            <span className="font-bold text-lg">{formatVND(total)}</span>
           </div>
         </div>
       </div>

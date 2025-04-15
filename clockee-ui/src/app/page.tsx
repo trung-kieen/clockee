@@ -1,61 +1,18 @@
 "use client";
+import { PageUserProductResponse } from "@/gen";
 import { useCart } from "@/lib/hooks/useCart";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: string;
-}
 
 interface MenuItemProps {
-  product: Product;
+  product: PageUserProductResponse;
 }
 
-const products: Product[] = [
-  {
-    id: 1,
-    title: "Casio World Time",
-    description: "AE-1000WHD-1AVDF - Nam - Quartz (Pin)",
-    price: "1.506.000 đ",
-  },
-  {
-    id: 2,
-    title: "Casio Vintage",
-    description: "A168WG-9WDF - Nam - Quartz (Pin)",
-    price: "1.300.000 đ",
-  },
-  {
-    id: 3,
-    title: "Casio Standard",
-    description: "MW-240-1EVDF - Nam - Quartz (Pin)",
-    price: "800.000 đ",
-  },
-  {
-    id: 4,
-    title: "Casio G-Shock",
-    description: "GA-2100-1A1DR - Nam - Quartz (Pin)",
-    price: "2.500.000 đ",
-  },
-  {
-    id: 5,
-    title: "Casio Edifice",
-    description: "EFR-539D-1A2V - Nam - Quartz (Pin)",
-    price: "3.200.000 đ",
-  },
-  {
-    id: 6,
-    title: "Casio ProTrek",
-    description: "PRG-240-1DR - Nam - Quartz (Pin)",
-    price: "4.800.000 đ",
-  },
-];
 
 const MenuItem = ({ product }: MenuItemProps) => {
   return (
-    <Link href={`/user/product/${product.id}`} passHref>
+    <Link href={`/product/${product.content.i}`} passHref>
       <div className="card bg-base-100 w-50 shadow-sm cursor-pointer transition-transform hover:scale-105">
         <figure>
           <img src="/product1.png" alt={product.title} />
@@ -69,32 +26,24 @@ const MenuItem = ({ product }: MenuItemProps) => {
     </Link>
   );
 };
-// const MenuItem = () => {
-//   const title = "Casio world time";
-//   const description = " AE-1000WHD-1AVDF - Nam - Quazt (Pin)";
-//   const price = "1.506.000 đ";
-//   return (
-//     <>
-//       <div className="card bg-base-100 w-50 shadow-sm">
-//         <figure>
-//           <img
-//             src="product1.png"
-//             alt="Shoes" />
-//         </figure>
-//         <div className="card-body flex items-center justify-center">
-//           <b>{title}</b>
-//           <p>{description}</p>
-//           <h2 className="card-title">
-//             {price}
-//           </h2>
-//         </div>
-//       </div>
-
-//     </>
-//   )
-// }
 
 export default function HomePage() {
+  const [products, setProducts] = useState<PageUserProductResponse | null> (null);
+
+  useEffect(() => {
+    const fertchProduct = async () => {
+      try {
+        const res = await fetch(`http://localhost:8080/api/user/products`);
+        if(!res.ok) throw new Error("Không tìm được sản phẩm");
+        const data = await res.json();
+        setProducts(data);
+        console.log(data)
+      } catch (err){
+        console.log("Lỗi khi fetch sản phẩm", err)
+      }
+    };
+    fertchProduct();
+  },[setProducts]);
   return (
     <>
       {/* Banner
@@ -108,7 +57,7 @@ export default function HomePage() {
       />
       <div className="flex justify-center">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
-          {products.map((product) => (
+          {products.map((PageUserProductResponse) => (
             <MenuItem key={product.id} product={product} />
           ))}
         </div>
