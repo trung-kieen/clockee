@@ -1,5 +1,6 @@
 package com.example.clockee_server.auth.dto;
 
+import com.example.clockee_server.validatetor.PasswordMatch;
 import io.micrometer.common.lang.Nullable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -10,8 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 /** CreateUserRequest / RegisterUserRequest */
 @Data
-// @PasswordMatch(passwordField = "password", passwordConfirmationFieldName =
-// "passwordConfirmation")
+@PasswordMatch(passwordField = "password", passwordConfirmationFieldName = "passwordConfirmation")
 @Builder
 public class CreateUserRequest {
   @Email

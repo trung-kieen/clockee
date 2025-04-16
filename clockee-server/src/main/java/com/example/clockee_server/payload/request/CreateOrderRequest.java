@@ -1,6 +1,6 @@
 package com.example.clockee_server.payload.request;
 
-import jakarta.validation.constraints.Min;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartItemDTO {
-  @Min(value = 0, message = "So luong khong duoc am")
-  private Long quantity;
-
-  private Long productId;
+public class CreateOrderRequest {
+  private String phone;
+  private String address;
+  private List<CartItemRequest> items;
 }

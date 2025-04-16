@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CartItemDetails = {
-  productId?: number;
+export type CurrentUserDetails = {
+  userId?: number;
+  email?: string;
   name?: string;
-  quantity?: number;
-  price?: number;
-  image?: string;
+  phone?: string;
+  address?: string;
 };

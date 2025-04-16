@@ -4,6 +4,7 @@ import { CartItemDetails } from "@/gen";
 import { useCart } from "@/lib/hooks/useCart";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import Link from "next/link";
+import { ProductImage } from "@/app/components/common/Base64Image";
 
 interface CartItemProps {
   item: CartItemDetails;
@@ -63,12 +64,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         }}
       />
       <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
-        <img
-          // TODO image instead
-          src={item.name}
-          alt={item.name}
-          className="w-full h-full object-cover"
-        />
+        <ProductImage data={item.image} />
       </div>
 
       <div className="flex-1 ml-4">

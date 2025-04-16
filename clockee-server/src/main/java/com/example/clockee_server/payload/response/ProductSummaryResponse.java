@@ -1,18 +1,17 @@
 package com.example.clockee_server.payload.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CartItemDetails {
+public class ProductSummaryResponse {
   private Long productId;
   private String name;
-  private Long quantity;
-  private Double price;
   private byte[] image;
+  private Double sellPrice;
 }

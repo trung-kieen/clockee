@@ -3,6 +3,7 @@ import {
   CartControllerService,
   CartDetailsResponse,
   CartItemDetails,
+  CurrentUserDetails,
 } from "@/gen";
 import { logger } from "@/utils/logger";
 import {
@@ -25,13 +26,24 @@ type CartContextType = {
   handleCheckItem: (item: CartItemDetails) => void;
   handleUncheckItem: (item: CartItemDetails) => void;
   selectedItems: CartItemDetails[];
+  deliveryDetails: DeliverDetailsType;
+  setDeliveryDetails: (info: DeliverDetailsType) => void;
+  isEmptyCart: boolean;
 };
 const CartContext = createContext<CartContextType | null>(null);
+
+// TODO
+export type DeliverDetailsType = CurrentUserDetails;
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartDetailsResponse>({});
   const { isAuthenticated } = useAuth();
   const [selectedProductId, setSelectedProductId] = useState<number[]>([]);
+
+  const [deliveryDetails, setDeliveryDetails] = useState<DeliverDetailsType>(
+    {},
+  );
+
   // const [selectedItems, setSelectedItems] = useState<CartItemDetails[]>([]);
   const selectedItems = useMemo(() => {
     const updatedSelectedItems = cart.items?.filter((item) => {
@@ -77,7 +89,29 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       CartControllerService.addItem(item);
       const defaultQuanitty = 1;
       setCart((previous) => {
+        const existsItemIndex = (previous.items || []).findIndex(
+          (i) => i.productId === item.productId,
+        );
+        // Update previous item if exist in cart
+        if (existsItemIndex >= 0) {
+          return {
+            // Add new item in cart
+            ...previous,
+            items: previous.items?.map((i) => {
+              // Update prevous product by increase the quantity
+              if (i.productId === item.productId) {
+                return {
+                  ...i,
+                  quantity: (i.quantity || 0) + (item.quantity || 1),
+                };
+              } else {
+                return i;
+              }
+            }),
+          };
+        }
         return {
+          // Add new item in cart
           ...previous,
           items: [
             ...(previous.items || []),
@@ -147,6 +181,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         handleCheckItem,
         handleUncheckItem,
         selectedItems,
+        deliveryDetails,
+        setDeliveryDetails,
+        isEmptyCart: cart.items?.length == 0,
       }}
     >
       {children}

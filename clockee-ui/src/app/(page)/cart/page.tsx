@@ -85,7 +85,7 @@ const CartPage = () => {
                   </h2>
                 </div>
 
-                <div className="divide-y divide-gray-100 list bg-base-100 p-10 rounded-box shadow-md">
+                <div className="divide-y divide-gray-100 list bg-base-200 p-10 rounded-box shadow-md">
                   {cartItems.map((item, index) => (
                     <CartItem key={index} item={item} />
                   ))}

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CartDetailsResponse } from "../models/CartDetailsResponse";
-import type { CartItemDTO } from "../models/CartItemDTO";
+import type { CartItemRequest } from "../models/CartItemRequest";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
@@ -14,7 +14,7 @@ export class CartControllerService {
    * @throws ApiError
    */
   public static updateItem(
-    requestBody: CartItemDTO,
+    requestBody: CartItemRequest,
   ): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
       method: "PUT",
@@ -29,7 +29,7 @@ export class CartControllerService {
    * @throws ApiError
    */
   public static addItem(
-    item: CartItemDTO,
+    item: CartItemRequest,
   ): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
       method: "POST",

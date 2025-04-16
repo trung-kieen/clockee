@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PageUserProductResponse } from "../models/PageUserProductResponse";
-import type { UserProductResponse } from "../models/UserProductResponse";
+import type { PageProductSummaryResponse } from "../models/PageProductSummaryResponse";
+import type { ProductDetailsResponse } from "../models/ProductDetailsResponse";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
@@ -11,13 +11,13 @@ export class UserProductControllerService {
   /**
    * @param page
    * @param size
-   * @returns PageUserProductResponse OK
+   * @returns PageProductSummaryResponse OK
    * @throws ApiError
    */
   public static getAllProducts1(
     page?: number,
-    size: number = 5,
-  ): CancelablePromise<PageUserProductResponse> {
+    size: number = 10,
+  ): CancelablePromise<PageProductSummaryResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/user/products",
@@ -29,12 +29,12 @@ export class UserProductControllerService {
   }
   /**
    * @param id
-   * @returns UserProductResponse OK
+   * @returns ProductDetailsResponse OK
    * @throws ApiError
    */
   public static getProductById1(
     id: number,
-  ): CancelablePromise<UserProductResponse> {
+  ): CancelablePromise<ProductDetailsResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/user/products/{id}",

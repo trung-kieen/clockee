@@ -3,18 +3,18 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PageableObject } from "./PageableObject";
+import type { ProductSummaryResponse } from "./ProductSummaryResponse";
 import type { SortObject } from "./SortObject";
-import type { UserProductResponse } from "./UserProductResponse";
-export type PageUserProductResponse = {
+export type PageProductSummaryResponse = {
   totalElements?: number;
   totalPages?: number;
   pageable?: PageableObject;
-  first?: boolean;
-  last?: boolean;
   size?: number;
-  content?: Array<UserProductResponse>;
+  content?: Array<ProductSummaryResponse>;
   number?: number;
   sort?: SortObject;
+  first?: boolean;
+  last?: boolean;
   numberOfElements?: number;
   empty?: boolean;
 };

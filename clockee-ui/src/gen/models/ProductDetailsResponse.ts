@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BrandDTO } from "./BrandDTO";
-export type UserProductResponse = {
+export type ProductDetailsResponse = {
+  productId?: number;
   name?: string;
   image?: string;
   sellPrice?: number;

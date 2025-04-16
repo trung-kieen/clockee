@@ -2,7 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CartItemDTO = {
-  quantity?: number;
+export type ProductSummaryResponse = {
   productId?: number;
+  name?: string;
+  image?: string;
+  sellPrice?: number;
 };

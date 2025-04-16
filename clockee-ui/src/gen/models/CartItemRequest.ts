@@ -2,10 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CartItemDetails = {
-  productId?: number;
-  name?: string;
+export type CartItemRequest = {
   quantity?: number;
-  price?: number;
-  image?: string;
+  productId?: number;
 };

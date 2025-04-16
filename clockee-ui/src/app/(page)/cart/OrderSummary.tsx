@@ -65,7 +65,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       </div>
 
       {total > 0 ? (
-        <Link href={"/checkout"}>
+        <Link href={"/checkout/shippping"}>
           <button
             className={`btn bg-primary  text-white w-full mt-4 rounded-lg `}
           >

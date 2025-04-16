@@ -4,8 +4,6 @@ import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
 import com.example.clockee_server.auth.dto.RefreshTokenResponse;
-import com.example.clockee_server.entity.User;
-import com.example.clockee_server.payload.response.CurrentUserDetails;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthenticationService {
@@ -13,11 +11,9 @@ public interface AuthenticationService {
 
   public JwtTokenResponse login(LoginRequest req);
 
-  public CurrentUserDetails currentUserDetails(User user);
-
   public RefreshTokenResponse refresh(String refreshToken, HttpServletResponse response);
 
-  public void addRefreshTokenToCookie(
+  public void addRefreshTokenAsCookie(
       String cookieName, String token, HttpServletResponse response);
 
   public void clearRefreshTokenCookie(String refreshTokenCookieName, HttpServletResponse response);

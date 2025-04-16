@@ -5,7 +5,8 @@ import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.mapper.ProductMapper;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
-import com.example.clockee_server.payload.response.user.UserProductResponse;
+import com.example.clockee_server.payload.response.ProductDetailsResponse;
+import com.example.clockee_server.payload.response.ProductSummaryResponse;
 import com.example.clockee_server.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,18 @@ public class UserProductService {
   @Autowired private final ProductMapper productMapper;
 
   // Lấy danh sách sản phẩm của user có phân trang
-  public Page<UserProductResponse> getAllProducts(int page, int size) {
+  public Page<ProductSummaryResponse> getAllProducts(int page, int size) {
     Pageable pageable = PageRequest.of(page, size);
     Page<Product> products = productRepository.getAllActiveProducts(pageable);
 
     if (products.isEmpty()) {
       return Page.empty();
     }
-    return products.map(product -> productMapper.productToUserResponse(product));
+    return products.map(product -> productMapper.productToSummaryResponse(product));
   }
 
   // Lấy sản phẩm theo id
-  public UserProductResponse getProductById(Long id) {
+  public ProductDetailsResponse getProductById(Long id) {
     Product product =
         productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("product"));
     if (product.getIsDeleted()) {
@@ -43,6 +44,6 @@ public class UserProductService {
       throw new ResourceNotFoundException(AppMessage.of(MessageKey.PRIVATE_PRODUCT));
     }
 
-    return productMapper.productToUserResponse(product);
+    return productMapper.productToDetailsResponse(product);
   }
 }

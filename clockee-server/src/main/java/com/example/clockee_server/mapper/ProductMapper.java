@@ -3,7 +3,8 @@ package com.example.clockee_server.mapper;
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.file.FileStorageService;
 import com.example.clockee_server.payload.response.AdminProductResponse;
-import com.example.clockee_server.payload.response.user.UserProductResponse;
+import com.example.clockee_server.payload.response.ProductDetailsResponse;
+import com.example.clockee_server.payload.response.ProductSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,14 @@ public class ProductMapper {
     return dto;
   }
 
-  public UserProductResponse productToUserResponse(Product product) {
-    var dto = mapper.map(product, UserProductResponse.class);
+  public ProductDetailsResponse productToDetailsResponse(Product product) {
+    var dto = mapper.map(product, ProductDetailsResponse.class);
+    dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));
+    return dto;
+  }
+
+  public ProductSummaryResponse productToSummaryResponse(Product product) {
+    var dto = mapper.map(product, ProductSummaryResponse.class);
     dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));
     return dto;
   }

@@ -1,6 +1,8 @@
 package com.example.clockee_server.controller.user;
 
-import com.example.clockee_server.payload.response.user.UserProductResponse;
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.payload.response.ProductDetailsResponse;
+import com.example.clockee_server.payload.response.ProductSummaryResponse;
 import com.example.clockee_server.service.user.UserProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +23,18 @@ public class UserProductController {
 
   // Api có phân trang (trả về theo từng trang)
   @GetMapping
-  public ResponseEntity<Page<UserProductResponse>> getAllProducts(
-      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+  public ResponseEntity<Page<ProductSummaryResponse>> getAllProducts(
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size) {
 
-    Page<UserProductResponse> products = userProductService.getAllProducts(page, size);
+    Page<ProductSummaryResponse> products = userProductService.getAllProducts(page, size);
     return ResponseEntity.ok(products);
   }
 
   // Api lấy sản phẩm theo id
   @GetMapping("/{id}")
-  public ResponseEntity<UserProductResponse> getProductById(@PathVariable Long id) {
-    UserProductResponse product = userProductService.getProductById(id);
+  public ResponseEntity<ProductDetailsResponse> getProductById(@PathVariable Long id) {
+    ProductDetailsResponse product = userProductService.getProductById(id);
     return ResponseEntity.ok(product);
   }
 }

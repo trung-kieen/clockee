@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import PrimaryButton from "./components/button/Button";
+import Link from "next/link";
 
 export default function Error({
   error,
@@ -14,11 +16,27 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="w-full mt-4 flex flex-col justify-center items-center">
-      <h2 className="text-2xl mb-4">Something went wrong!</h2>
-      <button className="btn btn-primary" onClick={() => reset()}>
-        Try again
-      </button>
+    <div className="py-10 mx-auto max-w-7xl">
+      {/*
+       * Go back to hompage link
+       */}
+      <div className="mb-6"></div>
+
+      <div className="text-center py-16 bg-gray-50 rounded-lg">
+        <h2 className="text-2xl font-semibold mb-2">404</h2>
+        <p className="text-gray-500 mb-8">
+          Có lỗi xảy ra trong quá trình xử lý. Vui lòng tải lại trang hoặc thử
+          lại sau
+        </p>
+        <div className="flex items-center justify-center">
+          <Link href="/">
+            <PrimaryButton>Quay lại trang chủ</PrimaryButton>
+          </Link>
+        </div>
+        <button className="btn btn-primary" onClick={() => reset()}>
+          Try again
+        </button>
+      </div>
     </div>
   );
 }

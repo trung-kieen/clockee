@@ -15,7 +15,6 @@ import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.jobs.SendWelcomeEmailJob;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
-import com.example.clockee_server.payload.response.CurrentUserDetails;
 import com.example.clockee_server.repository.RoleRepository;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
@@ -32,7 +31,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +42,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final VerificationCodeRepository verificationCodeRepository;
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
-  private final UserDetailsService userDetailsService;
   private final ApplicationProperties applicationProperties;
 
   @Transactional
@@ -101,6 +98,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             .collect(Collectors.toList());
 
     String jwtToken = jwtTokenProvider.genenerateToken(currentUser);
+    // TODO: use token provider
     String refreshToken = jwtTokenProvider.generateRefreshToken(currentUser);
     var resp = new JwtTokenResponse();
     resp.setUsername(currentUser.getEmail());
@@ -110,11 +108,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     resp.setRoles(roles);
 
     return resp;
-  }
-
-  @Override
-  public CurrentUserDetails currentUserDetails(User user) {
-    return CurrentUserDetails.builder().userId(user.getUserId()).email(user.getUsername()).build();
   }
 
   @Override
@@ -137,8 +130,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         .build();
   }
 
+  /** Save refresh token to http only cookie on response */
   @Override
-  public void addRefreshTokenToCookie(
+  public void addRefreshTokenAsCookie(
       String cookieName, String refreshToken, HttpServletResponse response) {
     Cookie refreshTokenCookie = new Cookie(cookieName, refreshToken);
     refreshTokenCookie.setHttpOnly(true);

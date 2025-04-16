@@ -12,4 +12,8 @@ import lombok.NoArgsConstructor;
 public class CurrentUserDetails {
   private Long userId;
   private String email;
+  private String name;
+  // TODO: custom phone validator
+  private String phone;
+  private String address;
 }

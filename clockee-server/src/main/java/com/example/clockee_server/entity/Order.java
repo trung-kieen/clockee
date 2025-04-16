@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter
@@ -26,6 +27,7 @@ public class Order {
   private User user;
 
   @Column(name = "create_at", updatable = false, nullable = false)
+  @CreationTimestamp
   private LocalDateTime createAt;
 
   @Column(columnDefinition = "TEXT", nullable = false)

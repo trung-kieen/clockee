@@ -1,5 +1,6 @@
 package com.example.clockee_server.auth.annotation;
 
+import jakarta.validation.constraints.NotNull;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,4 +13,5 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @AuthenticationPrincipal
+@NotNull
 public @interface CurrentUser {}
