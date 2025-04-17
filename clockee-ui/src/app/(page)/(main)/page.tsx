@@ -2,9 +2,9 @@
 import { PageProductSummaryResponse, ProductSummaryResponse, UserProductControllerService } from "@/gen";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { ProductImage } from "./components/common/Base64Image";
 import { logger } from "@/utils/logger";
 import { formatVND } from "@/utils/currency";
+import { ProductImage } from "@/app/components/common/Base64Image";
 
 
 

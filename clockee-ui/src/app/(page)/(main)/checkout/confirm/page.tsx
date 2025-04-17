@@ -1,11 +1,11 @@
 "use client";
 import CenterCard from "@/app/components/card/CenterCard";
 import { useCart } from "@/lib/hooks/useCart";
-import { Link, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import React from "react";
-import CartItem from "../../cart/CartItem";
 import { ProductImage } from "@/app/components/common/Base64Image";
 import { CartItemDetails } from "@/gen";
+import Link from "next/link";
 const OrderItem = ({ item }: { item: CartItemDetails }) => {
   return (
     <div className="flex items-center py-4 border-b border-gray-200 card-xs">
@@ -13,12 +13,12 @@ const OrderItem = ({ item }: { item: CartItemDetails }) => {
         <ProductImage data={item.image || ""} />
       </div>
 
-      <div className="flex-1 ml-4">
+      <div className="flex-1 bg-red-50">
         <h3 className="font-semibold text-lg">
           <Link href={`/product/${item.productId}`}>{item.name}</Link>
         </h3>
 
-        <div className="space-y-2">
+        <div className="w-40">
           <div className="flex justify-between">
             <span>Giá</span>
             <span>{item.price}</span>
@@ -65,7 +65,7 @@ const CheckoutAddressPage = () => {
                 return <OrderItem item={item} key={index} />;
               })}
 
-              <div className="card w-96 bg-base-100 card-xs shadow-sm">
+              <div className="card bg-base-100 card-md shadow-sm">
                 <div className="card-body">
                   <div className="flex justify-between mb-4">
                     <span>Tạm tính</span>

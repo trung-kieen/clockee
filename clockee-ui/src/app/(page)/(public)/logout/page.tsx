@@ -13,7 +13,11 @@ const LogoutPage = () => {
     }
     router.push("/login");
   }, []);
-  return <>LogoutPage</>;
+  return (
+    <div className="flex items-center justify-center w-full h-screen">
+      <span className="loading loading-dots loading-lg"></span>
+    </div>
+  );
 };
 
 export default LogoutPage;

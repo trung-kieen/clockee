@@ -35,18 +35,8 @@ export default function RootLayout({
       >
         <ToastProvider>
           <AuthProvider>
-            {/*
-              <CartProvider >
-              </CartProvider>
-              */}
             <CartProvider>
-              <div className="min-h-screen flex flex-col">
-                <Header />
-
-                <main className="flex-1">{children}</main>
-
-                <Footer />
-              </div>
+              {children}
             </CartProvider>
           </AuthProvider>
         </ToastProvider>
