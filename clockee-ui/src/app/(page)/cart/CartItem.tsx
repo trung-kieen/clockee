@@ -4,6 +4,7 @@ import { CartItemDetails } from "@/gen";
 import { useCart } from "@/lib/hooks/useCart";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import Link from "next/link";
+import { formatVND } from "@/utils/currency";
 import { ProductImage } from "@/app/components/common/Base64Image";
 
 interface CartItemProps {
@@ -54,6 +55,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     setIsOpenConfirmModal(false);
   };
 
+
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
       <input
@@ -72,7 +74,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           <Link href={`/product/${item.productId}`}>{item.name}</Link>
         </h3>
         <div className="text-sm text-gray-600 space-y-1"></div>
-        <p className="font-bold mt-1">${item.price}</p>
+        <p className="font-bold mt-1">{formatVND(item.price)}</p>
       </div>
 
       <div className="flex items-center space-x-2">

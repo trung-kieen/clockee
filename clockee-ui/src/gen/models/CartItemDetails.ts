@@ -9,3 +9,4 @@ export type CartItemDetails = {
   price?: number;
   image?: string;
 };
+

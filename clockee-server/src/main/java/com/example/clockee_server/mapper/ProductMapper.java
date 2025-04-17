@@ -22,14 +22,13 @@ public class ProductMapper {
     return dto;
   }
 
-  public ProductDetailsResponse productToDetailsResponse(Product product) {
-    var dto = mapper.map(product, ProductDetailsResponse.class);
+  public ProductSummaryResponse productToProductSummary(Product product) {
+    var dto = mapper.map(product, ProductSummaryResponse.class);
     dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));
     return dto;
   }
-
-  public ProductSummaryResponse productToSummaryResponse(Product product) {
-    var dto = mapper.map(product, ProductSummaryResponse.class);
+  public ProductDetailsResponse productToProductDetails(Product product) {
+    var dto = mapper.map(product, ProductDetailsResponse.class);
     dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));
     return dto;
   }

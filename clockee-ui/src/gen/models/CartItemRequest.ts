@@ -6,3 +6,4 @@ export type CartItemRequest = {
   quantity?: number;
   productId?: number;
 };
+

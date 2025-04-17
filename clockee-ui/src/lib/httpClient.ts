@@ -3,7 +3,7 @@ import axios from "axios";
 import { AuthManager } from "@/lib/auth/AuthManager";
 import { toast } from "react-toastify";
 import { logger } from "@/utils/logger";
-import { AuthControllerService } from "@/gen";
+import { redirectAuthenticateAndGoBack } from "@/utils/route";
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
@@ -93,11 +93,7 @@ const HttpClient = () => {
             }
           } catch (refreshError) {
             AuthManager.clearAccessToken();
-            const currentRoute =
-              window.location.pathname + window.location.search;
-            window.location.href =
-              "/login" + (currentRoute ? `?redirect=${currentRoute}` : "");
-            localStorage.removeItem(USERNAME_COOKIE_KEY);
+            redirectAuthenticateAndGoBack()
             return Promise.reject(refreshError);
           }
         }

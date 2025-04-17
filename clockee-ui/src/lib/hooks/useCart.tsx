@@ -86,8 +86,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (item: CartItemDetails) => {
     try {
       // If update item value in server success => Update in context without refresh
-      CartControllerService.addItem(item);
+      CartControllerService.addItem({
+        quantity: item.quantity,
+        productId: item.productId
+      });
       const defaultQuanitty = 1;
+
       setCart((previous) => {
         const existsItemIndex = (previous.items || []).findIndex(
           (i) => i.productId === item.productId,
@@ -151,7 +155,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      CartControllerService.updateItem(updatedItem);
+      CartControllerService.updateItem({
+        quantity: updatedItem.quantity,
+        productId: updatedItem.productId
+
+      });
 
       setCart((previous) => {
         return {

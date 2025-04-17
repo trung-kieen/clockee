@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BrandDTO } from "./BrandDTO";
-import type { PageableObject } from "./PageableObject";
-import type { SortObject } from "./SortObject";
+import type { BrandDTO } from './BrandDTO';
+import type { PageableObject } from './PageableObject';
+import type { SortObject } from './SortObject';
 export type PageBrandDTO = {
   totalElements?: number;
   totalPages?: number;
@@ -18,3 +18,4 @@ export type PageBrandDTO = {
   numberOfElements?: number;
   empty?: boolean;
 };
+

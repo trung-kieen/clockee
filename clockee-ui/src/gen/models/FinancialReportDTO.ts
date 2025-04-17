@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type FinancialReportDTO = {
-  totalSale?: number;
-  totalPurchase?: number;
-  profit?: number;
+    totalSale?: number;
+    totalPurchase?: number;
+    profit?: number;
 };
+

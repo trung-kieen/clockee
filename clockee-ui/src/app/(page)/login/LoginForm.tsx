@@ -35,7 +35,7 @@ export const LoginForm = () => {
     try {
       const res = await AuthControllerService.login(loginReq);
       saveUserDetails(res);
-      toast("Login success");
+      toast("Đăng nhập thành công");
       const redirectUrl = params.get("redirect");
       logger.info("redirect to", redirectUrl);
       if (redirectUrl && redirectUrl != "/login") {

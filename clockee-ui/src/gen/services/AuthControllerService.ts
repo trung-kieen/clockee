@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateUserRequest } from "../models/CreateUserRequest";
-import type { JwtTokenResponse } from "../models/JwtTokenResponse";
-import type { LoginRequest } from "../models/LoginRequest";
-import type { RefreshTokenResponse } from "../models/RefreshTokenResponse";
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CreateUserRequest } from '../models/CreateUserRequest';
+import type { JwtTokenResponse } from '../models/JwtTokenResponse';
+import type { LoginRequest } from '../models/LoginRequest';
+import type { RefreshTokenResponse } from '../models/RefreshTokenResponse';
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 export class AuthControllerService {
   /**
    * @param requestBody

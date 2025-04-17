@@ -30,7 +30,7 @@ public class UserProductService {
     if (products.isEmpty()) {
       return Page.empty();
     }
-    return products.map(product -> productMapper.productToSummaryResponse(product));
+    return products.map(product -> productMapper.productToProductSummary(product));
   }
 
   // Lấy sản phẩm theo id
@@ -44,6 +44,6 @@ public class UserProductService {
       throw new ResourceNotFoundException(AppMessage.of(MessageKey.PRIVATE_PRODUCT));
     }
 
-    return productMapper.productToDetailsResponse(product);
+    return productMapper.productToProductDetails(product);
   }
 }

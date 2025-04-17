@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AdminProductResponse } from "./AdminProductResponse";
-import type { PageableObject } from "./PageableObject";
-import type { SortObject } from "./SortObject";
+import type { AdminProductResponse } from './AdminProductResponse';
+import type { PageableObject } from './PageableObject';
+import type { SortObject } from './SortObject';
 export type PageAdminProductResponse = {
   totalElements?: number;
   totalPages?: number;
@@ -18,3 +18,4 @@ export type PageAdminProductResponse = {
   numberOfElements?: number;
   empty?: boolean;
 };
+

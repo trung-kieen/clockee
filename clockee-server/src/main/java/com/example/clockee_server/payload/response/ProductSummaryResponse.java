@@ -14,4 +14,6 @@ public class ProductSummaryResponse {
   private String name;
   private byte[] image;
   private Double sellPrice;
+  private String type;
+  private Boolean isActive;
 }

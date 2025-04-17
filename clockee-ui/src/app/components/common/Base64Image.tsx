@@ -17,9 +17,9 @@ const Base64Image = ({ data, className }: ImageProps) => {
 };
 
 const defaultProductImage = "product1.png";
-export const ProductImage = ({ data }: { data: string }) => {
+export const ProductImage = ({ data, className }: { data?: string, className?: string }) => {
   if (data) {
-    return <Base64Image data={data} />;
+    return <Base64Image data={data} className={`w-96 rounded-lg shadow-md ${className}`} />;
   } else {
     return <img src={defaultProductImage} alt="product image" />;
   }
