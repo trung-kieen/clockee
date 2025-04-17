@@ -53,6 +53,8 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     setIsOpenConfirmModal(false);
   };
 
+  const formatVND = (value?: number) => new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value ?? 0);
+
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
       <input
@@ -76,7 +78,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           <Link href={`/product/${item.productId}`}>{item.name}</Link>
         </h3>
         <div className="text-sm text-gray-600 space-y-1"></div>
-        <p className="font-bold mt-1">${item.price}</p>
+        <p className="font-bold mt-1">{formatVND(item.price)}</p>
       </div>
 
       <div className="flex items-center space-x-2">
