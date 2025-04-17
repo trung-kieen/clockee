@@ -42,11 +42,11 @@ const DeliveryDetailsForm = () => {
   };
   return (
     <form
-      className="container max-w-md"
+      className="container max-w-md py-8"
       // className="flex items-center justify-center flex-col w-full bg-zinc-50"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className="fieldset w-xs bg-base-200 border border-base-300 p-4 rounded-box">
+      <fieldset className="fieldset w-xs bg-white rounded-lg shadow mb-4 p-4 border rounded-box">
         <label className="fieldset-label">Địa chỉ</label>
         <input
           autoFocus
@@ -80,7 +80,7 @@ const DeliveryDetailsForm = () => {
         <div className="flex justify-end mt-5">
           <button
             type="submit"
-            className="text-white px-4 py-2 rounded bg-primary shadow"
+            className="text-white btn btn-md px-4 py-2 rounded bg-primary shadow"
           >
             Tiếp tục →
           </button>

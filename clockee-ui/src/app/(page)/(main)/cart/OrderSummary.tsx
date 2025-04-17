@@ -15,18 +15,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 }) => {
   const router = useRouter();
 
-  const { selectedItems } = useCart();
+  const { selectedItems, subtotal } = useCart();
 
-  const subtotal = useMemo(() => {
-    let sum = 0;
-    selectedItems.forEach((item) => {
-      sum += Number(item.price) * Number(item.quantity);
-    });
-    return sum;
-  }, [selectedItems]);
 
-  const discount = 0;
-  const total = subtotal - discount;
 
   const formatVND = (value?: number) => new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value ?? 0);
   return (
@@ -52,20 +43,22 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
         <div className="flex justify-between items-center">
           <span className="text-gray-600">Giảm giá</span>
+          {/*
           <span className="font-semibold text-shop-discount">
             -{formatVND(discount)}
           </span>
+            */}
         </div>
 
         <div className="border-t border-gray-200 pt-3 mt-3">
           <div className="flex justify-between items-center">
             <span className="font-semibold">Tổng cộng</span>
-            <span className="font-bold text-lg">{formatVND(total)}</span>
+            <span className="font-bold text-lg">{formatVND(subtotal)}</span>
           </div>
         </div>
       </div>
 
-      {total > 0 ? (
+      {subtotal > 0 ? (
         <Link href={"/checkout/shippping"}>
           <button
             className={`btn bg-primary  text-white w-full mt-4 rounded-lg `}

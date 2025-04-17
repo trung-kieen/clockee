@@ -29,6 +29,9 @@ type CartContextType = {
   deliveryDetails: DeliverDetailsType;
   setDeliveryDetails: (info: DeliverDetailsType) => void;
   isEmptyCart: boolean;
+  subtotal: number;
+  shippingPrice: number;
+  totalPrice: number;
 };
 const CartContext = createContext<CartContextType | null>(null);
 
@@ -44,7 +47,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     {},
   );
 
-  // const [selectedItems, setSelectedItems] = useState<CartItemDetails[]>([]);
   const selectedItems = useMemo(() => {
     const updatedSelectedItems = cart.items?.filter((item) => {
       return (
@@ -82,6 +84,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       fetchCart();
     }
   }, [isAuthenticated]);
+
+
+  /**
+   * Not include discount and shipping fee
+   */
+  const subtotal = useMemo(() => {
+    let sum = 0;
+    selectedItems.forEach((item) => {
+      sum += Number(item.price) * Number(item.quantity);
+    });
+    return sum;
+  }, [selectedItems]);
+
+  const shippingPrice = 0;
+  const totalPrice = useMemo(() => subtotal + shippingPrice, [subtotal, shippingPrice]);
 
   const addToCart = (item: CartItemDetails) => {
     try {
@@ -192,6 +209,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         deliveryDetails,
         setDeliveryDetails,
         isEmptyCart: cart.items?.length == 0,
+        subtotal,
+        shippingPrice,
+        totalPrice
       }}
     >
       {children}

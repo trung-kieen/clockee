@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 type ThumbnailProps = {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 };
 

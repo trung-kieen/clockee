@@ -5,7 +5,7 @@ import DeliveryDetailsForm from "./DeliveryDetailsForm";
 const CheckoutAddressPage = () => {
   return (
     <>
-      <CenterCard>
+      <CenterCard className="">
         <div className="flex items-center flex-col">
           <ul className="steps steps-vertical lg:steps-horizontal mb-40">
             <li className="step step-primary">Giỏ hàng</li>

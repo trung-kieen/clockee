@@ -1,127 +1,137 @@
 "use client";
-import CenterCard from "@/app/components/card/CenterCard";
+import { MapPin, CreditCard } from "lucide-react";
 import { useCart } from "@/lib/hooks/useCart";
-import { MapPin } from "lucide-react";
-import React from "react";
+import React, { MouseEvent, useEffect } from "react";
+import { formatVND } from "@/utils/currency";
+import { CheckoutControllerService } from "@/gen";
+import { logger } from "@/utils/logger";
 import { ProductImage } from "@/app/components/common/Base64Image";
-import { CartItemDetails } from "@/gen";
-import Link from "next/link";
-const OrderItem = ({ item }: { item: CartItemDetails }) => {
-  return (
-    <div className="flex items-center py-4 border-b border-gray-200 card-xs">
-      <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
-        <ProductImage data={item.image || ""} />
-      </div>
-
-      <div className="flex-1 bg-red-50">
-        <h3 className="font-semibold text-lg">
-          <Link href={`/product/${item.productId}`}>{item.name}</Link>
-        </h3>
-
-        <div className="w-40">
-          <div className="flex justify-between">
-            <span>Giá</span>
-            <span>{item.price}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Số lượng</span>
-            <span>{item.quantity}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import Thumbnail from "@/app/components/common/Thumbnail";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 const CheckoutAddressPage = () => {
-  const { selectedItems } = useCart();
-  console.log(selectedItems);
+  const { selectedItems, subtotal, shippingPrice, totalPrice, deliveryDetails } = useCart();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      toast.error("Vui lòng chọn sản phẩm để thanh toán");
+      router.push("/cart");
+    }
+  }, []);
+
+  const createOrderHanler = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+      CheckoutControllerService.createOrder({
+        phone: deliveryDetails.phone,
+        address: deliveryDetails.address,
+        items: selectedItems,
+      });
+      router.push("/checkout/success");
+    } catch (error) {
+      logger.error(error);
+      toast.error("Có lỗi xảy ra vui lòng thử lại")
+    }
+  }
+
   return (
-    <>
-      <CenterCard>
-        <div className="flex items-center flex-col">
-          <ul className="steps steps-vertical lg:steps-horizontal mb-40">
-            <li className="step step-primary">Giỏ hàng</li>
-            <li className="step step-primary">Thông tin nhận hàng</li>
-            <li className="step step-primary">Xác nhận</li>
-          </ul>
+    <div className="py-8">
+      <div className="flex items-center flex-col">
+        <ul className="steps steps-vertical lg:steps-horizontal mb-20">
+          <li className="step step-primary">Giỏ hàng</li>
+          <li className="step step-primary">Thông tin nhận hàng</li>
+          <li className="step step-primary">Xác nhận</li>
+        </ul>
+      </div>
+      <div className="max-w-2xl mx-auto px-4">
+        <h1 className="text-xl font-medium mb-4">Chi tiết đơn hàng</h1>
 
-          <div>
-            <div className="container mx-auto px-4 py-8 max-w-2xl">
-              <div className="mb-6 p-4">
-                <div className="flex items-start gap-2">
-                  <MapPin className="h-5 w-5 text-yellow-400 mt-1" />
-                  <div>
-                    <h2 className="font-medium mb-1">Địa chỉ nhận hàng</h2>
-                    <div className="flex gap-2 text-sm">
-                      <span className="font-medium">Đức Vi</span>
-                      <span>(+84) 987834129</span>
-                      <span>xxx, Tân bình, TP Hồ Chí Minh</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {selectedItems.map((item, index) => {
-                return <OrderItem item={item} key={index} />;
-              })}
-
-              <div className="card bg-base-100 card-md shadow-sm">
-                <div className="card-body">
-                  <div className="flex justify-between mb-4">
-                    <span>Tạm tính</span>
-                    <span>{Number(91292).toLocaleString()}đ</span>
-                  </div>
-                  <div className="flex justify-between font-medium">
-                    <span>Tổng tiền</span>
-                    <span className="text-lg">
-                      {Number(9122).toLocaleString()}đ
-                    </span>
-                  </div>
-
-                  <div className="p-4 mb-6 rounded-2xl shadow-sm border bg-white">
-                    <h2 className="font-medium mb-4">Phương thức thanh toán</h2>
-                    <div>
-                      <div className="flex items-center space-x-2 mb-2">
-                        <input
-                          type="radio"
-                          id="bank"
-                          name="paymentMethod"
-                          value="bank"
-                          // checked={paymentMethod === "bank"}
-                          // onChange={() => setPaymentMethod("bank")}
-                          className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        />
-                        <label htmlFor="bank" className="text-sm text-gray-700">
-                          Chuyển khoản ngân hàng
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="radio"
-                          id="cod"
-                          name="paymentMethod"
-                          value="cod"
-                          // checked={paymentMethod === "cod"}
-                          // onChange={() => setPaymentMethod("cod")}
-                          className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        />
-                        <label htmlFor="cod" className="text-sm text-gray-700">
-                          Thanh toán khi nhận hàng
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button className="btn w-full bg-red-500 hover:bg-red-600 text-white">
-                    Đặt hàng
-                  </button>
-                </div>
-              </div>
+        {/* Shipping address */}
+        <div className="bg-white rounded-lg shadow mb-4 p-4 border">
+          <div className="flex items-start gap-2">
+            <MapPin className="text-yellow-500 mt-1" size={20} />
+            <div>
+              <h3 className="font-medium text-sm">Địa chỉ nhận hàng</h3>
+              <p className="text-sm mt-1">{deliveryDetails.name} - {deliveryDetails.phone} - {deliveryDetails.address}</p>
             </div>
           </div>
         </div>
-      </CenterCard>
-    </>
+
+        {/* CartItem list */}
+        <div className="bg-white rounded-lg shadow mb-4 p-4">
+          <h3 className="font-medium text-sm mb-3">Sản phẩm đã chọn</h3>
+          {selectedItems.map((item) => (
+            <div key={item.productId} className="flex items-start gap-4 border-b py-4 last:border-none">
+              {/*
+                *
+              <img src={item.image} alt={item.name} className="w-20 h-20 object-contain" />
+                */}
+              <Thumbnail className="size-[8rem]">
+                <ProductImage data={item.image} />
+              </Thumbnail>
+              <div className="flex-1">
+                <h3 className="text-bold font-medium mb-2">{item.name}</h3>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-600 text-sm">Số lượng:</span>
+                  <div className="flex items-center">
+                    <span className="px-2">x{item.quantity}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-600 text-sm">Giá:</span>
+                  <div className="flex items-center">
+                    <div className="text-sm">{formatVND(item.price)}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Order summary */}
+        <div className="bg-white rounded-lg shadow mb-4 p-4 space-y-3">
+          <h3 className="font-medium text-sm">Tóm tắt đơn hàng</h3>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Tạm tính</span>
+            <span>{formatVND(subtotal)}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Phí vận chuyển</span>
+            <span>{shippingPrice == 0 ? "Miễn phí" : formatVND(shippingPrice)}</span>
+          </div>
+          <div className="border-t pt-2 flex justify-between font-medium">
+            <span>Tổng tiền</span>
+            <span className="font-bold text-base">{formatVND(totalPrice)}</span>
+          </div>
+        </div>
+
+        {/* Payment method */}
+        <div className="bg-white rounded-lg shadow mb-4 p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <CreditCard size={18} />
+            <h3 className="font-medium text-sm">Phương thức thanh toán</h3>
+          </div>
+          <div className="flex items-center gap-2 mt-2">
+            <input
+              type="radio"
+              name="payment"
+              value="cod"
+              id="cod"
+              className="accent-red-600"
+              defaultChecked
+            />
+            <label htmlFor="cod" className="text-sm">Thanh toán khi nhận hàng</label>
+          </div>
+        </div>
+
+        <button onClick={createOrderHanler}
+          className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium text-sm"
+        >
+          Đặt hàng
+        </button>
+      </div>
+    </div>
   );
 };
 

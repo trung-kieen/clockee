@@ -10,7 +10,7 @@ import { USERNAME_COOKIE_KEY } from "@/utils/config";
 export const MainHeader = ({ searchBar = true, filter = true }) => {
   const { isAuthenticated, isAdmin } = useAuth();
   const { totalItems } = useCart();
-  const userName = localStorage.getItem(USERNAME_COOKIE_KEY);
+  const userName = global?.localStorage?.getItem(USERNAME_COOKIE_KEY);
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-white shadow-md">

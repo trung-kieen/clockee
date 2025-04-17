@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { logger } from "@/utils/logger";
 import { formatVND } from "@/utils/currency";
 import { ProductImage } from "@/app/components/common/Base64Image";
+import Thumbnail from "@/app/components/common/Thumbnail";
 
 
 
@@ -15,9 +16,9 @@ const ProductSummary = ({ product }: { product: ProductSummaryResponse }) => {
       <div className="card bg-base-100 w-50 shadow-sm cursor-pointer transition-transform hover:scale-105">
         <figure>
           {
-            product.image && (
-              <ProductImage data={product.image} className="w-full h-full object-cover" />
-            )
+            <Thumbnail className="h-[14rem] w-[14rem]">
+              <ProductImage data={product.image} />
+            </Thumbnail>
           }
         </figure>
         <div className="card-body flex items-center justify-center text-center">

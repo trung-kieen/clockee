@@ -72,7 +72,10 @@ export default function ProductDetailsPage() {
     <div className="container mx-auto flex flex-col md:flex-row items-start gap-10 p-10 justify-center">
       {/* Hình ảnh sản phẩm */}
       <div className="flex flex-col items-center">
-        <ProductImage data={product.image ?? ""} />
+
+        <div className="mask mask-square">
+          <ProductImage data={product.image}/>
+        </div>
       </div>
 
       {/* Thông tin sản phẩm */}
