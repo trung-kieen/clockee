@@ -85,7 +85,7 @@ public class JwtTokenProvider {
     Date issueAt = new Date(System.currentTimeMillis());
     Date expiredAt =
         new Date(
-            System.currentTimeMillis() + applicationProperties.getJwtTokenExpMinutes() * 60 * 1000);
+            System.currentTimeMillis() + applicationProperties.getJwtRefreshTokenExpDays() * 24L * 60  * 60 * 1000);
 
     return Jwts.builder()
         .claims()

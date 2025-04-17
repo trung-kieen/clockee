@@ -3,14 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PageableObject } from './PageableObject';
+import type { ProductSummaryResponse } from './ProductSummaryResponse';
 import type { SortObject } from './SortObject';
-import type { SupplierDTO } from './SupplierDTO';
-export type PageSupplierDTO = {
+export type PageProductSummaryResponse = {
     totalPages?: number;
     totalElements?: number;
     pageable?: PageableObject;
     size?: number;
-    content?: Array<SupplierDTO>;
+    content?: Array<ProductSummaryResponse>;
     number?: number;
     sort?: SortObject;
     first?: boolean;

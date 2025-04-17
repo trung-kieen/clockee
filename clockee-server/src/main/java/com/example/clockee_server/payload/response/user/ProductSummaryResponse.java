@@ -14,13 +14,11 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProductResponse {
+public class ProductSummaryResponse {
+  private Long productId;
   private String name;
   private byte[] image;
   private Double sellPrice;
-  private String description;
-  private BrandDTO brand;
   private String type;
   private Boolean isActive;
-  private Long stock;
 }

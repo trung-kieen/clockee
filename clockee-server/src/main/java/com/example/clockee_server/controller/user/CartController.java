@@ -5,7 +5,7 @@ import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
-import com.example.clockee_server.payload.request.CartItemDTO;
+import com.example.clockee_server.payload.request.CartItemRequest;
 import com.example.clockee_server.payload.response.CartDetailsResponse;
 import com.example.clockee_server.service.CartService;
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class CartController {
   }
 
   @PostMapping("/items")
-  public ResponseEntity<?> addItem(@Valid CartItemDTO item, @CurrentUser User user) {
+  public ResponseEntity<?> addItem(@Valid @RequestBody CartItemRequest item, @CurrentUser User user) {
     cartService.addProduct(item, user);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(AppMessage.of(MessageKey.CREATED_SUCCESS));
@@ -44,7 +44,7 @@ public class CartController {
 
   @PutMapping("/items")
   public ResponseEntity<?> updateItem(
-      @Valid @RequestBody CartItemDTO item, @CurrentUser User user) {
+      @Valid @RequestBody CartItemRequest item, @CurrentUser User user) {
     cartService.updateItem(item, user);
     return ResponseEntity.ok(AppMessage.of(MessageKey.UPDATED_SUCCESS));
   }

@@ -3,17 +3,15 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BrandDTO } from './BrandDTO';
-export type AdminProductResponse = {
+export type ProductDetailsResponse = {
     productId?: number;
     name?: string;
-    description?: string;
-    actualPrice?: number;
-    sellPrice?: number;
-    type?: string;
-    stock?: number;
-    brand?: BrandDTO;
-    isActive?: boolean;
-    visible?: boolean;
     image?: string;
+    sellPrice?: number;
+    description?: string;
+    brand?: BrandDTO;
+    type?: string;
+    isActive?: boolean;
+    stock?: number;
 };
 

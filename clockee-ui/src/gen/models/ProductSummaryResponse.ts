@@ -2,12 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type JwtTokenResponse = {
-    accessToken?: string;
-    refreshToken?: string;
+export type ProductSummaryResponse = {
+    productId?: number;
+    name?: string;
+    image?: string;
+    sellPrice?: number;
     type?: string;
-    id?: number;
-    username?: string;
-    roles?: Array<string>;
+    isActive?: boolean;
 };
 

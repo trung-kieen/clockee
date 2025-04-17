@@ -5,10 +5,12 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import Brand from "../Brand";
 import { SearchBar } from "./SearchBar";
 import { useCart } from "@/lib/hooks/useCart";
+import { USERNAME_COOKIE_KEY } from "@/utils/config";
 
 export const MainHeader = ({ searchBar = true, filter = true }) => {
   const { isAuthenticated, isAdmin } = useAuth();
   const { totalItems } = useCart();
+  const userName = localStorage.getItem(USERNAME_COOKIE_KEY);
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-white shadow-md">
@@ -59,7 +61,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           )
         }
 
-        {isAuthenticated ? (
+        {isAuthenticated || userName ? (
           <>
             <div>
               <details className="dropdown dropdown-end">

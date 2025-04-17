@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartItemDTO {
+public class CartItemRequest {
   @Min(value = 0, message = "So luong khong duoc am")
   private Long quantity;
 

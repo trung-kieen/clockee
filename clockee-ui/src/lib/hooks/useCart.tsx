@@ -3,6 +3,7 @@ import {
   CartControllerService,
   CartDetailsResponse,
   CartItemDetails,
+  CartItemRequest,
 } from "@/gen";
 import { logger } from "@/utils/logger";
 import {
@@ -74,10 +75,33 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (item: CartItemDetails) => {
     try {
       // If update item value in server success => Update in context without refresh
-      CartControllerService.addItem(item);
+      CartControllerService.addItem({
+        quantity: item.quantity,
+        productId: item.productId
+      });
       const defaultQuanitty = 1;
+
       setCart((previous) => {
+        const existsItemIndex = (previous.items || []).findIndex((i) => i.productId === item.productId);
+        // Update previous item if exist in cart
+        if (existsItemIndex >= 0) {
+          return {
+            // Add new item in cart
+            ...previous,
+            items:
+              previous.items?.map((i) => {
+                // Update prevous product by increase the quantity
+                if (i.productId === item.productId) {
+                  return { ...i, quantity: (i.quantity || 0) + (item.quantity || 1) }
+                }
+                else {
+                  return i;
+                }
+              })
+          };
+        }
         return {
+          // Add new item in cart
           ...previous,
           items: [
             ...(previous.items || []),
@@ -117,7 +141,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      CartControllerService.updateItem(updatedItem);
+      CartControllerService.updateItem({
+        quantity: updatedItem.quantity,
+        productId: updatedItem.productId
+
+      });
 
       setCart((previous) => {
         return {

@@ -8,7 +8,7 @@ import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.mapper.CartMapper;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
-import com.example.clockee_server.payload.request.CartItemDTO;
+import com.example.clockee_server.payload.request.CartItemRequest;
 import com.example.clockee_server.payload.response.CartDetailsResponse;
 import com.example.clockee_server.repository.CartRepository;
 import com.example.clockee_server.repository.ProductRepository;
@@ -32,7 +32,7 @@ public class CartService {
    * Increase cart item quantity if exists in cart
    */
   @Transactional
-  public CartItem addProduct(CartItemDTO item, User user) {
+  public CartItem addProduct(CartItemRequest item, User user) {
     Product product = getOrThrowProduct(item.getProductId());
     // Not allow to put more item than stock on hand
 
@@ -82,7 +82,7 @@ public class CartService {
    * Update quantity of item in cart, instead of increase
    */
   @Transactional
-  public CartItem updateItem(CartItemDTO item, User user) {
+  public CartItem updateItem(CartItemRequest item, User user) {
     Product product = getOrThrowProduct(item.getProductId());
 
     CartItem cartItem = getOrThrowCartItem(item.getProductId(), user.getUserId());

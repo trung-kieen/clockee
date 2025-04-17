@@ -4,6 +4,8 @@ import { CartItemDetails } from "@/gen";
 import { useCart } from "@/lib/hooks/useCart";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
 import Link from "next/link";
+import { formatVND } from "@/utils/currency";
+import { ProductImage } from "@/app/components/common/Base64Image";
 
 interface CartItemProps {
   item: CartItemDetails;
@@ -53,7 +55,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     setIsOpenConfirmModal(false);
   };
 
-  const formatVND = (value?: number) => new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value ?? 0);
 
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
@@ -65,12 +66,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         }}
       />
       <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
-        <img
-          // TODO image instead
-          src={item.name}
-          alt={item.name}
-          className="w-full h-full object-cover"
-        />
+        <ProductImage data={item.image} />
       </div>
 
       <div className="flex-1 ml-4">

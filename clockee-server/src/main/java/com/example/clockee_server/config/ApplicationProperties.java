@@ -27,7 +27,7 @@ public class ApplicationProperties {
   private String baseUrl;
   private String applicationName;
   private String uploadPath;
-  private int jwtRefreshTokenExpDays;
+  private Integer jwtRefreshTokenExpDays;
   private String messagesFile;
   private String cookieName;
   private String refreshCookieName;
