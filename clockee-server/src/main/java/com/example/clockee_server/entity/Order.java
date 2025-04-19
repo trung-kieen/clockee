@@ -22,13 +22,13 @@ public class Order {
   @Column(name = "order_id")
   private Long orderId;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @Column(name = "create_at", updatable = false, nullable = false)
+  @Column(name = "created_at", updatable = false, nullable = false)
   @CreationTimestamp
-  private LocalDateTime createAt;
+  private LocalDateTime createdAt;
 
   @Column(columnDefinition = "TEXT", nullable = false)
   private String address;

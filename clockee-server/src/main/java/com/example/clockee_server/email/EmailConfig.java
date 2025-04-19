@@ -7,7 +7,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-/** EmailConfig Thiet lap thymeleaf la template engine cho email duoc gui */
+/** EmailConfig setup thymeleaf as template engine for email sender */
 @Configuration
 public class EmailConfig {
   @Bean

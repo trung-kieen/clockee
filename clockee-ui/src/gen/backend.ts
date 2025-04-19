@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-04-16 20:18:56.
+// Generated using typescript-generator version 3.2.1263 on 2025-04-19 22:09:57.
 
 export interface Brand {
     brandId: number;
@@ -18,7 +18,7 @@ export interface CartItem {
 export interface Order {
     orderId: number;
     user: User;
-    createAt: Date;
+    createdAt: Date;
     address: string;
     phone: string;
     totalPrice: number;
@@ -27,12 +27,12 @@ export interface Order {
 }
 
 export interface OrderItem {
-  orderItemId: number;
-  product: Product;
-  order: Order;
-  quantity: number;
-  price: number;
-  totalPrice: number;
+    orderItemId: number;
+    product: Product;
+    order: Order;
+    quantity: number;
+    price: number;
+    totalPrice: number;
 }
 
 export interface Product {
@@ -48,6 +48,7 @@ export interface Product {
     isActive: boolean;
     visible: boolean;
     isDeleted: boolean;
+    createdAt: Date;
 }
 
 export interface Purchase {
@@ -57,7 +58,7 @@ export interface Purchase {
     price: number;
     quantity: number;
     totalPrice: number;
-    createAt: Date;
+    createdAt: Date;
 }
 
 export interface Role extends GrantedAuthority {
@@ -109,13 +110,13 @@ export interface GrantedAuthority extends Serializable {
 }
 
 export interface UserDetails extends Serializable {
-  enabled: boolean;
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  credentialsNonExpired: boolean;
-  authorities: GrantedAuthority[];
-  username: string;
-  password: string;
+    enabled: boolean;
+    accountNonExpired: boolean;
+    accountNonLocked: boolean;
+    credentialsNonExpired: boolean;
+    username: string;
+    password: string;
+    authorities: GrantedAuthority[];
 }
 
 export interface Serializable {

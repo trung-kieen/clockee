@@ -1,5 +1,5 @@
 "use client";
-import { PageProductSummaryResponse, ProductSummaryResponse, UserProductControllerService } from "@/gen";
+import { PageProductSummaryResponse, PageResponseProductSummaryResponse, ProductSummaryResponse, UserProductControllerService } from "@/gen";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { logger } from "@/utils/logger";
@@ -31,19 +31,22 @@ const ProductSummary = ({ product }: { product: ProductSummaryResponse }) => {
 };
 
 export default function HomePage() {
-  const [products, setProducts] = useState<PageProductSummaryResponse | null>(null);
+  const [bestSellingProducts, setBestSelingProducts] = useState<ProductSummaryResponse[]>([]);
+  const [latestProducts, setLatestProduct] = useState<PageResponseProductSummaryResponse | null>(null);
 
   useEffect(() => {
     const fertchProduct = async () => {
       try {
-        const res = await UserProductControllerService.getAllProducts1();
-        setProducts(res);
+        const bestSellingResp = await UserProductControllerService.getBestSellingProducts();
+        setBestSelingProducts(bestSellingResp);
+        const latest = await UserProductControllerService.getLatestProducts(0, 8);
+        setLatestProduct(latest);
       } catch (err) {
         logger.log("Lỗi khi fetch sản phẩm", err)
       }
     };
     fertchProduct();
-  }, [setProducts]);
+  }, [setBestSelingProducts]);
   return (
     <>
       {/* Banner
@@ -55,11 +58,25 @@ export default function HomePage() {
         className="w-full"
         alt="calrosel"
       />
-      <div className="flex justify-center">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
-          {products?.content?.map((product) => (
-            <ProductSummary key={product.productId} product={product} />
-          ))}
+      <div className="lg:w-3/4 mx-auto">
+        <h3 className="text-2xl font-bold text-left p-10">Sản phẩm mới nhất</h3>
+        <div className="flex justify-center">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
+            {latestProducts?.content?.map((product) => (
+              <ProductSummary key={product.productId} product={product} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="lg:w-3/4 mx-auto">
+        <h3 className="text-2xl font-bold text-left p-10">Sản phẩm bán chạy</h3>
+        <div className="flex justify-center">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  w-2/3 my-20  gap-10">
+            {bestSellingProducts.map((product) => (
+              <ProductSummary key={product.productId} product={product} />
+            ))}
+          </div>
         </div>
       </div>
     </>

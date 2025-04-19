@@ -4,9 +4,9 @@ import ErrorText from "@/app/components/typography/ErrorText";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { DeliverDetailsType, useCart } from "@/lib/hooks/useCart";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { mapApiErrorsToForm } from "@/utils/form";
 
 const DeliveryDetailsForm = () => {
   const { deliveryDetails, setDeliveryDetails, selectedItems } = useCart();
@@ -29,16 +29,21 @@ const DeliveryDetailsForm = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<DeliverDetailsType>({
     defaultValues: deliveryDetails,
   });
   const onSubmit: SubmitHandler<DeliverDetailsType> = async (data) => {
-    setDeliveryDetails({
-      ...data,
-      name: deliveryDetails?.name,
-    });
-    router.push("/checkout/confirm");
+    try {
+      setDeliveryDetails({
+        ...data,
+        name: deliveryDetails?.name,
+      });
+      router.push("/checkout/confirm");
+    } catch (error) {
+      mapApiErrorsToForm(error, setError);
+    }
   };
   return (
     <form
@@ -61,6 +66,10 @@ const DeliveryDetailsForm = () => {
           placeholder="Số điện thoại"
           {...register("phone", {
             required: "Số điện thoại không được trống",
+            maxLength: {
+              value: 11,
+              message: "Số điện thoại chỉ được tối đa 11 ký tự"
+            },
             pattern: {
               value: /^[0-9]+$/,
               message: "Số điện thoại phải là số",

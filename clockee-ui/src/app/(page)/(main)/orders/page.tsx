@@ -1,110 +1,54 @@
 "use client";
-import {
-  disableReturnOrder,
-  enableCancelOrder,
-  orderStatusDescription,
-} from "@/utils/enum/order-utils";
-import { OrderSummary } from "@/models/common/Order";
-import { ProductItemSummary } from "@/models/common/Order";
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import ConfirmModal from "@/app/components/modal/ConfirmModal";
-import ProductThumbnail from "@/app/components/product/ProductThumbnail";
-import { OrderStatus } from "@/enum/OrderStatus";
+import { OrderControllerService, OrderSummaryResponse } from "@/gen";
+import Thumbnail from "@/app/components/common/Thumbnail";
+import { ProductImage } from "@/app/components/common/Base64Image";
+import { OrderStatus as OrderStatusType } from "@/gen/backend";
+import { OrderStatus } from "@/models/enum/OrderStatus";
+import { logger } from "@/utils/logger";
+import { disableReturnOrder, enableCancelOrder, getOrderStatusLabel } from "@/utils/order-utils";
+import { formatVND } from "@/utils/currency";
+import Link from "next/link";
+import { toast } from "react-toastify";
 
-const mockOrders: OrderSummary[] = [
-  {
-    orderId: 1001,
-    totalPrice: 120.5,
-    status: "PENDING",
-    items: [
-      {
-        productId: 1,
-        name: "Casio Nam AE-1200WHD-1AVDF",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/2024/resized/op990-45adgs-gl-t-1-1131812509-1619214585-1712491626.webp",
-      },
-      {
-        productId: 2,
-        name: "Casio MTP Nam MTP-1374L-1AVDF",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/2024/resized/ra-aa0b05r19b-1-1656995523580-1712492091.webp",
-      },
-    ],
-    address: "123 Main St, Cityville, CA 90210",
-  },
-  {
-    orderId: 1002,
-    totalPrice: 75.0,
-    status: "SHIPPED",
-    items: [
-      {
-        productId: 3,
-        name: "Orient SK Nam RA-AA0B02R39B",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/2024/resized/1-khung-sp-1929946388-952124312-1712483020.webp",
-      },
-    ],
-    address: "456 Oak Dr, Townsville, NY 10001",
-  },
-  {
-    orderId: 1003,
-    totalPrice: 200.75,
-    status: "SHIPPED",
-    items: [
-      {
-        productId: 4,
-        name: "Olym Pianus Nam OP990-45ADGS-GL-D",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/others/2024/large/op990-45adgs-gl-d-1-1655171724651-1712585288.webp",
-      },
-      {
-        productId: 5,
-        name: "Đồng hồ Cơ Orient Nam",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/2024/resized/ra-ar0004s10b-1756195028-1760240517-1712485752.webp",
-      },
-    ],
-    address: "789 Pine Rd, Villageton, TX 73301",
-  },
-  {
-    orderId: 1004,
-    totalPrice: 500.75,
-    status: "COMPLETED",
-    items: [
-      {
-        productId: 4,
-        name: "Olym Pianus Nam OP990-45ADGS-GL-D",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/others/2024/large/op990-45adgs-gl-d-1-1655171724651-1712585288.webp",
-      },
-      {
-        productId: 3,
-        name: "Orient SK Nam RA-AA0B02R39B",
-        imageUrl:
-          "https://www.watchstore.vn/images/products/2024/resized/1-khung-sp-1929946388-952124312-1712483020.webp",
-      },
-    ],
-    address: "789 Rose Rd, MCat, TX 73301",
-  },
-];
 const OrderStatusPage = () => {
+  const [currentStatus, setCurrentStatus] = useState<OrderStatusType>();
+  const [orders, setOrders] = useState<OrderSummaryResponse[]>([]);
+  const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCurrentStatus(event.target.value as OrderStatusType);
+  }
+
+  const fetchOrderByStatus = async (status: OrderStatusType | undefined) => {
+    try {
+      const userOrders = await OrderControllerService.getAllOrders(status);
+      setOrders(userOrders);
+    } catch (error) {
+      logger.warn(error);
+    }
+  }
+  useEffect(() => {
+    fetchOrderByStatus(currentStatus);
+  }, [currentStatus])
   return (
     <>
       <div className="container mx-auto p-10">
         <div className="tabs tabs-lift tabs-xl">
+          {/* All status order */}
           <input
             type="radio"
-            name="my_tabs_3"
+            name="status"
             className="tab"
             aria-label="Tất cả"
+            onChange={() => { setCurrentStatus(undefined) }}
             defaultChecked
           />
-          <OrderTab orders={mockOrders} />
+          <OrderTab orders={orders} />
 
           {
             // Filter for each order status
-            Object.values(OrderStatus).map((status) => (
-              <OrderByStatus key={status} status={status} />
+            Object.entries(OrderStatus).map(([status, value]) => (
+              <OrderByStatus status={status} value={value} handleStatusChange={handleStatusChange} orders={orders} key={status} />
             ))
           }
         </div>
@@ -113,39 +57,46 @@ const OrderStatusPage = () => {
   );
 };
 
-/**
- * Filter tab for order by status: PENDING, SHIPPED, etc
- *
- */
-const OrderByStatus: React.FC<{ status: string }> = ({ status }) => {
-  // TODO: fetch order by status with API instead
-  const statusValue = orderStatusDescription(status);
-  const mockByStatus = mockOrders.filter(
-    (order: OrderSummary) => order.status == status,
-  );
+const OrderByStatus = (
+  { status, value, orders, handleStatusChange }:
+    {
+      status: string,
+      value: string,
+      orders: OrderSummaryResponse[],
+      handleStatusChange: (event: ChangeEvent<HTMLInputElement>) => void
+    }) => {
   return (
     <>
       <input
         type="radio"
-        name="my_tabs_3"
+        name="status"
         className="tab"
-        aria-label={statusValue}
+        value={value}
+        aria-label={getOrderStatusLabel(status as OrderStatusType)}
+        onChange={handleStatusChange}
       />
-      <OrderTab orders={mockByStatus} />
+      <OrderTab key={status} orders={orders} />
     </>
-  );
-};
-const OrderTab: React.FC<{ orders: OrderSummary[] }> = ({ orders }) => {
+  )
+}
+
+
+/**
+ * Filter tab for order by status: PENDING, SHIPPED, etc
+ *
+ */
+const OrderTab: React.FC<{ orders: OrderSummaryResponse[] }> = ({ orders }) => {
   return (
     <>
       <div className="tab-content bg-base-100 border-base-300 p-6">
         {
           <div className="overflow-x-auto">
-            <table className="table">
+            <table className="table table-zebra">
               {/* head */}
               <thead>
                 <tr>
                   <th>{/* View detail */}</th>
+                  <th>Mã đơn</th>
                   <th>Mặt hàng</th>
                   <th>Trạng thái vận chuyển</th>
                   <th>Địa chỉ giao hàng</th>
@@ -156,7 +107,7 @@ const OrderTab: React.FC<{ orders: OrderSummary[] }> = ({ orders }) => {
               </thead>
               <tbody>
                 {/* row 1 */}
-                {orders.map((order: OrderSummary) => (
+                {orders.map((order) => (
                   <OrderRow key={order.orderId} order={order} />
                 ))}
               </tbody>
@@ -168,25 +119,22 @@ const OrderTab: React.FC<{ orders: OrderSummary[] }> = ({ orders }) => {
     </>
   );
 };
-const ProductItem = ({ product }: { product: ProductItemSummary }) => {
-  return (
-    <>
-      <div className="flex items-center">
-        <ProductThumbnail imageUrl={product.imageUrl} />
-        <div>
-          <div>{product.name}</div>
-        </div>
-      </div>
-    </>
-  );
-};
-const OrderRow = ({ order }: { order: OrderSummary }) => {
+const OrderRow = ({ order }: { order: OrderSummaryResponse }) => {
   const [isOpen, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
   const openModal = () => setOpen(true);
 
-  const handleConfirm = () => {
-    console.log("Action Confirmed!");
+  const handleConfirmCancelOrder = async () => {
+    try {
+      if (!order.orderId){
+        logger.error("Unknow order id")
+        return
+      }
+      await OrderControllerService.cancelOrder(order.orderId);
+      toast.success("Đơn hàng đã được hủy")
+    } catch (error) {
+      logger.error((String(error)))
+    }
     closeModal();
   };
 
@@ -197,30 +145,58 @@ const OrderRow = ({ order }: { order: OrderSummary }) => {
           <i className="fa fa-external-link-alt  cursor-pointer"></i>
         </td>
         <td>
+          {order.orderId}
+        </td>
+        <td>
           <div className="flex items-start flex-col gap-3  text-wrap max-w-96">
-            {order.items.map((item, idx) => (
-              <ProductItem key={idx} product={item} />
+            {order.orderItems?.map((item) => (
+              <div key={item.productId} className="flex items-start gap-4">
+                <Thumbnail className="size-[6rem]">
+                  <ProductImage data={item.image} />
+                </Thumbnail>
+                <div className="flex-1">
+                  <Link href={`/product/${item.productId}`}>
+                    <h3 className="text-bold font-medium mb-2">{item.name}</h3>
+                  </Link>
+                  <div className="flex items-center gap-3">
+                    <span className="text-gray-600 text-sm">Số lượng:</span>
+                    <div className="flex items-center">
+                      <span className="px-2">x{item.quantity}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-gray-600 text-sm">Giá:</span>
+                    <div className="flex items-center">
+                      <div className="text-sm">{formatVND(item.price)}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </td>
         <td>
           <br />
-          <span className="badge badge-xl badge-ghost">
-            {orderStatusDescription(order.status)}
+          <span className="badge badge-md font-medium  badge-soft badge-neutral">
+            {getOrderStatusLabel(order.status as OrderStatusType)}
           </span>
         </td>
+
         <td className="max-w-64">{order.address}</td>
-        <td>{order.totalPrice}</td>
+        <td>{formatVND(order.totalPrice)}</td>
         <td>
+          {/*
           <button
-            className={`btn  btn-sm ${disableReturnOrder(order.status) ? "btn-disabled" : ""}`}
+            className={`btn  btn-sm ${disableReturnOrder(order.status as OrderStatusType) ? "hidden" : ""}`}
           >
             Trả hàng
           </button>
+            *
+            */}
         </td>
         <td>
-          {enableCancelOrder(order.status) && (
-            <button onClick={openModal} className={`btn  btn-sm`}>
+          {enableCancelOrder(order.status as OrderStatusType) && (
+            <button onClick={openModal} className={`btn  btn-sm btn-error`}>
               Hủy đơn
             </button>
           )}
@@ -230,7 +206,7 @@ const OrderRow = ({ order }: { order: OrderSummary }) => {
             <ConfirmModal
               isOpen={isOpen}
               onClose={closeModal}
-              onConfirm={handleConfirm}
+              onConfirm={handleConfirmCancelOrder}
               title={"Xác nhận"}
               content={"Bạn có muốn hủy đơn hàng này?"}
             />

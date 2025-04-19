@@ -17,6 +17,6 @@ export default {
   },
   plugins: [require("daisyui")], // Add DaisyUI here
   daisyui: {
-    themes: ['light', 'dark', 'wireframe', 'corporate'],
+    themes: ['nord', 'light', 'dark', 'wireframe', 'corporate'],
   },
 } satisfies Config;

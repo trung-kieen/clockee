@@ -6,7 +6,7 @@ type ThumbnailProps = {
 };
 
 export const Thumbnail = ({
-  className = "w-14 h-14",
+  className = "w-14 h-14 skeleton",
   children,
 }: ThumbnailProps) => {
   return (

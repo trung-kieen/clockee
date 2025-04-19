@@ -44,6 +44,23 @@ services:
     networks:
       - clockee-network
 
+
+
+  # NOTE: fail on docker compose due to MSSQL verify TCP connection
+  # clockee-spring-server:
+  #   build:
+  #     context: ./clockee-server
+  #     dockerfile: Dockerfile
+  #   container_name: clockee-spring-server
+  #   depends_on:
+  #     clockee-db:
+  #       condition: service_healthy
+  #   networks:
+  #     - clockee-network
+  #   ports:
+  #     - 8080:8080
+
+
 networks:
   clockee-network:
     driver: bridge

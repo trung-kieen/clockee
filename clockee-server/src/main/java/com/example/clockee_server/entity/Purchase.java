@@ -36,6 +36,6 @@ public class Purchase {
   @Column(name = "total_price", precision = 10, nullable = false)
   private Double totalPrice;
 
-  @Column(name = "create_at", updatable = false, nullable = false)
-  private LocalDateTime createAt;
+  @Column(name = "created_at", updatable = false, nullable = false)
+  private LocalDateTime createdAt;
 }

@@ -33,7 +33,7 @@ export default function Error({
             <PrimaryButton>Quay lại trang chủ</PrimaryButton>
           </Link>
         </div>
-        <button className="btn btn-primary" onClick={() => reset()}>
+        <button className="btn mt-10" onClick={() => reset()}>
           Try again
         </button>
       </div>

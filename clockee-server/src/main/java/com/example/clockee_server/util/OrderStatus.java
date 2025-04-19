@@ -2,18 +2,23 @@ package com.example.clockee_server.util;
 
 @Client
 public enum OrderStatus {
-  PENDING("Chưa giải quyết"),
-  PROCESSING("Đang xử lý"),
-  SHIPPED("Đã giao"),
-  RETURNING("Đang hoàn trả"),
-  RETURNED("Đã hoàn trả"),
-  CANCELLED("Bị hủy"),
-  COMPLETED("Hoàn tất");
+  PENDING("PENDING", "Chưa giải quyết"),
+  PROCESSING("PROCESSING","Đang xử lý"),
+  SHIPPED("SHIPPED","Đã giao"),
+  RETURNING("RETURNING","Đang hoàn trả"),
+  RETURNED("RETURNED","Đã hoàn trả"),
+  CANCELLED("CANCELLED","Bị hủy"),
+  COMPLETED("COMPLETED","Hoàn tất");
 
   private final String name;
+  private final String value;
 
-  OrderStatus(String name) {
+  OrderStatus(String value,String name) {
     this.name = name;
+    this.value= value;
+  }
+  public String getValue() {
+    return name;
   }
 
   public String getName() {
@@ -22,6 +27,6 @@ public enum OrderStatus {
 
   @Override
   public String toString() {
-    return name;
+    return value;
   }
 }

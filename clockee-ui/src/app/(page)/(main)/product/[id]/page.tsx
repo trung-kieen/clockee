@@ -98,12 +98,7 @@ export default function ProductDetailsPage() {
             >
               -
             </button>
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(Math.max(1, Math.min(Number(e.target.value), product.stock ?? 1)))}
-              className="w-12 text-center border-l border-r"
-            />
+            {quantity}
             <button
               onClick={() => setQuantity((q) => q + 1)}
               className="px-3 py-1 text-lg"

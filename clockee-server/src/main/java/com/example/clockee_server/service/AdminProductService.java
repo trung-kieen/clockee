@@ -60,9 +60,7 @@ public class AdminProductService {
   // Lấy danh sách sản phẩm có phân trang
   public Page<AdminProductResponse> getAllProducts(int page, int size, String name) {
     Specification<Product> specification =
-        ProductSpecification.searchByName(name).and(ProductSpecification.isDeleted());
-    // Specification<Product> specification =
-    // ProductSpecification.searchByName(name);
+        ProductSpecification.searchByName(name).and(ProductSpecification.isNotDeleted());
 
     Pageable pageable = PageRequest.of(page, size);
 

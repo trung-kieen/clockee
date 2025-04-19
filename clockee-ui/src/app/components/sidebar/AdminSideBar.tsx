@@ -2,14 +2,14 @@
 import { SidebarItem } from "@/models/SidebarItem";
 import { MenuItem } from "./MenuItem";
 import Link from "next/link";
-import Brand from "../Brand";
+import Brand from "../common/Brand";
 
 /**
  * List of item (action) for manager shop data
  */
 const items: Array<SidebarItem> = [
   {
-    title: "Kho hàng",
+    title: "Sản phẩm",
     href: "#",
     subItems: [
       {
@@ -18,28 +18,13 @@ const items: Array<SidebarItem> = [
         subItems: [],
       },
       {
-        title: "Chi tiết đơn hàng",
-        href: "/admin/order-detail/",
-        subItems: [],
-      },
-      {
         title: "Người dùng",
         href: "/admin/user/",
         subItems: [],
       },
       {
-        title: "Nhà cung cấp",
-        href: "/admin/suppliers/",
-        subItems: [],
-      },
-      {
         title: "Sản phẩm",
         href: "/admin/products",
-        subItems: [],
-      },
-      {
-        title: "Chi tiết sản phẩm",
-        href: "/admin/product-detail/",
         subItems: [],
       },
       {
@@ -50,6 +35,22 @@ const items: Array<SidebarItem> = [
       {
         title: "Thương hiệu",
         href: "/admin/brands",
+        subItems: [],
+      },
+    ],
+  },
+  {
+    title: "Kho hàng",
+    href: "/logout",
+    subItems: [
+      {
+        title: "Nhà cung cấp",
+        href: "/admin/suppliers/",
+        subItems: [],
+      },
+      {
+        title: "Nhập hàng",
+        href: "/admin/purcharse/",
         subItems: [],
       },
     ],

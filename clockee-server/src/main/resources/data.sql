@@ -119,7 +119,7 @@ VALUES (1, 1, 1),
        (10, 10, 1);
 
 -- Insert into Order
-INSERT INTO orders (user_id, create_at, address, phone, total_price, status)
+INSERT INTO orders (user_id, created_at, address, phone, total_price, status)
 VALUES (1, '2025-01-15', N'123 Nguyễn Trãi, Hà Nội', '0912345678', 230000000, 'PENDING'),
        (2, '2025-01-20', N'456 Lê Lợi, TP.HCM', '0987654321', 330000000, 'SHIPPED'),
        (3, '2025-02-05', N'78 Hùng Vương, Đà Nẵng', '0909123456', 6600000, 'SHIPPED'),
@@ -159,7 +159,7 @@ VALUES (N'Công ty Đồng Hồ Sài Gòn', N'123 Nguyễn Thị Minh Khai, TP.H
        (N'Đồng Hồ Cao Cấp', N'45 Tôn Thất Tùng, Đà Lạt', '02631234567', 'caocap.watch@yahoo.com', 0);
 
 -- Insert into Purchase
-INSERT INTO purchases (product_id, supplier_id, price, quantity, total_price, create_at)
+INSERT INTO purchases (product_id, supplier_id, price, quantity, total_price, created_at)
 VALUES (1, 1, 200000000, 5, 1000000000, '2025-01-01'),
        (2, 2, 150000000, 3, 450000000, '2025-01-01'),
        (3, 3, 1800000, 20, 36000000, '2025-01-01'),

@@ -23,6 +23,6 @@ public class CheckoutController {
   public ResponseEntity<?> createOrder(
       @CurrentUser User user, @RequestBody CreateOrderRequest request) {
     checkoutService.createOrder(user, request);
-    return null;
+    return ResponseEntity.accepted().build();
   }
 }

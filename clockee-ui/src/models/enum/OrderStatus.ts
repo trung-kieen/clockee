@@ -8,3 +8,6 @@ export const OrderStatus = {
   CANCELLED: "CANCELLED",
   COMPLETED: "COMPLETED",
 } as const;
+
+
+export type OrderStatusType = (typeof OrderStatus)[keyof typeof OrderStatus];

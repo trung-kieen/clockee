@@ -1,24 +1,27 @@
 package com.example.clockee_server.repository;
 
-import com.example.clockee_server.entity.Order;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.example.clockee_server.entity.Order;
+
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
   @Query(
-      "SELECT YEAR(o.createAt) as year, MONTH(o.createAt) as month, "
+      "SELECT YEAR(o.createdAt) as year, MONTH(o.createdAt) as month, "
           + "SUM((p.sellPrice - p.actualPrice) * oi.quantity) as revenue "
           + "FROM Order o "
           + "JOIN o.orderItems oi "
           + "JOIN oi.product p "
           + "WHERE o.status = 'SHIPPED' "
-          + "GROUP BY YEAR(o.createAt), MONTH(o.createAt) "
-          + "ORDER BY YEAR(o.createAt), MONTH(o.createAt)")
+          + "GROUP BY YEAR(o.createdAt), MONTH(o.createdAt) "
+          + "ORDER BY YEAR(o.createdAt), MONTH(o.createdAt)")
   List<Object[]> getMonthlyRevenue();
 
   @Query(
@@ -27,13 +30,16 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
           + "JOIN o.orderItems oi "
           + "JOIN oi.product p "
           + "WHERE o.status = 'SHIPPED' "
-          + "AND YEAR(o.createAt) = :year "
-          + "AND MONTH(o.createAt) = :month")
+          + "AND YEAR(o.createdAt) = :year "
+          + "AND MONTH(o.createdAt) = :month")
   Optional<Double> getRevenueByMonthAndYear(@Param("year") int year, @Param("month") int month);
 
   @Query(
       "SELECT SUM(o.totalPrice) FROM Order o WHERE o.status = 'SHIPPED'"
-          + "AND YEAR(o.createAt) = :year "
-          + "AND MONTH(o.createAt) = :month")
+          + "AND YEAR(o.createdAt) = :year "
+          + "AND MONTH(o.createdAt) = :month")
   Double sumTotalPriceSale(@Param("year") int year, @Param("month") int month);
+
+  @Query("SELECT o from Order o JOIN FETCH  o.orderItems WHERE o.orderId = :orderId AND o.user.userId = :userId")
+  Optional<Order> findByUserIdAndOrderIdWithItems(@Param("userId") Long userId, @Param("orderId") Long orderId);
 }

@@ -19,7 +19,7 @@ const PaginationControls = ({ page, setPage }: PaginationControlsProps) => {
   const pathname = usePathname();
 
   // Get current page from url param
-  const pageNumber = Number(searchParams.get("page") ?? "0");
+  const pageNumber = Number(searchParams.get("page") ?? "1");
 
   /**
    * Handle move to next page, update url param

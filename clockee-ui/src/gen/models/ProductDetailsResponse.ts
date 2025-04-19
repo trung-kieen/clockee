@@ -2,15 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BrandDTO } from "./BrandDTO";
+import type { BrandDTO } from './BrandDTO';
 export type ProductDetailsResponse = {
-  productId?: number;
-  name?: string;
-  image?: string;
-  sellPrice?: number;
-  description?: string;
-  brand?: BrandDTO;
-  type?: string;
-  isActive?: boolean;
-  stock?: number;
+    productId?: number;
+    name?: string;
+    image?: string;
+    sellPrice?: number;
+    description?: string;
+    brand?: BrandDTO;
+    type?: string;
+    isActive?: boolean;
+    stock?: number;
 };
+

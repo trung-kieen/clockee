@@ -25,7 +25,7 @@ export default function ToastProvider({ children }: ToastProviderProps) {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        // theme="light"
         transition={Bounce}
       />
     </>

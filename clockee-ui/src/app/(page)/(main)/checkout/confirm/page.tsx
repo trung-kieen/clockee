@@ -26,7 +26,10 @@ const CheckoutAddressPage = () => {
       CheckoutControllerService.createOrder({
         phone: deliveryDetails.phone,
         address: deliveryDetails.address,
-        items: selectedItems,
+        items: selectedItems.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+        })),
       });
       router.push("/checkout/success");
     } catch (error) {

@@ -2,14 +2,11 @@ package com.example.clockee_server.auth;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import com.example.clockee_server.auth.jwt.JwtTokenFilter;
-import com.example.clockee_server.auth.jwt.LogRequestFilter;
-import com.example.clockee_server.config.ApplicationProperties;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,9 +19,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+
+import com.example.clockee_server.auth.jwt.JwtTokenFilter;
+import com.example.clockee_server.config.ApplicationProperties;
+import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 /** SecurityConfiguration */
 @Configuration
@@ -42,21 +49,6 @@ public class SecurityConfiguration {
     http.authorizeHttpRequests(
         customizer -> {
           customizer
-              // .requestMatchers(antMatcher(HttpMethod.POST, "/users")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.GET, "/users/verify-email")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.POST, "/users/forgot-password")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.PATCH, "/users/reset-password")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/login")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/register")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.POST, "/auth/register")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/csrf")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.GET, "/auth/impersonate")).hasRole("ADMIN")
-              // .requestMatchers(antMatcher(HttpMethod.GET,
-              // "/auth/impersonate/exit")).hasRole("PREVIOUS_ADMINISTRATOR")
-              // .requestMatchers(antMatcher(HttpMethod.GET,
-              // "/notifications/subscribe")).permitAll()
-              // .requestMatchers(antMatcher(HttpMethod.POST,
-              // "/notifications/delivery/**")).permitAll()
               .requestMatchers(antMatcher("/swagger-ui/**"))
               .permitAll()
               .requestMatchers(antMatcher("/v3/api-docs/**"))
@@ -74,14 +66,10 @@ public class SecurityConfiguration {
     // customizer.successHandler(oauth2LoginSuccessHandler);
     // });
 
-    /*
-     * Tra ve response loi xac thuc khi co exception xay ra o qua trinh xac thuc
-     * nguoi dung
-     */
-
     http.exceptionHandling(
         customer -> {
           customer.authenticationEntryPoint(authEntryPointJwt);
+          customer.accessDeniedHandler(accessDeniedHandler());
         });
 
     // Change from cookiee base session to stateless => user store jwt token in
@@ -109,7 +97,10 @@ public class SecurityConfiguration {
     return new BCryptPasswordEncoder();
   }
 
-  /** Danh sach trang cac origin (ip,port) duoc cho phep request Giam thieu tan cong cors */
+  /**
+   * Danh sach trang cac origin (ip,port) duoc cho phep request Giam thieu tan
+   * cong cors
+   */
   private CorsConfigurationSource corsConfigurationSource() {
     return new CorsConfigurationSource() {
       @Override
@@ -123,6 +114,15 @@ public class SecurityConfiguration {
       }
     };
   }
+
+  private AccessDeniedHandler accessDeniedHandler() {
+    return (request, response, accessDeniedException) -> {
+      throw ApiException.builder()
+          .message(AppMessage.of(MessageKey.ACCESS_DENIED))
+          .status(403)
+          .build();
+    };
+  };
 
   /** Cung cap xac thuc nguoi dung Xac dinh nguoi dung nao thuc hien request */
   @Bean

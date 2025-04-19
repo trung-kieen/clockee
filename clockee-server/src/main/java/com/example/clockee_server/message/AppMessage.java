@@ -16,7 +16,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
+ * TODO: change to MessageSource for i18n
  * AppMessage Centralize application message with csv file - application prorperties
  * ${app.messages-file} This class provide helper method to get message from this config file You
  * have to provide new message in {@link MessageKey} and provide semantic message

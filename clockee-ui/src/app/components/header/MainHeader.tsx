@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { ShoppingCart, User } from "lucide-react";
+import { Key, LogOut, Shield, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { useAuth } from "@/lib/hooks/useAuth";
-import Brand from "../Brand";
+import Brand from "../common/Brand";
 import { SearchBar } from "./SearchBar";
 import { useCart } from "@/lib/hooks/useCart";
 import { USERNAME_COOKIE_KEY } from "@/utils/config";
@@ -13,7 +13,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
   const userName = global?.localStorage?.getItem(USERNAME_COOKIE_KEY);
 
   return (
-    <nav className="flex items-center justify-between px-6 py-3 bg-white shadow-md">
+    <nav className="flex items-center justify-between px-6 py-3 bg-white shadow-md skeleton">
       <div className="flex items-center space-x-4">
         <div className="flex items-center">
           {/*  Logo */}
@@ -64,27 +64,46 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
         {isAuthenticated || userName ? (
           <>
             <div>
-              <details className="dropdown dropdown-end">
-                <summary className="btn border-none bg-white">
+              <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="btn border-none bg-white">
                   <User className="text-gray-700 hover:text-black" />
-                </summary>
-                <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
-                    <Link href={"/me"}>Tài khoản của tôi</Link>
-                  </li>
+                </div>
+
+                <ul tabIndex={0} className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                   {isAdmin() && (
-                    <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
-                      <Link href={"/admin"}>Quản lý</Link>
+                    <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
+                      <Link href={"/admin/dashboard"}>
+                        <Shield size={18} />
+                        Quản lý
+                      </Link>
                     </li>
                   )}
-                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
-                    <Link href={"/me/change-password"}>Đổi mật khẩu</Link>
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
+                    <Link href={"/me"}>
+                      <User size={18} />
+                      Tài khoản của tôi
+                    </Link>
                   </li>
-                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700">
-                    <Link href={"/logout"}>Đăng xuất</Link>
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
+                    <Link href={"/orders"}>
+                      <ShoppingBag size={18} />
+                      Đơn hàng của tôi
+                    </Link>
+                  </li>
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
+                    <Link href={"/me/change-password"}>
+                      <Key size={18} />
+                      Đổi mật khẩu
+                    </Link>
+                  </li>
+                  <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
+                    <Link href={"/logout"}>
+                      <LogOut size={18} />
+                      Đăng xuất
+                    </Link>
                   </li>
                 </ul>
-              </details>
+              </div>
             </div>
           </>
         ) : (

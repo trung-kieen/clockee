@@ -5,6 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Make class as client code for compile to typescript
+ * Keep client code and server code consistency - DRY
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
 public @interface Client {}

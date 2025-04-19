@@ -1,6 +1,15 @@
+"use client";
 import { AdminSideBar } from "@/app/components/sidebar/AdminSideBar";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import React, { ReactNode } from "react";
 const AdminLayout = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+  const { isAdmin } = useAuth();
+  if (!isAdmin){
+    // TODO: create page unauthorized
+    router.push("/unauthorized")
+  }
   return (
     <>
       {/* Use grid to layout dashboard sidebar, 200px fix for dashboard and the left for content */}

@@ -7,3 +7,4 @@ UNAUTHORZIED_REQUEST,Unauthorzied request
 PRINCIPAL_NOT_FOUND,Principal not found
 REGISTER_SUCCESS,Register success. Checkout your email
 SERVER_ERROR,Unexpected error
+ACCESS_DENIED,Access denied. You don't have the required role.

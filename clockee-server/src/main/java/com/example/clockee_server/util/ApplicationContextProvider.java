@@ -5,19 +5,20 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * ApplicationContextProvider Cung cap cac phuong thuc lam viec voi Bean trong IoC container
+ * ApplicationContextProvider provide method working with Bean in IoC container
+ * Use in POJO and static class environment as the replacement of @Autowired
  * Example: password = passwordEncoder.encode(newPassword);
  */
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {
   private static ApplicationContext context;
 
-  /** Lay object type T tu application context theo kieu du lieu T truyen vao */
+  /** Get object type T from application context with type query T */
   public static <T> T bean(Class<T> beanType) {
     return context.getBean(beanType);
   }
 
-  /** Lay object tu application context theo theo ten cua bean trong IoC */
+  /** Get object from application context query by bean name in IoC */
   public static Object bean(String name) {
     return context.getBean(name);
   }

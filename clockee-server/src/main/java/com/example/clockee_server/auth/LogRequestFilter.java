@@ -1,4 +1,4 @@
-package com.example.clockee_server.auth.jwt;
+package com.example.clockee_server.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -10,7 +10,6 @@ import AdminMainCard from "@/app/components/card/AdminCard";
 import PrimaryButton from "@/app/components/button/Button";
 import BrandTableRow from "./BrandTableRow";
 import DataTable from "@/app/components/common/DataTable";
-import { PageResponse } from "@/gen/backend";
 import Search from "@/app/components/form/Search";
 
 export default function BrandAdminPage() {
