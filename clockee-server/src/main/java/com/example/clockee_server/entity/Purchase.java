@@ -2,6 +2,7 @@ package com.example.clockee_server.entity;
 
 import com.example.clockee_server.util.Client;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
 
 import java.time.LocalDateTime;

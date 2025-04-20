@@ -16,11 +16,11 @@ public class FinancialReportService {
     @Autowired
     private PurchaseRepository purchaseRepository;
 
-    public FinancialReportDTO getFinancialReport(int year, int month) {
+    public Double getFinancialReport(int year, int month) {
         Double totalSale = Optional.ofNullable(orderRepository.sumTotalPriceSale(year, month)).orElse(0.0);
-        Double totalPurchase = Optional.ofNullable(purchaseRepository.totalPricePurchase(year, month)).orElse(0.0);
-
-        Double profit = totalSale - totalPurchase;
-        return new FinancialReportDTO(totalSale, totalPurchase, profit);
+//        Double totalPurchase = Optional.ofNullable(purchaseRepository.totalPricePurchase(year, month)).orElse(0.0);
+//
+//        Double profit = totalSale - totalPurchase;
+        return totalSale;
     }
 }

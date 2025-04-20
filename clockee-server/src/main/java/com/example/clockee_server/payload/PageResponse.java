@@ -1,16 +1,9 @@
 package com.example.clockee_server.payload;
 
+import com.example.clockee_server.util.Client;
 import java.util.List;
-
+import lombok.Getter;
 import org.springframework.data.domain.Page;
-
-import com.example.clockee_server.util.Client;
-
-import lombok.Getter;
-
-import com.example.clockee_server.util.Client;
-
-import lombok.Getter;
 
 /** PageResponse Decomposition of {@link Page} */
 @Getter

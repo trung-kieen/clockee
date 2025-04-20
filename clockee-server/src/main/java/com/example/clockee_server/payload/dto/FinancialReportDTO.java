@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FinancialReportDTO {
     private Double totalSale;
-    private Double totalPurchase;
-    private Double profit;
+//    private Double totalPurchase;
+//    private Double profit;
 }

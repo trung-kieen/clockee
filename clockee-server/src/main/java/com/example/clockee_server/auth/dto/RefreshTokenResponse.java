@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class JwtTokenResponse {
+public class RefreshTokenResponse {
   private String accessToken;
-  private String refreshToken;
   private String type = "Bearer";
   private Long id;
   private String username;

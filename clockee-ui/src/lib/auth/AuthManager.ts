@@ -12,19 +12,19 @@ export class AuthManager {
     this.#listeners = this.#listeners.filter((cb) => cb !== callbackFn);
   }
   static clearAccessToken() {
-    throw new Error("Method not implemented.");
+    this.accessToken = null;
   }
 
-  static token: string | null = null;
+  static accessToken: string | null = null;
   static setAccessToken(token: string | null) {
-    this.token = token;
+    this.accessToken = token;
     this.#notifyListeners();
   }
   static getAccessToken() {
-    return this.token;
+    return this.accessToken;
   }
 
   static #notifyListeners() {
-    this.#listeners.forEach((callback) => callback(this.token || ""));
+    this.#listeners.forEach((callback) => callback(this.accessToken || ""));
   }
 }

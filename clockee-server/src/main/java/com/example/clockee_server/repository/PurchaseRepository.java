@@ -12,4 +12,5 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             + "FROM Purchase p WHERE YEAR(p.createAt) = :year "
             + "AND MONTH(p.createAt) = :month")
     Double totalPricePurchase(@Param("year") int year, @Param("month") int month);
+
 }

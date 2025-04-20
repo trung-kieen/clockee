@@ -3,6 +3,8 @@ package com.example.clockee_server.repository;
 import com.example.clockee_server.entity.Order;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.clockee_server.util.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,8 +33,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
           + "AND MONTH(o.createAt) = :month")
   Optional<Double> getRevenueByMonthAndYear(@Param("year") int year, @Param("month") int month);
 
-  @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.status = 'SHIPPED'"
-          + "AND YEAR(o.createAt) = :year "
+  @Query("SELECT SUM(o.totalPrice)"
+          + "FROM Order o WHERE o.status = 'SHIPPED' AND YEAR(o.createAt) = :year "
           + "AND MONTH(o.createAt) = :month")
   Double sumTotalPriceSale(@Param("year") int year, @Param("month") int month);
+
+  @Query("SELECT COUNT(o) FROM Order o WHERE YEAR(o.createAt) = :year")
+  Long countOrdersByYear(@Param("year") int year);
+
+  @Query("SELECT COUNT(o) FROM Order o WHERE YEAR(o.createAt) = :year AND o.status = :status")
+  Long countOrdersByYearAndStatus(@Param("year") int year, @Param("status") OrderStatus status);
 }

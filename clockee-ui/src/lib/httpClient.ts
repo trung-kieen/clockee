@@ -1,16 +1,21 @@
-import { API_BASE } from "@/utils/config";
+import { API_BASE, USERNAME_COOKIE_KEY } from "@/utils/config";
 import axios from "axios";
 import { AuthManager } from "@/lib/auth/AuthManager";
 import { toast } from "react-toastify";
+import { logger } from "@/utils/logger";
+import { AuthControllerService } from "@/gen";
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
 interface RefreshTokenResponse {
   accessToken: string;
 }
-const getRefreshToken = async () => {
+export const getRefreshToken = async () => {
   try {
-    return await axios.post<RefreshTokenResponse>(`${API_BASE}/auth/refresh`);
+    return await axios.post<RefreshTokenResponse>(`/auth/refresh`, null, {
+      baseURL: API_BASE,
+      withCredentials: true,
+    });
   } catch (error) {
     throw error;
   }
@@ -23,6 +28,8 @@ const HttpClient = () => {
   const instance = axios.create({
     baseURL: API_BASE,
     withCredentials: true,
+    xsrfCookieName: "XSRF-TOKEN",
+    withXSRFToken: true,
     headers: {
       "X-Requested-With": "XMLHttpRequest",
       "Content-Type": "application/json",
@@ -34,7 +41,7 @@ const HttpClient = () => {
     if (token) {
       request.headers.Authorization = `Bearer ${token}`;
     }
-    console.log(`Interceptor ${JSON.stringify(request)}`);
+    logger.info(`Interceptor ${JSON.stringify(request)}`);
     return request;
   });
   /**
@@ -57,24 +64,27 @@ const HttpClient = () => {
         return;
       }
 
-      if (error.response.status === 401) {
+      const unauthorized = error.response.status === 401;
+      const noAccessTokenAndForbidden =
+        error.response.status === 403 && !AuthManager.getAccessToken();
+      if (unauthorized || noAccessTokenAndForbidden) {
         if (originalConfig.retry) {
           /**
            * Unauthorized retry fail
            * Recursive base case
            */
 
-          toast("Unable refresh token TODO redirect login");
+          // Logout
+          logger.warn("Unable refresh token, TODO: redirect login");
           return Promise.reject(error);
         } else {
-          toast("Refresht token retry ");
+          logger.info("Refresh token retry");
           originalConfig.retry = true;
           try {
             const refreshResponse = await getRefreshToken();
             if (refreshResponse.data.accessToken) {
               const refreshToken = refreshResponse.data.accessToken;
               AuthManager.setAccessToken(refreshToken); // Assume { accesstoken: xxyyzzz}
-
               // update original  header request
               originalConfig.headers.Authorization = `Bearer ${refreshToken}`;
 
@@ -87,6 +97,7 @@ const HttpClient = () => {
               window.location.pathname + window.location.search;
             window.location.href =
               "/login" + (currentRoute ? `?redirect=${currentRoute}` : "");
+            localStorage.removeItem(USERNAME_COOKIE_KEY);
             return Promise.reject(refreshError);
           }
         }

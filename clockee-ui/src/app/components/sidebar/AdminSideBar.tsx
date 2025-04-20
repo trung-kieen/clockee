@@ -52,6 +52,11 @@ const items: Array<SidebarItem> = [
         href: "/admin/brands",
         subItems: [],
       },
+      {
+        title: "Dashboard",
+        href: "/admin/dashboard",
+        subItems: [],
+      },
     ],
   },
   {

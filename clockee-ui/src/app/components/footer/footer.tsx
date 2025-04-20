@@ -1,39 +1,32 @@
 export default function Footer() {
   return (
-    <footer className="w-full bg-white py-6 px-10 text-sm text-gray-500">
-      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div>
-          <h3 className="font-semibold text-gray-800">Dịch vụ khách hàng</h3>
-          <ul className="mt-2 space-y-1">
-            <li>Trung tâm trợ giúp</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Chính sách bảo mật</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-800">Clockee Việt Nam</h3>
-          <ul className="mt-2 space-y-1">
-            <li>Về Clockee</li>
-            <li>Tuyển dụng</li>
-            <li>Flash Sale</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-800">Thanh toán</h3>
-          <ul className="mt-2 flex gap-2">
-            <li>💳 VISA</li>
-            <li>🏦 Momo</li>
-            <li>💰 ClockeePay</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-800">Tải ứng dụng Clockee</h3>
-          <div className="flex gap-2 mt-2">
-            <span>📱 App Store</span>
-            <span>📱 Google Play</span>
-          </div>
-        </div>
-      </div>
+    <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+      <nav>
+        <h6 className="footer-title">Dịch vụ khách hàng</h6>
+        <a className="link link-hover">Trung tâm trợ giúp</a>
+        <a className="link link-hover">Hướng dẫn mua hàng</a>
+        <a className="link link-hover">Chính sách bảo mật</a>
+      </nav>
+
+      <nav>
+        <h6 className="footer-title">Clockee Việt Nam</h6>
+        <a className="link link-hover">Về Clockee</a>
+        <a className="link link-hover">Tuyển dụng</a>
+        <a className="link link-hover">Flash Sale</a>
+      </nav>
+
+      <nav>
+        <h6 className="footer-title">Thanh toán</h6>
+        <a className="link link-hover">💳 VISA</a>
+        <a className="link link-hover">🏦 Momo</a>
+        <a className="link link-hover">💰 ClockeePay</a>
+      </nav>
+
+      <nav>
+        <h6 className="footer-title">Tải ứng dụng Clockee</h6>
+        <a className="link link-hover">📱 App Store</a>
+        <a className="link link-hover">📱 Google Play</a>
+      </nav>
     </footer>
   );
 }

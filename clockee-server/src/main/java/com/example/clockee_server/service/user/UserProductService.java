@@ -1,9 +1,13 @@
 package com.example.clockee_server.service.user;
 
 import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.mapper.ProductMapper;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.response.user.UserProductResponse;
 import com.example.clockee_server.repository.ProductRepository;
-import org.modelmapper.ModelMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,10 +15,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserProductService {
-  @Autowired ProductRepository productRepository;
+  @Autowired private final ProductRepository productRepository;
 
-  @Autowired ModelMapper modelMapper;
+  @Autowired private final ProductMapper productMapper;
 
   // Lấy danh sách sản phẩm của user có phân trang
   public Page<UserProductResponse> getAllProducts(int page, int size) {
@@ -24,16 +29,20 @@ public class UserProductService {
     if (products.isEmpty()) {
       return Page.empty();
     }
-
-    return products.map(product -> modelMapper.map(product, UserProductResponse.class));
+    return products.map(product -> productMapper.productToUserResponse(product));
   }
 
   // Lấy sản phẩm theo id
-  public UserProductResponse getProductByID(Long id) {
+  public UserProductResponse getProductById(Long id) {
     Product product =
-        productRepository
-            .findById(id)
-            .orElseThrow(() -> new RuntimeException("Product does not exitst!"));
-    return modelMapper.map(product, UserProductResponse.class);
+        productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("product"));
+    if (product.getIsDeleted()) {
+      throw new ResourceNotFoundException("product");
+    }
+    if (!product.getVisible()) {
+      throw new ResourceNotFoundException(AppMessage.of(MessageKey.PRIVATE_PRODUCT));
+    }
+
+    return productMapper.productToUserResponse(product);
   }
 }

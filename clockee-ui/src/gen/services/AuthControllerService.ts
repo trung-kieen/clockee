@@ -5,6 +5,7 @@
 import type { CreateUserRequest } from "../models/CreateUserRequest";
 import type { JwtTokenResponse } from "../models/JwtTokenResponse";
 import type { LoginRequest } from "../models/LoginRequest";
+import type { RefreshTokenResponse } from "../models/RefreshTokenResponse";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
@@ -26,12 +27,12 @@ export class AuthControllerService {
   }
   /**
    * @param refreshToken
-   * @returns any OK
+   * @returns RefreshTokenResponse OK
    * @throws ApiError
    */
   public static refreshAccessToken(
     refreshToken?: string,
-  ): CancelablePromise<Record<string, any>> {
+  ): CancelablePromise<RefreshTokenResponse> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/auth/refresh",
@@ -79,6 +80,16 @@ export class AuthControllerService {
     return __request(OpenAPI, {
       method: "GET",
       url: "/auth/me",
+    });
+  }
+  /**
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static logoutUser(): CancelablePromise<Record<string, any>> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/auth/logout",
     });
   }
 }

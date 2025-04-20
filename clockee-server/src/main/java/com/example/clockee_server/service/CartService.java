@@ -14,11 +14,13 @@ import com.example.clockee_server.repository.CartRepository;
 import com.example.clockee_server.repository.ProductRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /** CartService */
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class CartService {
   private final ProductRepository productRepository;
@@ -85,8 +87,8 @@ public class CartService {
 
     CartItem cartItem = getOrThrowCartItem(item.getProductId(), user.getUserId());
 
-    throwIfOutOfStock(cartItem.getQuantity(), product.getStock());
-    cartItem.setQuantity(cartItem.getQuantity());
+    throwIfOutOfStock(item.getQuantity(), product.getStock());
+    cartItem.setQuantity(item.getQuantity());
     return cartRepository.save(cartItem);
   }
 

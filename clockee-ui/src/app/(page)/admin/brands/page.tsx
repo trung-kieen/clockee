@@ -3,7 +3,7 @@
 import PaginationControls from "@/app/components/common/PaginationController";
 import { AdminBrandControllerService, BrandDTO, PageBrandDTO } from "@/gen";
 import { useSearchParams } from "next/navigation";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { mockPageResponseInfo } from "./mock-brands";
 import CreateBrandModal from "./CreateBrandModal";
 import AdminMainCard from "@/app/components/card/AdminCard";
@@ -59,58 +59,60 @@ export default function BrandAdminPage() {
   }
 
   return (
-    <AdminMainCard title="Thương hiệu" goBack={false}>
-      <div className="flex justify-between items-center mb-6">
-        <div onClick={() => setIsAddModalOpen(true)}>
-          <PrimaryButton>
-            <i className="fa fa-add"></i>
-            <span>&nbsp;Thêm mới</span>
-          </PrimaryButton>
+    <Suspense>
+      <AdminMainCard title="Thương hiệu" goBack={false}>
+        <div className="flex justify-between items-center mb-6">
+          <div onClick={() => setIsAddModalOpen(true)}>
+            <PrimaryButton>
+              <i className="fa fa-add"></i>
+              <span>&nbsp;Thêm mới</span>
+            </PrimaryButton>
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-2 items-center">
-        {/*
-         * Search filter
-         */}
-        <Search value={query} onChange={onChangeSearchQuery} />
+        <div className="flex flex-col gap-2 items-center">
+          {/*
+           * Search filter
+           */}
+          <Search value={query} onChange={onChangeSearchQuery} />
 
-        {/*
-         * Add new brand button
-         */}
-        <CreateBrandModal
-          isOpen={isAddModalOpen}
-          onClose={() => setIsAddModalOpen(false)}
-          refreshCallBack={refresh}
-        />
+          {/*
+           * Add new brand button
+           */}
+          <CreateBrandModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            refreshCallBack={refresh}
+          />
 
-        {/*
-         * Display list of brand
-         */}
-        <DataTable<BrandDTO>
-          data={pageInfo.content || []}
-          headers={["Mã thương hiệu", "Tên thương hiệu", "", ""]}
-          renderRow={(item, index) => {
-            return (
-              <BrandTableRow
-                key={index}
-                item={item}
-                refreshCallBack={refresh}
-              />
-            );
-          }}
-        />
+          {/*
+           * Display list of brand
+           */}
+          <DataTable<BrandDTO>
+            data={pageInfo.content || []}
+            headers={["Mã thương hiệu", "Tên thương hiệu", "", ""]}
+            renderRow={(item, index) => {
+              return (
+                <BrandTableRow
+                  key={index}
+                  item={item}
+                  refreshCallBack={refresh}
+                />
+              );
+            }}
+          />
 
-        {/*
-         * Pagination controller
-         */}
-        <PaginationControls
-          setPage={(page: number) => {
-            setPage(page);
-          }}
-          page={pageInfo}
-        />
-      </div>
-    </AdminMainCard>
+          {/*
+           * Pagination controller
+           */}
+          <PaginationControls
+            setPage={(page: number) => {
+              setPage(page);
+            }}
+            page={pageInfo}
+          />
+        </div>
+      </AdminMainCard>
+    </Suspense>
   );
 }

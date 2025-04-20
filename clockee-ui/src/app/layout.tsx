@@ -6,6 +6,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { AuthProvider } from "@/lib/hooks/useAuth";
 import { Header } from "./components/header/Header";
 import ToastProvider from "@/lib/provider/toast.provider";
+import { CartProvider } from "@/lib/hooks/useCart";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,15 +33,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="min-h-screen">
-          <ToastProvider>
-            <AuthProvider>
-              <Header />
-              {children}
-              <Footer />
-            </AuthProvider>
-          </ToastProvider>
-        </div>
+        <ToastProvider>
+          <AuthProvider>
+            {/*
+              <CartProvider >
+              </CartProvider>
+              */}
+            <CartProvider>
+              <div className="min-h-screen flex flex-col">
+                <Header />
+
+                <main className="flex-1">{children}</main>
+
+                <Footer />
+              </div>
+            </CartProvider>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

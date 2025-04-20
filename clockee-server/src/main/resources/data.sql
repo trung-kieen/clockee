@@ -60,27 +60,29 @@ VALUES ('CUSTOMER'),
        ('INVENTORY_MANAGER');
 
 -- Insert into User
-INSERT INTO users (email, password, name, phone, address, is_deleted)
-VALUES ('nguyen.van.a@gmail.com', 'hashedpassword1', 'Nguyễn Văn An', '0912345678', '123 Nguyễn Trãi, Hà Nội', 0),
-       ('tran.thi.b@gmail.com', 'hashedpassword2', 'Trần Thị Bình', '0987654321', '456 Lê Lợi, TP.HCM', 0),
-       ('le.van.c@yahoo.com', 'hashedpassword3', 'Lê Văn Cường', '0909123456', '78 Hùng Vương, Đà Nẵng', 0),
-       ('pham.thi.d@gmail.com', 'hashedpassword4', 'Phạm Thị Dung', '0935123456', '12 Trần Phú, Huế', 0),
-       ('hoang.van.e@hotmail.com', 'hashedpassword5', 'Hoàng Văn Em', '0978123456', '34 Nguyễn Huệ, Nha Trang', 0),
-       ('vu.thi.f@gmail.com', 'hashedpassword6', 'Vũ Thị Phượng', '0918765432', '56 Phạm Ngũ Lão, Hà Nội', 0),
-       ('dang.van.g@yahoo.com', 'hashedpassword7', 'Đặng Văn Giang', '0945123456', '89 Điện Biên Phủ, TP.HCM', 0),
-       ('bui.thi.h@gmail.com', 'hashedpassword8', 'Bùi Thị Hạnh', '0967123456', '23 Lý Thường Kiệt, Đà Lạt', 0),
-       ('do.van.k@hotmail.com', 'hashedpassword9', 'Đỗ Văn Khánh', '0923123456', '67 Hai Bà Trưng, Cần Thơ', 0),
-       ('ngo.thi.l@gmail.com', 'hashedpassword10', 'Ngô Thị Lan', '0956123456', '45 Tôn Đức Thắng, Hải Phòng', 0),
-       ('truong.van.m@yahoo.com', 'hashedpassword11', 'Trương Văn Minh', '0938123456', '90 Lê Đại Hành, Vinh', 0),
-       ('quanlykho@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van a', NULL, NULL, 0),
-       ('admin@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van b', NULL, NULL, 0),
-       ('user@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van c', NULL, NULL, 0),
-       ('ly.thi.n@gmail.com', 'hashedpassword12', 'Lý Thị Nga', '0917123456', '15 Pasteur, Quy Nhơn', 0);
+SET IDENTITY_INSERT users ON;
+INSERT INTO users (user_id, email, password, name, phone, address, is_deleted)
+VALUES (1, 'nguyen.van.a@gmail.com', 'hashedpassword1', 'Nguyễn Văn An', '0912345678', '123 Nguyễn Trãi, Hà Nội', 0),
+       (2, 'tran.thi.b@gmail.com', 'hashedpassword2', 'Trần Thị Bình', '0987654321', '456 Lê Lợi, TP.HCM', 0),
+       (3, 'le.van.c@yahoo.com', 'hashedpassword3', 'Lê Văn Cường', '0909123456', '78 Hùng Vương, Đà Nẵng', 0),
+       (4, 'pham.thi.d@gmail.com', 'hashedpassword4', 'Phạm Thị Dung', '0935123456', '12 Trần Phú, Huế', 0),
+       (5, 'hoang.van.e@hotmail.com', 'hashedpassword5', 'Hoàng Văn Em', '0978123456', '34 Nguyễn Huệ, Nha Trang', 0),
+       (6, 'vu.thi.f@gmail.com', 'hashedpassword6', 'Vũ Thị Phượng', '0918765432', '56 Phạm Ngũ Lão, Hà Nội', 0),
+       (7, 'dang.van.g@yahoo.com', 'hashedpassword7', 'Đặng Văn Giang', '0945123456', '89 Điện Biên Phủ, TP.HCM', 0),
+       (8, 'bui.thi.h@gmail.com', 'hashedpassword8', 'Bùi Thị Hạnh', '0967123456', '23 Lý Thường Kiệt, Đà Lạt', 0),
+       (9, 'do.van.k@hotmail.com', 'hashedpassword9', 'Đỗ Văn Khánh', '0923123456', '67 Hai Bà Trưng, Cần Thơ', 0),
+       (10, 'ngo.thi.l@gmail.com', 'hashedpassword10', 'Ngô Thị Lan', '0956123456', '45 Tôn Đức Thắng, Hải Phòng', 0),
+       (11, 'truong.van.m@yahoo.com', 'hashedpassword11', 'Trương Văn Minh', '0938123456', '90 Lê Đại Hành, Vinh', 0),
+       (12, 'quanlykho@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van a', NULL, NULL, 0),
+       (13, 'admin@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van b', NULL, NULL, 0),
+       (14, 'user@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van c', NULL, NULL, 0),
+       (15, 'ly.thi.n@gmail.com', 'hashedpassword12', 'Lý Thị Nga', '0917123456', '15 Pasteur, Quy Nhơn', 0);
+SET IDENTITY_INSERT users OFF;
 
 
 INSERT INTO roles_users (user_id, role_id)
-  VALUES (11, 3),
-         (12, 2),
+  VALUES (12, 3),
+         (13, 2),
          (14, 1);
 
 INSERT INTO products (name, description, image_url, actual_price, sell_price, type, stock, brand_id, is_active, visible, is_deleted)
@@ -108,9 +110,13 @@ VALUES (1, 1, 1),
        (7, 7, 1),
        (8, 8, 2),
        (9, 9, 3),
+       (1, 14, 3),
+       (4, 14, 5),
+       (6, 13, 2),
+       (4, 13, 2),
+       (7, 12, 5),
+       (8, 12, 2),
        (10, 10, 1);
-
--- Insert into Order
 INSERT INTO orders (user_id, create_at, address, phone, total_price, status)
 VALUES (1, '2025-01-15', N'123 Nguyễn Trãi, Hà Nội', '0912345678', 230000000, 'PENDING'),
        (2, '2025-01-20', N'456 Lê Lợi, TP.HCM', '0987654321', 330000000, 'SHIPPED'),
@@ -122,6 +128,8 @@ VALUES (1, '2025-01-15', N'123 Nguyễn Trãi, Hà Nội', '0912345678', 2300000
        (8, '2025-03-25', N'23 Lý Thường Kiệt, Đà Lạt', '0967123456', 110000000, 'SHIPPED'),
        (9, '2025-04-01', N'67 Hai Bà Trưng, Cần Thơ', '0923123456', 13500000, 'SHIPPED'),
        (10, '2025-04-03', N'45 Tôn Đức Thắng, Hải Phòng', '0956123456', 1150000000, 'PENDING');
+-- Insert into Order
+
 
 INSERT INTO order_items (product_id, order_id, quantity, price)
 VALUES (1, 1, 1, 230000000),

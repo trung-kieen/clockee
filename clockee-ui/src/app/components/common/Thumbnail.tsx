@@ -11,11 +11,7 @@ export const Thumbnail = ({
 }: ThumbnailProps) => {
   return (
     <div className="avatar">
-      <div
-        className={`mask mask-squircle ${className}`}
-      >
-        {children}
-      </div>
+      <div className={`mask mask-squircle ${className}`}>{children}</div>
     </div>
   );
 };

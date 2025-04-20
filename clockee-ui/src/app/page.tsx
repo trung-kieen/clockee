@@ -1,6 +1,7 @@
 "use client";
+import { useCart } from "@/lib/hooks/useCart";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Product {
   id: number;
