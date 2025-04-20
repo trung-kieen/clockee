@@ -99,7 +99,7 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
             scales: {
               y: {
                 beginAtZero: true,
-                max: 400, // Tăng max để phù hợp với dữ liệu lớn hơn
+                max: 400,
                 title: {
                   display: true,
                   text: 'Triệu VNĐ',
@@ -147,7 +147,6 @@ const AdminDashboardPage: React.FC = () => {
   });
   const [statsLoading, setStatsLoading] = useState<boolean>(true);
 
-  // Danh sách các năm (từ năm hiện tại trở về trước 2 năm và sau 1 năm)
   const years = [currentYear - 2, currentYear - 1, currentYear, currentYear + 1];
 
   // Dữ liệu mẫu cho các chỉ số theo năm
