@@ -7,7 +7,11 @@ import { ProductImage } from "@/app/components/common/Base64Image";
 import { OrderStatus as OrderStatusType } from "@/gen/backend";
 import { OrderStatus } from "@/models/enum/OrderStatus";
 import { logger } from "@/utils/logger";
-import { disableReturnOrder, enableCancelOrder, getOrderStatusLabel } from "@/utils/order-utils";
+import {
+  disableReturnOrder,
+  enableCancelOrder,
+  getOrderStatusLabel,
+} from "@/utils/order-utils";
 import { formatVND } from "@/utils/currency";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -17,7 +21,7 @@ const OrderStatusPage = () => {
   const [orders, setOrders] = useState<OrderSummaryResponse[]>([]);
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentStatus(event.target.value as OrderStatusType);
-  }
+  };
 
   const fetchOrderByStatus = async (status: OrderStatusType | undefined) => {
     try {
@@ -26,10 +30,10 @@ const OrderStatusPage = () => {
     } catch (error) {
       logger.warn(error);
     }
-  }
+  };
   useEffect(() => {
     fetchOrderByStatus(currentStatus);
-  }, [currentStatus])
+  }, [currentStatus]);
   return (
     <>
       <div className="container mx-auto p-10">
@@ -40,7 +44,9 @@ const OrderStatusPage = () => {
             name="status"
             className="tab"
             aria-label="Tất cả"
-            onChange={() => { setCurrentStatus(undefined) }}
+            onChange={() => {
+              setCurrentStatus(undefined);
+            }}
             defaultChecked
           />
           <OrderTab orders={orders} />
@@ -48,7 +54,13 @@ const OrderStatusPage = () => {
           {
             // Filter for each order status
             Object.entries(OrderStatus).map(([status, value]) => (
-              <OrderByStatus status={status} value={value} handleStatusChange={handleStatusChange} orders={orders} key={status} />
+              <OrderByStatus
+                status={status}
+                value={value}
+                handleStatusChange={handleStatusChange}
+                orders={orders}
+                key={status}
+              />
             ))
           }
         </div>
@@ -57,14 +69,17 @@ const OrderStatusPage = () => {
   );
 };
 
-const OrderByStatus = (
-  { status, value, orders, handleStatusChange }:
-    {
-      status: string,
-      value: string,
-      orders: OrderSummaryResponse[],
-      handleStatusChange: (event: ChangeEvent<HTMLInputElement>) => void
-    }) => {
+const OrderByStatus = ({
+  status,
+  value,
+  orders,
+  handleStatusChange,
+}: {
+  status: string;
+  value: string;
+  orders: OrderSummaryResponse[];
+  handleStatusChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
   return (
     <>
       <input
@@ -77,9 +92,8 @@ const OrderByStatus = (
       />
       <OrderTab key={status} orders={orders} />
     </>
-  )
-}
-
+  );
+};
 
 /**
  * Filter tab for order by status: PENDING, SHIPPED, etc
@@ -126,14 +140,14 @@ const OrderRow = ({ order }: { order: OrderSummaryResponse }) => {
 
   const handleConfirmCancelOrder = async () => {
     try {
-      if (!order.orderId){
-        logger.error("Unknow order id")
-        return
+      if (!order.orderId) {
+        logger.error("Unknow order id");
+        return;
       }
       await OrderControllerService.cancelOrder(order.orderId);
-      toast.success("Đơn hàng đã được hủy")
+      toast.success("Đơn hàng đã được hủy");
     } catch (error) {
-      logger.error((String(error)))
+      logger.error(String(error));
     }
     closeModal();
   };
@@ -144,9 +158,7 @@ const OrderRow = ({ order }: { order: OrderSummaryResponse }) => {
         <td>
           <i className="fa fa-external-link-alt  cursor-pointer"></i>
         </td>
-        <td>
-          {order.orderId}
-        </td>
+        <td>{order.orderId}</td>
         <td>
           <div className="flex items-start flex-col gap-3  text-wrap max-w-96">
             {order.orderItems?.map((item) => (

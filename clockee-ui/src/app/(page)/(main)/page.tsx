@@ -1,14 +1,16 @@
 "use client";
-import { PageProductSummaryResponse, PageResponseProductSummaryResponse, ProductSummaryResponse, UserProductControllerService } from "@/gen";
+import {
+  PageProductSummaryResponse,
+  PageResponseProductSummaryResponse,
+  ProductSummaryResponse,
+  UserProductControllerService,
+} from "@/gen";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { logger } from "@/utils/logger";
 import { formatVND } from "@/utils/currency";
 import { ProductImage } from "@/app/components/common/Base64Image";
 import Thumbnail from "@/app/components/common/Thumbnail";
-
-
-
 
 const ProductSummary = ({ product }: { product: ProductSummaryResponse }) => {
   return (
@@ -31,18 +33,25 @@ const ProductSummary = ({ product }: { product: ProductSummaryResponse }) => {
 };
 
 export default function HomePage() {
-  const [bestSellingProducts, setBestSelingProducts] = useState<ProductSummaryResponse[]>([]);
-  const [latestProducts, setLatestProduct] = useState<PageResponseProductSummaryResponse | null>(null);
+  const [bestSellingProducts, setBestSelingProducts] = useState<
+    ProductSummaryResponse[]
+  >([]);
+  const [latestProducts, setLatestProduct] =
+    useState<PageResponseProductSummaryResponse | null>(null);
 
   useEffect(() => {
     const fertchProduct = async () => {
       try {
-        const bestSellingResp = await UserProductControllerService.getBestSellingProducts();
+        const bestSellingResp =
+          await UserProductControllerService.getBestSellingProducts();
         setBestSelingProducts(bestSellingResp);
-        const latest = await UserProductControllerService.getLatestProducts(0, 8);
+        const latest = await UserProductControllerService.getLatestProducts(
+          0,
+          8,
+        );
         setLatestProduct(latest);
       } catch (err) {
-        logger.log("Lỗi khi fetch sản phẩm", err)
+        logger.log("Lỗi khi fetch sản phẩm", err);
       }
     };
     fertchProduct();

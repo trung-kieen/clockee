@@ -56,7 +56,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     setIsOpenConfirmModal(false);
   };
 
-
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
       <input
@@ -67,9 +66,9 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         }}
       />
       <div className="size-[5rem] bg-gray-100 rounded-md overflow-hidden">
-          <Thumbnail className="size-[5rem]">
-            <ProductImage data={item.image} />
-          </Thumbnail>
+        <Thumbnail className="size-[5rem]">
+          <ProductImage data={item.image} />
+        </Thumbnail>
       </div>
 
       <div className="flex-1 ml-4">

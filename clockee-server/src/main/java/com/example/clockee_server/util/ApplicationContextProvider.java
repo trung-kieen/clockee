@@ -5,9 +5,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * ApplicationContextProvider provide method working with Bean in IoC container
- * Use in POJO and static class environment as the replacement of @Autowired
- * Example: password = passwordEncoder.encode(newPassword);
+ * ApplicationContextProvider provide method working with Bean in IoC container Use in POJO and
+ * static class environment as the replacement of @Autowired Example: password =
+ * passwordEncoder.encode(newPassword);
  */
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {

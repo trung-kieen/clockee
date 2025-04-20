@@ -10,7 +10,6 @@ import com.example.clockee_server.message.MessageKey;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +45,8 @@ public class AuthController {
   }
 
   @GetMapping("/verify-email")
-  public ResponseEntity<JwtTokenResponse> verifyEmail(@RequestParam("userId") Long userId,  @RequestParam("token") int tokenId) {
+  public ResponseEntity<JwtTokenResponse> verifyEmail(
+      @RequestParam("userId") Long userId, @RequestParam("token") int tokenId) {
     // TODO: verify user status
     return null;
   }

@@ -3,10 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type RefreshTokenResponse = {
-    accessToken?: string;
-    type?: string;
-    id?: number;
-    username?: string;
-    roles?: Array<string>;
+  accessToken?: string;
+  type?: string;
+  id?: number;
+  username?: string;
+  roles?: Array<string>;
 };
-

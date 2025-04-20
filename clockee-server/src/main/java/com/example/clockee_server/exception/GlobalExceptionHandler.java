@@ -1,11 +1,13 @@
 package com.example.clockee_server.exception;
 
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import io.jsonwebtoken.ExpiredJwtException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,11 +23,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.clockee_server.message.AppMessage;
-import com.example.clockee_server.message.MessageKey;
-
-import io.jsonwebtoken.ExpiredJwtException;
-
 /**
  * ExceptionHandler Extend ResponseEntityExceptionHandler for returning a {@link ResponseEntity}
  * with RFC 9457 by convention Handle specific api error response for application runtime exception
@@ -40,8 +37,21 @@ import io.jsonwebtoken.ExpiredJwtException;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   private static final Logger log = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+  @ExceptionHandler(value = ApiException.class)
+  public ResponseEntity<HttpErrorResponse> handleApiException(ApiException e) {
+    log.info("Handling ApiException: {}", e.getMessage());
+    var response =
+        HttpErrorResponse.of(
+            e.getMessage(),
+            e.getStatus(),
+            null,
+            Collections.singletonList(AppMessage.of(MessageKey.SERVER_ERROR)));
+    return new ResponseEntity<>(response, HttpStatus.valueOf(e.getStatus()));
+  }
+
   /**
    * Response error for server validation violent like @NotBlank, @Email, @Size
+   *
    * @see spring-boot-starter-validation
    */
   @Override
@@ -72,27 +82,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
-  @ExceptionHandler(ApiException.class)
-  public ResponseEntity<HttpErrorResponse> handleException(ApiException e) {
-    log.info("Handling ApiException: {}", e.getMessage());
-    var response =
-        HttpErrorResponse.of(
-            e.getMessage(),
-            e.getStatus(),
-            null,
-            Collections.singletonList(AppMessage.of(MessageKey.SERVER_ERROR)));
-    return new ResponseEntity<>(response, HttpStatus.valueOf(e.getStatus()));
-  }
-
-  @ExceptionHandler(BadCredentialsException.class)
-  public ResponseEntity<HttpErrorResponse> handleException(BadCredentialsException e) {
+  @ExceptionHandler(value = BadCredentialsException.class)
+  public ResponseEntity<HttpErrorResponse> handleBadCredentialsException(
+      BadCredentialsException e) {
     log.info("Handling BadCredentialsException: {}", e.getMessage());
     HttpErrorResponse response = HttpErrorResponse.of(null, 401, null, null);
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
-  @ExceptionHandler(AuthorizationDeniedException.class)
-  public ResponseEntity<HttpErrorResponse> handleException(AuthorizationDeniedException e) {
+  @ExceptionHandler(value = AuthorizationDeniedException.class)
+  public ResponseEntity<HttpErrorResponse> handleAuthorizationDeniedException(
+      AuthorizationDeniedException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
     HttpErrorResponse response = HttpErrorResponse.of(null, 403, null, null);
     return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
@@ -101,8 +101,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   /*
    * Handler for data constraint violent => Roll back before transaction
    */
-  @ExceptionHandler(
-      value = TransactionSystemException.class)
+  @ExceptionHandler(value = TransactionSystemException.class)
   public ResponseEntity<HttpErrorResponse> handleTransactionRollBack(TransactionSystemException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
 
@@ -124,9 +123,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
-  /** Handle general errors {@link RuntimeException} */
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<HttpErrorResponse> handleException(Exception e) {
+  @ExceptionHandler(value = RuntimeException.class)
+  public ResponseEntity<HttpErrorResponse> handleRuntimeException(RuntimeException e) {
+    log.error("Unhandled Runtime exception", e);
+    HttpErrorResponse response = HttpErrorResponse.of(AppMessage.of(MessageKey.SERVER_ERROR), 500);
+    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(value = Exception.class)
+  public ResponseEntity<HttpErrorResponse> handleGeneralException(Exception e) {
     log.error("Unhandled exception", e);
     HttpErrorResponse response = HttpErrorResponse.of(AppMessage.of(MessageKey.SERVER_ERROR), 500);
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

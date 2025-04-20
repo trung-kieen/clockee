@@ -13,7 +13,7 @@ const DeliveryDetailsForm = () => {
   const router = useRouter();
 
   const fetchDeliveryDetails = async () => {
-    setDeliveryDetails(await UserControllerService.currentUserDetail());
+    setDeliveryDetails(await UserControllerService.currentUserDetails());
   };
   // Get user information as default delivery information
   useEffect(() => {
@@ -46,36 +46,47 @@ const DeliveryDetailsForm = () => {
     }
   };
   return (
-    <form
-      className="container max-w-md py-8"
-      // className="flex items-center justify-center flex-col w-full bg-zinc-50"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <fieldset className="fieldset w-xs bg-white rounded-lg shadow mb-4 p-4 border rounded-box">
-        <label className="fieldset-label">Địa chỉ</label>
-        <input
-          autoFocus
-          placeholder="Địa chỉ"
-          className="input validator w-full"
-          {...register("address", { required: "Địa chỉ không được trống" })}
-        />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <fieldset>
+        <div className="space-y-2">
+          <label
+            htmlFor="fullName"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Địa chỉ:
+          </label>
+          <input
+            type="text"
+            id="address"
+            {...register("address", { required: "Địa chỉ không được trống" })}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="fieldset-label">Số điện thoại</label>
-        <input
-          className="input validator w-full"
-          placeholder="Số điện thoại"
-          {...register("phone", {
-            required: "Số điện thoại không được trống",
-            maxLength: {
-              value: 11,
-              message: "Số điện thoại chỉ được tối đa 11 ký tự"
-            },
-            pattern: {
-              value: /^[0-9]+$/,
-              message: "Số điện thoại phải là số",
-            },
-          })}
-        />
+        <div className="space-y-2">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Số điện thoại:
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            {...register("phone", {
+              required: "Số điện thoại không được trống",
+              maxLength: {
+                value: 11,
+                message: "Số điện thoại chỉ được tối đa 11 ký tự",
+              },
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "Số điện thoại phải là số",
+              },
+            })}
+          />
+        </div>
 
         {/* Validation error message */}
         <div className="flex items-center gap-2">

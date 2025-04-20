@@ -9,5 +9,4 @@ export const OrderStatus = {
   COMPLETED: "COMPLETED",
 } as const;
 
-
 export type OrderStatusType = (typeof OrderStatus)[keyof typeof OrderStatus];

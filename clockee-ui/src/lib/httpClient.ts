@@ -93,7 +93,7 @@ const HttpClient = () => {
             }
           } catch (refreshError) {
             AuthManager.clearAccessToken();
-            redirectAuthenticateAndGoBack()
+            redirectAuthenticateAndGoBack();
             return Promise.reject(refreshError);
           }
         }
@@ -109,8 +109,9 @@ const HttpClient = () => {
       }
 
       if (error.response.status === 500) {
-        toast.error("Lỗi server");
+        return Promise.reject(error);
       }
+      return Promise.reject(error);
       // Refresh fail => logout
     },
   );

@@ -124,7 +124,7 @@ public class AdminProductService {
 
   /**
    * Upload image file from form request to system file Product image url will be file path to this
-   * sysytem file
+   * system file
    */
   public void uploadProductImage(Long productId, MultipartFile file) {
     Product product =

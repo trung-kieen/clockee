@@ -6,9 +6,6 @@ export const orderStatusDescription = (status: string) => {
   return Object.values(OrderStatus).find((s) => s === normalized);
 };
 
-
-
-
 export function getOrderStatusLabel(status: OrderStatusType): string {
   switch (status) {
     case OrderStatus.PENDING:
@@ -30,12 +27,13 @@ export function getOrderStatusLabel(status: OrderStatusType): string {
   }
 }
 
-
 export const disableReturnOrder = (status: string) => {
   return orderStatusDescription(status) === OrderStatus.SHIPPED;
 };
 
 export const enableCancelOrder = (status: string) => {
   const normalized = orderStatusDescription(status);
-  return normalized === OrderStatus.PENDING || normalized === OrderStatus.PROCESSING;
+  return (
+    normalized === OrderStatus.PENDING || normalized === OrderStatus.PROCESSING
+  );
 };

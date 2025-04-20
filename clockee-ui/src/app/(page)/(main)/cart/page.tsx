@@ -8,7 +8,6 @@ import OrderSummary from "./OrderSummary";
 import { useCart } from "@/lib/hooks/useCart";
 import ProtectedRoute from "@/app/components/route/Protected";
 
-
 const CartPage = () => {
   const { cart } = useCart();
 
@@ -18,8 +17,8 @@ const CartPage = () => {
       <ProtectedRoute>
         <div className="py-10 mx-auto max-w-7xl">
           {/*
-         * Go back to hompage link
-         */}
+           * Go back to hompage link
+           */}
           <div className="mb-6">
             <Link
               href={"/"}
@@ -34,7 +33,9 @@ const CartPage = () => {
           {cartItems.length === 0 ? (
             <div className="text-center py-16 bg-gray-50 rounded-lg">
               <ShoppingBag className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-              <h2 className="text-2xl font-semibold mb-2">Giỏ hàng đang trống</h2>
+              <h2 className="text-2xl font-semibold mb-2">
+                Giỏ hàng đang trống
+              </h2>
               <p className="text-gray-500 mb-8">
                 Có vẻ bạn chưa thêm sản phẩm nào vào giỏ hàng.
               </p>
@@ -68,7 +69,7 @@ const CartPage = () => {
             </div>
           )}
         </div>
-      </ ProtectedRoute>
+      </ProtectedRoute>
     </>
   );
 };

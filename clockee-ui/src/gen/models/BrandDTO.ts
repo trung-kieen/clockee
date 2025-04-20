@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type BrandDTO = {
-    brandId?: number;
-    name: string;
+  brandId?: number;
+  name: string;
 };
-

@@ -3,8 +3,7 @@ package com.example.clockee_server.exception;
 /**
  * HttpErrorResponsee
  *
- * <p>Cac loi tra ve tuy chinh cu the ve loi kem theo trong qua trinh kiem tra du lieu nhap vao
- * (validate errors)
+ * <p>(validate errors)
  */
 import java.util.List;
 import java.util.Map;
@@ -16,13 +15,10 @@ public class HttpErrorResponse {
   private int status;
 
   /*
-   * Cac loi trong qua trinh nhap du lieu cua nguoi dung
-   * Chi roi truong nhap du lieu (fieldName) va loi cu the cho truong do
-   * VD: "password", "mat khau khong du 8 ky tu"
+   * Validation data errors
+   * Specify (fieldName) and error detail from message of @NotBlank, @Max, etc
    */
   private Map<String, String> errors;
-
-  // Loi chung chung khong xac dinh
   private List<String> generalErrors;
 
   public static HttpErrorResponse of(

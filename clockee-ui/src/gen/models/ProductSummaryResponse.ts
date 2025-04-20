@@ -3,11 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ProductSummaryResponse = {
-    productId?: number;
-    name?: string;
-    image?: string;
-    sellPrice?: number;
-    type?: string;
-    isActive?: boolean;
+  productId?: number;
+  name?: string;
+  image?: string;
+  sellPrice?: number;
+  type?: string;
+  isActive?: boolean;
 };
-

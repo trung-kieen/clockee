@@ -7,14 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * ApplicationProperties Tap trung cac config cho application.properties vao prefix "app" thay vi su
- * dung config @Value cho ung dung o nhieu file
- *
- * <p>De su dung inject bean nay roi dung getter de lay gia tri cho config private final
- * ApplicationProperties applicationProperties;
- *
- * <p>Vi du getter properties to applicationProperties
- * config.setAllowedOrigins(applicationProperties.getAllowedOrigins());
+ * ApplicationProperties centralize application config in application.properties with prefix "app"
+ * intead of scatter config @Value in many file Usage: getter properties from Bean
+ * ApplicationProperties
+ * applicationProperties.setAllowedOrigins(applicationProperties.getAllowedOrigins());
  */
 @Configuration
 @ConfigurationProperties(prefix = "app")

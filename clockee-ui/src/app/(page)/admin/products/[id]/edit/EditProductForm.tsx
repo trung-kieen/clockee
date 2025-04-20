@@ -366,7 +366,9 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
         </div>
 
         <div className="text-right">
-          <button className="btn btn-primary">Lưu</button>
+          <button type="submit" className="btn btn-primary">
+            Lưu
+          </button>
         </div>
       </fieldset>
     </form>

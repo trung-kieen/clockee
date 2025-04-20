@@ -6,9 +6,9 @@ import React, { ReactNode } from "react";
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const { isAdmin } = useAuth();
-  if (!isAdmin){
+  if (!isAdmin) {
     // TODO: create page unauthorized
-    router.push("/unauthorized")
+    router.push("/unauthorized");
   }
   return (
     <>

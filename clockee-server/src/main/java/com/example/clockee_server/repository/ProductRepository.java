@@ -1,7 +1,8 @@
 package com.example.clockee_server.repository;
 
+import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.vo.BestSellerProductVo;
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,13 +12,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.clockee_server.entity.Product;
-import com.example.clockee_server.vo.BestSellerProductVo;
-
 @Repository
 public interface ProductRepository
     extends JpaRepository<Product, Long>,
-    JpaSpecificationExecutor<Product> { // để kiểu của khóa chính là Long
+        JpaSpecificationExecutor<Product> { // để kiểu của khóa chính là Long
   List<Product> findAllByOrderByStockDesc(); // Sắp xếp tồn kho giảm dần
 
   List<Product> findAllByOrderByStockAsc(); // Sắp xếp tồn kho tăng dần
@@ -27,7 +25,9 @@ public interface ProductRepository
 
   Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 
-  @Query(value = """
+  @Query(
+      value =
+          """
       SELECT
       DISTINCT
           p.product_id AS productId,
@@ -44,6 +44,7 @@ public interface ProductRepository
           p.product_id, p.name, p.image_url, p.sell_price, p.type, p.is_active
       ORDER BY totalSold DESC
       OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY;
-      """, nativeQuery = true)
+      """,
+      nativeQuery = true)
   List<BestSellerProductVo> findBestSelling(@Param("size") int size);
 }

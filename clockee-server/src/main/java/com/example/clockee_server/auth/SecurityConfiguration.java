@@ -2,11 +2,16 @@ package com.example.clockee_server.auth;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
+import com.example.clockee_server.auth.jwt.JwtTokenFilter;
+import com.example.clockee_server.config.ApplicationProperties;
+import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,15 +28,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-
-import com.example.clockee_server.auth.jwt.JwtTokenFilter;
-import com.example.clockee_server.config.ApplicationProperties;
-import com.example.clockee_server.exception.ApiException;
-import com.example.clockee_server.message.AppMessage;
-import com.example.clockee_server.message.MessageKey;
-
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 
 /** SecurityConfiguration */
 @Configuration
@@ -97,10 +93,7 @@ public class SecurityConfiguration {
     return new BCryptPasswordEncoder();
   }
 
-  /**
-   * Danh sach trang cac origin (ip,port) duoc cho phep request Giam thieu tan
-   * cong cors
-   */
+  /** Danh sach trang cac origin (ip,port) duoc cho phep request Giam thieu tan cong cors */
   private CorsConfigurationSource corsConfigurationSource() {
     return new CorsConfigurationSource() {
       @Override
@@ -122,7 +115,8 @@ public class SecurityConfiguration {
           .status(403)
           .build();
     };
-  };
+  }
+  ;
 
   /** Cung cap xac thuc nguoi dung Xac dinh nguoi dung nao thuc hien request */
   @Bean

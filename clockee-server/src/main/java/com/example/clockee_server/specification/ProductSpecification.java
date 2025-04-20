@@ -25,8 +25,8 @@ public class ProductSpecification {
   public static Specification<Product> isActive() {
     return (root, query, cb) -> cb.isTrue(root.get("isActive"));
   }
+
   public static Specification<Product> isVisiable() {
     return (root, query, cb) -> cb.isTrue(root.get("visible"));
   }
-
 }

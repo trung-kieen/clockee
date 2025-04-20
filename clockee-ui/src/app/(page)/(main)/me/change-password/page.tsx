@@ -1,7 +1,7 @@
 import { User } from "lucide-react";
 import React from "react";
-import ChangeUserDetailsForm from "./ChangeUserDetailsForm";
-const UserInformationPage = () => {
+import ChangePasswordForm from "./ChangePasswordForm";
+const ChangePasswordPage = () => {
   return (
     <>
       <div className="bg-gray-50 h-[calc(100vh-20rem)] flex items-center justify-center">
@@ -9,7 +9,7 @@ const UserInformationPage = () => {
           <div className="bg-white shadow-md rounded-xl p-6">
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
               <div className="flex-1 w-full">
-                <ChangeUserDetailsForm />
+                <ChangePasswordForm />
               </div>
 
               <div className="flex-shrink-0">
@@ -25,4 +25,4 @@ const UserInformationPage = () => {
   );
 };
 
-export default UserInformationPage;
+export default ChangePasswordPage;

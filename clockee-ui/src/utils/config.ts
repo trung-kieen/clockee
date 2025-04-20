@@ -8,3 +8,4 @@ export const API_BASE = HOST + CONTEXT_API;
 OpenAPI.WITH_CREDENTIALS = true;
 
 export const USERNAME_COOKIE_KEY = "user";
+export const ROLES_COOKIE_KEY = "roles";

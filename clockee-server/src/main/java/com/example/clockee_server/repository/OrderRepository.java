@@ -1,18 +1,17 @@
 package com.example.clockee_server.repository;
 
+import com.example.clockee_server.entity.Order;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.clockee_server.entity.Order;
-
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
+public interface OrderRepository
+    extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
   @Query(
       "SELECT YEAR(o.createdAt) as year, MONTH(o.createdAt) as month, "
           + "SUM((p.sellPrice - p.actualPrice) * oi.quantity) as revenue "
@@ -40,6 +39,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
           + "AND MONTH(o.createdAt) = :month")
   Double sumTotalPriceSale(@Param("year") int year, @Param("month") int month);
 
-  @Query("SELECT o from Order o JOIN FETCH  o.orderItems WHERE o.orderId = :orderId AND o.user.userId = :userId")
-  Optional<Order> findByUserIdAndOrderIdWithItems(@Param("userId") Long userId, @Param("orderId") Long orderId);
+  @Query(
+      "SELECT o from Order o JOIN FETCH  o.orderItems WHERE o.orderId = :orderId AND o.user.userId = :userId")
+  Optional<Order> findByUserIdAndOrderIdWithItems(
+      @Param("userId") Long userId, @Param("orderId") Long orderId);
 }

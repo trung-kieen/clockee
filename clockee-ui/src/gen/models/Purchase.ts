@@ -2,15 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Product } from './Product';
-import type { Supplier } from './Supplier';
+import type { Product } from "./Product";
+import type { Supplier } from "./Supplier";
 export type Purchase = {
-    purchaseId?: number;
-    product?: Product;
-    supplier?: Supplier;
-    price?: number;
-    quantity?: number;
-    totalPrice?: number;
-    createdAt?: string;
+  purchaseId?: number;
+  product?: Product;
+  supplier?: Supplier;
+  price?: number;
+  quantity?: number;
+  totalPrice?: number;
+  createdAt?: string;
 };
-

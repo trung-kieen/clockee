@@ -1,6 +1,13 @@
 "use client";
 import Link from "next/link";
-import { Key, LogOut, Shield, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import {
+  Key,
+  LogOut,
+  Shield,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from "lucide-react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import Brand from "../common/Brand";
 import { SearchBar } from "./SearchBar";
@@ -65,11 +72,18 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           <>
             <div>
               <div className="dropdown dropdown-end">
-                <div tabIndex={0} role="button" className="btn border-none bg-white">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn border-none bg-white"
+                >
                   <User className="text-gray-700 hover:text-black" />
                 </div>
 
-                <ul tabIndex={0} className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                >
                   {isAdmin() && (
                     <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
                       <Link href={"/admin/dashboard"}>
@@ -81,7 +95,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
                   <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">
                     <Link href={"/me"}>
                       <User size={18} />
-                      Tài khoản của tôi
+                      Thông tin cá nhân
                     </Link>
                   </li>
                   <li className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full">

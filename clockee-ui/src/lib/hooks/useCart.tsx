@@ -85,7 +85,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isAuthenticated]);
 
-
   /**
    * Not include discount and shipping fee
    */
@@ -98,14 +97,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, [selectedItems]);
 
   const shippingPrice = 0;
-  const totalPrice = useMemo(() => subtotal + shippingPrice, [subtotal, shippingPrice]);
+  const totalPrice = useMemo(
+    () => subtotal + shippingPrice,
+    [subtotal, shippingPrice],
+  );
 
   const addToCart = (item: CartItemDetails) => {
     try {
       // If update item value in server success => Update in context without refresh
       CartControllerService.addItem({
         quantity: item.quantity,
-        productId: item.productId
+        productId: item.productId,
       });
       const defaultQuanitty = 1;
 
@@ -174,8 +176,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     try {
       CartControllerService.updateItem({
         quantity: updatedItem.quantity,
-        productId: updatedItem.productId
-
+        productId: updatedItem.productId,
       });
 
       setCart((previous) => {
@@ -211,7 +212,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         isEmptyCart: cart.items?.length == 0,
         subtotal,
         shippingPrice,
-        totalPrice
+        totalPrice,
       }}
     >
       {children}

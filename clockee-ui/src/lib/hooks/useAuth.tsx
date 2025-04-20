@@ -9,7 +9,7 @@ import {
 } from "react";
 import { AuthManager } from "../auth/AuthManager";
 import { AuthControllerService, JwtTokenResponse } from "@/gen";
-import { USERNAME_COOKIE_KEY } from "@/utils/config";
+import { ROLES_COOKIE_KEY, USERNAME_COOKIE_KEY } from "@/utils/config";
 import { logger } from "@/utils/logger";
 import { getRefreshToken } from "../httpClient";
 
@@ -29,8 +29,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserDetails | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   useEffect(() => {
-    // TODO: get token from refresh token for first time
-
     // Callback for notify change token in AuthManager
     const handleTokenChange = (newToken: string) => {
       setAccessToken(newToken);
@@ -61,6 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // Save username as flag islogin if user refresh browser
     localStorage.setItem(USERNAME_COOKIE_KEY, authDetails.username || "");
+    localStorage.setItem(ROLES_COOKIE_KEY, JSON.stringify(authDetails.roles));
   };
 
   const logout = async () => {
@@ -75,6 +74,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     _clearToken();
     setUser(null);
     setIsAuthenticated(false);
+    global?.localStorage?.removeItem(USERNAME_COOKIE_KEY);
+    global?.localStorage?.removeItem(ROLES_COOKIE_KEY);
   };
 
   const _clearToken = () => {
@@ -83,17 +84,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const isAdmin = () => {
+    const roles: Array<string> =
+      user?.roles ??
+      (() => {
+        try {
+          const stored = global?.localStorage?.getItem(ROLES_COOKIE_KEY);
+          return stored ? JSON.parse(stored) : [];
+        } catch {
+          return [];
+        }
+      })();
+
     return (
-      (user &&
-        (user?.roles?.includes("PRODUCT_ADMIN") ||
-          user?.roles?.includes("INVENTORY_MANAGER"))) ||
-      false
+      roles.includes("PRODUCT_ADMIN") || roles.includes("INVENTORY_MANAGER")
     );
   };
   const _refreshAuth = async () => {
     try {
       const resp = await getRefreshToken();
-      saveUserDetails(resp as JwtTokenResponse);
+      _updateToken(resp.data.accessToken || "");
     } catch {
       _removeUserDetails();
     }

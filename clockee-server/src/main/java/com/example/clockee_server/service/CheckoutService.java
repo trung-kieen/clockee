@@ -19,11 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-
-import org.hibernate.mapping.Array;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/** Processing create order request */
 @RequiredArgsConstructor
 @Service
 public class CheckoutService {
@@ -71,7 +70,6 @@ public class CheckoutService {
       totalPrice += orderItem.getTotalPrice();
     }
 
-
     Order order =
         Order.builder()
             .user(user)
@@ -83,7 +81,6 @@ public class CheckoutService {
             .build();
 
     orderRepository.save(order);
-
 
     List<Product> productDecreaseStockLst = new ArrayList<>();
     for (var orderItem : orderItems) {

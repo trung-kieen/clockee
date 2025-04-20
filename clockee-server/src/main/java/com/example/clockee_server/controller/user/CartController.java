@@ -36,7 +36,8 @@ public class CartController {
   }
 
   @PostMapping("/items")
-  public ResponseEntity<?> addItem(@Valid @RequestBody CartItemRequest item, @CurrentUser User user) {
+  public ResponseEntity<?> addItem(
+      @Valid @RequestBody CartItemRequest item, @CurrentUser User user) {
     cartService.addProduct(item, user);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(AppMessage.of(MessageKey.CREATED_SUCCESS));

@@ -1,14 +1,18 @@
 package com.example.clockee_server.vo;
 
-/**
- * BestSellerProductVo
- */
+/** BestSellerProductVo */
 public interface BestSellerProductVo {
   Long getProductId();
+
   String getName();
+
   String getImageUrl();
+
   Double getSellPrice();
+
   String getType();
+
   Boolean getIsActive();
+
   Integer getTotalSold();
 }

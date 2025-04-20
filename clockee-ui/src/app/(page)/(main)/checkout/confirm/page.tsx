@@ -10,7 +10,13 @@ import Thumbnail from "@/app/components/common/Thumbnail";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 const CheckoutAddressPage = () => {
-  const { selectedItems, subtotal, shippingPrice, totalPrice, deliveryDetails } = useCart();
+  const {
+    selectedItems,
+    subtotal,
+    shippingPrice,
+    totalPrice,
+    deliveryDetails,
+  } = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -34,9 +40,9 @@ const CheckoutAddressPage = () => {
       router.push("/checkout/success");
     } catch (error) {
       logger.error(error);
-      toast.error("Có lỗi xảy ra vui lòng thử lại")
+      toast.error("Có lỗi xảy ra vui lòng thử lại");
     }
-  }
+  };
 
   return (
     <div className="py-8">
@@ -56,7 +62,10 @@ const CheckoutAddressPage = () => {
             <MapPin className="text-yellow-500 mt-1" size={20} />
             <div>
               <h3 className="font-medium text-sm">Địa chỉ nhận hàng</h3>
-              <p className="text-sm mt-1">{deliveryDetails.name} - {deliveryDetails.phone} - {deliveryDetails.address}</p>
+              <p className="text-sm mt-1">
+                {deliveryDetails.name} - {deliveryDetails.phone} -{" "}
+                {deliveryDetails.address}
+              </p>
             </div>
           </div>
         </div>
@@ -65,7 +74,10 @@ const CheckoutAddressPage = () => {
         <div className="bg-white rounded-lg shadow mb-4 p-4">
           <h3 className="font-medium text-sm mb-3">Sản phẩm đã chọn</h3>
           {selectedItems.map((item) => (
-            <div key={item.productId} className="flex items-start gap-4 border-b py-4 last:border-none">
+            <div
+              key={item.productId}
+              className="flex items-start gap-4 border-b py-4 last:border-none"
+            >
               {/*
                 *
               <img src={item.image} alt={item.name} className="w-20 h-20 object-contain" />
@@ -101,7 +113,9 @@ const CheckoutAddressPage = () => {
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">Phí vận chuyển</span>
-            <span>{shippingPrice == 0 ? "Miễn phí" : formatVND(shippingPrice)}</span>
+            <span>
+              {shippingPrice == 0 ? "Miễn phí" : formatVND(shippingPrice)}
+            </span>
           </div>
           <div className="border-t pt-2 flex justify-between font-medium">
             <span>Tổng tiền</span>
@@ -124,11 +138,14 @@ const CheckoutAddressPage = () => {
               className="accent-red-600"
               defaultChecked
             />
-            <label htmlFor="cod" className="text-sm">Thanh toán khi nhận hàng</label>
+            <label htmlFor="cod" className="text-sm">
+              Thanh toán khi nhận hàng
+            </label>
           </div>
         </div>
 
-        <button onClick={createOrderHanler}
+        <button
+          onClick={createOrderHanler}
           className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium text-sm"
         >
           Đặt hàng

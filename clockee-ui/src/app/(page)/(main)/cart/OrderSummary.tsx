@@ -17,9 +17,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
   const { selectedItems, subtotal } = useCart();
 
-
-
-  const formatVND = (value?: number) => new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value ?? 0);
+  const formatVND = (value?: number) =>
+    new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value ?? 0);
   return (
     <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
       <h2 className="text-xl font-bold mb-4">Tóm tắt đơn hàng</h2>

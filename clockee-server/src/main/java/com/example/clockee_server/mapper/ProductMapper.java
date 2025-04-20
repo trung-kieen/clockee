@@ -27,6 +27,7 @@ public class ProductMapper {
     dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));
     return dto;
   }
+
   public ProductDetailsResponse productToProductDetails(Product product) {
     var dto = mapper.map(product, ProductDetailsResponse.class);
     dto.setImage(fileStorageService.readFileFromLocation(product.getImageUrl()));

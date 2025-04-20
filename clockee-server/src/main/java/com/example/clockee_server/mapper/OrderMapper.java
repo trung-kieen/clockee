@@ -1,21 +1,16 @@
 package com.example.clockee_server.mapper;
 
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-
 import com.example.clockee_server.entity.Order;
 import com.example.clockee_server.entity.OrderItem;
 import com.example.clockee_server.file.FileStorageService;
 import com.example.clockee_server.payload.response.OrderItemSummary;
 import com.example.clockee_server.payload.response.OrderSummaryResponse;
-
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
-/**
- * OrderMapper
- */
+/** OrderMapper */
 @Service
 @RequiredArgsConstructor
 public class OrderMapper {
@@ -31,12 +26,15 @@ public class OrderMapper {
 
   public OrderSummaryResponse orderToOrderSummary(Order order) {
     var orderSummary = mapper.map(order, OrderSummaryResponse.class);
-    var summaryItems = order.getOrderItems().stream().map((item) -> {
-      return orderItemToOrderItemSummary(item);
-    }).collect(Collectors.toList());
+    var summaryItems =
+        order.getOrderItems().stream()
+            .map(
+                (item) -> {
+                  return orderItemToOrderItemSummary(item);
+                })
+            .collect(Collectors.toList());
 
     orderSummary.setOrderItems(summaryItems);
     return orderSummary;
   }
-
 }

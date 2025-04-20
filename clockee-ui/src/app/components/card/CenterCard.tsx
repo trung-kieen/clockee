@@ -10,7 +10,7 @@ const CenterCard: React.FC<CenterCardProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`py-10 mx-auto max-w-7xl ${className}`}>{children}</div>
+    <div className={`py-20 mx-auto max-w-7xl ${className}`}>{children}</div>
   );
 };
 
