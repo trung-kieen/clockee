@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FinancialReportDTO {
-  private Double totalSale;
-  private Double totalPurchase;
-  private Double profit;
+    private Double totalSale;
+//    private Double totalPurchase;
+//    private Double profit;
 }

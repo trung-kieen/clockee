@@ -1,5 +1,16 @@
 package com.example.clockee_server.service;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.clockee_server.entity.Order;
 import com.example.clockee_server.entity.OrderItem;
 import com.example.clockee_server.entity.Product;
@@ -10,28 +21,24 @@ import com.example.clockee_server.mapper.OrderMapper;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.dto.MonthlyRevenueDTO;
+import com.example.clockee_server.payload.dto.OrderDTO;
 import com.example.clockee_server.payload.response.OrderSummaryResponse;
 import com.example.clockee_server.repository.OrderRepository;
 import com.example.clockee_server.repository.ProductRepository;
 import com.example.clockee_server.specification.OrderSpecification;
 import com.example.clockee_server.util.OrderStatus;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Log4j2
 public class OrderService {
-  @Autowired private OrderRepository orderRepository;
-  @Autowired private OrderMapper mapper;
-  @Autowired private ProductRepository productRepository;
+  @Autowired
+  private OrderRepository orderRepository;
+  @Autowired
+  private OrderMapper mapper;
+  @Autowired
+  private ProductRepository productRepository;
 
   public List<MonthlyRevenueDTO> calculateMonthlyRevenue() {
     List<Object[]> results = orderRepository.getMonthlyRevenue();
@@ -63,10 +70,9 @@ public class OrderService {
 
   public List<OrderSummaryResponse> getAllByUser(User user, OrderStatus status) {
 
-    Specification<Order> specification =
-        OrderSpecification.withUserId(user.getUserId())
-            .and(OrderSpecification.withStatus(status))
-            .and(OrderSpecification.latestOrder());
+    Specification<Order> specification = OrderSpecification.withUserId(user.getUserId())
+        .and(OrderSpecification.withStatus(status))
+        .and(OrderSpecification.latestOrder());
     return orderRepository.findAll(specification).stream()
         .map(mapper::orderToOrderSummary)
         .collect(Collectors.toList());
@@ -74,13 +80,11 @@ public class OrderService {
 
   @Transactional
   public void cancelOrder(Long orderId, User user) {
-    Order order =
-        orderRepository
-            .findByUserIdAndOrderIdWithItems(user.getUserId(), orderId)
-            .orElseThrow(() -> new ResourceNotFoundException("order"));
+    Order order = orderRepository
+        .findByUserIdAndOrderIdWithItems(user.getUserId(), orderId)
+        .orElseThrow(() -> new ResourceNotFoundException("order"));
 
-    EnumSet<OrderStatus> allowCancelStatus =
-        EnumSet.of(OrderStatus.PENDING, OrderStatus.PROCESSING);
+    EnumSet<OrderStatus> allowCancelStatus = EnumSet.of(OrderStatus.PENDING, OrderStatus.PROCESSING);
     if (!allowCancelStatus.contains(order.getStatus())) {
       throw ApiException.builder()
           .message(AppMessage.of(MessageKey.BAD_ORDER_STATUS))
@@ -98,5 +102,30 @@ public class OrderService {
 
     order.setStatus(OrderStatus.CANCELLED);
     orderRepository.save(order);
+  }
+
+  public OrderDTO getYearlyOrder(int year) {
+    Long totalOrders = orderRepository.countOrdersByYear(year);
+    Long shippedOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.SHIPPED);
+    Long completedOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.COMPLETED);
+    Long pendingOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.PENDING);
+    Long processingOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.PROCESSING);
+    Long returningOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.RETURNING);
+    Long returnedOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.RETURNED);
+    Long cancelledOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.CANCELLED);
+
+    totalOrders = totalOrders != null ? totalOrders : 0L;
+    shippedOrders = shippedOrders != null ? shippedOrders : 0L;
+    completedOrders = completedOrders != null ? completedOrders : 0L;
+    pendingOrders = pendingOrders != null ? pendingOrders : 0L;
+    processingOrders = processingOrders != null ? processingOrders : 0L;
+    returningOrders = returningOrders != null ? returningOrders : 0L;
+    returnedOrders = returnedOrders != null ? returnedOrders : 0L;
+    cancelledOrders = cancelledOrders != null ? cancelledOrders : 0L;
+
+    Long finishOrders = shippedOrders + completedOrders;
+    Long otherOrders = pendingOrders + processingOrders + returningOrders + returnedOrders + cancelledOrders;
+
+    return new OrderDTO(totalOrders, finishOrders, otherOrders);
   }
 }

@@ -130,6 +130,8 @@ VALUES (1, '2025-01-15', N'123 Nguyễn Trãi, Hà Nội', '0912345678', 2300000
        (8, '2025-03-25', N'23 Lý Thường Kiệt, Đà Lạt', '0967123456', 110000000, 'SHIPPED'),
        (9, '2025-04-01', N'67 Hai Bà Trưng, Cần Thơ', '0923123456', 13500000, 'SHIPPED'),
        (10, '2025-04-03', N'45 Tôn Đức Thắng, Hải Phòng', '0956123456', 1150000000, 'PENDING');
+-- Insert into Order
+
 
 INSERT INTO order_items (product_id, order_id, quantity, price)
 VALUES (1, 1, 1, 230000000),

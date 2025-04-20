@@ -3,6 +3,8 @@ package com.example.clockee_server.repository;
 import com.example.clockee_server.entity.Order;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.clockee_server.util.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -33,11 +35,17 @@ public interface OrderRepository
           + "AND MONTH(o.createdAt) = :month")
   Optional<Double> getRevenueByMonthAndYear(@Param("year") int year, @Param("month") int month);
 
-  @Query(
-      "SELECT SUM(o.totalPrice) FROM Order o WHERE o.status = 'SHIPPED'"
-          + "AND YEAR(o.createdAt) = :year "
+  @Query("SELECT SUM(o.totalPrice)"
+          + "FROM Order o WHERE o.status = 'SHIPPED' AND YEAR(o.createdAt) = :year "
           + "AND MONTH(o.createdAt) = :month")
   Double sumTotalPriceSale(@Param("year") int year, @Param("month") int month);
+
+  @Query("SELECT COUNT(o) FROM Order o WHERE YEAR(o.createdAt) = :year")
+  Long countOrdersByYear(@Param("year") int year);
+
+  @Query("SELECT COUNT(o) FROM Order o WHERE YEAR(o.createdAt) = :year AND o.status = :status")
+  Long countOrdersByYearAndStatus(@Param("year") int year, @Param("status") OrderStatus status);
+
 
   @Query(
       "SELECT o from Order o JOIN FETCH  o.orderItems WHERE o.orderId = :orderId AND o.user.userId = :userId")

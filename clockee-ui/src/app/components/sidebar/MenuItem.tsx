@@ -10,9 +10,9 @@ export const MenuItem = ({ item }: { item: SidebarItem }) => {
       {/* Item in sidebar with link */}
       <div className="overflow-y-scroll p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-gray-200 text-gray-900">
         <div className="flex justify-between w-full items-center">
-          <span className="text-md text-[15px] text-gray-800 font-bold">
+          <Link href={item.href} className="text-md text-[15px] text-gray-800 font-bold">
             {item.title}
-          </span>
+          </Link>
           <span className="text-sm rotate-180" id="arrow">
             <i className="bi bi-chevron-down"></i>
           </span>

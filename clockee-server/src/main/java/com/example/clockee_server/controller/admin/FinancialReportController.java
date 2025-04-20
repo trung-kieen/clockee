@@ -9,16 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/financial-report")
 public class FinancialReportController {
-  @Autowired private FinancialReportService financialReportService;
+    @Autowired
+    private FinancialReportService financialReportService;
 
-  @GetMapping("/by-year-month")
-  public ResponseEntity<FinancialReportDTO> geFinancialReport(
-      @RequestParam("year") int year, @RequestParam("month") int month) {
-    FinancialReportDTO report = financialReportService.getFinancialReport(year, month);
+    @GetMapping("/by-year")
+    public ResponseEntity<List<Double>> geFinancialReport(@RequestParam("year") int year) {
+        List<Double> reports = new ArrayList<>();
 
-    return ResponseEntity.ok(report);
-  }
+        for (int month = 1; month <= 12; month++) {
+            Double report = financialReportService.getFinancialReport(year, month);
+            reports.add(report);
+        }
+
+        return ResponseEntity.ok(reports);
+    }
 }

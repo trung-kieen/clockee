@@ -37,11 +37,16 @@ const items: Array<SidebarItem> = [
         href: "/admin/brands",
         subItems: [],
       },
+      {
+        title: "Thống kê",
+        href: "/admin/dashboard",
+        subItems: [],
+      },
     ],
   },
   {
     title: "Kho hàng",
-    href: "/logout",
+    href: "#",
     subItems: [
       {
         title: "Nhà cung cấp",
