@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type FinancialReportDTO = {
-  totalSale?: number;
-  totalPurchase?: number;
-  profit?: number;
+export type OrderDTO = {
+    totalOrders?: number;
+    finishOrders?: number;
+    otherOrders?: number;
 };
+

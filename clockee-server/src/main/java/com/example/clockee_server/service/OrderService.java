@@ -3,7 +3,6 @@ package com.example.clockee_server.service;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.clockee_server.entity.Order;
 import com.example.clockee_server.entity.OrderItem;
-import com.example.clockee_server.entity.Product; import com.example.clockee_server.entity.User; import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.entity.User;
+import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.mapper.OrderMapper;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
-import com.example.clockee_server.payload.dto.MonthlyRevenueDTO;
-import com.example.clockee_server.payload.dto.OrderDTO;
 import com.example.clockee_server.payload.response.OrderSummaryResponse;
 import com.example.clockee_server.repository.OrderRepository;
 import com.example.clockee_server.repository.ProductRepository;
@@ -43,7 +42,7 @@ public class OrderService {
 
     Specification<Order> specification = OrderSpecification.withUserId(user.getUserId())
         .and(OrderSpecification.withStatus(status))
-        .and(OrderSpecification.latestOrder());
+        .and(OrderSpecification.orderByLatest());
     return orderRepository.findAll(specification).stream()
         .map(mapper::orderToOrderSummary)
         .collect(Collectors.toList());

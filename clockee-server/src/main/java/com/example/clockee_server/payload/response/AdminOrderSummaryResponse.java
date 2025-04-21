@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 public class AdminOrderSummaryResponse {
   private Long orderId;
   private String customerName;
-  private String customerPhone;
-  private String customerAddress;
+  private String phone;
+  private String address;
   private Double totalPrice;
   private LocalDateTime createdAt;
-  private OrderStatus status;
+  private String status;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import PaginationControls from "@/app/components/common/PaginationController";
+import PageController from "@/app/components/common/PaginationController";
 import { AdminBrandControllerService, BrandDTO, PageBrandDTO } from "@/gen";
 import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
@@ -104,7 +104,7 @@ export default function BrandAdminPage() {
           {/*
            * Pagination controller
            */}
-          <PaginationControls
+          <PageController
             setPage={(page: number) => {
               setPage(page);
             }}

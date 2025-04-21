@@ -1,5 +1,5 @@
 "use client";
-import PaginationControls from "@/app/components/common/PaginationController";
+import PageController from "@/app/components/common/PaginationController";
 import {
   AdminProductControllerService,
   AdminProductResponse,
@@ -128,7 +128,7 @@ export default function ProductAdminPage() {
           {/*
            * Pagination controller
            */}
-          <PaginationControls
+          <PageController
             setPage={(page: number) => {
               setPage(page);
             }}

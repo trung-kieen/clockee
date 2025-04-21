@@ -12,7 +12,7 @@ interface PaginationControlsProps {
  * Control url search param when user navigate page
  * Example of param: brand?page=5
  */
-const PaginationControls = ({ page, setPage }: PaginationControlsProps) => {
+const PageController = ({ page, setPage }: PaginationControlsProps) => {
   // react hook to work with router, search param and current url path
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -81,4 +81,4 @@ const PaginationControls = ({ page, setPage }: PaginationControlsProps) => {
   );
 };
 
-export default PaginationControls;
+export default PageController;

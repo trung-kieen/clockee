@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ProductSummaryResponse } from './ProductSummaryResponse';
-export type PageResponseProductSummaryResponse = {
+import type { AdminOrderSummaryResponse } from './AdminOrderSummaryResponse';
+export type PageResponseAdminOrderSummaryResponse = {
     page?: number;
     size?: number;
     totalElements?: number;
     totalPages?: number;
-    content?: Array<ProductSummaryResponse>;
+    content?: Array<AdminOrderSummaryResponse>;
     first?: boolean;
     last?: boolean;
     empty?: boolean;

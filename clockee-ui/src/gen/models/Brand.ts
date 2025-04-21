@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Brand = {
-  brandId?: number;
-  name?: string;
-  isDeleted?: boolean;
+    brandId?: number;
+    name?: string;
+    isDeleted?: boolean;
 };
+

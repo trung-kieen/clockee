@@ -24,7 +24,7 @@ public class OrderSpecification {
     };
   }
 
-  public static Specification<Order> latestOrder() {
+  public static Specification<Order> orderByLatest() {
     return (root, query, criteriaBuilder) -> {
       query.orderBy(criteriaBuilder.desc(root.get("createdAt")));
       // Not filter just change order
@@ -32,13 +32,13 @@ public class OrderSpecification {
     };
   }
 
-  public static Specification<Order> withUser() {
+  public static Specification<Order> fetchUsers() {
     return (root, query, criteriaBuilder) -> {
       //  Advoid count query if paginate
       if (Order.class.equals(query.getResultType())) {
         root.fetch("user", JoinType.LEFT);
         // Avoid duplidate collection
-        query.distinct(true);
+        // query.distinct(true);
       }
       return criteriaBuilder.conjunction();
     };

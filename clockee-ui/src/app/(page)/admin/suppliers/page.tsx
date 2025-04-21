@@ -1,6 +1,6 @@
 "use client";
 
-import PaginationControls from "@/app/components/common/PaginationController";
+import PageController from "@/app/components/common/PaginationController";
 import {
   AdminSupplierControllerService,
   PageSupplierDTO,
@@ -119,7 +119,7 @@ export default function SupplierAdminPage() {
           {/*
            * Pagination controller
            */}
-          <PaginationControls
+          <PageController
             setPage={(page: number) => {
               setPage(page);
             }}

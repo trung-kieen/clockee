@@ -33,6 +33,9 @@ export const LoginForm = () => {
       password: password,
     };
     try {
+      if (!isFormValid){
+        return;
+      }
       const res = await AuthControllerService.login(loginReq);
       saveUserDetails(res);
       toast("Đăng nhập thành công");

@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { OrderItemSummary } from './OrderItemSummary';
-export type OrderSummaryResponse = {
+export type AdminOrderSummaryResponse = {
     orderId?: number;
-    createdAt?: string;
-    orderItems?: Array<OrderItemSummary>;
-    totalPrice?: number;
-    status?: string;
+    customerName?: string;
+    phone?: string;
     address?: string;
+    totalPrice?: number;
+    createdAt?: string;
+    status?: string;
 };
 

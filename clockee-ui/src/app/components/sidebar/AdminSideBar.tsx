@@ -28,11 +28,6 @@ const items: Array<SidebarItem> = [
         subItems: [],
       },
       {
-        title: "Nhập hàng",
-        href: "/admin/purcharse",
-        subItems: [],
-      },
-      {
         title: "Thương hiệu",
         href: "/admin/brands",
         subItems: [],
