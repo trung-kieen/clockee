@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.clockee_server.entity.Order;
 import com.example.clockee_server.entity.OrderItem;
-import com.example.clockee_server.entity.Product;
-import com.example.clockee_server.entity.User;
-import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.entity.Product; import com.example.clockee_server.entity.User; import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.mapper.OrderMapper;
 import com.example.clockee_server.message.AppMessage;
@@ -40,33 +38,6 @@ public class OrderService {
   @Autowired
   private ProductRepository productRepository;
 
-  public List<MonthlyRevenueDTO> calculateMonthlyRevenue() {
-    List<Object[]> results = orderRepository.getMonthlyRevenue();
-    List<MonthlyRevenueDTO> revenueList = new ArrayList<>();
-
-    for (Object[] result : results) {
-      Integer year = (Integer) result[0];
-      Integer month = (Integer) result[1];
-      Double revenue = (Double) result[2];
-
-      revenueList.add(new MonthlyRevenueDTO(year, month, revenue));
-    }
-    return revenueList;
-  }
-
-  public Double getRevenueByMonthAndYear(int year, int month) {
-    log.info("Calling getRevenueByMonthAndYear with year: " + year + ", month: " + month);
-
-    Optional<Double> revenue = orderRepository.getRevenueByMonthAndYear(year, month);
-
-    if (revenue.isPresent()) {
-      log.info("Revenue found: " + revenue.get());
-    } else {
-      log.info("No revenue found for year: " + year + ", month: " + month);
-    }
-
-    return revenue.orElse(0.0);
-  }
 
   public List<OrderSummaryResponse> getAllByUser(User user, OrderStatus status) {
 
@@ -104,28 +75,4 @@ public class OrderService {
     orderRepository.save(order);
   }
 
-  public OrderDTO getYearlyOrder(int year) {
-    Long totalOrders = orderRepository.countOrdersByYear(year);
-    Long shippedOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.SHIPPED);
-    Long completedOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.COMPLETED);
-    Long pendingOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.PENDING);
-    Long processingOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.PROCESSING);
-    Long returningOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.RETURNING);
-    Long returnedOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.RETURNED);
-    Long cancelledOrders = orderRepository.countOrdersByYearAndStatus(year, OrderStatus.CANCELLED);
-
-    totalOrders = totalOrders != null ? totalOrders : 0L;
-    shippedOrders = shippedOrders != null ? shippedOrders : 0L;
-    completedOrders = completedOrders != null ? completedOrders : 0L;
-    pendingOrders = pendingOrders != null ? pendingOrders : 0L;
-    processingOrders = processingOrders != null ? processingOrders : 0L;
-    returningOrders = returningOrders != null ? returningOrders : 0L;
-    returnedOrders = returnedOrders != null ? returnedOrders : 0L;
-    cancelledOrders = cancelledOrders != null ? cancelledOrders : 0L;
-
-    Long finishOrders = shippedOrders + completedOrders;
-    Long otherOrders = pendingOrders + processingOrders + returningOrders + returnedOrders + cancelledOrders;
-
-    return new OrderDTO(totalOrders, finishOrders, otherOrders);
-  }
 }

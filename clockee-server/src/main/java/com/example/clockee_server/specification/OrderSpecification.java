@@ -1,6 +1,8 @@
 package com.example.clockee_server.specification;
 
 import ch.qos.logback.core.util.StringUtil;
+import jakarta.persistence.criteria.JoinType;
+
 import com.example.clockee_server.entity.Order;
 import com.example.clockee_server.util.OrderStatus;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,4 +31,17 @@ public class OrderSpecification {
       return criteriaBuilder.conjunction();
     };
   }
+
+  public static Specification<Order> withUser() {
+    return (root, query, criteriaBuilder) -> {
+      //  Advoid count query if paginate
+      if (Order.class.equals(query.getResultType())) {
+        root.fetch("user", JoinType.LEFT);
+        // Avoid duplidate collection
+        query.distinct(true);
+      }
+      return criteriaBuilder.conjunction();
+    };
+  }
+
 }
