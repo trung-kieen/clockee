@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class OrderDTO {
-    private Long totalOrders;
-    private Long finishOrders;
-    private Long otherOrders;
+  private Long totalOrders;
+  private Long finishOrders;
+  private Long otherOrders;
 }

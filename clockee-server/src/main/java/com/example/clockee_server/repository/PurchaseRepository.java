@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
-    @Query("SELECT SUM(p.totalPrice)"
-            + "FROM Purchase p WHERE YEAR(p.createdAt) = :year "
-            + "AND MONTH(p.createdAt) = :month")
-    Double totalPricePurchase(@Param("year") int year, @Param("month") int month);
-
+  @Query(
+      "SELECT SUM(p.totalPrice)"
+          + "FROM Purchase p WHERE YEAR(p.createdAt) = :year "
+          + "AND MONTH(p.createdAt) = :month")
+  Double totalPricePurchase(@Param("year") int year, @Param("month") int month);
 }

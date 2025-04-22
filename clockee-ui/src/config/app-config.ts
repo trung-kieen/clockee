@@ -1,0 +1,6 @@
+export const HOST = process.env.HOST || `http://localhost:8080`;
+export const CONTEXT_API = process.env.CONTEXT_API || `/api`;
+export const API_BASE = HOST + CONTEXT_API;
+
+export const USERNAME_COOKIE_KEY = "user";
+export const ROLES_COOKIE_KEY = "roles";

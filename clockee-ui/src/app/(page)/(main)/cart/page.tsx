@@ -1,12 +1,12 @@
 "use client";
-import PrimaryButton from "@/app/components/button/Button";
+import PrimaryButton from "@/app/components/button/button";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import CartItem from "./CartItem";
-import OrderSummary from "./OrderSummary";
-import { useCart } from "@/lib/hooks/useCart";
-import ProtectedRoute from "@/app/components/route/Protected";
+import CartItem from "./components/cart-item";
+import OrderSummary from "./components/order-summary";
+import { useCart } from "@/lib/hooks/use-cart";
+import { ProtectedRoute } from "@/app/components/route/protected";
 
 const CartPage = () => {
   const { cart } = useCart();

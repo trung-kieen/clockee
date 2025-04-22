@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ChangePasswordRequest = {
-    oldPassword?: string;
-    newPassword?: string;
-    newPasswordConfirmation?: string;
+  oldPassword?: string;
+  newPassword?: string;
+  newPasswordConfirmation?: string;
 };
-

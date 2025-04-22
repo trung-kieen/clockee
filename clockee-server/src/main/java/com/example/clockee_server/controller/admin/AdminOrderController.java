@@ -1,28 +1,29 @@
 package com.example.clockee_server.controller.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.payload.PageResponse;
 import com.example.clockee_server.payload.dto.MonthlyRevenueDTO;
 import com.example.clockee_server.payload.dto.OrderDTO;
+import com.example.clockee_server.payload.request.UpdateOrderStatusRequest;
 import com.example.clockee_server.payload.response.AdminOrderSummaryResponse;
 import com.example.clockee_server.service.AdminOrderService;
 import com.example.clockee_server.util.OrderStatus;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/revenue")
 public class AdminOrderController {
-  @Autowired
-  private AdminOrderService orderService;
+  @Autowired private AdminOrderService orderService;
 
   @GetMapping("/by-month-year")
   public Double getRevenueByMonthAndYear(
@@ -56,10 +57,15 @@ public class AdminOrderController {
   public ResponseEntity<PageResponse<AdminOrderSummaryResponse>> getOrderSummary(
       @RequestParam(value = "status", required = false) OrderStatus status,
       @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
-      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size
-  ) {
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size) {
     PageResponse<AdminOrderSummaryResponse> orders = orderService.getAllOrder(page, size, status);
     return ResponseEntity.ok(orders);
   }
 
+  @PutMapping("order/{orderId}")
+  public ResponseEntity<?> updateOrderStatus(
+      @PathVariable Long orderId, @RequestBody UpdateOrderStatusRequest request) {
+    orderService.updateStatus(orderId, request);
+    return ResponseEntity.accepted().build();
+  }
 }

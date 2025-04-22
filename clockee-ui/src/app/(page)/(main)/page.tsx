@@ -7,10 +7,10 @@ import {
 } from "@/gen";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { logger } from "@/utils/logger";
-import { formatVND } from "@/utils/currency";
-import { ProductImage } from "@/app/components/common/Base64Image";
-import Thumbnail from "@/app/components/common/Thumbnail";
+import { logger } from "@/util/logger";
+import { formatVND } from "@/util/currency";
+import { ProductImage } from "@/app/components/common/base-64-image";
+import Thumbnail from "@/app/components/common/thumbnail";
 
 const ProductSummary = ({ product }: { product: ProductSummaryResponse }) => {
   return (

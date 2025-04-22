@@ -1,6 +1,6 @@
 import { User } from "lucide-react";
 import React from "react";
-import ChangePasswordForm from "./ChangePasswordForm";
+import ChangePasswordForm from "./change-password-form";
 const ChangePasswordPage = () => {
   return (
     <>

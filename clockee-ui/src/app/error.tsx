@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import PrimaryButton from "./components/button/Button";
+import PrimaryButton from "./components/button/button";
 import Link from "next/link";
 
 export default function Error({
@@ -34,7 +34,7 @@ export default function Error({
           </Link>
         </div>
         <button className="btn mt-10" onClick={() => reset()}>
-          Try again
+          Thử lại
         </button>
       </div>
     </div>

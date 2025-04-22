@@ -1,12 +1,12 @@
 "use client";
 import { MapPin, CreditCard } from "lucide-react";
-import { useCart } from "@/lib/hooks/useCart";
-import React, { MouseEvent, useEffect } from "react";
-import { formatVND } from "@/utils/currency";
+import { useCart } from "@/lib/hooks/use-cart";
+import React, { MouseEvent } from "react";
+import { formatVND } from "@/util/currency";
 import { CheckoutControllerService } from "@/gen";
-import { logger } from "@/utils/logger";
-import { ProductImage } from "@/app/components/common/Base64Image";
-import Thumbnail from "@/app/components/common/Thumbnail";
+import { logger } from "@/util/logger";
+import { ProductImage } from "@/app/components/common/base-64-image";
+import Thumbnail from "@/app/components/common/thumbnail";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 const CheckoutAddressPage = () => {
@@ -19,19 +19,12 @@ const CheckoutAddressPage = () => {
   } = useCart();
   const router = useRouter();
 
-  useEffect(() => {
-    if (selectedItems.length === 0) {
-      toast.error("Vui lòng chọn sản phẩm để thanh toán");
-      router.push("/cart");
-    }
-  }, []);
-
   const createOrderHanler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
       CheckoutControllerService.createOrder({
         phone: deliveryDetails.phone,
-        address: deliveryDetails.address,
+        address: String(deliveryDetails.address),
         items: selectedItems.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,

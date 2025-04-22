@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdminProductControllerService } from "@/gen/services/AdminProductControllerService";
-import httpClient from "@/lib/httpClient";
+import httpClient from "@/lib/http-client";
 import { AxiosResponse } from "axios";
 
 export class ProductService {

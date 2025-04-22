@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import PrimaryButton from "./components/button/Button";
+import PrimaryButton from "./components/button/button";
 const NotFound = () => {
   return (
     <>

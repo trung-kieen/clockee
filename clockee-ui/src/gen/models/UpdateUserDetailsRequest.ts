@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UpdateUserDetailsRequest = {
-    name: string;
-    phone: string;
-    address: string;
+  name: string;
+  phone: string;
+  address: string;
 };
-

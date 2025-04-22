@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "./components/footer/footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { AuthProvider } from "@/lib/hooks/useAuth";
-import { Header } from "./components/header/Header";
-import ToastProvider from "@/lib/provider/toast.provider";
-import { CartProvider } from "@/lib/hooks/useCart";
+import { AuthProvider } from "@/lib/hooks/use-auth";
+import ToastProvider from "@/lib/providers/toast-provider";
+import { CartProvider } from "@/lib/hooks/use-cart";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

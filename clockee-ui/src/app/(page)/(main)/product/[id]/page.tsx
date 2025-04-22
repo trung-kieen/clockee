@@ -1,11 +1,11 @@
 "use client";
-import { ProductImage } from "@/app/components/common/Base64Image";
+import { ProductImage } from "@/app/components/common/base-64-image";
 import { ProductDetailsResponse, UserProductControllerService } from "@/gen";
-import { useAuth } from "@/lib/hooks/useAuth";
-import { useCart } from "@/lib/hooks/useCart";
-import { formatVND } from "@/utils/currency";
-import { logger } from "@/utils/logger";
-import { redirectAuthenticateAndGoBack } from "@/utils/route";
+import { useAuth } from "@/lib/hooks/use-auth";
+import { useCart } from "@/lib/hooks/use-cart";
+import { formatVND } from "@/util/currency";
+import { logger } from "@/util/logger";
+import { redirectAuthenticateAndGoBack } from "@/util/route";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

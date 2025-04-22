@@ -19,7 +19,7 @@ import type {
   AxiosInstance,
 } from "axios";
 import FormData from "form-data";
-import httpClient from "@/lib/httpClient";
+import httpClient from "@/lib/http-client";
 
 export const isDefined = <T>(
   value: T | null | undefined,

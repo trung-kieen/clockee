@@ -1,5 +1,6 @@
 "use client";
-import { useAuth } from "@/lib/hooks/useAuth";
+import { LoadingScreen } from "@/app/components/common/loading";
+import { useAuth } from "@/lib/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -13,11 +14,7 @@ const LogoutPage = () => {
     }
     router.push("/login");
   }, []);
-  return (
-    <div className="flex items-center justify-center w-full h-screen">
-      <span className="loading loading-dots loading-lg"></span>
-    </div>
-  );
+  return <LoadingScreen />;
 };
 
 export default LogoutPage;
