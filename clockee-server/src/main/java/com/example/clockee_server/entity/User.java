@@ -1,8 +1,17 @@
 package com.example.clockee_server.entity;
 
+import java.util.Collection;
+import java.util.Set;
+
+import org.hibernate.annotations.Nationalized;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,16 +23,11 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.Collection;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /** User */
 @Getter
@@ -51,6 +55,7 @@ public class User implements UserDetails {
 
   // name
   @Column(nullable = false, length = 255)
+  @Nationalized
   private String name;
 
   // phone
