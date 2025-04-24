@@ -5,6 +5,12 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(maven):"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "maven"
 
   - package-ecosystem: "npm"
     directory: "frontend/"
@@ -13,4 +19,9 @@ updates:
     open-pull-requests-limit: 5
     allow:
       - dependency-type: "direct"
-    security-updates-only: true
+    commit-message:
+      prefix: "deps(npm):"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "npm"
