@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Lightbox from "yet-another-react-lightbox"
+import "yet-another-react-lightbox/styles.css";
 
 export const base64ImageMap = (bytes: string) => {
   return `data:image/png;base64,${bytes}`;
@@ -24,15 +27,27 @@ export const ProductImage = ({
   data?: string;
   className?: string;
 }) => {
-  if (data) {
-    return (
-      <Base64Image
-        data={data}
-        className={`w-96 rounded-lg shadow-md ${className}`}
+  const [isOpen, setIsOpen] = useState(false);
+  const imageSrc = data ? base64ImageMap(data) : defaultProductImage;
+
+  return (
+    <>
+      <img
+        src={imageSrc}
+        alt="product image"
+        className={`rounded-lg cursor-zoom-in ${className}`}
+        onClick={() => setIsOpen(true)}
       />
-    );
-  } else {
-    return <img src={defaultProductImage} alt="product image" />;
-  }
+
+      {isOpen && (
+        <Lightbox
+        open={isOpen}
+        close={() => setIsOpen(false)}
+        slides={[{ src: imageSrc }]}
+        plugins={[Zoom]}
+        />
+      )}
+    </>
+  )
 };
 export default Base64Image;

@@ -1,14 +1,17 @@
 package com.example.clockee_server.service;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import org.jobrunr.scheduling.BackgroundJobRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -16,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.jobrunr.scheduling.BackgroundJobRequest;
 
 import com.example.clockee_server.email.dto.OrderEmailContext;
 import com.example.clockee_server.entity.Order;
@@ -180,6 +182,9 @@ public class AdminOrderService {
     if (isSendEmailOrderChange(order.getStatus(), newStatus)) {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       String formattedDate = LocalDate.now().format(formatter);
+      Locale vietnamLocale = new Locale("vi", "VN");
+      NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(vietnamLocale);
+      String formatedTotalPrice = currencyFormatter.format(order.getTotalPrice());
       var emailInfo = OrderEmailContext.builder()
           .customerName(user.getName())
           .orderCode(order.getOrderId().toString())
@@ -191,11 +196,11 @@ public class AdminOrderService {
           .returnDate(formattedDate)
           .address(user.getAddress())
           .phone(user.getPhone())
-          .totalPrice(order.getTotalPrice().toString())
+          .totalPrice(formatedTotalPrice)
           .applicationName(applicationName)
           .build();
 
-      SendOrderTrackingEmailJob sendOrderTrackingEmailJob = new SendOrderTrackingEmailJob(emailInfo, order.getStatus(),
+      SendOrderTrackingEmailJob sendOrderTrackingEmailJob = new SendOrderTrackingEmailJob(emailInfo, newStatus,
           user.getEmail());
       BackgroundJobRequest.enqueue(sendOrderTrackingEmailJob);
 
