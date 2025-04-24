@@ -31,7 +31,7 @@ public class Brand {
   private Long brandId;
 
   @Column(length = 255, nullable = false)
-  // @Nationalized
+  @Nationalized
   private String name;
 
   @Column(name = "is_deleted")

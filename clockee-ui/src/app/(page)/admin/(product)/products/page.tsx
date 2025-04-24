@@ -5,60 +5,39 @@ import {
   AdminProductResponse,
   PageAdminProductResponse,
 } from "@/gen";
-import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
 import DataTable from "@/app/components/common/data-table";
 import ProductTableRow from "./product-table-row";
+import { usePageSearch } from "@/lib/hooks/use-page-search";
+
+
 
 export default function ProductAdminPage() {
-  // Control pagination information
-  const [pageInfo, setPageInfo] = useState<PageAdminProductResponse>(
-    {} as PageAdminProductResponse,
-  );
 
-  // Get search user track page param
-  const params = useSearchParams();
-
-  // Get current page from url param
-  const [page, setPage] = useState(Number(params.get("page")) || 1);
-
-  const [query, setQuery] = useState("");
-
-  const fetchProducts = async (page: number, query: string) => {
+  const fetchProducts = async () => {
     try {
-      const pageInfo = await AdminProductControllerService.getAllProducts(
+      const resp = await AdminProductControllerService.getAllProducts(
         page - 1,
         undefined,
         query,
       );
-      if (pageInfo) setPageInfo(pageInfo);
+      if (pageInfo) setPageInfo(resp);
       return pageInfo;
     } catch (error) {
       console.warn(error);
     }
-  };
-
-  const refresh = () => {
-    fetchProducts(page, query);
-  };
-
-  /**
-   * Update brand when on page change
-   */
-  useEffect(() => {
-    fetchProducts(page, query);
-  }, [page, query]);
+  }
+  const { pageInfo, setPage, query, setQuery, setPageInfo, page } = usePageSearch<PageAdminProductResponse>({
+    fetchData: fetchProducts
+  });
 
   function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
     setQuery(event.target.value);
   }
 
-  /**
-   * Manager list of brands
-   */
 
   return (
     <Suspense>
@@ -119,7 +98,7 @@ export default function ProductAdminPage() {
               <ProductTableRow
                 key={index}
                 item={item}
-                refreshCallBack={refresh}
+                refreshCallBack={fetchProducts}
               />
             )}
           />
@@ -128,9 +107,7 @@ export default function ProductAdminPage() {
            * Pagination controller
            */}
           <PageController
-            setPage={(page: number) => {
-              setPage(page);
-            }}
+            setPage={setPage}
             page={pageInfo}
           />
         </div>

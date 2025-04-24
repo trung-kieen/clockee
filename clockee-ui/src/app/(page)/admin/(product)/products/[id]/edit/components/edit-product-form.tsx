@@ -68,6 +68,11 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
       console.log(e);
     }
   };
+
+  function handleOnScrollEnd(): void {
+
+  }
+
   useEffect(() => {
     fetchBrands(brandQuery);
   }, [brandQuery]);
@@ -224,7 +229,7 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
           </label>
           <Controller
             control={control}
-            render={function ({
+            render={function({
               field,
             }: {
               field: ControllerRenderProps<CreateProductWithImage>;
@@ -248,12 +253,14 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
                 field.onChange(newOption?.value);
               }
 
+
               return (
                 <Select
                   className="w-full validator"
                   options={brandOptions}
                   onInputChange={handleBrandQueryChange}
                   onChange={setInputValueAsSelectValue}
+                  onMenuScrollToBottom={handleOnScrollEnd}
                   value={brandOptions.find((opt) => opt.value === field.value)}
                   defaultValue={
                     {
