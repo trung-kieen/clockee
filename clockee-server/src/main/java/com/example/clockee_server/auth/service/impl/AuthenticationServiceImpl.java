@@ -12,7 +12,7 @@ import com.example.clockee_server.entity.RoleName;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.entity.VerificationCode;
 import com.example.clockee_server.exception.ApiException;
-import com.example.clockee_server.jobs.SendWelcomeEmailJob;
+import com.example.clockee_server.jobs.requests.SendWelcomeEmailJob;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.repository.RoleRepository;
@@ -66,12 +66,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   private void sendVerificationEmail(User user) {
     // Save token to check if user active email
-    var verification = new VerificationCode(user);
+    VerificationCode verification = new VerificationCode(user);
     user.setVerificationCode(verification);
     verificationCodeRepository.save(verification);
 
     // Sent email async
-    var sendWelcomeEmailJob = new SendWelcomeEmailJob(user.getUserId());
+    SendWelcomeEmailJob sendWelcomeEmailJob = new SendWelcomeEmailJob(user.getUserId());
     BackgroundJobRequest.enqueue(sendWelcomeEmailJob);
   }
 
