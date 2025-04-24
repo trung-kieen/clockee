@@ -41,8 +41,8 @@ public class Product {
   private String name;
 
   @Column
-  // @Lob
-  // @Nationalized
+  @Lob
+  @Nationalized
   private String description;
 
   @Column(name = "image_url", length = 255)

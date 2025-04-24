@@ -82,7 +82,7 @@ const AdminOrderTable = ({
               <td className="flex gap-1">
                 {canApprove(order.status) && (
                   <button
-                    className="btn btn-sm btn-success"
+                    className="btn btn-sm"
                     onClick={() =>
                       setOrderStatus(order, OrderStatusType.PROCESSING)
                     }
@@ -92,7 +92,7 @@ const AdminOrderTable = ({
                 )}
                 {canStartShipping(order.status) && (
                   <button
-                    className="btn btn-sm btn-success"
+                    className="btn btn-sm"
                     onClick={() =>
                       setOrderStatus(order, OrderStatusType.SHIPPED)
                     }
@@ -102,7 +102,7 @@ const AdminOrderTable = ({
                 )}
                 {canCompleteShipping(order.status) && (
                   <button
-                    className="btn btn-sm btn-success"
+                    className="btn btn-sm"
                     onClick={() =>
                       setOrderStatus(order, OrderStatusType.COMPLETED)
                     }

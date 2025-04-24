@@ -64,6 +64,7 @@ public class User implements UserDetails {
 
   // address
   @Column(columnDefinition = "TEXT")
+  @Nationalized
   private String address;
 
   // is_deleted
