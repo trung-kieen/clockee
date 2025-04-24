@@ -7,7 +7,7 @@ const PrimaryButton = ({ children, className = "btn" }: PrimaryButtonProps) => {
   return (
     <>
       <button
-        className={`btn bg-primary  text-white px-4 py-2 rounded-md flex items-center ml-3  shadow-sm ${className}`}
+        className={`btn bg-primary  text-white px-4 py-2 rounded-md flex items-center ml-2  shadow-sm ${className}`}
       >
         {children}
       </button>

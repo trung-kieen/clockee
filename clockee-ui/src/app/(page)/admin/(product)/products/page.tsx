@@ -62,12 +62,12 @@ export default function ProductAdminPage() {
 
   return (
     <Suspense>
-      <AdminMainCard title="Sản phẩm" goBack={false}>
-        <div className="flex justify-between items-center mb-6">
+      <AdminMainCard title="QUẢN LÝ SẢN PHẨM" goBack={false}>
+        <div className="flex justify-between items-center ">
           <Link href={"/admin/products/new"}>
             <PrimaryButton>
               <i className="fa fa-add"></i>
-              <span>&nbsp;Thêm mới</span>
+              <span>&nbsp;THÊM MỚI</span>
             </PrimaryButton>
           </Link>
         </div>
@@ -81,7 +81,7 @@ export default function ProductAdminPage() {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600"
+              className="absolute w-6 h-6 top-3 left-3 text-slate-600 text-center"
             >
               <path
                 fillRule="evenodd"
@@ -93,7 +93,7 @@ export default function ProductAdminPage() {
             <input
               value={query}
               onChange={onChangeSearchQuery}
-              className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+              className="mb-2 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-xl border-4 border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-600 hover:border-slate-300 shadow-sm focus:shadow"
               placeholder="Tìm kiếm"
             />
           </div>
@@ -105,15 +105,13 @@ export default function ProductAdminPage() {
             data={pageInfo?.content || []}
             emptyMessage="Không tìm thấy sản phẩm nào"
             headers={[
-              "ID sản phẩm",
-              "Hình ảnh",
+              "STT",
+              // "Hình ảnh",
               "Tên sản phẩm",
               "Giá gốc",
               "Giá bán",
               "Loại",
-              "Thương hiệu",
-              "",
-              "",
+              "Thương hiệu"
             ]}
             renderRow={(item, index) => (
               <ProductTableRow

@@ -9,7 +9,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
           <div className="bg-gray-50">
             <AdminSideBar />
           </div>
-          <div className="bg-white ">{children}</div>
+          <div className="bg-white w-[100%]">{children}</div>
         </div>
       </div>
     </>

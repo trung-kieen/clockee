@@ -68,7 +68,7 @@ export class AdminProductControllerService {
    */
   public static getAllProducts(
     page?: number,
-    size: number = 10,
+    size: number = 5,
     name: string = "",
   ): CancelablePromise<PageAdminProductResponse> {
     return __request(OpenAPI, {

@@ -111,8 +111,7 @@ export default function ProductDetailsPage() {
             <div className="">
               <h1 className="font-bold">Mô tả sản phẩm:</h1>
               <p className="text-[#abb8c3]">{product.description} Casio là thương hiệu lớn, được Anh Khuê (đối tác độc quyền của Casio tại Việt Nam) đảm nhận phân phối. Vì vậy, tất cả đồng hồ Casio đều phải được dán tem chống hàng giả từ Anh Khuê.
-
-Vì rất được ưa chuộng tại thị trường Việt Nam, tình trạng hàng giả, hàng nhái xảy ra phổ biến đối với Casio AE-1200WHD-1AVDF. Người dùng cần lưu ý những điều sau trước khi quyết định mua đồng hồ tại một cửa hiệu nào đó.</p>
+              Vì rất được ưa chuộng tại thị trường Việt Nam, tình trạng hàng giả, hàng nhái xảy ra phổ biến đối với Casio AE-1200WHD-1AVDF. Người dùng cần lưu ý những điều sau trước khi quyết định mua đồng hồ tại một cửa hiệu nào đó.</p>
             </div>
           </div>
         </div>

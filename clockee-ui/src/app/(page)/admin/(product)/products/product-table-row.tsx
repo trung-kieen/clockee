@@ -30,22 +30,30 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
     }
   };
 
+  const formatVND = (value?: number) =>
+    new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value ?? 0);
+
+  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
+
   return (
-    <tr>
-      <td>{item.productId}</td>
-      <td>
+    <tr className="whitespace-nowrap text-xl text-center">
+      <td className={`border-l-4 ${tdStyle}`}>{item.productId}</td>
+      {/* <td  className="border border-gray-200 px-4 py-3">
         {item.image && (
           <Thumbnail className="h-[100px] w-[100px]">
             <ProductImage data={item.image} />
           </Thumbnail>
         )}
-      </td>
-      <td>{item.name}</td>
-      <td>{item.actualPrice}</td>
-      <td>{item.sellPrice}</td>
-      <td>{item.type}</td>
-      <td>{item.brand?.name}</td>
-      <td className="hover:bg-gray-200">
+      </td> */}
+      <td className={`${tdStyle}`}>{item.name}</td>
+      <td className={`${tdStyle}`}>{formatVND(item.actualPrice)}</td>
+      <td className={`${tdStyle}`}>{formatVND(item.sellPrice)}</td>
+      <td className={`${tdStyle}`}>{item.type}</td>
+      <td className={`${tdStyle}`}>{item.brand?.name}</td>
+      <td className= {`hover:bg-gray-200 ${tdStyle}`}>
         <Link href={`/admin/products/${item.productId}/edit`}>
           {/* Action edit */}
           <i className="fa fa-external-link-alt  cursor-pointer"></i>
@@ -55,7 +63,7 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
         onClick={() => {
           setIsOpenConfirm(true);
         }}
-        className="hover:bg-gray-200"
+        className={`hover:bg-gray-200 ${tdStyle} border-r-4 `}
       >
         {/* Action delete */}
         <i className="fa fa-trash"></i>
