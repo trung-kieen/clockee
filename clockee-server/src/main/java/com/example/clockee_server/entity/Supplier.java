@@ -1,9 +1,6 @@
 package com.example.clockee_server.entity;
 
-import org.hibernate.annotations.Nationalized;
-
 import com.example.clockee_server.util.Client;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Getter
@@ -35,10 +33,7 @@ public class Supplier {
   @Nationalized
   private String name;
 
-  @Column
-  @Lob
-  @Nationalized
-  private String address;
+  @Column @Lob @Nationalized private String address;
 
   @Column(length = 11)
   private String phone;

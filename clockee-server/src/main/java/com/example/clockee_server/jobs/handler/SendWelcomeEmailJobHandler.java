@@ -2,7 +2,6 @@ package com.example.clockee_server.jobs.handler;
 
 import com.example.clockee_server.jobs.requests.SendWelcomeEmailJob;
 import com.example.clockee_server.service.SendEmailService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jobrunr.jobs.lambdas.JobRequestHandler;

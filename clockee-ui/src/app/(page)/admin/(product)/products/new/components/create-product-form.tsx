@@ -4,10 +4,12 @@ import {
   AdminBrandControllerService,
   AdminProductControllerService,
   AdminProductRequest,
+  BrandDTO,
 } from "@/gen";
+import { useLazyPage } from "@/lib/hooks/use-lazy-load";
 import { ProductService } from "@/service/ProductService";
 import { mapApiErrorsToForm } from "@/util/form";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import {
   Controller,
   ControllerRenderProps,
@@ -16,6 +18,7 @@ import {
 } from "react-hook-form";
 import Select, { SingleValue } from "react-select";
 import { toast } from "react-toastify";
+import { mapBrandDTOToSelectOption } from "../../[id]/edit/components/edit-product-form";
 
 type SelectOption = {
   label: string;
@@ -27,8 +30,16 @@ type CreateProductWithImage = AdminProductRequest & {
 };
 
 const CreateProductForm = () => {
-  const [brandOptions, setBrandOptions] = useState<Array<SelectOption>>([]);
-  const [brandQuery, setBrandQuery] = useState("");
+  const { fetchMore, setQuery, query, pageInfo } = useLazyPage<BrandDTO>({
+    fetchData: async (page, query) => {
+      return await AdminBrandControllerService.getAllBrands(
+        page,
+        undefined,
+        query,
+      );
+    },
+  });
+
   const [selectedFile, setSelectedFile] = useState("");
 
   const {
@@ -42,30 +53,21 @@ const CreateProductForm = () => {
     formState: { errors },
   } = useForm<CreateProductWithImage>();
 
-  const fetchBrands = async (query: string) => {
-    try {
-      const pageResults = await AdminBrandControllerService.getAllBrands(
-        undefined,
-        undefined,
-        query,
-      );
-      const newOptions = pageResults.content?.map((brand) => {
-        const brandOptions: SelectOption = {
-          label: String(brand.name),
-          value: Number(brand.brandId),
-        };
-        return brandOptions;
-      });
-      setBrandOptions(newOptions || []);
-    } catch (e) {
-      setBrandOptions([]);
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    fetchBrands(brandQuery);
-  }, [brandQuery]);
+  function handleOnScrollEnd(): void {
+    fetchMore();
+  }
 
+  function handleMenuInputKeyDown(event: KeyboardEvent<HTMLDivElement>): void {
+    if (!pageInfo?.content) {
+      return;
+    }
+    const option = getValues("brandId");
+    const brandOptions = pageInfo.content;
+    const lastOptions = brandOptions[brandOptions.length - 1];
+    if (lastOptions && lastOptions.brandId == option) {
+      fetchMore();
+    }
+  }
   const onSubmit: SubmitHandler<CreateProductWithImage> = async (
     data: CreateProductWithImage,
   ) => {
@@ -211,12 +213,12 @@ const CreateProductForm = () => {
                     Return brandId instead of Object SelectOption
               */
               }
+
               function handleBrandQueryChange(newValue: string): void {
-                if (newValue != brandQuery) {
-                  setBrandQuery(newValue);
+                if (newValue != query) {
+                  setQuery(newValue);
                 }
               }
-
               function setInputValueAsSelectValue(
                 newOption: SingleValue<SelectOption>,
               ): void {
@@ -226,10 +228,16 @@ const CreateProductForm = () => {
               return (
                 <Select
                   className="w-full validator"
-                  options={brandOptions}
+                  options={
+                    pageInfo?.content?.map(mapBrandDTOToSelectOption) || []
+                  }
                   onInputChange={handleBrandQueryChange}
                   onChange={setInputValueAsSelectValue}
-                  value={brandOptions.find((opt) => opt.value === field.value)}
+                  onMenuScrollToBottom={handleOnScrollEnd}
+                  onKeyDown={handleMenuInputKeyDown}
+                  value={(
+                    pageInfo?.content?.map(mapBrandDTOToSelectOption) || []
+                  ).find((opt) => opt.value === field.value)}
                   placeholder="Chọn thương hiệu..."
                   // Fix hydration mismatch
                   instanceId="brand-select"

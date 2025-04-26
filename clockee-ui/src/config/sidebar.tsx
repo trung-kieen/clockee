@@ -43,7 +43,7 @@ export const adminMenuItems: Array<SidebarItem> = [
       },
       {
         title: "Nhập hàng",
-        href: "/admin/purcharse/",
+        href: "/admin/purchases/",
         subItems: [],
       },
     ],

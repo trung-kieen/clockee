@@ -30,28 +30,25 @@ const OrderSummaryPage = () => {
     } catch (error) {
       console.warn(error);
     }
-
   };
 
-  const { pageInfo, setPage, page, setPageInfo } = usePage<PageResponseAdminOrderSummaryResponse>({
-    fetchData: fetchOrderByStatus,
-    dependencies: [currentStatus]
-  });
-
-
+  const { pageInfo, setPage, page, setPageInfo } =
+    usePage<PageResponseAdminOrderSummaryResponse>({
+      fetchData: fetchOrderByStatus,
+      dependencies: [currentStatus],
+    });
 
   function handleOrdersChange(newOrders: AdminOrderSummaryResponse[]): void {
     setPageInfo({
       ...pageInfo,
-      content: newOrders
+      content: newOrders,
     });
   }
 
   return (
     <Suspense>
-      <AdminMainCard title="Thương hiệu" goBack={false}>
+      <AdminMainCard title="Danh sách đơn hàng" goBack={false}>
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl font-semibold mb-6">Danh sách đơn hàng</h1>
           <div className="container mx-auto p-10 overflow-x-auto">
             <div className="tabs tabs-lift tabs-xl">
               {/* All status order */}

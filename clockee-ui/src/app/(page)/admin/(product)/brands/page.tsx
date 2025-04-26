@@ -14,7 +14,6 @@ import BrandTableRow from "./components/brand-table-row";
 import { usePageSearch } from "@/lib/hooks/use-page-search";
 
 export default function BrandAdminPage() {
-
   const fetchBrands = async () => {
     try {
       const pageInfo = await AdminBrandControllerService.getAllBrands(
@@ -28,13 +27,12 @@ export default function BrandAdminPage() {
       console.warn(error);
     }
   };
-  const { pageInfo, setPage, query, setQuery, setPageInfo, page } = usePageSearch<PageBrandDTO>({
-    fetchData: fetchBrands
-  });
+  const { pageInfo, setPage, query, setQuery, setPageInfo, page } =
+    usePageSearch<PageBrandDTO>({
+      fetchData: fetchBrands,
+    });
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-
 
   function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
     setQuery(event.target.value);

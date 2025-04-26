@@ -1,12 +1,6 @@
 package com.example.clockee_server.entity;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Nationalized;
-
 import com.example.clockee_server.util.Client;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,11 +10,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Getter
@@ -40,10 +37,7 @@ public class Product {
   @Nationalized
   private String name;
 
-  @Column
-  @Lob
-  @Nationalized
-  private String description;
+  @Column @Lob @Nationalized private String description;
 
   @Column(name = "image_url", length = 255)
   private String imageUrl;
@@ -54,8 +48,7 @@ public class Product {
   @Column(name = "sell_price", precision = 10, nullable = false)
   private Double sellPrice;
 
-  @Column(length = 50)
-  private String type;
+  @Column private String type;
 
   @Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
   private Long stock;

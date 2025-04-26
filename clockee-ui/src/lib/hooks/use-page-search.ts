@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { logger } from "@/util/logger";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,49 +7,38 @@ const initialPage = 1;
 type usePageSearchProps = {
   fetchData: () => void;
   /* eslint-disable  @typescript-eslint/no-explicit-any */
-  dependencies?: Array<any>,
-}
-export const usePageSearch = <T,>({
+  dependencies?: Array<any>;
+};
+export const usePageSearch = <T>({
   fetchData,
-  dependencies = []
+  dependencies = [],
 }: usePageSearchProps) => {
-
   const [query, setQuery] = useState<string | undefined>(undefined);
   const usePageProps = usePage<T>({
     fetchData,
-    dependencies: dependencies
+    dependencies: dependencies,
   });
-
 
   return {
     query,
     setQuery,
-    ...usePageProps
+    ...usePageProps,
   };
-
-}
-
-
+};
 
 type usePageProps = {
   fetchData: () => void;
   /* eslint-disable  @typescript-eslint/no-explicit-any */
-  dependencies?: Array<any>,
-}
+  dependencies?: Array<any>;
+};
 
 /**
  * @param fetchPageInfo: handler function to refresh the page content
  * @param dependencies: list of dependencies array ’cause refresh page info
  */
-export const usePage = <T,>({
-  fetchData,
-  dependencies = []
-}: usePageProps) => {
-
+export const usePage = <T>({ fetchData, dependencies = [] }: usePageProps) => {
   const params = useSearchParams();
-  const [page, setPage] = useState(
-    Number(params.get('page')) || initialPage
-  );
+  const [page, setPage] = useState(Number(params.get("page")) || initialPage);
   const [pageInfo, setPageInfo] = useState<T>({} as T);
 
   useEffect(() => {
@@ -62,4 +51,4 @@ export const usePage = <T,>({
     setPageInfo,
     setPage,
   };
-}
+};
