@@ -6,7 +6,7 @@ import {
   PageSupplierDTO,
   SupplierDTO,
 } from "@/gen";
-import React, { ChangeEvent, Suspense,  useState } from "react";
+import React, { ChangeEvent, Suspense, useState } from "react";
 import CreateSupplierModal from "./components/create-supplier-modal";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
@@ -16,9 +16,7 @@ import Search from "@/app/components/form/search";
 import { usePageSearch } from "@/lib/hooks/use-page-search";
 
 export default function SupplierAdminPage() {
-
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
 
   function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
     setQuery(event.target.value);
@@ -38,12 +36,10 @@ export default function SupplierAdminPage() {
     }
   };
 
-
-  const { pageInfo, setPage, query, setQuery, setPageInfo, page } = usePageSearch<PageSupplierDTO>({
-    fetchData: fetchSuppliers
-  });
-
-
+  const { pageInfo, setPage, query, setQuery, setPageInfo, page } =
+    usePageSearch<PageSupplierDTO>({
+      fetchData: fetchSuppliers,
+    });
 
   return (
     <Suspense>
@@ -99,10 +95,7 @@ export default function SupplierAdminPage() {
           {/*
            * Pagination controller
            */}
-          <PageController
-            setPage={setPage}
-            page={pageInfo}
-          />
+          <PageController setPage={setPage} page={pageInfo} />
         </div>
       </AdminMainCard>
     </Suspense>

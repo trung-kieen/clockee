@@ -27,9 +27,15 @@ public class UserProductController {
   @GetMapping
   public ResponseEntity<Page<ProductSummaryResponse>> getAllProducts(
       @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
-      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size) {
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size,
+      @RequestParam(value = "name", defaultValue = "") String name,
+      @RequestParam(value = "type", defaultValue = "") String type,
+      @RequestParam(value = "maxPrice", defaultValue = "0") Double maxPrice,
+      @RequestParam(value = "brandId", required = false) Long brandId,
+      @RequestParam(value = "sortBy", defaultValue = "") String sortBy) {
 
-    Page<ProductSummaryResponse> products = userProductService.getAllProducts(page, size);
+    Page<ProductSummaryResponse> products =
+        userProductService.getAllProducts(page, size, name, type, maxPrice, brandId, sortBy);
     return ResponseEntity.ok(products);
   }
 

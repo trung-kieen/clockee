@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Lightbox from "yet-another-react-lightbox"
+import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 
 export const base64ImageMap = (bytes: string) => {
@@ -41,13 +41,13 @@ export const ProductImage = ({
 
       {isOpen && (
         <Lightbox
-        open={isOpen}
-        close={() => setIsOpen(false)}
-        slides={[{ src: imageSrc }]}
-        plugins={[Zoom]}
+          open={isOpen}
+          close={() => setIsOpen(false)}
+          slides={[{ src: imageSrc }]}
+          plugins={[Zoom]}
         />
       )}
     </>
-  )
+  );
 };
 export default Base64Image;

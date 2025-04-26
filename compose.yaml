@@ -53,12 +53,17 @@ services:
   #     dockerfile: Dockerfile
   #   container_name: clockee-spring-server
   #   depends_on:
-  #     clockee-db:
-  #       condition: service_healthy
+  #     - clockee-db
+  #     - sqlserver.configurator
+  #     - clockee-mail-server
   #   networks:
   #     - clockee-network
+  #   environment:
+  #     SPRING_DATASOURCE_URL: "jdbc:sqlserver://clockee-db:1433;encrypt=true;trustServerCertificate=true;databaseName=clockeedb;useUnicode=true;characterEncoding=UTF-8"
   #   ports:
   #     - 8080:8080
+  #   volumes:
+  #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
 
 networks:

@@ -2,12 +2,12 @@ package com.example.clockee_server.controller.user;
 
 import com.example.clockee_server.auth.annotation.CurrentUser;
 import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.entity.OrderStatus;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.response.OrderSummaryResponse;
 import com.example.clockee_server.service.OrderService;
-import com.example.clockee_server.util.OrderStatus;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

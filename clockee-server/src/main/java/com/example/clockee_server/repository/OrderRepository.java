@@ -1,7 +1,7 @@
 package com.example.clockee_server.repository;
 
 import com.example.clockee_server.entity.Order;
-import com.example.clockee_server.util.OrderStatus;
+import com.example.clockee_server.entity.OrderStatus;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

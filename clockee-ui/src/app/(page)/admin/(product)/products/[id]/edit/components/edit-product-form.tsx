@@ -6,10 +6,12 @@ import {
   AdminProductControllerService,
   AdminProductRequest,
   AdminProductResponse,
+  BrandDTO,
 } from "@/gen";
+import { useSelectBrand } from "@/lib/hooks/use-lazy-load";
 import { ProductService } from "@/service/ProductService";
 import { mapApiErrorsToForm } from "@/util/form";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import {
   Controller,
   ControllerRenderProps,
@@ -19,19 +21,32 @@ import {
 import Select, { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 
-type SelectOption = {
-  label: string;
-  value: number;
-};
-
 type CreateProductWithImage = AdminProductRequest & {
   image: FileList;
 };
 
+export type SelectOption = {
+  label: string;
+  value: number;
+};
+export const mapBrandDTOToSelectOption = (brand: BrandDTO) => {
+  const option: SelectOption = {
+    label: String(brand.name),
+    value: Number(brand.brandId),
+  };
+  return option;
+};
 const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
-  const [brandOptions, setBrandOptions] = useState<Array<SelectOption>>([]);
-  const [brandQuery, setBrandQuery] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
+  const { fetchMore, setQuery, query, pageInfo } = useSelectBrand<BrandDTO>({
+    fetchData: async (page, query) => {
+      return await AdminBrandControllerService.getAllBrands(
+        page,
+        undefined,
+        query,
+      );
+    },
+  });
 
   const {
     register,
@@ -48,34 +63,21 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
     },
   });
 
-  const fetchBrands = async (query: string) => {
-    try {
-      const pageResults = await AdminBrandControllerService.getAllBrands(
-        undefined,
-        undefined,
-        query,
-      );
-      const newOptions = pageResults.content?.map((brand) => {
-        const brandOptions: SelectOption = {
-          label: String(brand.name),
-          value: Number(brand.brandId),
-        };
-        return brandOptions;
-      });
-      setBrandOptions(newOptions || []);
-    } catch (e) {
-      setBrandOptions([]);
-      console.log(e);
-    }
-  };
-
   function handleOnScrollEnd(): void {
-
+    fetchMore();
   }
 
-  useEffect(() => {
-    fetchBrands(brandQuery);
-  }, [brandQuery]);
+  function handleMenuInputKeyDown(event: KeyboardEvent<HTMLDivElement>): void {
+    if (!pageInfo?.content) {
+      return;
+    }
+    const option = getValues("brandId");
+    const brandOptions = pageInfo.content;
+    const lastOptions = brandOptions[brandOptions.length - 1];
+    if (lastOptions && lastOptions.brandId == option) {
+      fetchMore();
+    }
+  }
 
   const onSubmit: SubmitHandler<CreateProductWithImage> = async (
     data: CreateProductWithImage,
@@ -229,7 +231,7 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
           </label>
           <Controller
             control={control}
-            render={function({
+            render={function ({
               field,
             }: {
               field: ControllerRenderProps<CreateProductWithImage>;
@@ -242,8 +244,8 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
               */
               }
               function handleBrandQueryChange(newValue: string): void {
-                if (newValue != brandQuery) {
-                  setBrandQuery(newValue);
+                if (newValue != query) {
+                  setQuery(newValue);
                 }
               }
 
@@ -253,15 +255,19 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
                 field.onChange(newOption?.value);
               }
 
-
               return (
                 <Select
                   className="w-full validator"
-                  options={brandOptions}
+                  options={
+                    pageInfo?.content?.map(mapBrandDTOToSelectOption) || []
+                  }
                   onInputChange={handleBrandQueryChange}
                   onChange={setInputValueAsSelectValue}
                   onMenuScrollToBottom={handleOnScrollEnd}
-                  value={brandOptions.find((opt) => opt.value === field.value)}
+                  onKeyDown={handleMenuInputKeyDown}
+                  value={(
+                    pageInfo?.content?.map(mapBrandDTOToSelectOption) || []
+                  ).find((opt) => opt.value === field.value)}
                   defaultValue={
                     {
                       value: model.brand?.brandId,

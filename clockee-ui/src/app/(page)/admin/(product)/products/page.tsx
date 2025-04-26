@@ -13,10 +13,7 @@ import DataTable from "@/app/components/common/data-table";
 import ProductTableRow from "./product-table-row";
 import { usePageSearch } from "@/lib/hooks/use-page-search";
 
-
-
 export default function ProductAdminPage() {
-
   const fetchProducts = async () => {
     try {
       const resp = await AdminProductControllerService.getAllProducts(
@@ -29,15 +26,15 @@ export default function ProductAdminPage() {
     } catch (error) {
       console.warn(error);
     }
-  }
-  const { pageInfo, setPage, query, setQuery, setPageInfo, page } = usePageSearch<PageAdminProductResponse>({
-    fetchData: fetchProducts
-  });
+  };
+  const { pageInfo, setPage, query, setQuery, setPageInfo, page } =
+    usePageSearch<PageAdminProductResponse>({
+      fetchData: fetchProducts,
+    });
 
   function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
     setQuery(event.target.value);
   }
-
 
   return (
     <Suspense>
@@ -106,10 +103,7 @@ export default function ProductAdminPage() {
           {/*
            * Pagination controller
            */}
-          <PageController
-            setPage={setPage}
-            page={pageInfo}
-          />
+          <PageController setPage={setPage} page={pageInfo} />
         </div>
       </AdminMainCard>
     </Suspense>

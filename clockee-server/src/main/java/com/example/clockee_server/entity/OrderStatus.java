@@ -1,5 +1,6 @@
-package com.example.clockee_server.util;
+package com.example.clockee_server.entity;
 
+import com.example.clockee_server.util.Client;
 import lombok.Getter;
 
 @Client
