@@ -2,8 +2,7 @@
 
 import PageController from "@/app/components/common/page-controller";
 import { AdminBrandControllerService, BrandDTO, PageBrandDTO } from "@/gen";
-import { useSearchParams } from "next/navigation";
-import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import CreateBrandModal from "./components/create-brand-modal";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
@@ -39,62 +38,60 @@ export default function BrandAdminPage() {
   }
 
   return (
-    <Suspense>
-      <AdminRoute>
-        <AdminMainCard title="Thương hiệu" goBack={false}>
-          <div className="flex justify-between items-center mb-6">
-            <div onClick={() => setIsAddModalOpen(true)}>
-              <PrimaryButton>
-                <i className="fa fa-add"></i>
-                <span>&nbsp;Thêm mới</span>
-              </PrimaryButton>
-            </div>
+    <AdminRoute>
+      <AdminMainCard title="Thương hiệu" goBack={false}>
+        <div className="flex justify-between items-center mb-6">
+          <div onClick={() => setIsAddModalOpen(true)}>
+            <PrimaryButton>
+              <i className="fa fa-add"></i>
+              <span>&nbsp;Thêm mới</span>
+            </PrimaryButton>
           </div>
+        </div>
 
-          <div className="flex flex-col gap-2 items-center">
-            {/*
-             * Search filter
-             */}
-            <Search value={query || ""} onChange={onChangeSearchQuery} />
+        <div className="flex flex-col gap-2 items-center">
+          {/*
+           * Search filter
+           */}
+          <Search value={query || ""} onChange={onChangeSearchQuery} />
 
-            {/*
-             * Add new brand button
-             */}
-            <CreateBrandModal
-              isOpen={isAddModalOpen}
-              onClose={() => setIsAddModalOpen(false)}
-              refreshCallBack={fetchBrands}
-            />
+          {/*
+           * Add new brand button
+           */}
+          <CreateBrandModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            refreshCallBack={fetchBrands}
+          />
 
-            {/*
-             * Display list of brand
-             */}
-            <DataTable<BrandDTO>
-              data={pageInfo.content || []}
-              headers={["Mã thương hiệu", "Tên thương hiệu", "", ""]}
-              renderRow={(item, index) => {
-                return (
-                  <BrandTableRow
-                    key={index}
-                    item={item}
-                    refreshCallBack={fetchBrands}
-                  />
-                );
-              }}
-            />
+          {/*
+           * Display list of brand
+           */}
+          <DataTable<BrandDTO>
+            data={pageInfo.content || []}
+            headers={["Mã thương hiệu", "Tên thương hiệu", "", ""]}
+            renderRow={(item, index) => {
+              return (
+                <BrandTableRow
+                  key={index}
+                  item={item}
+                  refreshCallBack={fetchBrands}
+                />
+              );
+            }}
+          />
 
-            {/*
-             * Pagination controller
-             */}
-            <PageController
-              setPage={(page: number) => {
-                setPage(page);
-              }}
-              page={pageInfo}
-            />
-          </div>
-        </AdminMainCard>
-      </AdminRoute>
-    </Suspense>
+          {/*
+           * Pagination controller
+           */}
+          <PageController
+            setPage={(page: number) => {
+              setPage(page);
+            }}
+            page={pageInfo}
+          />
+        </div>
+      </AdminMainCard>
+    </AdminRoute>
   );
 }

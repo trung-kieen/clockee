@@ -1,6 +1,6 @@
 "use client";
 import { OrderStatusDict } from "@/model/OrderStatus";
-import { ChangeEvent, Fragment, Suspense, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useState } from "react";
 import { OrderStatus as OrderStatusType } from "@/gen/backend";
 import AdminMainCard from "@/app/components/card/admin-card";
 import { getOrderStatusLabel } from "@/util/order-utils";
@@ -46,57 +46,53 @@ const OrderSummaryPage = () => {
   }
 
   return (
-    <Suspense>
-      <AdminMainCard title="Danh sách đơn hàng" goBack={false}>
-        <div className="container mx-auto px-4 py-8">
-          <div className="container mx-auto p-10 overflow-x-auto">
-            <div className="tabs tabs-lift tabs-xl">
-              {/* All status order */}
-              <input
-                type="radio"
-                name="status"
-                className="tab"
-                aria-label="Tất cả"
-                onChange={() => {
-                  setCurrentStatus(undefined);
-                }}
-                defaultChecked
-              />
-              <AdminOrderTable
-                orders={pageInfo.content || []}
-                onOrdersChange={handleOrdersChange}
-              />
+    <AdminMainCard title="Danh sách đơn hàng" goBack={false}>
+      <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto p-10 overflow-x-auto">
+          <div className="tabs tabs-lift tabs-xl">
+            {/* All status order */}
+            <input
+              type="radio"
+              name="status"
+              className="tab"
+              aria-label="Tất cả"
+              onChange={() => {
+                setCurrentStatus(undefined);
+              }}
+              defaultChecked
+            />
+            <AdminOrderTable
+              orders={pageInfo.content || []}
+              onOrdersChange={handleOrdersChange}
+            />
 
-              {
-                // Filter for each order status
-                Object.entries(OrderStatusDict).map(([status, value]) => (
-                  <Fragment key={status}>
-                    <input
-                      type="radio"
-                      name="status"
-                      className="tab"
-                      value={value}
-                      aria-label={getOrderStatusLabel(
-                        status as OrderStatusType,
-                      )}
-                      onChange={handleStatusChange}
-                    />
-                    <AdminOrderTable
-                      key={status}
-                      orders={pageInfo.content || []}
-                      onOrdersChange={handleOrdersChange}
-                    />
-                  </Fragment>
-                ))
-              }
-            </div>
+            {
+              // Filter for each order status
+              Object.entries(OrderStatusDict).map(([status, value]) => (
+                <Fragment key={status}>
+                  <input
+                    type="radio"
+                    name="status"
+                    className="tab"
+                    value={value}
+                    aria-label={getOrderStatusLabel(status as OrderStatusType)}
+                    onChange={handleStatusChange}
+                  />
+                  <AdminOrderTable
+                    key={status}
+                    orders={pageInfo.content || []}
+                    onOrdersChange={handleOrdersChange}
+                  />
+                </Fragment>
+              ))
+            }
           </div>
         </div>
-        <div className="flex justify-center">
-          <PageController setPage={setPage} page={pageInfo} />
-        </div>
-      </AdminMainCard>
-    </Suspense>
+      </div>
+      <div className="flex justify-center">
+        <PageController setPage={setPage} page={pageInfo} />
+      </div>
+    </AdminMainCard>
   );
 };
 

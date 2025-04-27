@@ -5,6 +5,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { AuthProvider } from "@/lib/hooks/use-auth";
 import ToastProvider from "@/lib/providers/toast-provider";
 import { CartProvider } from "@/lib/hooks/use-cart";
+import { Suspense } from "react";
+import { LoadingScreen } from "./components/common/loading";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +35,9 @@ export default function RootLayout({
       >
         <ToastProvider>
           <AuthProvider>
-            <CartProvider>{children}</CartProvider>
+            <Suspense fallback={<LoadingScreen />}>
+              <CartProvider>{children}</CartProvider>
+            </Suspense>
           </AuthProvider>
         </ToastProvider>
       </body>

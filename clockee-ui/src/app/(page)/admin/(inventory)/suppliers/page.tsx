@@ -6,7 +6,7 @@ import {
   PageSupplierDTO,
   SupplierDTO,
 } from "@/gen";
-import React, { ChangeEvent, Suspense, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import CreateSupplierModal from "./components/create-supplier-modal";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
@@ -42,62 +42,60 @@ export default function SupplierAdminPage() {
     });
 
   return (
-    <Suspense>
-      <AdminMainCard title="Nhà cung cấp" goBack={false}>
-        <div className="flex justify-between items-center mb-6">
-          <div onClick={() => setIsAddModalOpen(true)}>
-            <PrimaryButton>
-              <i className="fa fa-add"></i>
-              <span>&nbsp;Thêm mới</span>
-            </PrimaryButton>
-          </div>
+    <AdminMainCard title="Nhà cung cấp" goBack={false}>
+      <div className="flex justify-between items-center mb-6">
+        <div onClick={() => setIsAddModalOpen(true)}>
+          <PrimaryButton>
+            <i className="fa fa-add"></i>
+            <span>&nbsp;Thêm mới</span>
+          </PrimaryButton>
         </div>
+      </div>
 
-        <div className="flex flex-col gap-2 items-center">
-          {/*
-           * Search filter
-           */}
-          <Search value={query || ""} onChange={onChangeSearchQuery} />
+      <div className="flex flex-col gap-2 items-center">
+        {/*
+         * Search filter
+         */}
+        <Search value={query || ""} onChange={onChangeSearchQuery} />
 
-          {/*
-           * Add new supplier button
-           */}
-          <CreateSupplierModal
-            isOpen={isAddModalOpen}
-            onClose={() => setIsAddModalOpen(false)}
-            refreshCallBack={fetchSuppliers}
-          />
+        {/*
+         * Add new supplier button
+         */}
+        <CreateSupplierModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          refreshCallBack={fetchSuppliers}
+        />
 
-          {/*
-           * Display list of brand
-           */}
-          <DataTable<SupplierDTO>
-            data={pageInfo?.content || []}
-            emptyMessage="Không tìm thấy nhà cung cấp nào"
-            headers={[
-              "Mã nhà cung cấp",
-              "Tên",
-              "Địa chỉ",
-              "Số điện thoại",
-              "Email",
-              "",
-              "",
-            ]}
-            renderRow={(item) => (
-              <SupplierTableRow
-                key={item.supplierId}
-                item={item}
-                refreshCallBack={fetchSuppliers}
-              />
-            )}
-          />
+        {/*
+         * Display list of brand
+         */}
+        <DataTable<SupplierDTO>
+          data={pageInfo?.content || []}
+          emptyMessage="Không tìm thấy nhà cung cấp nào"
+          headers={[
+            "Mã nhà cung cấp",
+            "Tên",
+            "Địa chỉ",
+            "Số điện thoại",
+            "Email",
+            "",
+            "",
+          ]}
+          renderRow={(item) => (
+            <SupplierTableRow
+              key={item.supplierId}
+              item={item}
+              refreshCallBack={fetchSuppliers}
+            />
+          )}
+        />
 
-          {/*
-           * Pagination controller
-           */}
-          <PageController setPage={setPage} page={pageInfo} />
-        </div>
-      </AdminMainCard>
-    </Suspense>
+        {/*
+         * Pagination controller
+         */}
+        <PageController setPage={setPage} page={pageInfo} />
+      </div>
+    </AdminMainCard>
   );
 }
