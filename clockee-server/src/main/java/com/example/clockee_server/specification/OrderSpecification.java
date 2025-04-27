@@ -2,7 +2,7 @@ package com.example.clockee_server.specification;
 
 import ch.qos.logback.core.util.StringUtil;
 import com.example.clockee_server.entity.Order;
-import com.example.clockee_server.util.OrderStatus;
+import com.example.clockee_server.entity.OrderStatus;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 

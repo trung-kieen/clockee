@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-04-22 08:51:52.
+// Generated using typescript-generator version 3.2.1263 on 2025-04-27 19:05:12.
 
 export interface Brand {
   brandId: number;
@@ -85,6 +85,7 @@ export interface User extends UserDetails {
   isDeleted: boolean;
   verificationCode: VerificationCode;
   roles: Role[];
+  verified: boolean;
 }
 
 export interface VerificationCode {
@@ -111,10 +112,10 @@ export interface GrantedAuthority extends Serializable {
 
 export interface UserDetails extends Serializable {
   enabled: boolean;
-  accountNonExpired: boolean;
-  credentialsNonExpired: boolean;
   authorities: GrantedAuthority[];
+  accountNonExpired: boolean;
   accountNonLocked: boolean;
+  credentialsNonExpired: boolean;
   username: string;
   password: string;
 }
@@ -133,12 +134,6 @@ export interface HttpClient {
 
 export type RestResponse<R> = Promise<R>;
 
-export const enum RoleName {
-  CUSTOMER = "CUSTOMER",
-  PRODUCT_ADMIN = "PRODUCT_ADMIN",
-  INVENTORY_MANAGER = "INVENTORY_MANAGER",
-}
-
 export const enum OrderStatus {
   PENDING = "PENDING",
   PROCESSING = "PROCESSING",
@@ -147,6 +142,12 @@ export const enum OrderStatus {
   RETURNED = "RETURNED",
   CANCELLED = "CANCELLED",
   COMPLETED = "COMPLETED",
+}
+
+export const enum RoleName {
+  CUSTOMER = "CUSTOMER",
+  PRODUCT_ADMIN = "PRODUCT_ADMIN",
+  INVENTORY_MANAGER = "INVENTORY_MANAGER",
 }
 
 function uriEncoding(

@@ -31,10 +31,10 @@ public class CreateUserRequest {
   @Pattern(
       regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
       message = "must contain at least one uppercase letter, one lowercase letter, and one digit.")
-  @Schema(example = "vana123@gmail")
+  @Schema(example = "Vana123@gmail")
   private String password;
 
-  @Schema(example = "vana123@gmail")
+  @Schema(example = "Vana123@gmail")
   private String passwordConfirmation;
 
   @Nullable

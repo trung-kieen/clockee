@@ -15,7 +15,8 @@ public class JwtTokenResponse {
   private String accessToken;
   private String refreshToken;
   private String type = "Bearer";
-  private Long id;
+  private Long userId;
   private String username;
   private List<String> roles;
+  private boolean isVerified;
 }

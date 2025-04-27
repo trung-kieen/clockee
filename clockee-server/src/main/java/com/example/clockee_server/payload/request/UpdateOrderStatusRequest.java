@@ -1,6 +1,6 @@
 package com.example.clockee_server.payload.request;
 
-import com.example.clockee_server.util.OrderStatus;
+import com.example.clockee_server.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

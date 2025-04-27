@@ -5,8 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 type AdminCardProps = {
   title: string;
-  goBack: boolean;
-  children: ReactNode;
+  goBack?: boolean;
+  children?: ReactNode;
 };
 const AdminMainCard = ({ title, goBack = false, children }: AdminCardProps) => {
   const router = useRouter();

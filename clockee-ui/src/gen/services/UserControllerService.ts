@@ -35,6 +35,18 @@ export class UserControllerService {
     });
   }
   /**
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static resendVerificationEmail(): CancelablePromise<
+    Record<string, any>
+  > {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/me/resend-verification",
+    });
+  }
+  /**
    * @param requestBody
    * @returns any OK
    * @throws ApiError

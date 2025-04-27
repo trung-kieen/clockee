@@ -31,13 +31,18 @@ public class UserProductService {
   @Autowired private FileStorageService fileStorageService;
 
   // Lấy danh sách sản phẩm của user có phân trang
-  public Page<ProductSummaryResponse> getAllProducts(int page, int size) {
+  public Page<ProductSummaryResponse> getAllProducts(
+      int page, int size, String name, String type, Double maxPrice, Long brandId, String sortBy) {
+    Specification<Product> specification =
+        Specification.where(ProductSpecification.searchByName(name))
+            .and(ProductSpecification.searchByType(type))
+            .and(ProductSpecification.searchByBrandId(brandId))
+            .and(ProductSpecification.isNotDeleted())
+            .and(ProductSpecification.sortBy(sortBy))
+            .and(ProductSpecification.belowPrice(maxPrice));
     Pageable pageable = PageRequest.of(page, size);
-    Page<Product> products = productRepository.getAllActiveProducts(pageable);
+    Page<Product> products = productRepository.findAll(specification, pageable);
 
-    if (products.isEmpty()) {
-      return Page.empty();
-    }
     return products.map(product -> productMapper.productToProductSummary(product));
   }
 

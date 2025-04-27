@@ -6,45 +6,28 @@ import {
   PageSupplierDTO,
   SupplierDTO,
 } from "@/gen";
-import { useSearchParams } from "next/navigation";
-import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
+import React, { ChangeEvent, Suspense, useState } from "react";
 import CreateSupplierModal from "./components/create-supplier-modal";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
 import SupplierTableRow from "./components/supplier-table-row";
 import DataTable from "@/app/components/common/data-table";
 import Search from "@/app/components/form/search";
+import { usePageSearch } from "@/lib/hooks/use-page-search";
 
 export default function SupplierAdminPage() {
-  // Control pagination information
-  const [pageInfo, setPageInfo] = useState<PageSupplierDTO>(
-    {} as PageSupplierDTO,
-  );
-
-  // Get search user track page param
-  const params = useSearchParams();
-
-  // Get current page from url param
-  const [page, setPage] = useState(Number(params.get("page")) || 1);
-
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  const [query, setQuery] = useState("");
 
   function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
     setQuery(event.target.value);
   }
 
-  const refresh = () => {
-    fetchSuppliers(page, query);
-  };
-
-  const fetchSuppliers = async (page: number, searchQuery: string) => {
+  const fetchSuppliers = async () => {
     try {
       const pageInfo = await AdminSupplierControllerService.getAllSuppliers(
         page - 1,
         undefined,
-        searchQuery,
+        query,
       );
       if (pageInfo) setPageInfo(pageInfo);
       return pageInfo;
@@ -53,16 +36,10 @@ export default function SupplierAdminPage() {
     }
   };
 
-  /**
-   * Update brand when on page change
-   */
-  useEffect(() => {
-    fetchSuppliers(page, query);
-  }, [page, query]);
-
-  /**
-   * Manager list of brands
-   */
+  const { pageInfo, setPage, query, setQuery, setPageInfo, page } =
+    usePageSearch<PageSupplierDTO>({
+      fetchData: fetchSuppliers,
+    });
 
   return (
     <Suspense>
@@ -80,7 +57,7 @@ export default function SupplierAdminPage() {
           {/*
            * Search filter
            */}
-          <Search value={query} onChange={onChangeSearchQuery} />
+          <Search value={query || ""} onChange={onChangeSearchQuery} />
 
           {/*
            * Add new supplier button
@@ -88,7 +65,7 @@ export default function SupplierAdminPage() {
           <CreateSupplierModal
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
-            refreshCallBack={refresh}
+            refreshCallBack={fetchSuppliers}
           />
 
           {/*
@@ -110,7 +87,7 @@ export default function SupplierAdminPage() {
               <SupplierTableRow
                 key={item.supplierId}
                 item={item}
-                refreshCallBack={refresh}
+                refreshCallBack={fetchSuppliers}
               />
             )}
           />
@@ -118,12 +95,7 @@ export default function SupplierAdminPage() {
           {/*
            * Pagination controller
            */}
-          <PageController
-            setPage={(page: number) => {
-              setPage(page);
-            }}
-            page={pageInfo}
-          />
+          <PageController setPage={setPage} page={pageInfo} />
         </div>
       </AdminMainCard>
     </Suspense>

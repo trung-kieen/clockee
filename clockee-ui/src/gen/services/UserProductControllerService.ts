@@ -13,12 +13,22 @@ export class UserProductControllerService {
   /**
    * @param page
    * @param size
+   * @param name
+   * @param type
+   * @param maxPrice
+   * @param brandId
+   * @param sortBy
    * @returns PageProductSummaryResponse OK
    * @throws ApiError
    */
   public static getAllProducts1(
     page?: number,
     size: number = 10,
+    name: string = "",
+    type: string = "",
+    maxPrice?: number,
+    brandId?: number,
+    sortBy: string = "",
   ): CancelablePromise<PageProductSummaryResponse> {
     return __request(OpenAPI, {
       method: "GET",
@@ -26,6 +36,11 @@ export class UserProductControllerService {
       query: {
         page: page,
         size: size,
+        name: name,
+        type: type,
+        maxPrice: maxPrice,
+        brandId: brandId,
+        sortBy: sortBy,
       },
     });
   }

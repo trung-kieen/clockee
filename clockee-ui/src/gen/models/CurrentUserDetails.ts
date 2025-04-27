@@ -8,4 +8,5 @@ export type CurrentUserDetails = {
   name?: string;
   phone?: string;
   address?: string;
+  verified?: boolean;
 };

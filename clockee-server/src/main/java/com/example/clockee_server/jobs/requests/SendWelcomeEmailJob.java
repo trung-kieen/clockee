@@ -1,4 +1,4 @@
-package com.example.clockee_server.jobs;
+package com.example.clockee_server.jobs.requests;
 
 import com.example.clockee_server.jobs.handler.SendWelcomeEmailJobHandler;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class SendWelcomeEmailJob implements JobRequest {
   private Long userId;
 
   @Override
-  public Class<? extends JobRequestHandler> getJobRequestHandler() {
+  public Class<? extends JobRequestHandler<SendWelcomeEmailJob>> getJobRequestHandler() {
     return SendWelcomeEmailJobHandler.class;
   }
 }

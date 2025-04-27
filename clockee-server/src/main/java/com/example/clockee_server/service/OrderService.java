@@ -2,6 +2,7 @@ package com.example.clockee_server.service;
 
 import com.example.clockee_server.entity.Order;
 import com.example.clockee_server.entity.OrderItem;
+import com.example.clockee_server.entity.OrderStatus;
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.exception.ApiException;
@@ -13,7 +14,6 @@ import com.example.clockee_server.payload.response.OrderSummaryResponse;
 import com.example.clockee_server.repository.OrderRepository;
 import com.example.clockee_server.repository.ProductRepository;
 import com.example.clockee_server.specification.OrderSpecification;
-import com.example.clockee_server.util.OrderStatus;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;

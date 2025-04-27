@@ -2,7 +2,7 @@ import { User } from "lucide-react";
 import React from "react";
 import ChangeUserDetailsForm from "./components/change-user-details-form";
 import { ProtectedRoute } from "@/app/components/route/protected";
-const UserInformationPage = () => {
+const UserProfilePage = () => {
   return (
     <>
       <ProtectedRoute>
@@ -28,4 +28,4 @@ const UserInformationPage = () => {
   );
 };
 
-export default UserInformationPage;
+export default UserProfilePage;

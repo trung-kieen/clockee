@@ -9,10 +9,9 @@ import {
   AdminOrderSummaryResponse,
   PageResponseAdminOrderSummaryResponse,
 } from "@/gen";
-import { logger } from "@/util/logger";
 import PageController from "@/app/components/common/page-controller";
-import { useSearchParams } from "next/navigation";
 import AdminOrderTable from "./components/admin-order-table";
+import { usePage } from "@/lib/hooks/use-page-search";
 
 const OrderSummaryPage = () => {
   const [currentStatus, setCurrentStatus] = useState<OrderStatusType>();
@@ -20,47 +19,36 @@ const OrderSummaryPage = () => {
     setCurrentStatus(event.target.value as OrderStatusType);
   };
 
-  // Get search user track page param
-  const params = useSearchParams();
-
-  // Get current page from url param
-  const [page, setPage] = useState(Number(params.get("page")) || 1);
-
-  const [pageInfo, setPageInfo] =
-    useState<PageResponseAdminOrderSummaryResponse>(
-      {} as PageResponseAdminOrderSummaryResponse,
-    );
-
-  const fetchOrderByStatus = async (
-    status: OrderStatusType | undefined,
-    page: number,
-  ) => {
+  const fetchOrderByStatus = async () => {
     try {
-      const pageResult = await AdminOrderControllerService.getOrderSummary(
-        status,
+      const resp = await AdminOrderControllerService.getOrderSummary(
+        currentStatus,
         page - 1,
       );
-      setPageInfo(pageResult);
+      if (pageInfo) setPageInfo(resp);
+      return pageInfo;
     } catch (error) {
-      logger.warn(error);
+      console.warn(error);
     }
   };
-  useEffect(() => {
-    fetchOrderByStatus(currentStatus, page);
-  }, [currentStatus, page]);
 
-  const handleOrdersChange = (newOrders: AdminOrderSummaryResponse[]) => {
+  const { pageInfo, setPage, page, setPageInfo } =
+    usePage<PageResponseAdminOrderSummaryResponse>({
+      fetchData: fetchOrderByStatus,
+      dependencies: [currentStatus],
+    });
+
+  function handleOrdersChange(newOrders: AdminOrderSummaryResponse[]): void {
     setPageInfo({
       ...pageInfo,
       content: newOrders,
     });
-  };
+  }
 
   return (
     <Suspense>
-      <AdminMainCard title="Thương hiệu" goBack={false}>
+      <AdminMainCard title="Danh sách đơn hàng" goBack={false}>
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl font-semibold mb-6">Danh sách đơn hàng</h1>
           <div className="container mx-auto p-10 overflow-x-auto">
             <div className="tabs tabs-lift tabs-xl">
               {/* All status order */}
@@ -105,12 +93,7 @@ const OrderSummaryPage = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <PageController
-            setPage={(page: number) => {
-              setPage(page);
-            }}
-            page={pageInfo}
-          />
+          <PageController setPage={setPage} page={pageInfo} />
         </div>
       </AdminMainCard>
     </Suspense>

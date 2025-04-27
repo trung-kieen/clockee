@@ -16,6 +16,7 @@ const CheckoutAddressPage = () => {
     shippingPrice,
     totalPrice,
     deliveryDetails,
+    fetchCart,
   } = useCart();
   const router = useRouter();
 
@@ -35,6 +36,7 @@ const CheckoutAddressPage = () => {
       logger.error(error);
       toast.error("Có lỗi xảy ra vui lòng thử lại");
     }
+    fetchCart();
   };
 
   return (

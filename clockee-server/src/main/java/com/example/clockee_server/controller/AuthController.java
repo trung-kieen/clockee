@@ -45,10 +45,10 @@ public class AuthController {
   }
 
   @GetMapping("/verify-email")
-  public ResponseEntity<JwtTokenResponse> verifyEmail(
-      @RequestParam("userId") Long userId, @RequestParam("token") int tokenId) {
-    // TODO: verify user status
-    return null;
+  public ResponseEntity<String> verifyEmail(
+      @RequestParam("userId") Long userId, @RequestParam("token") int tokenCode) {
+    authService.verify(userId, tokenCode);
+    return ResponseEntity.accepted().build();
   }
 
   @GetMapping("/logout")

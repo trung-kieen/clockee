@@ -12,7 +12,8 @@ import com.example.clockee_server.entity.RoleName;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.entity.VerificationCode;
 import com.example.clockee_server.exception.ApiException;
-import com.example.clockee_server.jobs.SendWelcomeEmailJob;
+import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.jobs.requests.SendWelcomeEmailJob;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.repository.RoleRepository;
@@ -64,14 +65,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     sendVerificationEmail(user);
   }
 
-  private void sendVerificationEmail(User user) {
+  @Transactional
+  public void sendVerificationEmail(User user) {
     // Save token to check if user active email
-    var verification = new VerificationCode(user);
+    VerificationCode verification = new VerificationCode(user);
     user.setVerificationCode(verification);
     verificationCodeRepository.save(verification);
 
     // Sent email async
-    var sendWelcomeEmailJob = new SendWelcomeEmailJob(user.getUserId());
+    SendWelcomeEmailJob sendWelcomeEmailJob = new SendWelcomeEmailJob(user.getUserId());
     BackgroundJobRequest.enqueue(sendWelcomeEmailJob);
   }
 
@@ -102,10 +104,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     String refreshToken = jwtTokenProvider.generateRefreshToken(currentUser);
     var resp = new JwtTokenResponse();
     resp.setUsername(currentUser.getEmail());
-    resp.setId(currentUser.getUserId());
+    resp.setUserId(currentUser.getUserId());
     resp.setAccessToken(jwtToken);
     resp.setRefreshToken(refreshToken);
     resp.setRoles(roles);
+    resp.setVerified(currentUser.isVerified());
 
     return resp;
   }
@@ -150,5 +153,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     cookie.setHttpOnly(true);
     cookie.setPath("/");
     response.addCookie(cookie);
+  }
+
+  @Override
+  public void verify(Long userId, int tokenCode) {
+    User user =
+        userRepository
+            .findByIdWithVerificationCode(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("user"));
+    VerificationCode verificationCode = user.getVerificationCode();
+    boolean matchToken = verificationCode.getCode().equals(String.valueOf(tokenCode));
+    if (!matchToken) {
+      throw ApiException.builder()
+          .status(400)
+          .message(AppMessage.of(MessageKey.BAD_REQUEST))
+          .build();
+    }
+
+    verificationCode.setEmailSent(true);
+    user.setVerified(true);
+    verificationCodeRepository.save(verificationCode);
+    userRepository.save(user);
   }
 }

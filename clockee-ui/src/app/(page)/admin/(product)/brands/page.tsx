@@ -11,31 +11,15 @@ import DataTable from "@/app/components/common/data-table";
 import Search from "@/app/components/form/search";
 import { AdminRoute } from "@/app/components/route/protected";
 import BrandTableRow from "./components/brand-table-row";
+import { usePageSearch } from "@/lib/hooks/use-page-search";
 
 export default function BrandAdminPage() {
-  // Control pagination information
-  const [pageInfo, setPageInfo] = useState<PageBrandDTO>({} as PageBrandDTO);
-
-  // Get search user track page param
-  const params = useSearchParams();
-
-  // Get current page from url param
-  const [page, setPage] = useState(Number(params.get("page")) || 1);
-
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  const [query, setQuery] = useState("");
-
-  const refresh = () => {
-    fetchBrands(page, query);
-  };
-
-  const fetchBrands = async (page: number, searchQuery: string) => {
+  const fetchBrands = async () => {
     try {
       const pageInfo = await AdminBrandControllerService.getAllBrands(
         page - 1,
         undefined,
-        searchQuery,
+        query,
       );
       if (pageInfo) setPageInfo(pageInfo);
       return pageInfo;
@@ -43,13 +27,12 @@ export default function BrandAdminPage() {
       console.warn(error);
     }
   };
+  const { pageInfo, setPage, query, setQuery, setPageInfo, page } =
+    usePageSearch<PageBrandDTO>({
+      fetchData: fetchBrands,
+    });
 
-  /**
-   * Update brand when on page change
-   */
-  useEffect(() => {
-    fetchBrands(page, query);
-  }, [page, query]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
     setQuery(event.target.value);
@@ -72,7 +55,7 @@ export default function BrandAdminPage() {
             {/*
              * Search filter
              */}
-            <Search value={query} onChange={onChangeSearchQuery} />
+            <Search value={query || ""} onChange={onChangeSearchQuery} />
 
             {/*
              * Add new brand button
@@ -80,7 +63,7 @@ export default function BrandAdminPage() {
             <CreateBrandModal
               isOpen={isAddModalOpen}
               onClose={() => setIsAddModalOpen(false)}
-              refreshCallBack={refresh}
+              refreshCallBack={fetchBrands}
             />
 
             {/*
@@ -94,7 +77,7 @@ export default function BrandAdminPage() {
                   <BrandTableRow
                     key={index}
                     item={item}
-                    refreshCallBack={refresh}
+                    refreshCallBack={fetchBrands}
                   />
                 );
               }}

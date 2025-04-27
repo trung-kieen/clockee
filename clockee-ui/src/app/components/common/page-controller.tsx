@@ -1,6 +1,5 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { PageResponse } from "@/gen/backend";
 
 interface PaginationControlsProps {
   /* eslint-disable */
@@ -57,24 +56,26 @@ const PageController = ({ page, setPage }: PaginationControlsProps) => {
   };
 
   return (
-    <div className="flex flex-col flex-end">
-      <div className="flex gap-2 p-5">
-        <div className="join">
-          <button
-            disabled={page.first}
-            className="join-item btn"
-            onClick={hanlePrevious}
-          >
-            «
-          </button>
-          <button className="join-item btn">Page {pageNumber ?? 0}</button>
-          <button
-            disabled={page.last}
-            className="join-item btn"
-            onClick={handleNext}
-          >
-            »
-          </button>
+    <div className="flex items-center justify-center">
+      <div className="flex flex-col flex-end">
+        <div className="flex gap-2 p-5">
+          <div className="join">
+            <button
+              disabled={page.first}
+              className="join-item btn"
+              onClick={hanlePrevious}
+            >
+              «
+            </button>
+            <button className="join-item btn">Page {pageNumber ?? 0}</button>
+            <button
+              disabled={page.last}
+              className="join-item btn"
+              onClick={handleNext}
+            >
+              »
+            </button>
+          </div>
         </div>
       </div>
     </div>

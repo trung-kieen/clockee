@@ -41,7 +41,6 @@ const benefits: BenefitItem[] = [
   },
 ];
 
-
 export default function ProductDetailsPage() {
   const params = useParams();
   const id = Number(params?.id); // Lấy ID từ URL
@@ -107,15 +106,22 @@ export default function ProductDetailsPage() {
             </div>
           </div>
           {/* Mô tả sản phẩm */}
-          <div className="mt-4 ml-2" >
+          <div className="mt-4 ml-2">
             <div className="">
               <h1 className="font-bold">Mô tả sản phẩm:</h1>
-              <p className="text-[#abb8c3]">{product.description} Casio là thương hiệu lớn, được Anh Khuê (đối tác độc quyền của Casio tại Việt Nam) đảm nhận phân phối. Vì vậy, tất cả đồng hồ Casio đều phải được dán tem chống hàng giả từ Anh Khuê.
-              Vì rất được ưa chuộng tại thị trường Việt Nam, tình trạng hàng giả, hàng nhái xảy ra phổ biến đối với Casio AE-1200WHD-1AVDF. Người dùng cần lưu ý những điều sau trước khi quyết định mua đồng hồ tại một cửa hiệu nào đó.</p>
+
+              <p className="text-[#abb8c3]">
+                {product.description} Casio là thương hiệu lớn, được Anh Khuê
+                (đối tác độc quyền của Casio tại Việt Nam) đảm nhận phân phối.
+                Vì vậy, tất cả đồng hồ Casio đều phải được dán tem chống hàng
+                giả từ Anh Khuê. Vì rất được ưa chuộng tại thị trường Việt Nam,
+                tình trạng hàng giả, hàng nhái xảy ra phổ biến đối với Casio
+                AE-1200WHD-1AVDF. Người dùng cần lưu ý những điều sau trước khi
+                quyết định mua đồng hồ tại một cửa hiệu nào đó.
+              </p>
             </div>
           </div>
         </div>
-        
 
         {/* Thông tin sản phẩm */}
         <div className="flex flex-col max-w-lg">
@@ -166,28 +172,31 @@ export default function ProductDetailsPage() {
           </div>
 
           <div className="mt-4 text-m text-gray-600 bg-gray-200 rounded-lg">
-            <div className=" text-xl font-bold border-b-4 p-2 border-white ">Ưu đãi áp dụng đến 2025:</div>
+            <div className=" text-xl font-bold border-b-4 p-2 border-white ">
+              Ưu đãi áp dụng đến 2025:
+            </div>
             <ul className="list-disc ml-4 pl-6 space-y-1 p-3">
               <li>Dịch vụ gói quà miễn phí khi mua hàng qua hotline</li>
-              <li>Nhận tư vấn đặt hàng qua hotline <span className="font-bold">19008198</span></li>
+              <li>
+                Nhận tư vấn đặt hàng qua hotline{" "}
+                <span className="font-bold">19008198</span>
+              </li>
               <li>Chuyên viên hỗ trợ tư vấn khách hàng 24/7</li>
-              </ul>
+            </ul>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-[40px]">
-          {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 p-4 border rounded-lg shadow-sm bg-white  "
-            >
-              <div className="text-red-600">{benefit.icon}</div>
-              <p className="text-sm">{benefit.text}</p>
-            </div>
-          ))}
-        </div>  
+        {benefits.map((benefit, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-3 p-4 border rounded-lg shadow-sm bg-white  "
+          >
+            <div className="text-red-600">{benefit.icon}</div>
+            <p className="text-sm">{benefit.text}</p>
+          </div>
+        ))}
+      </div>
     </>
-
-    
   );
 }

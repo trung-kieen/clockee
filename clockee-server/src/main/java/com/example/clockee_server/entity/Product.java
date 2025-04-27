@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Getter
@@ -32,10 +34,10 @@ public class Product {
   private Long productId;
 
   @Column(nullable = false, length = 255)
+  @Nationalized
   private String name;
 
-  @Column(columnDefinition = "TEXT")
-  private String description;
+  @Column @Lob @Nationalized private String description;
 
   @Column(name = "image_url", length = 255)
   private String imageUrl;
@@ -46,8 +48,7 @@ public class Product {
   @Column(name = "sell_price", precision = 10, nullable = false)
   private Double sellPrice;
 
-  @Column(length = 50)
-  private String type;
+  @Column private String type;
 
   @Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
   private Long stock;

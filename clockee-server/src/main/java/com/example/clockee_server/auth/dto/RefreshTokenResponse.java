@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 public class RefreshTokenResponse {
   private String accessToken;
   private String type = "Bearer";
-  private Long id;
+  private Long userId;
   private String username;
   private List<String> roles;
+  private boolean isVerified;
 }

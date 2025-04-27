@@ -1,13 +1,14 @@
-package com.example.clockee_server.service.impl;
+package com.example.clockee_server.service;
 
 import com.example.clockee_server.config.ApplicationProperties;
 import com.example.clockee_server.email.EmailService;
+import com.example.clockee_server.email.dto.OrderEmailContext;
+import com.example.clockee_server.entity.OrderStatus;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.entity.VerificationCode;
 import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
-import com.example.clockee_server.service.SendEmailService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -46,9 +47,10 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     String verificationLink =
         applicationProperties.getBaseUrl()
-            + contextPath
-            + "/auth/verify-email?token="
-            + verificationCode.getCode();
+            + "/verify-email?token="
+            + verificationCode.getCode()
+            + "&userId="
+            + user.getUserId();
     Context emailContext = new Context();
     emailContext.setVariable("username", user.getName());
     emailContext.setVariable("verificationLink", verificationLink);
@@ -58,5 +60,17 @@ public class SendEmailServiceImpl implements SendEmailService {
     emailService.sendHtmlMessage(List.of(user.getEmail()), "Welcome to our platform", htmlBody);
     verificationCode.setEmailSent(true);
     verificationCodeRepository.save(verificationCode);
+  }
+
+  @Override
+  public void sendOrderTrackingEmail(
+      OrderStatus orderStatus, OrderEmailContext orderContext, String userEmail) {
+    Context context = new Context();
+    context.setVariable("orderEmailInfo", orderContext);
+    if (orderStatus.getEmailTemplate() == null) {
+      return;
+    }
+    String htmlBody = templateEngine.process(orderStatus.getEmailTemplate(), context);
+    emailService.sendHtmlMessage(List.of(userEmail), orderStatus.getEmailTitle(), htmlBody);
   }
 }

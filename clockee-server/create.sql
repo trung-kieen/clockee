@@ -1,4 +1,3 @@
-
     create table brands (
         is_deleted bit,
         brand_id bigint identity not null,
@@ -103,66 +102,66 @@
         primary key (verification_id)
     );
 
-    create unique nonclustered index UK716hgxp60ym1lifrdgp67xt5k 
+    create unique nonclustered index UK716hgxp60ym1lifrdgp67xt5k
        on roles (role_name) where role_name is not null;
 
-    alter table users 
+    alter table users
        add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email);
 
-    alter table verification_codes 
+    alter table verification_codes
        add constraint UKbf0ofef2q09iwv2jg00aygy4q unique (user_id);
 
-    alter table cart_items 
-       add constraint FK1re40cjegsfvw58xrkdp6bac6 
-       foreign key (product_id) 
+    alter table cart_items
+       add constraint FK1re40cjegsfvw58xrkdp6bac6
+       foreign key (product_id)
        references products;
 
-    alter table cart_items 
-       add constraint FK709eickf3kc0dujx3ub9i7btf 
-       foreign key (user_id) 
+    alter table cart_items
+       add constraint FK709eickf3kc0dujx3ub9i7btf
+       foreign key (user_id)
        references users;
 
-    alter table order_items 
-       add constraint FKbioxgbv59vetrxe0ejfubep1w 
-       foreign key (order_id) 
+    alter table order_items
+       add constraint FKbioxgbv59vetrxe0ejfubep1w
+       foreign key (order_id)
        references orders;
 
-    alter table order_items 
-       add constraint FKocimc7dtr037rh4ls4l95nlfi 
-       foreign key (product_id) 
+    alter table order_items
+       add constraint FKocimc7dtr037rh4ls4l95nlfi
+       foreign key (product_id)
        references products;
 
-    alter table orders 
-       add constraint FK32ql8ubntj5uh44ph9659tiih 
-       foreign key (user_id) 
+    alter table orders
+       add constraint FK32ql8ubntj5uh44ph9659tiih
+       foreign key (user_id)
        references users;
 
-    alter table products 
-       add constraint FKa3a4mpsfdf4d2y6r8ra3sc8mv 
-       foreign key (brand_id) 
+    alter table products
+       add constraint FKa3a4mpsfdf4d2y6r8ra3sc8mv
+       foreign key (brand_id)
        references brands;
 
-    alter table purchases 
-       add constraint FKcacbvw28fu31rv1vrhnkcbe28 
-       foreign key (product_id) 
+    alter table purchases
+       add constraint FKcacbvw28fu31rv1vrhnkcbe28
+       foreign key (product_id)
        references products;
 
-    alter table purchases 
-       add constraint FK9ho3w23v5du4x0hrp6rqs1wmh 
-       foreign key (supplier_id) 
+    alter table purchases
+       add constraint FK9ho3w23v5du4x0hrp6rqs1wmh
+       foreign key (supplier_id)
        references suppliers;
 
-    alter table roles_users 
-       add constraint FKsmos02hm32191ogexm2ljik9x 
-       foreign key (role_id) 
+    alter table roles_users
+       add constraint FKsmos02hm32191ogexm2ljik9x
+       foreign key (role_id)
        references roles;
 
-    alter table roles_users 
-       add constraint FKlkcn1l0gnfshcn4rnmak73ta 
-       foreign key (user_id) 
+    alter table roles_users
+       add constraint FKlkcn1l0gnfshcn4rnmak73ta
+       foreign key (user_id)
        references users;
 
-    alter table verification_codes 
-       add constraint FKa4qo6nts1xd94owirq5evcpda 
-       foreign key (user_id) 
+    alter table verification_codes
+       add constraint FKa4qo6nts1xd94owirq5evcpda
+       foreign key (user_id)
        references users;

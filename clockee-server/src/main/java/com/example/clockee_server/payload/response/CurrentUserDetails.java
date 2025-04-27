@@ -16,4 +16,5 @@ public class CurrentUserDetails {
   // TODO: custom phone validator
   private String phone;
   private String address;
+  private boolean isVerified;
 }
