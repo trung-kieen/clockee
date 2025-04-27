@@ -1,8 +1,8 @@
 package com.example.clockee_server.entity;
 
 import com.example.clockee_server.util.Client;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,7 +36,7 @@ public class VerificationCode {
   private String code;
 
   // Owner side
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 

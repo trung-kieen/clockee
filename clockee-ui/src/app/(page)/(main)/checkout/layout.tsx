@@ -1,8 +1,9 @@
 "use client";
 
 import { ProtectedRoute } from "@/app/components/route/protected";
+import { useAuth } from "@/lib/hooks/use-auth";
 import { useCart } from "@/lib/hooks/use-cart";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -13,6 +14,17 @@ export default function CheckoutLayout({
 }>) {
   const { selectedItems } = useCart();
   const router = useRouter();
+
+  const { user } = useAuth();
+  useEffect(() => {
+    const refuteUserNotVerfied = () => {
+      if (user === null || !user.verified) {
+        toast.warn("Bạn cần xác thực email để thực hiện đặt hàng");
+        redirect("/me");
+      }
+    };
+    refuteUserNotVerfied();
+  }, [user]);
 
   useEffect(() => {
     if (selectedItems.length === 0) {

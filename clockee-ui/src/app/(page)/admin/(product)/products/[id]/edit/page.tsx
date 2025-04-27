@@ -2,7 +2,6 @@ import AdminMainCard from "@/app/components/card/admin-card";
 import { AdminProductControllerService } from "@/gen";
 import React from "react";
 import EditProductForm from "./components/edit-product-form";
-// app/books/[id]/edit/page.tsx
 
 type EditProductPageProps = {
   params: Promise<{ id: string }>; // vì URL param luôn là string

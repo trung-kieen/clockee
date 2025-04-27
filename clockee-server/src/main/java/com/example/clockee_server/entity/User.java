@@ -3,6 +3,7 @@ package com.example.clockee_server.entity;
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,32 +43,32 @@ public class User implements UserDetails {
   @Column(name = "user_id")
   private Long userId;
 
-  // email
   @Column(nullable = false, length = 255, unique = true)
   private String email;
 
-  // password
   @Column(nullable = false, length = 255)
   private String password;
 
-  // name
   @Column(nullable = false, length = 255)
   @Nationalized
   private String name;
 
-  // phone
   @Column(length = 20)
   private String phone;
 
-  // address
   @Column @Nationalized private String address;
 
-  // is_deleted
   @Column(name = "is_deleted")
-  private Boolean isDeleted;
+  private Boolean isDeleted = false;
 
-  // Opposite side
-  @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+  @Column(name = "is_verified")
+  private boolean isVerified = false;
+
+  @OneToOne(
+      mappedBy = "user",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
   private VerificationCode verificationCode;
 
   @ManyToMany(fetch = FetchType.EAGER)

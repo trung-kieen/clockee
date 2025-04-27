@@ -59,13 +59,13 @@ export class AuthControllerService {
   /**
    * @param userId
    * @param token
-   * @returns JwtTokenResponse OK
+   * @returns string OK
    * @throws ApiError
    */
   public static verifyEmail(
     userId: number,
     token: number,
-  ): CancelablePromise<JwtTokenResponse> {
+  ): CancelablePromise<string> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/auth/verify-email",

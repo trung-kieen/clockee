@@ -8,7 +8,7 @@ import {
   AdminProductResponse,
   BrandDTO,
 } from "@/gen";
-import { useSelectBrand } from "@/lib/hooks/use-lazy-load";
+import { useLazyPage } from "@/lib/hooks/use-lazy-load";
 import { ProductService } from "@/service/ProductService";
 import { mapApiErrorsToForm } from "@/util/form";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
@@ -38,7 +38,7 @@ export const mapBrandDTOToSelectOption = (brand: BrandDTO) => {
 };
 const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
   const [selectedFile, setSelectedFile] = useState("");
-  const { fetchMore, setQuery, query, pageInfo } = useSelectBrand<BrandDTO>({
+  const { fetchMore, setQuery, query, pageInfo } = useLazyPage<BrandDTO>({
     fetchData: async (page, query) => {
       return await AdminBrandControllerService.getAllBrands(
         page,

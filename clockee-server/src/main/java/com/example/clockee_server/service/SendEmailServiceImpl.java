@@ -47,9 +47,10 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     String verificationLink =
         applicationProperties.getBaseUrl()
-            + contextPath
-            + "/auth/verify-email?token="
-            + verificationCode.getCode();
+            + "/verify-email?token="
+            + verificationCode.getCode()
+            + "&userId="
+            + user.getUserId();
     Context emailContext = new Context();
     emailContext.setVariable("username", user.getName());
     emailContext.setVariable("verificationLink", verificationLink);

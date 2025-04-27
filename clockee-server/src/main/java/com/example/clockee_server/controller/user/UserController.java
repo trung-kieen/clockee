@@ -45,4 +45,10 @@ public class UserController {
     userService.changePassword(user, request);
     return ResponseEntity.accepted().build();
   }
+
+  @PutMapping("/resend-verification")
+  public ResponseEntity<?> resendVerificationEmail(@CurrentUser User user) {
+    userService.resendVerificationEmail(user);
+    return ResponseEntity.accepted().build();
+  }
 }
