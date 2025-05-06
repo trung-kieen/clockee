@@ -13,7 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JwtTokenResponse {
   private String accessToken;
+
+  // Intend to test, in product not refresh token response in payload. It store in cookie instead.
   private String refreshToken;
+
+
   private String type = "Bearer";
   private Long userId;
   private String username;
