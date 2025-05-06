@@ -22,7 +22,7 @@ export class AdminOrderControllerService {
   ): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
       method: "PUT",
-      url: "/revenue/order/{orderId}",
+      url: "/admin/order/{orderId}",
       path: {
         orderId: orderId,
       },
@@ -51,7 +51,7 @@ export class AdminOrderControllerService {
   ): CancelablePromise<PageResponseAdminOrderSummaryResponse> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/revenue",
+      url: "/admin/order",
       query: {
         status: status,
         page: page,
@@ -67,7 +67,7 @@ export class AdminOrderControllerService {
   public static getYearlyOrder(year: number): CancelablePromise<OrderDTO> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/revenue/order-by-year",
+      url: "/admin/order/order-by-year",
       query: {
         year: year,
       },
@@ -82,7 +82,7 @@ export class AdminOrderControllerService {
   > {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/revenue/monthly",
+      url: "/admin/order/monthly",
     });
   }
   /**
@@ -95,7 +95,7 @@ export class AdminOrderControllerService {
   ): CancelablePromise<Array<number>> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/revenue/by-year",
+      url: "/admin/order/by-year",
       query: {
         year: year,
       },
@@ -113,7 +113,7 @@ export class AdminOrderControllerService {
   ): CancelablePromise<number> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/revenue/by-month-year",
+      url: "/admin/order/by-month-year",
       query: {
         year: year,
         month: month,

@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
+import { AdminOrderControllerService, FinancialReportControllerService, OrderDTO } from "@/gen";
+import { logger } from "@/util/logger";
+import { UNIT } from "@/config/app-config";
 
 interface StatCardProps {
   title: string;
@@ -9,6 +12,7 @@ interface StatCardProps {
   icon: string;
   bgColor: string;
 }
+const EMPTY_CHART_VALUE = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, bgColor }) => (
   <div className="bg-white p-4 rounded-lg shadow flex items-center">
@@ -39,44 +43,34 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
       setLoading(true);
 
       try {
-        const [revenueResponse, profitResponse] = await Promise.all([
-          fetch(
-            `http://localhost:8080/api/financial-report/by-year?year=${year}`,
-          ),
-          fetch(`http://localhost:8080/api/revenue/by-year?year=${year}`),
-        ]);
 
-        if (!revenueResponse.ok || !profitResponse.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const revenueData = await revenueResponse.json();
-        const profitData = await profitResponse.json();
+        const revenueData = await FinancialReportControllerService.geFinancialReport(year)
+        const profitData = await AdminOrderControllerService.getMonthlyRevenueInYear(year);
 
         // Chia dữ liệu cho 1 triệu để hiển thị dạng triệu VNĐ
         const formattedRevenue = revenueData.map(
-          (value: number) => value / 1000000,
+          (value: number) => value / UNIT,
         );
         const formattedProfit = profitData.map(
-          (value: number) => value / 1000000,
+          (value: number) => value / UNIT,
         );
 
         setChartData({
           revenue:
             formattedRevenue.length === 12
               ? formattedRevenue
-              : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              : EMPTY_CHART_VALUE,
           profit:
             formattedProfit.length === 12
               ? formattedProfit
-              : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              : EMPTY_CHART_VALUE,
         });
       } catch (error) {
-        console.error("Error fetching data:", error);
+        logger.error("Error fetching data:", error);
         // Hiển thị tất cả giá trị bằng 0 nếu API thất bại
         setChartData({
-          revenue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          profit: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          revenue: EMPTY_CHART_VALUE,
+          profit: EMPTY_CHART_VALUE,
         });
       } finally {
         setLoading(false);
@@ -170,15 +164,7 @@ const AdminDashboardPage: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>(currentYear); // Mặc định là năm hiện tại
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
-  const [stats, setStats] = useState<{
-    totalOrders: number;
-    delivered: number;
-    returned: number;
-  }>({
-    totalOrders: 0,
-    delivered: 0,
-    returned: 0,
-  });
+  const [stats, setStats] = useState<OrderDTO>({} as OrderDTO);
   const [statsLoading, setStatsLoading] = useState<boolean>(true);
 
   const years = [
@@ -192,32 +178,15 @@ const AdminDashboardPage: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       setStatsLoading(true);
-
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/revenue/order-by-year?year=${selectedYear}`,
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch stats");
-        }
-
-        const data = await response.json();
-        setStats({
-          totalOrders: data.totalOrders || 0,
-          delivered: data.finishOrders || 0,
-          returned: data.otherOrders || 0,
-        });
+        const resp = await AdminOrderControllerService.getYearlyOrder(selectedYear);
+        setStats(resp)
       } catch (error) {
-        console.error("Error fetching stats:", error);
-        // Đặt tất cả giá trị bằng 0 nếu API thất bại
-        setStats({
-          totalOrders: 0,
-          delivered: 0,
-          returned: 0,
-        });
-      } finally {
-        setStatsLoading(false);
+        logger.error(error);
+
       }
+      setStatsLoading(false)
+
     };
 
     fetchStats();
@@ -243,19 +212,19 @@ const AdminDashboardPage: React.FC = () => {
       <div className="grid grid-cols-3 gap-4 mb-6">
         <StatCard
           title="Tổng đơn"
-          value={stats.totalOrders.toString()}
+          value={String(stats.totalOrders || "??")}
           icon="📦"
           bgColor="bg-yellow-100"
         />
         <StatCard
           title="Đã giao hoàn thành"
-          value={stats.delivered.toString()}
+          value={String(stats.finishOrders || "??")}
           icon="🚚"
           bgColor="bg-gray-100"
         />
         <StatCard
           title="Đơn ở trạng thái khác"
-          value={stats.returned.toString()}
+          value={String(stats.otherOrders || "??")}
           icon="↩️"
           bgColor="bg-yellow-100"
         />
