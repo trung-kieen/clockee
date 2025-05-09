@@ -38,7 +38,7 @@
     "daisyui": "^5.0.28",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
-    "openapi-typescript": "^7.6.1",
+    "openapi-typescript": "^7.7.1",
     "openapi-typescript-codegen": "^0.29.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
