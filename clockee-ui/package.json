@@ -21,7 +21,7 @@
     "next": "^15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.54.2",
+    "react-hook-form": "^7.56.3",
     "react-modal": "^3.16.3",
     "react-select": "^5.10.1",
     "react-toastify": "^11.0.5",
