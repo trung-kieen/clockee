@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
-    directory: "backend/"
+    directory: "clockee-server/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
@@ -13,7 +13,7 @@ updates:
       - "maven"
 
   - package-ecosystem: "npm"
-    directory: "frontend/"
+    directory: "clockee-ui/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
