@@ -125,9 +125,10 @@ public class AdminOrderService {
         });
   }
 
-  /** Determine order should be send email to user for notifiy order status change or not */
+  /** Determine order should be send email to user for notify order status change or not */
   private boolean isSendEmailOrderChange(OrderStatus current, OrderStatus next) {
 
+    // Proccess order status transition in order will notify as email
     Map<OrderStatus, OrderStatus> normalStatusFlow = new HashMap<>();
     normalStatusFlow.put(OrderStatus.PENDING, OrderStatus.PROCESSING);
     normalStatusFlow.put(OrderStatus.PROCESSING, OrderStatus.SHIPPED);
@@ -136,6 +137,7 @@ public class AdminOrderService {
       return true;
     }
 
+    // Order cancelled by admin or order returned approved by admin will notify user
     if (next.equals(OrderStatus.CANCELLED) || next.equals(OrderStatus.RETURNED)) {
       return true;
     }

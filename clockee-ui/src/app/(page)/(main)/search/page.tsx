@@ -2,6 +2,7 @@
 
 import PageController from "@/app/components/common/page-controller";
 import ProductCollection from "@/app/components/product/product-collection";
+import { UNIT } from "@/config/app-config";
 import {
   AdminBrandControllerService,
   BrandDTO,
@@ -17,7 +18,6 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
 const types = ["Specialty", "General", "Luxury", "Local"];
-const UNIT = 1000000;
 const DEFAULT_MAX_PRICE = 50;
 const MAX_PRICE = 500;
 

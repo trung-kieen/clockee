@@ -1,6 +1,6 @@
 import AdminMainCard from "@/app/components/card/admin-card";
 import React from "react";
-const PurchasesPage = ({ props }) => {
+const PurchasesPage = () => {
   return (
     <>
       <AdminMainCard title="Nhập hàng">
