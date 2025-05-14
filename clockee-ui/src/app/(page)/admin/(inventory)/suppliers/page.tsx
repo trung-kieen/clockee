@@ -18,9 +18,6 @@ import { usePageSearch } from "@/lib/hooks/use-page-search";
 export default function SupplierAdminPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
-    setQuery(event.target.value);
-  }
 
   const fetchSuppliers = async () => {
     try {
@@ -56,7 +53,7 @@ export default function SupplierAdminPage() {
         {/*
          * Search filter
          */}
-        <Search value={query || ""} onChange={onChangeSearchQuery} />
+        <Search value={query} onChange={(event) => setQuery(event.target.value)} />
 
         {/*
          * Add new supplier button

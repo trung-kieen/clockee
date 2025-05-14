@@ -57,14 +57,26 @@ const CreateProductForm = () => {
     fetchMore();
   }
 
+  let selectBrandIndex = 0;
+  /**
+   * Load more brand name when user narrow down to the and of select list
+   */
   function handleMenuInputKeyDown(event: KeyboardEvent<HTMLDivElement>): void {
+
+    // Stimulate catch user change narrow select menu with a track variable
+    if (!pageInfo?.size) {
+      selectBrandIndex = 0;
+    } else {
+      if (event.key === "ArrowUp") {
+        selectBrandIndex = selectBrandIndex === 0 ? pageInfo.size - 1 : selectBrandIndex - 1;
+      } else if (event.key === "ArrowDown") {
+        selectBrandIndex = selectBrandIndex === pageInfo.size - 1 ? 0 : selectBrandIndex + 1;
+      }
+    }
     if (!pageInfo?.content) {
       return;
     }
-    const option = getValues("brandId");
-    const brandOptions = pageInfo.content;
-    const lastOptions = brandOptions[brandOptions.length - 1];
-    if (lastOptions && lastOptions.brandId == option) {
+    if (selectBrandIndex === pageInfo.size - 1) {
       fetchMore();
     }
   }
@@ -201,7 +213,7 @@ const CreateProductForm = () => {
           </label>
           <Controller
             control={control}
-            render={function ({
+            render={function({
               field,
             }: {
               field: ControllerRenderProps<CreateProductWithImage>;
