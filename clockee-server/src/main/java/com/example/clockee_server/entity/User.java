@@ -17,6 +17,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -73,7 +75,7 @@ public class User implements UserDetails {
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-      name = "roles_users",
+      name = "roles_users", 
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   Set<Role> roles;
@@ -94,6 +96,8 @@ public class User implements UserDetails {
     PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
     this.password = passwordEncoder.encode(newPassword);
   }
+
+
 
   @Override
   public String getPassword() {
@@ -125,4 +129,5 @@ public class User implements UserDetails {
     // Alow user to login before verified
     return true;
   }
+
 }
