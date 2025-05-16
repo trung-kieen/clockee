@@ -3,6 +3,8 @@ package com.example.clockee_server.entity;
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,9 +17,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -78,6 +85,7 @@ public class User implements UserDetails {
       name = "roles_users", 
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @JsonManagedReference //
   Set<Role> roles;
 
   @Override
@@ -130,4 +138,14 @@ public class User implements UserDetails {
     return true;
   }
 
+  public List<Long> getRoleIds() {
+    if (roles == null) return new ArrayList<>();
+    return roles.stream()
+            .map(Role::getRoleId)
+            .collect(Collectors.toList());
+  }
+
+
 }
+
+
