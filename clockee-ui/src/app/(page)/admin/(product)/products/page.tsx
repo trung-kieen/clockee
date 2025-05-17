@@ -31,8 +31,6 @@ export default function ProductAdminPage() {
     usePageSearch<PageAdminProductResponse>({
       fetchData: fetchProducts,
     });
-
-
   return (
     <AdminMainCard title="Sản phẩm" goBack={false}>
       <div className="flex justify-between items-center mb-6">
@@ -78,14 +76,11 @@ export default function ProductAdminPage() {
           emptyMessage="Không tìm thấy sản phẩm nào"
           headers={[
             "ID sản phẩm",
-            "Hình ảnh",
             "Tên sản phẩm",
             "Giá gốc",
             "Giá bán",
             "Loại",
             "Thương hiệu",
-            "",
-            "",
           ]}
           renderRow={(item, index) => (
             <ProductTableRow

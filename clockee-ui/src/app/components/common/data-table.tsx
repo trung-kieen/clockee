@@ -8,7 +8,9 @@ type DataTableProps<T> = {
   headers: string[];
   renderRow: (item: T, index: number) => ReactNode;
 };
-const DataTable = <T,>({
+const 
+
+DataTable = <T,>({
   data,
   emptyMessage = "Không có dữ liệu",
   headers = [],

@@ -10,7 +10,6 @@ type AdminCardProps = {
 };
 const AdminMainCard = ({ title, goBack = false, children }: AdminCardProps) => {
   const router = useRouter();
-
   return (
     <>
       <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
@@ -18,7 +17,6 @@ const AdminMainCard = ({ title, goBack = false, children }: AdminCardProps) => {
           {goBack && (
             <ArrowLeft className="hover:cursor-pointer" onClick={router.back} />
           )}
-
           <Subtitle styleClass={""}>{title}</Subtitle>
           {children}
         </div>

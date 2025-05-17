@@ -47,7 +47,7 @@ export class AdminOrderControllerService {
       | "CANCELLED"
       | "COMPLETED",
     page?: number,
-    size: number = 10,
+    size: number = 5,
   ): CancelablePromise<PageResponseAdminOrderSummaryResponse> {
     return __request(OpenAPI, {
       method: "GET",
