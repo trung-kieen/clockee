@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { AdminOrderControllerService, FinancialReportControllerService, OrderDTO } from "@/gen";
 import { logger } from "@/util/logger";
@@ -16,10 +16,9 @@ interface StatCardProps {
 const EMPTY_CHART_VALUE = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, bgColor }) => (
-  <div className="bg-white p-4 rounded-lg shadow flex items-center border-">
-    <div
-      className={`w-20 h-20 rounded-full flex items-center justify-center mr-6 ${bgColor}`}
-    >{icon}
+  <div className="bg-white p-4 rounded-lg shadow flex items-center border-2">
+    <div className={`w-20 h-20 rounded-full flex items-center justify-center mr-6 ${bgColor}`}>
+      <img src={`${icon}`} className="ml-1"/>
     </div>
     <div>
       <div className="text-gray-600 text-2xl">{title}</div>
@@ -186,24 +185,24 @@ const AdminDashboardPage: React.FC = () => {
   };
 
   return (
-    <AdminMainCard title="Thống kê" goBack={false}>
+    <AdminMainCard title="THỐNG KÊ" goBack={false}>
       <div className="grid grid-cols-3 gap-8 mb-4">
         <StatCard
           title="Tổng đơn"
           value={String(stats.totalOrders || "??")}
-          icon="📦"
+          icon="/total.svg"
           bgColor="bg-[#FFD700]/30"
         />
         <StatCard
           title="Đã giao hoàn thành"
           value={String(stats.finishOrders || "??")}
-          icon="🚚"
+          icon="/finish.svg"
           bgColor="bg-[#FFD700]/30"
         />
         <StatCard
           title="Đơn ở trạng thái khác"
           value={String(stats.otherOrders || "??")}
-          icon="↩️"
+          icon="/cancel.svg"
           bgColor="bg-yellow-100"
         />
       </div>
