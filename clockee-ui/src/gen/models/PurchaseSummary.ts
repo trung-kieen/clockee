@@ -2,14 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Product } from "./Product";
-import type { Supplier } from "./Supplier";
-export type Purchase = {
+export type PurchaseSummary = {
   purchaseId?: number;
-  product?: Product;
-  supplier?: Supplier;
-  price?: number;
-  quantity?: number;
   totalPrice?: number;
   createdAt?: string;
+  status?: string;
+  createdByUsername?: string;
 };

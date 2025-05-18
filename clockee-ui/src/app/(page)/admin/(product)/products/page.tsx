@@ -32,7 +32,6 @@ export default function ProductAdminPage() {
       fetchData: fetchProducts,
     });
 
-
   return (
     <AdminMainCard title="Sản phẩm" goBack={false}>
       <div className="flex justify-between items-center mb-6">

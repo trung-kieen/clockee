@@ -9,6 +9,7 @@ import {
   BrandDTO,
 } from "@/gen";
 import { useLazyPage } from "@/lib/hooks/use-lazy-load";
+import { SelectOption } from "@/model/SelectOption";
 import { ProductService } from "@/service/ProductService";
 import { mapApiErrorsToForm } from "@/util/form";
 import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
@@ -25,10 +26,6 @@ type CreateProductWithImage = AdminProductRequest & {
   image: FileList;
 };
 
-export type SelectOption = {
-  label: string;
-  value: number;
-};
 export const mapBrandDTOToSelectOption = (brand: BrandDTO) => {
   const option: SelectOption = {
     label: String(brand.name),
@@ -47,7 +44,6 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
       );
     },
   });
-
 
   const {
     register,
@@ -73,15 +69,16 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
    * Load more brand name when user narrow down to the and of select list
    */
   function handleMenuInputKeyDown(event: KeyboardEvent<HTMLDivElement>): void {
-
     // Stimulate catch user change narrow select menu with a track variable
     if (!pageInfo?.size) {
       selectBrandIndex = 0;
     } else {
       if (event.key === "ArrowUp") {
-        selectBrandIndex = selectBrandIndex === 0 ? pageInfo.size - 1 : selectBrandIndex - 1;
+        selectBrandIndex =
+          selectBrandIndex === 0 ? pageInfo.size - 1 : selectBrandIndex - 1;
       } else if (event.key === "ArrowDown") {
-        selectBrandIndex = selectBrandIndex === pageInfo.size - 1 ? 0 : selectBrandIndex + 1;
+        selectBrandIndex =
+          selectBrandIndex === pageInfo.size - 1 ? 0 : selectBrandIndex + 1;
       }
     }
     if (!pageInfo?.content) {
@@ -91,7 +88,6 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
       fetchMore();
     }
   }
-
 
   const onSubmit: SubmitHandler<CreateProductWithImage> = async (
     data: CreateProductWithImage,
@@ -245,7 +241,7 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
           </label>
           <Controller
             control={control}
-            render={function({
+            render={function ({
               field,
             }: {
               field: ControllerRenderProps<CreateProductWithImage>;

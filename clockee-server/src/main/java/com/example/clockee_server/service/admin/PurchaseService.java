@@ -1,0 +1,106 @@
+package com.example.clockee_server.service.admin;
+
+import com.example.clockee_server.entity.Product;
+import com.example.clockee_server.entity.Purchase;
+import com.example.clockee_server.entity.PurchaseItem;
+import com.example.clockee_server.entity.PurchaseStatus;
+import com.example.clockee_server.entity.Supplier;
+import com.example.clockee_server.entity.User;
+import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.mapper.MapperUtil;
+import com.example.clockee_server.mapper.PurchaseMapper;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+import com.example.clockee_server.payload.PageResponse;
+import com.example.clockee_server.payload.request.CreatePurchaseRequest;
+import com.example.clockee_server.payload.request.PurchaseItemRequest;
+import com.example.clockee_server.payload.response.PurchaseResponse;
+import com.example.clockee_server.payload.response.PurchaseSummary;
+import com.example.clockee_server.repository.ProductRepository;
+import com.example.clockee_server.repository.PurchaseRepository;
+import com.example.clockee_server.repository.SupplierRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class PurchaseService {
+  private final ProductRepository productRepository;
+  private final SupplierRepository supplierRepository;
+  private final PurchaseRepository purchaseRepository;
+  private final PurchaseMapper purchaseMapper;
+
+  /**
+   * Create purchase request pending Product quantity not change yet until change
+   *
+   * @param autditUser
+   */
+  public PurchaseResponse create(CreatePurchaseRequest purchaseRequest, User autditUser) {
+    if (purchaseRequest.getItems().size() == 0) {
+      throw ApiException.builder()
+          .message(AppMessage.of(MessageKey.EMPTY_LIST))
+          .status(400)
+          .build();
+    }
+
+    // Fetch products information in batch
+    Iterable<Long> productIds =
+        purchaseRequest.getItems().stream().map(PurchaseItemRequest::getProductId).toList();
+    List<Product> products = productRepository.findAllById(productIds);
+
+    // Migrate to hashmap for fast access
+    Map<Long, Product> productIdToProduct = new HashMap<>();
+    for (Product product : products) {
+      productIdToProduct.put(product.getProductId(), product);
+    }
+
+    // Fetch suppliers information in batch
+    Iterable<Long> supplierIds =
+        purchaseRequest.getItems().stream().map(PurchaseItemRequest::getSupplierId).toList();
+    List<Supplier> suppliers = supplierRepository.findAllById(supplierIds);
+
+    // Migrate to hashmap for fast access
+    Map<Long, Supplier> supplierIdToSupplier = new HashMap<>();
+    for (Supplier supplier : suppliers) {
+      supplierIdToSupplier.put(supplier.getSupplierId(), supplier);
+    }
+
+    Purchase purchase =
+        Purchase.builder().status(PurchaseStatus.PENDING).createdBy(autditUser).build();
+
+    Set<PurchaseItem> purchaseItems =
+        MapperUtil.mapSet(
+            purchaseRequest.getItems(),
+            ((item) -> {
+              return PurchaseItem.builder()
+                  .product(productIdToProduct.get(item.getProductId()))
+                  .supplier(supplierIdToSupplier.get(item.getSupplierId()))
+                  .quantity(item.getQuantity())
+                  .price(item.getPrice())
+                  .build();
+            }));
+    purchase.setItems(purchaseItems);
+    Double totalPrice =
+        purchaseItems.stream().mapToDouble((item) -> item.getQuantity() * item.getPrice()).sum();
+    purchase.setTotalPrice(totalPrice);
+
+    // Save will be cascade
+    Purchase savedPurchase = purchaseRepository.save(purchase);
+
+    return purchaseMapper.purchaseToResponse(savedPurchase);
+  }
+
+  public PageResponse<PurchaseSummary> getPurchaseHistory(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Direction.DESC, "createdAt");
+    Page<Purchase> purchasePage = purchaseRepository.findAll(pageable);
+    return MapperUtil.mapPageResponse(purchasePage, purchaseMapper::purchaseToSummary);
+  }
+}

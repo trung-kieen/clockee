@@ -19,11 +19,7 @@ import {
 import Select, { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import { mapBrandDTOToSelectOption } from "../../[id]/edit/components/edit-product-form";
-
-type SelectOption = {
-  label: string;
-  value: number;
-};
+import { SelectOption } from "@/model/SelectOption";
 
 type CreateProductWithImage = AdminProductRequest & {
   image: FileList;
@@ -62,15 +58,16 @@ const CreateProductForm = () => {
    * Load more brand name when user narrow down to the and of select list
    */
   function handleMenuInputKeyDown(event: KeyboardEvent<HTMLDivElement>): void {
-
     // Stimulate catch user change narrow select menu with a track variable
     if (!pageInfo?.size) {
       selectBrandIndex = 0;
     } else {
       if (event.key === "ArrowUp") {
-        selectBrandIndex = selectBrandIndex === 0 ? pageInfo.size - 1 : selectBrandIndex - 1;
+        selectBrandIndex =
+          selectBrandIndex === 0 ? pageInfo.size - 1 : selectBrandIndex - 1;
       } else if (event.key === "ArrowDown") {
-        selectBrandIndex = selectBrandIndex === pageInfo.size - 1 ? 0 : selectBrandIndex + 1;
+        selectBrandIndex =
+          selectBrandIndex === pageInfo.size - 1 ? 0 : selectBrandIndex + 1;
       }
     }
     if (!pageInfo?.content) {
@@ -213,7 +210,7 @@ const CreateProductForm = () => {
           </label>
           <Controller
             control={control}
-            render={function({
+            render={function ({
               field,
             }: {
               field: ControllerRenderProps<CreateProductWithImage>;

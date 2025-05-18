@@ -113,7 +113,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return resp;
   }
 
-  @Override
   public RefreshTokenResponse refresh(String refreshToken, HttpServletResponse response) {
     if (refreshToken == null) {
       throw new BadCredentialsException(AppMessage.of(MessageKey.MISSING_REFRESH_TOKEN));
@@ -139,7 +138,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
       String cookieName, String refreshToken, HttpServletResponse response) {
     Cookie refreshTokenCookie = new Cookie(cookieName, refreshToken);
     refreshTokenCookie.setHttpOnly(true);
-    refreshTokenCookie.setSecure(true);
+    // Required https
+    // refreshTokenCookie.setSecure(true);
     refreshTokenCookie.setPath("/");
     refreshTokenCookie.setMaxAge(applicationProperties.getJwtRefreshTokenExpDays() * 24 * 60 * 60);
     response.addCookie(refreshTokenCookie);

@@ -49,6 +49,20 @@ public class ProductSpecification {
     return (root, query, cb) -> cb.isTrue(root.get("visible"));
   }
 
+  public static Specification<Product> sortBy(String sortProperty, String sortDirection) {
+    if (sortDirection == null || sortProperty == null) {
+      return null;
+    }
+    return (root, query, criteriaBuilder) -> {
+      if ("asc".equalsIgnoreCase(sortDirection)) {
+        query.orderBy(criteriaBuilder.asc(root.get(sortProperty)));
+      } else if ("desc".equalsIgnoreCase(sortDirection)) {
+        query.orderBy(criteriaBuilder.desc(root.get(sortProperty)));
+      }
+      return criteriaBuilder.conjunction();
+    };
+  }
+
   public static Specification<Product> sortBy(String sortQuery) {
     if (StringUtil.isNullOrEmpty(sortQuery)) {
       return null;
@@ -59,17 +73,10 @@ public class ProductSpecification {
         return null;
       }
 
-      String propertyName = sortQuery.substring(0, separateIndex);
-      String order = sortQuery.substring(separateIndex + 1); // skip '-'
-
-      return (root, query, criteriaBuilder) -> {
-        if ("asc".equalsIgnoreCase(order)) {
-          query.orderBy(criteriaBuilder.asc(root.get(propertyName)));
-        } else if ("desc".equalsIgnoreCase(order)) {
-          query.orderBy(criteriaBuilder.desc(root.get(propertyName)));
-        }
-        return criteriaBuilder.conjunction();
-      };
+      String sortProperty = sortQuery.substring(0, separateIndex);
+      String sortDirection = sortQuery.substring(separateIndex + 1); // skip '-'
+      //
+      return sortBy(sortProperty, sortDirection);
     } catch (Exception e) {
       return null;
     }

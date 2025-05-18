@@ -26,7 +26,5 @@ public class OrderEmailContext {
   private String address;
   private String phone;
   private String totalPrice;
-  // private String trackingLink;
-  // private String returnReason;
   private String applicationName;
 }

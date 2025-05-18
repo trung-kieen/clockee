@@ -1,4 +1,4 @@
-package com.example.clockee_server.service;
+package com.example.clockee_server.service.admin;
 
 import com.example.clockee_server.entity.Brand;
 import com.example.clockee_server.entity.Product;
@@ -58,10 +58,12 @@ public class AdminProductService {
   }
 
   // Lấy danh sách sản phẩm có phân trang
-  public Page<AdminProductResponse> getAllProducts(int page, int size, String name) {
+  public Page<AdminProductResponse> getAllProducts(
+      int page, int size, String name, String sortProperty, String sortDirection) {
     Specification<Product> specification =
         Specification.where(ProductSpecification.searchByName(name))
-            .and(ProductSpecification.isNotDeleted());
+            .and(ProductSpecification.isNotDeleted())
+            .and(ProductSpecification.sortBy(sortProperty, sortDirection));
 
     Pageable pageable = PageRequest.of(page, size);
 

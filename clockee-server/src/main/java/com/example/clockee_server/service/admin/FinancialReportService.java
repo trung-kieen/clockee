@@ -1,4 +1,4 @@
-package com.example.clockee_server.service;
+package com.example.clockee_server.service.admin;
 
 import com.example.clockee_server.repository.OrderRepository;
 import com.example.clockee_server.repository.PurchaseRepository;

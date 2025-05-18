@@ -2,12 +2,18 @@ package com.example.clockee_server.mapper;
 
 import com.example.clockee_server.payload.PageResponse;
 import com.example.clockee_server.util.ApplicationContextProvider;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
+/**
+ * Helper class to convert between jpa entity and dto Support convert object, list, page With page
+ * convert use custom paginate is @see PageResponse
+ */
 public class MapperUtil {
   private static final ModelMapper modelMapper = ApplicationContextProvider.bean(ModelMapper.class);
 
@@ -15,12 +21,16 @@ public class MapperUtil {
     return modelMapper.map(source, destinationType);
   }
 
-  public static <S, D> List<D> mapList(List<S> sourceList, Function<S, D> converter) {
+  public static <S, D> List<D> mapList(Collection<S> sourceList, Function<S, D> converter) {
     return sourceList.stream().map(converter).collect(Collectors.toList());
   }
 
+  public static <S, D> Set<D> mapSet(Collection<S> sourceList, Function<S, D> converter) {
+    return sourceList.stream().map(converter).collect(Collectors.toSet());
+  }
+
   /*
-   * Convert entity page to dto page
+   * Convert entity page to custom dto page
    */
   public static <S, D> PageResponse<D> mapPageResponse(
       Page<S> sourcePage, Class<D> destinationType) {

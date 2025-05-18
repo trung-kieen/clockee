@@ -59,6 +59,7 @@ public class JwtTokenProvider {
   public String genenerateToken(UserDetails user, Map<? extends String, ? extends Object> claims) {
     String emailSubject = user.getUsername();
     Date issueAt = new Date(System.currentTimeMillis());
+    // It can be overflow integer value
     Date expiredAt =
         new Date(
             System.currentTimeMillis() + applicationProperties.getJwtTokenExpMinutes() * 60 * 1000);
@@ -83,10 +84,15 @@ public class JwtTokenProvider {
   // Create RefreshToken
   public String generateRefreshToken(UserDetails user) {
     Date issueAt = new Date(System.currentTimeMillis());
+    // It can be overflow integer value
     Date expiredAt =
         new Date(
             System.currentTimeMillis()
-                + applicationProperties.getJwtRefreshTokenExpDays() * 24 * 60 * 60 * 1000);
+                + Long.valueOf(applicationProperties.getJwtRefreshTokenExpDays())
+                    * 24
+                    * 60
+                    * 60
+                    * 1000);
 
     return Jwts.builder()
         .claims()

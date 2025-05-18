@@ -1,6 +1,6 @@
 package com.example.clockee_server.controller.admin;
 
-import com.example.clockee_server.service.FinancialReportService;
+import com.example.clockee_server.service.admin.FinancialReportService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

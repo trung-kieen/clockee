@@ -7,7 +7,7 @@ import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.request.CartItemRequest;
 import com.example.clockee_server.payload.response.CartDetailsResponse;
-import com.example.clockee_server.service.CartService;
+import com.example.clockee_server.service.user.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,3 +1,8 @@
+/**
+ * Use to display header for default page like: homepage, filter product page, etc
+ * Including search bar for quick search, login and register button if not login yet
+ * otherwise will display common action for user like personal information, order history, etc
+ */
 "use client";
 import Link from "next/link";
 import { Shield, ShoppingCart, User } from "lucide-react";
@@ -57,9 +62,11 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           isAuthenticated && (
             <div>
               <div className="indicator">
-                <span className="indicator-item badge badge-xs badge-neutral">
-                  {totalItems}
-                </span>
+                {isAuthenticated && (
+                  <span className="indicator-item badge badge-xs badge-neutral">
+                    {totalItems}
+                  </span>
+                )}
                 <Link href={"/cart/"}>
                   <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-black" />
                 </Link>
@@ -68,7 +75,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           )
         }
 
-        {isAuthenticated || username ? (
+        {isAuthenticated ? (
           <>
             <div className="dropdown dropdown-end">
               <div

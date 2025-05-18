@@ -105,7 +105,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const _refreshAuth = async () => {
     try {
       const resp = await getRefreshToken();
-      _updateToken(resp.data.accessToken || "");
+      if (resp.data.accessToken) {
+        _updateToken(resp.data.accessToken);
+        setIsAuthenticated(true);
+      }
     } catch {
       _removeUserDetails();
     }

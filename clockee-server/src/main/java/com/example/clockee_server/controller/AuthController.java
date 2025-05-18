@@ -5,6 +5,7 @@ import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
 import com.example.clockee_server.auth.dto.RefreshTokenResponse;
 import com.example.clockee_server.auth.service.AuthenticationService;
+import com.example.clockee_server.config.ApplicationProperties;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
   private final AuthenticationService authService;
   private final String refreshTokenCookieName = "clockee-refresh";
+  private final ApplicationProperties applicationProperties;
 
   @PostMapping("/login")
   public ResponseEntity<JwtTokenResponse> login(
@@ -34,6 +36,7 @@ public class AuthController {
     // Add cookie token as header of response
     authService.addRefreshTokenAsCookie(
         refreshTokenCookieName, tokenResp.getRefreshToken(), response);
+
     tokenResp.setRefreshToken(null);
     return ResponseEntity.ok(tokenResp);
   }
@@ -60,7 +63,7 @@ public class AuthController {
 
   @PostMapping("/refresh")
   public ResponseEntity<RefreshTokenResponse> refreshAccessToken(
-      @CookieValue(name = "refreshToken", required = false) String refreshToken,
+      @CookieValue(name = refreshTokenCookieName, required = false) String refreshToken,
       HttpServletResponse response) {
     RefreshTokenResponse resp = authService.refresh(refreshToken, response);
     return ResponseEntity.ok(resp);

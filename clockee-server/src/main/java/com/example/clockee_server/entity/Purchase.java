@@ -1,9 +1,27 @@
 package com.example.clockee_server.entity;
 
 import com.example.clockee_server.util.Client;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.*;
+import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter
@@ -14,28 +32,26 @@ import lombok.*;
 @Table(name = "purchases")
 @Client
 public class Purchase {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "purchase_id")
   private Long purchaseId;
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
+  private Set<PurchaseItem> items;
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private PurchaseStatus status = PurchaseStatus.PENDING;
+
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @Column private Double totalPrice;
+
   @ManyToOne
   @JoinColumn(name = "product_id", nullable = false)
-  private Product product;
-
-  @ManyToOne
-  @JoinColumn(name = "supplier_id", nullable = false)
-  private Supplier supplier;
-
-  @Column(precision = 10, nullable = false)
-  private Double price;
-
-  @Column(nullable = false)
-  private Long quantity;
-
-  @Column(name = "total_price", precision = 10, nullable = false)
-  private Double totalPrice;
-
-  @Column(name = "created_at", updatable = false, nullable = false)
-  private LocalDateTime createdAt;
+  private User createdBy;
 }

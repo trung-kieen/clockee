@@ -16,7 +16,7 @@ export const usePageSearch = <T>({
   const [query, setQuery] = useState<string>("");
   const usePageProps = usePage<T>({
     fetchData,
-    dependencies: [...dependencies, query ],
+    dependencies: [...dependencies, query],
   });
 
   return {
