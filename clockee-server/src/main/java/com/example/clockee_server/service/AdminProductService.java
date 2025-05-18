@@ -12,19 +12,20 @@ import com.example.clockee_server.payload.response.AdminProductResponse;
 import com.example.clockee_server.repository.BrandRepository;
 import com.example.clockee_server.repository.ProductRepository;
 import com.example.clockee_server.specification.ProductSpecification;
+
 import jakarta.transaction.Transactional;
+
 import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
-// use for paging
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @Service
 public class AdminProductService {
@@ -38,14 +39,14 @@ public class AdminProductService {
 
   @Autowired private ProductMapper productMapper;
 
-  // Thêm sản phẩm
+  // add product
   @Transactional
   public AdminProductResponse createProduct(AdminProductRequest request) {
     Product product = modelMapper.map(request, Product.class);
 
     product.setProductId(null);
 
-    // Lấy Brand từ DB và gán vào Product
+    // get Brand from DB and assign for product
     Brand brand =
         brandRepository
             .findById(Long.valueOf(request.getBrandId()))
@@ -60,7 +61,7 @@ public class AdminProductService {
     return productMapper.productToAdminResponse(savedProduct);
   }
 
-  // Lấy danh sách sản phẩm có phân trang
+  // get product list with paging
   public Page<AdminProductResponse> getAllProducts(int page, int size, String name) {
     Specification<Product> specification =
         Specification.where(ProductSpecification.searchByName(name))
@@ -77,7 +78,7 @@ public class AdminProductService {
     return products.map(product -> productMapper.productToAdminResponse(product));
   }
 
-  // Lấy chi tiết sản phẩm theo id
+  // get product details with id
   public AdminProductResponse getProductById(Long id) {
     Product product =
         productRepository
@@ -87,7 +88,7 @@ public class AdminProductService {
     return productMapper.productToAdminResponse(product);
   }
 
-  // Cập nhật thông tin sản phẩm
+  // update product's detail
   @Transactional
   public AdminProductResponse updateProduct(Long id, AdminProductRequest request) {
     Product product =
@@ -113,7 +114,7 @@ public class AdminProductService {
     return productMapper.productToAdminResponse(updatedProduct);
   }
 
-  // Xoá sản phẩm
+  // delete product
   @Transactional
   public AdminProductResponse deleteProduct(Long id) {
     Product product =

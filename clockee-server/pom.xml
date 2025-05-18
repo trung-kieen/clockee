@@ -267,8 +267,6 @@
           <failsOnError>true</failsOnError>
         </configuration>
       </plugin>
-
-
     </plugins>
   </build>
 
