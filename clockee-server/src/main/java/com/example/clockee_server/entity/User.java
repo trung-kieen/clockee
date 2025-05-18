@@ -1,5 +1,11 @@
 package com.example.clockee_server.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
@@ -18,23 +24,17 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.Nationalized;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 /** User */
 @Getter
@@ -67,6 +67,7 @@ public class User implements UserDetails {
 
   @Column @Nationalized private String address;
 
+  @Builder.Default
   @Column(name = "is_deleted")
   private Boolean isDeleted = false;
 
@@ -85,7 +86,7 @@ public class User implements UserDetails {
       name = "roles_users", 
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
-  @JsonManagedReference //
+  @JsonManagedReference 
   Set<Role> roles;
 
   @Override

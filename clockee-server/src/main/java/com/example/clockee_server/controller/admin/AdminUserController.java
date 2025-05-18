@@ -66,7 +66,7 @@ public class AdminUserController {
     public ResponseEntity<String> updateUserdeletedStatus(
         @PathVariable Long id,
         @RequestParam("isDeleted") Boolean isDeleted){
-            adminUserService.upDateDeletedStatus(id, isDeleted);
+            adminUserService.updateDeletedStatus(id, isDeleted);
         return ResponseEntity.noContent().build();
     }
 

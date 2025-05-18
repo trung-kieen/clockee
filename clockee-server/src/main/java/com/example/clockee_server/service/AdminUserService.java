@@ -1,5 +1,12 @@
 package com.example.clockee_server.service;
+import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 import com.example.clockee_server.entity.Role;
 import com.example.clockee_server.entity.User;
@@ -7,26 +14,13 @@ import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.mapper.UserMapper;
 import com.example.clockee_server.payload.dto.UserDetailResponse;
 import com.example.clockee_server.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 
-import java.util.Set;
-
-import javax.management.RuntimeErrorException;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-@Service
 @RequiredArgsConstructor
+@Service
 public class AdminUserService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired private UserMapper userMapper;
+    
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public Page<UserDetailResponse> getAllUsers(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
@@ -51,7 +45,7 @@ public class AdminUserService {
         return user.getRoles();
     }
     
-    public void upDateDeletedStatus(Long id, boolean isDeleted){
+    public void updateDeletedStatus(Long id, boolean isDeleted){
         User user = userRepository.findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("User not found"));
         
