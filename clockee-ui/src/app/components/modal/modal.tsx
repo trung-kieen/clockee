@@ -5,10 +5,14 @@ const ClockeeModal = ({
   isOpen,
   onClose,
   children,
+  className = "",
+  width = "auto",
 }: {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  className?: string;
+  width?: string | undefined | number;
 }) => {
   return (
     <Modal
@@ -25,13 +29,13 @@ const ClockeeModal = ({
         },
         content: {
           position: "static",
-          width: "auto",
+          width: width,
           maxWidth: "90%",
           padding: "20px",
           textAlign: "center",
         },
       }}
-      className="shadow rounded-xl m-10 bg-white min-h-60 min-w-80 flex items-center justify-center flex-col"
+      className={`shadow rounded-xl m-10 bg-white min-h-60 min-w-80 flex items-center justify-center flex-col ${className}`}
     >
       {children}
     </Modal>

@@ -63,6 +63,8 @@ export class AdminProductControllerService {
    * @param page
    * @param size
    * @param name
+   * @param sortBy
+   * @param direction
    * @returns PageAdminProductResponse OK
    * @throws ApiError
    */
@@ -70,6 +72,8 @@ export class AdminProductControllerService {
     page?: number,
     size: number = 5,
     name: string = "",
+    sortBy?: string,
+    direction?: string,
   ): CancelablePromise<PageAdminProductResponse> {
     return __request(OpenAPI, {
       method: "GET",
@@ -78,6 +82,8 @@ export class AdminProductControllerService {
         page: page,
         size: size,
         name: name,
+        sortBy: sortBy,
+        direction: direction,
       },
     });
   }

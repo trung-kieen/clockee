@@ -2,7 +2,11 @@
 
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
-import { AdminOrderControllerService, FinancialReportControllerService, OrderDTO } from "@/gen";
+import {
+  AdminOrderControllerService,
+  FinancialReportControllerService,
+  OrderDTO,
+} from "@/gen";
 import { logger } from "@/util/logger";
 import { UNIT } from "@/config/app-config";
 import AdminMainCard from "@/app/components/card/admin-card";
@@ -41,24 +45,35 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+<<<<<<< HEAD
         const revenueData = await FinancialReportControllerService.geFinancialReport(year)
         const profitData = await AdminOrderControllerService.getMonthlyRevenueInYear(year);
+=======
+        const revenueData =
+          await FinancialReportControllerService.geFinancialReport(year);
+        const profitData =
+          await AdminOrderControllerService.getMonthlyRevenueInYear(year);
+
+>>>>>>> dev
         // Chia dữ liệu cho 1 triệu để hiển thị dạng triệu VNĐ
         const formattedRevenue = revenueData.map(
           (value: number) => value / UNIT,
         );
+<<<<<<< HEAD
         const formattedProfit = profitData.map(
           (value: number) => value / UNIT,
         );
+=======
+        const formattedProfit = profitData.map((value: number) => value / UNIT);
+
+>>>>>>> dev
         setChartData({
           revenue:
             formattedRevenue.length === 12
               ? formattedRevenue
               : EMPTY_CHART_VALUE,
           profit:
-            formattedProfit.length === 12
-              ? formattedProfit
-              : EMPTY_CHART_VALUE,
+            formattedProfit.length === 12 ? formattedProfit : EMPTY_CHART_VALUE,
         });
       } catch (error) {
         logger.error("Error fetching data:", error);
@@ -162,14 +177,13 @@ const AdminDashboardPage: React.FC = () => {
     const fetchStats = async () => {
       setStatsLoading(true);
       try {
-        const resp = await AdminOrderControllerService.getYearlyOrder(selectedYear);
-        setStats(resp)
+        const resp =
+          await AdminOrderControllerService.getYearlyOrder(selectedYear);
+        setStats(resp);
       } catch (error) {
         logger.error(error);
-
       }
-      setStatsLoading(false)
-
+      setStatsLoading(false);
     };
 
     fetchStats();

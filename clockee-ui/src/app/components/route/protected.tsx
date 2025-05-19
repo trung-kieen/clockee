@@ -17,7 +17,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push("login" + "?redirect=" + pathname);
+      router.push("/login" + "?redirect=" + pathname);
     } else {
       setLoading(false);
     }
@@ -37,7 +37,7 @@ interface RoleRouteProps {
 export const RoleRoute = ({ children, role }: RoleRouteProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
-  const { getRoles } = useAuth();
+  const { getRoles, isAuthenticated } = useAuth();
   const storedRole = getRoles();
   useEffect(() => {
     if (!storedRole.includes(role)) {

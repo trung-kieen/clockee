@@ -2,7 +2,7 @@ package com.example.clockee_server.controller.admin;
 
 import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.payload.dto.BrandDTO;
-import com.example.clockee_server.service.BrandService;
+import com.example.clockee_server.service.admin.BrandService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Brand = {
-  brandId?: number;
-  name?: string;
-  isDeleted?: boolean;
+export type PurchaseItemResponse = {
+  productId?: number;
+  quantity?: number;
+  price?: number;
+  supplierId?: number;
 };

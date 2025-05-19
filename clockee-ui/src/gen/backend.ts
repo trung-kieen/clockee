@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-04-27 20:19:46.
+// Generated using typescript-generator version 3.2.1263 on 2025-05-18 08:26:12.
 
 export interface Brand {
   brandId: number;
@@ -53,12 +53,22 @@ export interface Product {
 
 export interface Purchase {
   purchaseId: number;
+  items: PurchaseItem[];
+  status: PurchaseStatus;
+  createdAt: Date;
+  totalPrice: number;
+  createdBy: User;
+}
+
+export interface PurchaseItem {
+  purchaseItemId: number;
   product: Product;
   supplier: Supplier;
   price: number;
   quantity: number;
-  totalPrice: number;
   createdAt: Date;
+  purchase: Purchase;
+  totalPrice: number;
 }
 
 export interface Role extends GrantedAuthority {
@@ -83,6 +93,7 @@ export interface User extends UserDetails {
   phone: string;
   address: string;
   isDeleted: boolean;
+  purchases: Purchase[];
   verificationCode: VerificationCode;
   roles: Role[];
   verified: boolean;
@@ -114,10 +125,10 @@ export interface UserDetails extends Serializable {
   enabled: boolean;
   username: string;
   password: string;
+  authorities: GrantedAuthority[];
   accountNonExpired: boolean;
   accountNonLocked: boolean;
   credentialsNonExpired: boolean;
-  authorities: GrantedAuthority[];
 }
 
 export interface Serializable {}
@@ -148,6 +159,12 @@ export const enum RoleName {
   CUSTOMER = "CUSTOMER",
   PRODUCT_ADMIN = "PRODUCT_ADMIN",
   INVENTORY_MANAGER = "INVENTORY_MANAGER",
+}
+
+export const enum PurchaseStatus {
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  SUCCESS = "SUCCESS",
 }
 
 function uriEncoding(

@@ -1,4 +1,4 @@
-package com.example.clockee_server.service;
+package com.example.clockee_server.service.admin;
 
 import com.example.clockee_server.email.dto.OrderEmailContext;
 import com.example.clockee_server.entity.Order;

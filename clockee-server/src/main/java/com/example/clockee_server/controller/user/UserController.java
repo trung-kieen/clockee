@@ -5,7 +5,7 @@ import com.example.clockee_server.entity.User;
 import com.example.clockee_server.payload.request.ChangePasswordRequest;
 import com.example.clockee_server.payload.request.UpdateUserDetailsRequest;
 import com.example.clockee_server.payload.response.CurrentUserDetails;
-import com.example.clockee_server.service.UserService;
+import com.example.clockee_server.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

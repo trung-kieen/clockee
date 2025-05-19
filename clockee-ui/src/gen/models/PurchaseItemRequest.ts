@@ -2,11 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Supplier = {
+export type PurchaseItemRequest = {
+  productId?: number;
+  quantity?: number;
+  price?: number;
   supplierId?: number;
-  name?: string;
-  address?: string;
-  phone?: string;
-  email?: string;
-  isDeleted?: boolean;
 };

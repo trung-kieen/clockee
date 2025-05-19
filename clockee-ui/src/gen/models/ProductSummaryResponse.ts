@@ -9,4 +9,5 @@ export type ProductSummaryResponse = {
   sellPrice?: number;
   type?: string;
   isActive?: boolean;
+  stock?: number;
 };

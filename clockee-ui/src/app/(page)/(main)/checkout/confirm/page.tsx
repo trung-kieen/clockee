@@ -3,7 +3,7 @@ import { MapPin, CreditCard } from "lucide-react";
 import { useCart } from "@/lib/hooks/use-cart";
 import React, { MouseEvent } from "react";
 import { formatVND } from "@/util/currency";
-import { CheckoutControllerService } from "@/gen";
+import { OrderControllerService } from "@/gen";
 import { logger } from "@/util/logger";
 import { ProductImage } from "@/app/components/common/base-64-image";
 import Thumbnail from "@/app/components/common/thumbnail";
@@ -23,7 +23,7 @@ const CheckoutAddressPage = () => {
   const createOrderHanler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      CheckoutControllerService.createOrder({
+      OrderControllerService.createOrder({
         phone: deliveryDetails.phone,
         address: String(deliveryDetails.address),
         items: selectedItems.map((item) => ({

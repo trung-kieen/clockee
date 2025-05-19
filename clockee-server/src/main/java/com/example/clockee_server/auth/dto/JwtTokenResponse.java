@@ -17,7 +17,6 @@ public class JwtTokenResponse {
   // Intend to test, in product not refresh token response in payload. It store in cookie instead.
   private String refreshToken;
 
-
   private String type = "Bearer";
   private Long userId;
   private String username;

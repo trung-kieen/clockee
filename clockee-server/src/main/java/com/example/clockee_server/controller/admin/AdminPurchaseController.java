@@ -1,11 +1,22 @@
 package com.example.clockee_server.controller.admin;
 
-import com.example.clockee_server.entity.Purchase;
-import com.example.clockee_server.service.PurchaseService;
-import java.util.List;
+import com.example.clockee_server.auth.annotation.CurrentUser;
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.entity.User;
+import com.example.clockee_server.payload.PageResponse;
+import com.example.clockee_server.payload.request.CreatePurchaseRequest;
+import com.example.clockee_server.payload.response.PurchaseResponse;
+import com.example.clockee_server.payload.response.PurchaseSummary;
+import com.example.clockee_server.service.admin.PurchaseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/purchase")
@@ -13,21 +24,20 @@ import org.springframework.web.bind.annotation.*;
 public class AdminPurchaseController {
   private final PurchaseService purchaseService;
 
-  @GetMapping("/history")
-  public ResponseEntity<List<Purchase>> getPurchaseHistory() {
-    List<Purchase> purchaseHistory = purchaseService.getPurchaseHistory();
+  @GetMapping
+  public ResponseEntity<PageResponse<PurchaseSummary>> getPurchaseHistory(
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size) {
+    var purchaseHistory = purchaseService.getPurchaseHistory(page, size);
 
     return ResponseEntity.ok(purchaseHistory);
   }
 
-  @PostMapping("/add")
-  public ResponseEntity<Purchase> addPurchase(
-      @RequestParam Long productId,
-      @RequestParam Long supplierId,
-      @RequestParam Long quantity,
-      @RequestParam Double price) {
-    Purchase purchase = purchaseService.addPurchase(productId, supplierId, quantity, price);
-
-    return ResponseEntity.ok(purchase);
+  /** Create purchase on list of product - supplier Rental get more product from supplier */
+  @PostMapping
+  public ResponseEntity<PurchaseResponse> addPurchase(
+      @CurrentUser User autditUser, @Valid @RequestBody CreatePurchaseRequest purchaseRequest) {
+    PurchaseResponse response = purchaseService.create(purchaseRequest, autditUser);
+    return ResponseEntity.ok(response);
   }
 }

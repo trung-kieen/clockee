@@ -2,44 +2,45 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Purchase } from "../models/Purchase";
+import type { CreatePurchaseRequest } from "../models/CreatePurchaseRequest";
+import type { PageResponsePurchaseSummary } from "../models/PageResponsePurchaseSummary";
+import type { PurchaseResponse } from "../models/PurchaseResponse";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 export class AdminPurchaseControllerService {
   /**
-   * @param productId
-   * @param supplierId
-   * @param quantity
-   * @param price
-   * @returns Purchase OK
+   * @param page
+   * @param size
+   * @returns PageResponsePurchaseSummary OK
    * @throws ApiError
    */
-  public static addPurchase(
-    productId: number,
-    supplierId: number,
-    quantity: number,
-    price: number,
-  ): CancelablePromise<Purchase> {
+  public static getPurchaseHistory(
+    page?: number,
+    size: number = 10,
+  ): CancelablePromise<PageResponsePurchaseSummary> {
     return __request(OpenAPI, {
-      method: "POST",
-      url: "/purchase/add",
+      method: "GET",
+      url: "/purchase",
       query: {
-        productId: productId,
-        supplierId: supplierId,
-        quantity: quantity,
-        price: price,
+        page: page,
+        size: size,
       },
     });
   }
   /**
-   * @returns Purchase OK
+   * @param requestBody
+   * @returns PurchaseResponse OK
    * @throws ApiError
    */
-  public static getPurchaseHistory(): CancelablePromise<Array<Purchase>> {
+  public static addPurchase(
+    requestBody: CreatePurchaseRequest,
+  ): CancelablePromise<PurchaseResponse> {
     return __request(OpenAPI, {
-      method: "GET",
-      url: "/purchase/history",
+      method: "POST",
+      url: "/purchase",
+      body: requestBody,
+      mediaType: "application/json",
     });
   }
 }

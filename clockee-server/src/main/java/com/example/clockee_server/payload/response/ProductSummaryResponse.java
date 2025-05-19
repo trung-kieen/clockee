@@ -16,4 +16,5 @@ public class ProductSummaryResponse {
   private Double sellPrice;
   private String type;
   private Boolean isActive;
+  private Long stock;
 }

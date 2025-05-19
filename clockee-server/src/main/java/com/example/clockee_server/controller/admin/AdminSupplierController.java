@@ -2,7 +2,7 @@ package com.example.clockee_server.controller.admin;
 
 import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.payload.dto.SupplierDTO;
-import com.example.clockee_server.service.SupplierService;
+import com.example.clockee_server.service.admin.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

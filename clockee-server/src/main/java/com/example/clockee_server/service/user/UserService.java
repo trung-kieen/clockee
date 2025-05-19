@@ -1,4 +1,4 @@
-package com.example.clockee_server.service;
+package com.example.clockee_server.service.user;
 
 import com.example.clockee_server.auth.service.AuthenticationService;
 import com.example.clockee_server.entity.User;

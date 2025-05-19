@@ -13,5 +13,5 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @AuthenticationPrincipal
-@NotNull
+@NotNull(message = "Unauthorized request")
 public @interface CurrentUser {}

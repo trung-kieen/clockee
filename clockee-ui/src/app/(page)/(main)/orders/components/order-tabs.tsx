@@ -16,7 +16,7 @@ const OrderTab: React.FC<{
   return (
     <>
       <div className="tab-content bg-base-100 border-base-300 p-6">
-        {
+        {orders.length ? (
           <div className="overflow-x-auto">
             <table className="table table-zebra">
               {/* head */}
@@ -45,7 +45,11 @@ const OrderTab: React.FC<{
               {/* foot */}
             </table>
           </div>
-        }
+        ) : (
+          <div className="text-center">
+            <p>Hiện không có đơn hàng nào</p>
+          </div>
+        )}
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-name: Format
+name: Validate coding format
 
 on: [push, pull_request]
 
