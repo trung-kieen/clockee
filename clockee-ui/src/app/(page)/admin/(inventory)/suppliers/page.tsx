@@ -76,8 +76,6 @@ export default function SupplierAdminPage() {
             "Địa chỉ",
             "Số điện thoại",
             "Email",
-            "",
-            "",
           ]}
           renderRow={(item) => (
             <SupplierTableRow

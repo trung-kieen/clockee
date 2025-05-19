@@ -14,7 +14,7 @@ async function EditProductPage({ params }: EditProductPageProps) {
   );
 
   return (
-    <AdminMainCard title="Sản phẩm mới" goBack={true}>
+    <AdminMainCard title="CHI TIẾT SẢN PHẨM" goBack={true}>
       <EditProductForm model={product} />
     </AdminMainCard>
   );

@@ -27,8 +27,9 @@ const SupplierTableRow = ({
 
   const [isEditModal, setIsEditModal] = useState(false);
 
+  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
   return (
-    <tr>
+    <tr className="whitespace-nowrap text-xl text-center">
       <EditSupplierModal
         isOpen={isEditModal}
         onClose={() => setIsEditModal(false)}
@@ -42,21 +43,21 @@ const SupplierTableRow = ({
         title={"Xác nhận"}
         content={"Bạn có muốn xóa nhà cung cấp này?"}
       />
-      <td>{item.supplierId}</td>
-      <td>{item.name}</td>
-      <td>{item.address}</td>
-      <td>{item.phone}</td>
-      <td>{item.email}</td>
-      <td onClick={() => setIsEditModal(true)} className="hover:bg-gray-200">
+      <td className={`border-l-4 ${tdStyle}`}>{item.supplierId}</td>
+      <td className={`${tdStyle}`}>{item.name}</td>
+      <td className={`${tdStyle}`}>{item.address}</td>
+      <td className={`${tdStyle}`}>{item.phone}</td>
+      <td className={`${tdStyle}`}>{item.email}</td>
+      <td onClick={() => setIsEditModal(true)} className= {`hover:bg-gray-200 ${tdStyle}`}>
         {/* Action edit */}
-        <i className="fa fa-edit"></i>
+        <i className="fa fa-edit cursor-pointer"></i>
       </td>
       <td
         onClick={() => setIsOpenConfirmModal(true)}
-        className="hover:bg-gray-200"
+         className={`hover:bg-gray-200 ${tdStyle} border-r-4 `}
       >
         {/* Action delete */}
-        <i className="fa fa-trash"></i>
+        <i className="fa fa-trash cursor-pointer"></i>
       </td>
     </tr>
   );
