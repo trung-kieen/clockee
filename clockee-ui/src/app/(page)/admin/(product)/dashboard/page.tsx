@@ -45,28 +45,15 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-<<<<<<< HEAD
-        const revenueData = await FinancialReportControllerService.geFinancialReport(year)
-        const profitData = await AdminOrderControllerService.getMonthlyRevenueInYear(year);
-=======
         const revenueData =
           await FinancialReportControllerService.geFinancialReport(year);
         const profitData =
           await AdminOrderControllerService.getMonthlyRevenueInYear(year);
-
->>>>>>> dev
         // Chia dữ liệu cho 1 triệu để hiển thị dạng triệu VNĐ
         const formattedRevenue = revenueData.map(
           (value: number) => value / UNIT,
         );
-<<<<<<< HEAD
-        const formattedProfit = profitData.map(
-          (value: number) => value / UNIT,
-        );
-=======
         const formattedProfit = profitData.map((value: number) => value / UNIT);
-
->>>>>>> dev
         setChartData({
           revenue:
             formattedRevenue.length === 12
