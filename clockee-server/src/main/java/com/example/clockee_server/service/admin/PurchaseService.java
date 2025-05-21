@@ -7,6 +7,7 @@ import com.example.clockee_server.entity.PurchaseStatus;
 import com.example.clockee_server.entity.Supplier;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.exception.ApiException;
+import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.mapper.MapperUtil;
 import com.example.clockee_server.mapper.PurchaseMapper;
 import com.example.clockee_server.message.AppMessage;
@@ -14,15 +15,19 @@ import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.payload.PageResponse;
 import com.example.clockee_server.payload.request.CreatePurchaseRequest;
 import com.example.clockee_server.payload.request.PurchaseItemRequest;
+import com.example.clockee_server.payload.response.PurchaseDetails;
+import com.example.clockee_server.payload.response.PurchaseItemDetails;
 import com.example.clockee_server.payload.response.PurchaseResponse;
 import com.example.clockee_server.payload.response.PurchaseSummary;
 import com.example.clockee_server.repository.ProductRepository;
 import com.example.clockee_server.repository.PurchaseRepository;
 import com.example.clockee_server.repository.SupplierRepository;
+import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -85,6 +90,7 @@ public class PurchaseService {
                   .supplier(supplierIdToSupplier.get(item.getSupplierId()))
                   .quantity(item.getQuantity())
                   .price(item.getPrice())
+                  .purchase(purchase)
                   .build();
             }));
     purchase.setItems(purchaseItems);
@@ -102,5 +108,20 @@ public class PurchaseService {
     Pageable pageable = PageRequest.of(page, size, Direction.DESC, "createdAt");
     Page<Purchase> purchasePage = purchaseRepository.findAll(pageable);
     return MapperUtil.mapPageResponse(purchasePage, purchaseMapper::purchaseToSummary);
+  }
+
+  @Transactional
+  public PurchaseDetails getPurchaseDetails(Long purchaseId) {
+
+    Purchase purchase =
+        purchaseRepository
+            .findById(purchaseId)
+            .orElseThrow(() -> new ResourceNotFoundException("purchase"));
+    ;
+
+    Set<PurchaseItem> purchaseItems = purchase.getItems();
+    Set<PurchaseItemDetails> items =
+        purchaseItems.stream().map(purchaseMapper::purchaseToDetails).collect(Collectors.toSet());
+    return PurchaseDetails.builder().purchaseId(purchase.getPurchaseId()).items(items).build();
   }
 }

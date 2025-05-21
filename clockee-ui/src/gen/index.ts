@@ -35,6 +35,8 @@ export type { PageResponsePurchaseSummary } from "./models/PageResponsePurchaseS
 export type { PageSupplierDTO } from "./models/PageSupplierDTO";
 export type { ProductDetailsResponse } from "./models/ProductDetailsResponse";
 export type { ProductSummaryResponse } from "./models/ProductSummaryResponse";
+export type { PurchaseDetails } from "./models/PurchaseDetails";
+export type { PurchaseItemDetails } from "./models/PurchaseItemDetails";
 export type { PurchaseItemRequest } from "./models/PurchaseItemRequest";
 export type { PurchaseItemResponse } from "./models/PurchaseItemResponse";
 export type { PurchaseResponse } from "./models/PurchaseResponse";

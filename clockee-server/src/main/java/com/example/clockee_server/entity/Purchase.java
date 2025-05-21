@@ -52,6 +52,6 @@ public class Purchase {
   @Column private Double totalPrice;
 
   @ManyToOne
-  @JoinColumn(name = "product_id", nullable = false)
+  @JoinColumn(name = "created_by", nullable = false)
   private User createdBy;
 }

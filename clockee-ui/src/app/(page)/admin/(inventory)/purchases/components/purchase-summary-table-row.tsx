@@ -1,8 +1,18 @@
+/**
+ * Summary the purchase product history
+ *
+ */
 "use client";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { formatVND } from "@/util/currency";
-import { PurchaseSummary } from "@/gen";
+import {
+  AdminPurchaseControllerService,
+  PurchaseDetails,
+  PurchaseSummary,
+} from "@/gen";
+import PurchaseDetailsModal from "./view-purchase-modal";
+import { logger } from "@/util/logger";
 
 type PurchaseTableRowProps = {
   item: PurchaseSummary;
@@ -10,23 +20,30 @@ type PurchaseTableRowProps = {
   onChange: (oldItem: PurchaseSummary, newItem: PurchaseSummary) => void;
 };
 
+// Just fetch details information on click only
+
 const PurchaseSummaryTableRow = ({
   item,
   onDelete,
   onChange,
 }: PurchaseTableRowProps) => {
-  const handleDelete = async () => {
-    try {
-      onDelete(item);
-      toast("Xóa thành công");
-    } catch (e) {
-      toast(e as string);
-    }
-  };
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [purchaseDetails, setPurchaseDetails] = useState({} as PurchaseDetails);
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const handleChange = async (newItemValue: PurchaseSummary) => {
-    onChange(item, newItemValue);
+  const handleViewPurchaseDetails = async () => {
+    try {
+      if (!item.purchaseId) {
+        return;
+      }
+      const resp = await AdminPurchaseControllerService.getPurchaseDetails(
+        item.purchaseId,
+      );
+      setPurchaseDetails(resp);
+    } catch (error) {
+      logger.info(error);
+      toast("Có lỗi xảy ra");
+    }
+    setIsViewModalOpen(true);
   };
 
   return (
@@ -40,29 +57,18 @@ const PurchaseSummaryTableRow = ({
       </td>
       <td>{item.createdByUsername}</td>
       <td>{formatVND(item.totalPrice)}</td>
-      <td
-        onClick={() => {
-          setIsEditModalOpen(true);
-        }}
-        className="hover:bg-gray-200"
-      >
-        {/* Action edit */}
-        <i className="fa fa-edit"></i>
-      </td>
-      <td onClick={handleDelete} className="hover:bg-gray-200">
-        {/* Action delete */}
-        <i className="fa fa-trash"></i>
+      <td onClick={handleViewPurchaseDetails} className="hover:bg-gray-200">
+        {/* Action to view details */}
+        <i className="fa fa-external-link-alt"></i>
       </td>
 
-      {/*
-        *
-      <EditPurchaseItemModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        handleAddItem={handleChange}
-        model={item}
+      <PurchaseDetailsModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        // handleAddItem={handleChange}
+        model={purchaseDetails}
+        // model={item.purchaseId}
       />
-        */}
     </tr>
   );
 };

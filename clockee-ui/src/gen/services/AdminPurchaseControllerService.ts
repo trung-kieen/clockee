@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { CreatePurchaseRequest } from "../models/CreatePurchaseRequest";
 import type { PageResponsePurchaseSummary } from "../models/PageResponsePurchaseSummary";
+import type { PurchaseDetails } from "../models/PurchaseDetails";
 import type { PurchaseResponse } from "../models/PurchaseResponse";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
@@ -41,6 +42,24 @@ export class AdminPurchaseControllerService {
       url: "/purchase",
       body: requestBody,
       mediaType: "application/json",
+    });
+  }
+  /**
+   * Get purchase details
+   * Show a list of item assosiate with purchase
+   * @param purchaseId
+   * @returns PurchaseDetails OK
+   * @throws ApiError
+   */
+  public static getPurchaseDetails(
+    purchaseId: number,
+  ): CancelablePromise<PurchaseDetails> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/purchase/purchase/{purchaseId}",
+      path: {
+        purchaseId: purchaseId,
+      },
     });
   }
 }

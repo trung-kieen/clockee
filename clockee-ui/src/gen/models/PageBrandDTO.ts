@@ -13,8 +13,8 @@ export type PageBrandDTO = {
   content?: Array<BrandDTO>;
   number?: number;
   sort?: SortObject;
-  numberOfElements?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
   empty?: boolean;
 };

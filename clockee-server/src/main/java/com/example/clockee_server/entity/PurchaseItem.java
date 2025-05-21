@@ -33,11 +33,11 @@ public class PurchaseItem {
   @Column(name = "purchase_item_id")
   private Long purchaseItemId;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id", nullable = false)
   private Product product;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "supplier_id", nullable = false)
   private Supplier supplier;
 
@@ -52,6 +52,7 @@ public class PurchaseItem {
   private LocalDateTime createdAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "purchase_id", nullable = false)
   private Purchase purchase;
 
   @Transient

@@ -75,7 +75,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      AuthControllerService.logoutUser();
+      await AuthControllerService.logoutUser();
+
+      removeRoles();
+      removeUsername();
     } catch (error) {
       logger.error(error);
     }
