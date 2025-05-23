@@ -8,8 +8,10 @@ on:
     branches:
       - main
 
+
+
 jobs:
-  build-and-push:
+  build-docker:
     runs-on: ubuntu-latest
 
     steps:
