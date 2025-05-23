@@ -55,8 +55,9 @@ services:
   ### FOR FAST DEVELOPMENT I PREFER TO MANNUALY RUN BACKEND AND FRONTEND END INSTEAD OF SERVICE ###
 
   redis:
-    image: redis:bookworm
-    container_name: redis
+    image: redis:7.2.4
+    container_name: clockee-redis
+    restart: always
     ports:
       - "6379:6379"
     networks:

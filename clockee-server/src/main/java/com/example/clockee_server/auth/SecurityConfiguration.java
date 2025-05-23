@@ -85,6 +85,8 @@ public class SecurityConfiguration {
           customizer.configurationSource(corsConfigurationSource());
         });
 
+    // http.requiresChannel(chanel -> chanel.anyRequest().requiresSecure());
+
     return http.build();
   }
 

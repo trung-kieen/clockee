@@ -1,16 +1,5 @@
 package com.example.clockee_server.controller;
 
-import com.example.clockee_server.auth.dto.CreateUserRequest;
-import com.example.clockee_server.auth.dto.JwtTokenResponse;
-import com.example.clockee_server.auth.dto.LoginRequest;
-import com.example.clockee_server.auth.dto.RefreshTokenResponse;
-import com.example.clockee_server.auth.service.AuthenticationService;
-import com.example.clockee_server.config.ApplicationProperties;
-import com.example.clockee_server.message.AppMessage;
-import com.example.clockee_server.message.MessageKey;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,24 +9,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.clockee_server.auth.dto.CreateUserRequest;
+import com.example.clockee_server.auth.dto.JwtTokenResponse;
+import com.example.clockee_server.auth.dto.LoginRequest;
+import com.example.clockee_server.auth.dto.RefreshTokenResponse;
+import com.example.clockee_server.auth.service.AuthenticationService;
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.message.AppMessage;
+import com.example.clockee_server.message.MessageKey;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 /** AuthController */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
   private final AuthenticationService authService;
-  private final String refreshTokenCookieName = "clockee-refresh";
-  private final ApplicationProperties applicationProperties;
 
   @PostMapping("/login")
   public ResponseEntity<JwtTokenResponse> login(
       @RequestBody LoginRequest req, HttpServletResponse response) {
-    JwtTokenResponse tokenResp = authService.login(req);
-    // Add cookie token as header of response
-    authService.addRefreshTokenAsCookie(
-        refreshTokenCookieName, tokenResp.getRefreshToken(), response);
-
-    tokenResp.setRefreshToken(null);
+    JwtTokenResponse tokenResp = authService.login(req, response);
     return ResponseEntity.ok(tokenResp);
   }
 
@@ -57,13 +52,13 @@ public class AuthController {
   @GetMapping("/logout")
   public ResponseEntity<?> logoutUser(HttpServletResponse response) {
     // Clear cookie
-    authService.clearRefreshTokenCookie(refreshTokenCookieName, response);
+    authService.clearRefreshTokenCookie(ApplicationConstants.REFRESH_COOKIE_NAME , response);
     return ResponseEntity.accepted().build();
   }
 
   @PostMapping("/refresh")
   public ResponseEntity<RefreshTokenResponse> refreshAccessToken(
-      @CookieValue(name = refreshTokenCookieName, required = false) String refreshToken,
+      @CookieValue(name = ApplicationConstants.REFRESH_COOKIE_NAME, required = false) String refreshToken,
       HttpServletResponse response) {
     RefreshTokenResponse resp = authService.refresh(refreshToken, response);
     return ResponseEntity.ok(resp);
