@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class JwtTokenResponse {
   private String accessToken;
 
-
   private String type = "Bearer";
   private Long userId;
   private String username;

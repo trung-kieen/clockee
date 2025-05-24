@@ -1,19 +1,5 @@
 package com.example.clockee_server.auth.service.impl;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.jobrunr.scheduling.BackgroundJobRequest;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;
@@ -34,10 +20,21 @@ import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.repository.RoleRepository;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.jobrunr.scheduling.BackgroundJobRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -82,7 +79,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public JwtTokenResponse login(LoginRequest req,  HttpServletResponse response) {
+  public JwtTokenResponse login(LoginRequest req, HttpServletResponse response) {
     // Authenticate with username password
     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
         new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
@@ -113,7 +110,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     resp.setVerified(currentUser.isVerified());
 
     addRefreshTokenAsCookie(ApplicationConstants.REFRESH_COOKIE_NAME, refreshToken, response);
-
 
     return resp;
   }
