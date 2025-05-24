@@ -17,10 +17,10 @@ import lombok.extern.log4j.Log4j2;
 public class HttpRedirectRequest {
 
 
-  @Value("${server.insecure-port}")
+  @Value("${server.insecure-port:8081}")
   private int insecurePort;
 
-  @Value("${server.port}")
+  @Value("${server.port:8080}")
   private int securePort;
 
   @Bean

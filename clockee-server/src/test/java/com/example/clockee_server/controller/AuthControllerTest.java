@@ -1,6 +1,5 @@
 package com.example.clockee_server.controller;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
@@ -58,7 +57,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/auth/register")
-                .with(csrf())
+                .secure(true)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestContent))
         .andExpect(MockMvcResultMatchers.status().isOk());
@@ -77,6 +76,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/auth/register")
+                .secure(true)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestContent))
         .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
@@ -95,6 +95,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/auth/login")
+                .secure(true)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestContent))
         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -108,6 +109,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
     mockMvc
         .perform(
             MockMvcRequestBuilders.get("/auth/verify-email")
+                .secure(true)
                 .param("userId", "1")
                 .param("token", "921222"))
         .andExpect(MockMvcResultMatchers.status().isAccepted());
