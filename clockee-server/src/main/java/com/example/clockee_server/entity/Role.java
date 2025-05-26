@@ -1,6 +1,8 @@
 package com.example.clockee_server.entity;
 
 import com.example.clockee_server.util.Client;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,7 @@ public class Role implements GrantedAuthority {
   private RoleName roleName;
 
   @ManyToMany(mappedBy = "roles")
+  @JsonBackReference
   Set<User> users;
 
   @Override

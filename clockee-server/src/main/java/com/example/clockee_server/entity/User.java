@@ -1,8 +1,16 @@
 package com.example.clockee_server.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,10 +32,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.Nationalized;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 /** User */
 @Getter
@@ -60,6 +70,7 @@ public class User implements UserDetails {
 
   @Column @Nationalized private String address;
 
+  @Builder.Default
   @Column(name = "is_deleted")
   private Boolean isDeleted = false;
 
@@ -79,9 +90,10 @@ public class User implements UserDetails {
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-      name = "roles_users",
+      name = "roles_users", 
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @JsonManagedReference 
   Set<Role> roles;
 
   @Override
@@ -100,6 +112,8 @@ public class User implements UserDetails {
     PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
     this.password = passwordEncoder.encode(newPassword);
   }
+
+
 
   @Override
   public String getPassword() {
@@ -131,4 +145,15 @@ public class User implements UserDetails {
     // Alow user to login before verified
     return true;
   }
+
+  public List<Long> getRoleIds() {
+    if (roles == null) return new ArrayList<>();
+    return roles.stream()
+            .map(Role::getRoleId)
+            .collect(Collectors.toList());
+  }
+
+
 }
+
+

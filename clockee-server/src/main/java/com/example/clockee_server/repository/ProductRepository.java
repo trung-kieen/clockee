@@ -3,8 +3,10 @@ package com.example.clockee_server.repository;
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.vo.BestSellerProductVo;
 import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
