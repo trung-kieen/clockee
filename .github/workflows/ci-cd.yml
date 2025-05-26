@@ -1,15 +1,12 @@
-name: Basic pipeline
+name: Docker image
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-and-push:
+  build-docker:
     runs-on: ubuntu-latest
 
     steps:

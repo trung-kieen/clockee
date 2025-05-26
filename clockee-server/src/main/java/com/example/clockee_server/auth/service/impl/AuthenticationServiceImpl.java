@@ -6,6 +6,7 @@ import com.example.clockee_server.auth.dto.LoginRequest;
 import com.example.clockee_server.auth.dto.RefreshTokenResponse;
 import com.example.clockee_server.auth.jwt.JwtTokenProvider;
 import com.example.clockee_server.auth.service.AuthenticationService;
+import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.config.ApplicationProperties;
 import com.example.clockee_server.entity.Role;
 import com.example.clockee_server.entity.RoleName;
@@ -78,7 +79,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public JwtTokenResponse login(LoginRequest req) {
+  public JwtTokenResponse login(LoginRequest req, HttpServletResponse response) {
     // Authenticate with username password
     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
         new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
@@ -100,15 +101,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             .collect(Collectors.toList());
 
     String jwtToken = jwtTokenProvider.genenerateToken(currentUser);
-    // TODO: use token provider
     String refreshToken = jwtTokenProvider.generateRefreshToken(currentUser);
     var resp = new JwtTokenResponse();
     resp.setUsername(currentUser.getEmail());
     resp.setUserId(currentUser.getUserId());
     resp.setAccessToken(jwtToken);
-    resp.setRefreshToken(refreshToken);
     resp.setRoles(roles);
     resp.setVerified(currentUser.isVerified());
+
+    addRefreshTokenAsCookie(ApplicationConstants.REFRESH_COOKIE_NAME, refreshToken, response);
 
     return resp;
   }

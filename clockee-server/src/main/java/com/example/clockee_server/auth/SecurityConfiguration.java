@@ -85,6 +85,8 @@ public class SecurityConfiguration {
           customizer.configurationSource(corsConfigurationSource());
         });
 
+    http.requiresChannel(chanel -> chanel.anyRequest().requiresSecure());
+
     return http.build();
   }
 
@@ -93,7 +95,6 @@ public class SecurityConfiguration {
     return new BCryptPasswordEncoder();
   }
 
-  /** Danh sach trang cac origin (ip,port) duoc cho phep request Giam thieu tan cong cors */
   private CorsConfigurationSource corsConfigurationSource() {
     return new CorsConfigurationSource() {
       @Override
@@ -102,6 +103,7 @@ public class SecurityConfiguration {
         config.setAllowedOrigins(applicationProperties.getAllowedOrigins());
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
+        // config.setAllowedHeaders(applicationProperties.getAllowedOrigins());
         config.setAllowCredentials(true);
         return config;
       }
@@ -118,7 +120,6 @@ public class SecurityConfiguration {
   }
   ;
 
-  /** Cung cap xac thuc nguoi dung Xac dinh nguoi dung nao thuc hien request */
   @Bean
   public AuthenticationManager authenticationManager() {
     DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();

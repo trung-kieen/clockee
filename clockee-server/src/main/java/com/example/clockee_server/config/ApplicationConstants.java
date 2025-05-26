@@ -9,4 +9,6 @@ public class ApplicationConstants {
   public static final String user_url_prefix = "/public";
   public static final String USER_URL_PREFIX = "/user";
   public static final String ADMIN_URL_PREFIX = "/admin";
+
+  public static final String REFRESH_COOKIE_NAME = "clockee-refresh";
 }

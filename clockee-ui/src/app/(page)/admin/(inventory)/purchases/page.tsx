@@ -3,11 +3,9 @@ import AdminMainCard from "@/app/components/card/admin-card";
 import DataTable from "@/app/components/common/data-table";
 import {
   AdminPurchaseControllerService,
-  PageResponseProductSummaryResponse,
   PageResponsePurchaseSummary,
   PurchaseSummary,
 } from "@/gen";
-import { useLazyPage } from "@/lib/hooks/use-lazy-load";
 import { usePage } from "@/lib/hooks/use-page-search";
 import { logger } from "@/util/logger";
 import React, { useState } from "react";
@@ -51,7 +49,6 @@ const PurchasesPage = () => {
               "Người tạo",
               "Thành tiền",
               "", // Edit
-              "", // Delete
             ]}
             renderRow={(item, index) => (
               <PurchaseSummaryTableRow

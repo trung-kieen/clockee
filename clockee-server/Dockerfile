@@ -1,3 +1,4 @@
+# Require build jar before
 FROM amazoncorretto:21.0.4
 LABEL maintainer = "trung-kieen"
 ENV HOSTNAME=clockee-db

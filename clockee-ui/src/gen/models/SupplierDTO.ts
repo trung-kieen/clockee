@@ -3,9 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type SupplierDTO = {
-  supplierId?: number;
-  name?: string;
-  address?: string;
-  phone?: string;
-  email?: string;
+    supplierId?: number;
+    name?: string;
+    address?: string;
+    phone?: string;
+    email?: string;
 };
+
