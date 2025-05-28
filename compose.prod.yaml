@@ -62,6 +62,9 @@ services:
     networks:
       - clockee-network
 
+    depends_on:
+      clockee-db:
+        condition: service_healthy
 
   clockee-web:
     image: trungkieen/clockee-web
@@ -76,6 +79,9 @@ services:
       - clockee-network
 
 
+    depends_on:
+      clockee-db:
+        condition: service_healthy
 
 
 networks:
