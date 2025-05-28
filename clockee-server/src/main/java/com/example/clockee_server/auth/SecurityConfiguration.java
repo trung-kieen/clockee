@@ -101,9 +101,9 @@ public class SecurityConfiguration {
       public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(applicationProperties.getAllowedOrigins());
+        // config.setAllowedOrigins(List.of("http://localhost:3000/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
-        // config.setAllowedHeaders(applicationProperties.getAllowedOrigins());
         config.setAllowCredentials(true);
         return config;
       }
@@ -117,8 +117,7 @@ public class SecurityConfiguration {
           .status(403)
           .build();
     };
-  }
-  ;
+  };
 
   @Bean
   public AuthenticationManager authenticationManager() {
