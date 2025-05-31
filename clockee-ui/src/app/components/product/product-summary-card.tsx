@@ -12,7 +12,7 @@ const ProductSummaryCard = ({
   return (
     <Link href={`/product/${product.productId}`}>
       <div className="card bg-base-100 w-50 shadow-sm cursor-pointer transition-transform hover:scale-105">
-        <figure>
+        <figure className="pt-6">
           {
             <Thumbnail className="h-[18rem] w-[18rem]">
               <ProductImage data={product.image} />
@@ -20,7 +20,7 @@ const ProductSummaryCard = ({
           }
         </figure>
         <div className="card-body flex items-center justify-center text-center">
-          <b>{product.name}</b>
+          <b className="text-xl">{product.name}</b>
           <h2 className="card-title">{formatVND(product.sellPrice)}</h2>
         </div>
       </div>

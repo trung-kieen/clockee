@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import {
   AdminOrderControllerService,
@@ -9,6 +9,7 @@ import {
 } from "@/gen";
 import { logger } from "@/util/logger";
 import { UNIT } from "@/config/app-config";
+import AdminMainCard from "@/app/components/card/admin-card";
 
 interface StatCardProps {
   title: string;
@@ -19,15 +20,13 @@ interface StatCardProps {
 const EMPTY_CHART_VALUE = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, bgColor }) => (
-  <div className="bg-white p-4 rounded-lg shadow flex items-center">
-    <div
-      className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 ${bgColor}`}
-    >
-      {icon}
+  <div className="bg-white p-4 rounded-lg shadow flex items-center border-2">
+    <div className={`w-20 h-20 rounded-full flex items-center justify-center mr-6 ${bgColor}`}>
+      <img src={`${icon}`} className="ml-1"/>
     </div>
     <div>
-      <div className="text-gray-500">{title}</div>
-      <div className="text-2xl font-bold">{value}</div>
+      <div className="text-gray-600 text-2xl">{title}</div>
+      <div className="text-3xl font-bold">{value}</div>
     </div>
   </div>
 );
@@ -45,19 +44,16 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-
       try {
         const revenueData =
           await FinancialReportControllerService.geFinancialReport(year);
         const profitData =
           await AdminOrderControllerService.getMonthlyRevenueInYear(year);
-
         // Chia dữ liệu cho 1 triệu để hiển thị dạng triệu VNĐ
         const formattedRevenue = revenueData.map(
           (value: number) => value / UNIT,
         );
         const formattedProfit = profitData.map((value: number) => value / UNIT);
-
         setChartData({
           revenue:
             formattedRevenue.length === 12
@@ -89,23 +85,12 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
         if (chartRef.current) {
           chartRef.current.destroy();
         }
-
         chartRef.current = new Chart(ctx, {
           type: "bar",
           data: {
             labels: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
+              "Tháng 1","Tháng 2","Tháng 3","Tháng 4","Tháng 5","Tháng 6",
+              "Tháng 7","Tháng 8","Tháng 9","Tháng 10","Tháng 11","Tháng 12",
             ],
             datasets: [
               {
@@ -147,7 +132,6 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
         });
       }
     }
-
     return () => {
       if (chartRef.current) {
         chartRef.current.destroy();
@@ -202,39 +186,30 @@ const AdminDashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 p-6 bg-gray-50">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <div className="text-2xl font-bold">Dashboard</div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4 mb-6">
+    <AdminMainCard title="THỐNG KÊ" goBack={false}>
+      <div className="grid grid-cols-3 gap-8 mb-4">
         <StatCard
           title="Tổng đơn"
           value={String(stats.totalOrders || "??")}
-          icon="📦"
-          bgColor="bg-yellow-100"
+          icon="/total.svg"
+          bgColor="bg-[#FFD700]/30"
         />
         <StatCard
           title="Đã giao hoàn thành"
           value={String(stats.finishOrders || "??")}
-          icon="🚚"
-          bgColor="bg-gray-100"
+          icon="/finish.svg"
+          bgColor="bg-[#FFD700]/30"
         />
         <StatCard
           title="Đơn ở trạng thái khác"
           value={String(stats.otherOrders || "??")}
-          icon="↩️"
+          icon="/cancel.svg"
           bgColor="bg-yellow-100"
         />
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-lg font-bold">
-            Báo cáo doanh thu và lợi nhuận theo tháng
-          </div>
+      <div className="bg-white p-4 rounded-lg shadow">
+        <div className="flex justify-end items-center mb-4">
           <div className="relative">
             <div
               className="flex items-center border border-gray-300 rounded px-3 py-1 cursor-pointer"
@@ -260,7 +235,9 @@ const AdminDashboardPage: React.FC = () => {
         </div>
         <SalesChart year={selectedYear} />
       </div>
-    </div>
+
+    </AdminMainCard>
+    
   );
 };
 

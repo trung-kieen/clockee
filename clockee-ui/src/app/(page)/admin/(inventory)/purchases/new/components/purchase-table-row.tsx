@@ -35,8 +35,11 @@ const PurchaseTableRow = ({
     onChange(item, newItemValue);
   };
 
+  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
+
   return (
-    <tr>
+    <>
+      <tr className="whitespace-nowrap text-xl text-center">
       <td>
         <Thumbnail className="size-[4rem]">
           <ProductImage data={item.productImage} />
@@ -50,14 +53,14 @@ const PurchaseTableRow = ({
         onClick={() => {
           setIsEditModalOpen(true);
         }}
-        className="hover:bg-gray-200"
+        className={`hover:bg-gray-200`}
       >
         {/* Action edit */}
-        <i className="fa fa-edit"></i>
-      </td>
-      <td onClick={handleDelete} className="hover:bg-gray-200">
+        <i className="fa fa-edit cursor-pointer"></i>
+      </td >
+      <td onClick={handleDelete} className= {`hover:bg-gray-200`}> 
         {/* Action delete */}
-        <i className="fa fa-trash"></i>
+        <i className="fa fa-trash cursor-pointer"></i>
       </td>
 
       <EditPurchaseItemModal
@@ -67,6 +70,8 @@ const PurchaseTableRow = ({
         model={item}
       />
     </tr>
+    </>
+    
   );
 };
 export default PurchaseTableRow;

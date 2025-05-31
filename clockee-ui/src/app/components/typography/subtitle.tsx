@@ -8,7 +8,7 @@ function Subtitle({
   children: ReactNode;
 }) {
   return (
-    <div className={`text-xl py-10 font-semibold ${styleClass}`}>
+    <div className={`text-4xl pt-2 pb-4 font-semibold ${styleClass}`}>
       {children}
     </div>
   );

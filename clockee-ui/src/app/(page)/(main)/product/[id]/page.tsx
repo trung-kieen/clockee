@@ -109,6 +109,7 @@ export default function ProductDetailsPage() {
           <div className="mt-4 ml-2">
             <div className="">
               <h1 className="font-bold">Mô tả sản phẩm:</h1>
+
               <p className="text-[#abb8c3]">
                 {product.description} Casio là thương hiệu lớn, được Anh Khuê
                 (đối tác độc quyền của Casio tại Việt Nam) đảm nhận phân phối.
