@@ -20,7 +20,8 @@ public class UserDetailResponse {
         this.email = user.getEmail();
         this.name = user.getName();
         this.phone = user.getPhone();
-        this.address = user.getAddress();      
+        this.address = user.getAddress(); 
+        this.isDeleted = user.getIsDeleted();     
     }
 
 }

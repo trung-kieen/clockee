@@ -114,19 +114,17 @@ const CreatePurchasePage = () => {
           onClose={() => setIsAddModalOpen(false)}
           handleAddItem={handleAddItem}
         />
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full mt-2">
           <div className="flex flex-col gap-2 items-center overflow-y-auto flex-grow">
             <DataTable<PurchaseItemDetails>
               data={purchase?.items || []}
               emptyMessage="Chưa có sản phẩm nào được nhập"
               headers={[
-                "", // Image
+                "Hình ảnh", // Image
                 "Sản phẩm",
                 "Nhà cung cấp",
                 "Số lượng",
                 "Giá",
-                "", // Edit
-                "", // Delete
               ]}
               renderRow={(item, index) => (
                 <PurchaseTableRow
@@ -139,7 +137,7 @@ const CreatePurchasePage = () => {
             />
           </div>
 
-          <div className="shrink-0">
+          <div className="shrink-0 mt-2">
             {purchase.items.length > 0 && (
               <div className="flex flex-row justify-center">
                 <button

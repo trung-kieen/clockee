@@ -20,7 +20,7 @@ DataTable = <T,>({
     return <p className="text-lg">{emptyMessage}</p>;
   }
   return (
-    <div className="overflow-x-auto table w-full text-center">
+    <div className="overflow-x-auto table w-full text-center mt-2">
       <table className="table w-100% border-separate border-spacing-0">
         <thead className="text-xl text-black text-center px-4 py-3">
           <tr >

@@ -5,7 +5,7 @@ import {
   AdminProductResponse,
   PageAdminProductResponse,
 } from "@/gen";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import Link from "next/link";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
@@ -31,6 +31,9 @@ export default function ProductAdminPage() {
     usePageSearch<PageAdminProductResponse>({
       fetchData: fetchProducts,
     });
+  function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
+    setQuery(event.target.value);
+  }
   return (
     <AdminMainCard title="Sản phẩm" goBack={false}>
       <div className="flex justify-between items-center mb-6">
