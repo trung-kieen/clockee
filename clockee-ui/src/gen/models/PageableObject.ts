@@ -2,13 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SortObject } from './SortObject';
+import type { SortObject } from "./SortObject";
 export type PageableObject = {
-    paged?: boolean;
-    pageNumber?: number;
-    pageSize?: number;
-    unpaged?: boolean;
-    offset?: number;
-    sort?: SortObject;
+  pageNumber?: number;
+  pageSize?: number;
+  paged?: boolean;
+  unpaged?: boolean;
+  offset?: number;
+  sort?: SortObject;
 };
-

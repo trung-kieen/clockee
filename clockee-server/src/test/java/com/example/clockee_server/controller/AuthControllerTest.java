@@ -1,6 +1,5 @@
 package com.example.clockee_server.controller;
 
-
 import com.example.clockee_server.auth.dto.CreateUserRequest;
 import com.example.clockee_server.auth.dto.JwtTokenResponse;
 import com.example.clockee_server.auth.dto.LoginRequest;

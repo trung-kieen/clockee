@@ -53,10 +53,9 @@ services:
     environment:
       - DBMS_HOST=clockee-db
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_PROFILES_ACTIVE=sa
-      - SPRING_PROFILES_ACTIVE=example_123
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=example_123
       - SPRING_MAIL_HOST=clockee-mail-server
-      - APP=clockee-mail-server
       - FRONTEND_HOST=clockee-web
 
     networks:

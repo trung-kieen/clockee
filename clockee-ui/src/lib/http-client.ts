@@ -4,6 +4,7 @@ import { AuthManager } from "@/lib/auth/AuthManager";
 import { toast } from "react-toastify";
 import { logger } from "@/util/logger";
 import { redirectAuthenticateAndGoBack } from "@/util/route";
+import { unauthorized } from "next/navigation";
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
@@ -60,13 +61,21 @@ const HttpClient = () => {
 
       if (!error.response) {
         // No network connectivity
-        toast("Network error");
-        return;
+        try {
+          toast("Network error");
+        } catch (e) {
+          logger.error("Network error: ", e);
+        } finally {
+          return;
+        }
       }
 
-      const unauthorized = error.response.status === 401;
+      const unAuthorizedStatus = 401;
+      const fobiddenStatus = 403;
+      const unauthorized = error.response.status === unAuthorizedStatus;
       const noAccessTokenAndForbidden =
-        error.response.status === 403 && !AuthManager.getAccessToken();
+        error.response.status === fobiddenStatus &&
+        !AuthManager.getAccessToken();
       if (unauthorized || noAccessTokenAndForbidden) {
         if (originalConfig.retry) {
           /**
@@ -104,7 +113,7 @@ const HttpClient = () => {
         return Promise.reject(error);
       }
 
-      if (error.response.status === 404) {
+      if (error?.response?.status === 404) {
         window.location.href = "/not-found";
       }
 

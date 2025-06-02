@@ -62,21 +62,21 @@ VALUES ('CUSTOMER'),
 -- Insert into User
 SET IDENTITY_INSERT users ON;
 INSERT INTO users (user_id, email, password, name, phone, address, is_deleted, is_verified)
-VALUES (1, 'nguyen.van.a@gmail.com', 'hashedpassword1', 'Nguyễn Văn An', '0912345678', '123 Nguyễn Trãi, Hà Nội', 0, 1),
-       (2, 'tran.thi.b@gmail.com', 'hashedpassword2', 'Trần Thị Bình', '0987654321', '456 Lê Lợi, TP.HCM', 0, 1),
-       (3, 'le.van.c@yahoo.com', 'hashedpassword3', 'Lê Văn Cường', '0909123456', '78 Hùng Vương, Đà Nẵng', 0, 1),
-       (4, 'pham.thi.d@gmail.com', 'hashedpassword4', 'Phạm Thị Dung', '0935123456', '12 Trần Phú, Huế', 0, 1),
-       (5, 'hoang.van.e@hotmail.com', 'hashedpassword5', 'Hoàng Văn Em', '0978123456', '34 Nguyễn Huệ, Nha Trang', 0, 1),
-       (6, 'vu.thi.f@gmail.com', 'hashedpassword6', 'Vũ Thị Phượng', '0918765432', '56 Phạm Ngũ Lão, Hà Nội', 0, 1),
-       (7, 'dang.van.g@yahoo.com', 'hashedpassword7', 'Đặng Văn Giang', '0945123456', '89 Điện Biên Phủ, TP.HCM', 0, 1),
-       (8, 'bui.thi.h@gmail.com', 'hashedpassword8', 'Bùi Thị Hạnh', '0967123456', '23 Lý Thường Kiệt, Đà Lạt', 0, 1),
-       (9, 'do.van.k@hotmail.com', 'hashedpassword9', 'Đỗ Văn Khánh', '0923123456', '67 Hai Bà Trưng, Cần Thơ', 0, 1),
-       (10, 'ngo.thi.l@gmail.com', 'hashedpassword10', 'Ngô Thị Lan', '0956123456', '45 Tôn Đức Thắng, Hải Phòng', 0, 1),
-       (11, 'truong.van.m@yahoo.com', 'hashedpassword11', 'Trương Văn Minh', '0938123456', '90 Lê Đại Hành, Vinh', 0, 1),
-       (12, 'quanlykho@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van a', NULL, NULL, 0, 1),
-       (13, 'admin@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van b', NULL, NULL, 0, 1),
-       (14, 'user@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', 'nguyen van c', NULL, NULL, 0, 1),
-       (15, 'ly.thi.n@gmail.com', 'hashedpassword12', 'Lý Thị Nga', '0917123456', '15 Pasteur, Quy Nhơn', 0, 1);
+VALUES (1, 'nguyen.van.a@gmail.com', 'hashedpassword1', N'Nguyễn Văn An', '0912345678', N'123 Nguyễn Trãi, Hà Nội', 0, 1),
+       (2, 'tran.thi.b@gmail.com', 'hashedpassword2', N'Trần Thị Bình', '0987654321', N'456 Lê Lợi, TP.HCM', 0, 1),
+       (3, 'le.van.c@yahoo.com', 'hashedpassword3', N'Lê Văn Cường', '0909123456', N'78 Hùng Vương, Đà Nẵng', 0, 1),
+       (4, 'pham.thi.d@gmail.com', 'hashedpassword4', N'Phạm Thị Dung', '0935123456', N'12 Trần Phú, Huế', 0, 1),
+       (5, 'hoang.van.e@hotmail.com', 'hashedpassword5', N'Hoàng Văn Em', '0978123456', N'34 Nguyễn Huệ, Nha Trang', 0, 1),
+       (6, 'vu.thi.f@gmail.com', 'hashedpassword6', N'Vũ Thị Phượng', '0918765432', N'56 Phạm Ngũ Lão, Hà Nội', 0, 1),
+       (7, 'dang.van.g@yahoo.com', 'hashedpassword7', N'Đặng Văn Giang', '0945123456', N'89 Điện Biên Phủ, TP.HCM', 0, 1),
+       (8, 'bui.thi.h@gmail.com', 'hashedpassword8', N'Bùi Thị Hạnh', '0967123456', N'23 Lý Thường Kiệt, Đà Lạt', 0, 1),
+       (9, 'do.van.k@hotmail.com', 'hashedpassword9', N'Đỗ Văn Khánh', '0923123456', N'67 Hai Bà Trưng, Cần Thơ', 0, 1),
+       (10, 'ngo.thi.l@gmail.com', 'hashedpassword10', N'Ngô Thị Lan', '0956123456', N'45 Tôn Đức Thắng, Hải Phòng', 0, 1),
+       (11, 'truong.van.m@yahoo.com', 'hashedpassword11', N'Trương Văn Minh', '0938123456', N'90 Lê Đại Hành, Vinh', 0, 1),
+       (12, 'quanlykho@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van a', NULL, NULL, 0, 1),
+       (13, 'admin@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van b', NULL, NULL, 0, 1),
+       (14, 'user@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van c', NULL, NULL, 0, 1),
+       (15, 'ly.thi.n@gmail.com', 'hashedpassword12', N'Lý Thị Nga', N'0917123456', '15 Pasteur, Quy Nhơn', 0, 1);
 SET IDENTITY_INSERT users OFF;
 
 

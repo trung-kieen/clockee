@@ -2,8 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PurchaseItemRequest } from './PurchaseItemRequest';
+import type { PurchaseItemRequest } from "./PurchaseItemRequest";
 export type CreatePurchaseRequest = {
-    items?: Array<PurchaseItemRequest>;
+  items?: Array<PurchaseItemRequest>;
 };
-

@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserMapper {
-    private final ModelMapper mapper;
+  private final ModelMapper mapper;
 
-
-
-    public UserDetailResponse userToUserDetailResponse(User user){
-        return new UserDetailResponse(user);
-    }
+  public UserDetailResponse userToUserDetailResponse(User user) {
+    return new UserDetailResponse(user);
+  }
 }

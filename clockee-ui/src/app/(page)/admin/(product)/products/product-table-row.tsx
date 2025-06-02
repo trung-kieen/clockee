@@ -4,6 +4,7 @@ import Thumbnail from "@/app/components/common/thumbnail";
 import ConfirmModal from "@/app/components/modal/confirm-modal";
 import { AdminProductResponse } from "@/gen/models/AdminProductResponse";
 import { AdminProductControllerService } from "@/gen/services/AdminProductControllerService";
+import { formatVND } from "@/util/currency";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -41,8 +42,8 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
         )}
       </td>
       <td>{item.name}</td>
-      <td>{item.actualPrice}</td>
-      <td>{item.sellPrice}</td>
+      <td>{formatVND(item.actualPrice)}</td>
+      <td>{formatVND(item.sellPrice)}</td>
       <td>{item.type}</td>
       <td>{item.brand?.name}</td>
       <td className="hover:bg-gray-200">

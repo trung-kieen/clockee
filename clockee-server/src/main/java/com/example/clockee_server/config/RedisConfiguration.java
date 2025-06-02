@@ -1,6 +1,13 @@
 package com.example.clockee_server.config;
 
+// import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
 /** RedisConfiguration */
+@Profile("redis")
+@Configuration
+// @EnableCaching
 public class RedisConfiguration {
 
   // @Value("${REDIS_HOST}")

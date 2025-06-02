@@ -33,7 +33,7 @@ export const mapBrandDTOToSelectOption = (brand: BrandDTO) => {
   };
   return option;
 };
-const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
+const EditProductForm = ({ model }: { model: AdminProductResponse }) => {
   const [selectedFile, setSelectedFile] = useState("");
   const { fetchMore, setQuery, query, pageInfo } = useLazyPage<BrandDTO>({
     fetchData: async (page, query) => {
@@ -397,4 +397,4 @@ const CreateProductForm = ({ model }: { model: AdminProductResponse }) => {
     </form>
   );
 };
-export default CreateProductForm;
+export default EditProductForm;

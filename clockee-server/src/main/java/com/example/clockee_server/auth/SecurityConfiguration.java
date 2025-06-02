@@ -32,7 +32,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 /** SecurityConfiguration */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
   private final ApplicationProperties applicationProperties;
@@ -52,10 +52,11 @@ public class SecurityConfiguration {
               .requestMatchers(antMatcher("/swagger-resources/**"))
               .permitAll()
               .requestMatchers(antMatcher("/webjars/**"))
+              .permitAll()
+              .requestMatchers(antMatcher("/admin/**"))
+              .authenticated()
+              .anyRequest()
               .permitAll();
-          // TODO: enable authenticated
-          customizer.anyRequest().permitAll();
-          // customizer.anyRequest().authenticated();
         });
 
     // http.oauth2Login(customizer -> {
@@ -101,7 +102,6 @@ public class SecurityConfiguration {
       public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(applicationProperties.getAllowedOrigins());
-        // config.setAllowedOrigins(List.of("http://localhost:3000/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
@@ -117,7 +117,8 @@ public class SecurityConfiguration {
           .status(403)
           .build();
     };
-  };
+  }
+  ;
 
   @Bean
   public AuthenticationManager authenticationManager() {

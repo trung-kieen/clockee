@@ -11,7 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-/** AutEntryPointJwt */
+/** If no JWT has been supplied an AuthenticationCredentialsNotFoundException is thrown. */
 @Log4j2
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {

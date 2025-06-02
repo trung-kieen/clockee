@@ -11,4 +11,9 @@ public class ApplicationConstants {
   public static final String ADMIN_URL_PREFIX = "/admin";
 
   public static final String REFRESH_COOKIE_NAME = "clockee-refresh";
+
+  // Not store in RoleName due to runtime issue
+  public static final String _CUSTOMER = "CUSTOMER";
+  public static final String _PRODUCT_ADMIN = "PRODUCT_ADMIN";
+  public static final String _INVENTORY_MANAGER = "INVENTORY_MANAGER";
 }

@@ -3,11 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CurrentUserDetails = {
-    userId?: number;
-    email?: string;
-    name?: string;
-    phone?: string;
-    address?: string;
-    verified?: boolean;
+  userId?: number;
+  email?: string;
+  name?: string;
+  phone?: string;
+  address?: string;
+  verified?: boolean;
 };
-

@@ -3,11 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Supplier = {
-    supplierId?: number;
-    name?: string;
-    address?: string;
-    phone?: string;
-    email?: string;
-    isDeleted?: boolean;
+  supplierId?: number;
+  name?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  isDeleted?: boolean;
 };
-

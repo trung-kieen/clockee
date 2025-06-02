@@ -2,9 +2,9 @@ package com.example.clockee_server.common;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,13 +21,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MSSQLServerContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
-// @ActiveProfiles("test")
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+// @SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureMockMvc
 // Configure dynamic properties
 @ContextConfiguration(initializers = {AbstractIntegrationTest.Initializer.class})
@@ -36,14 +32,14 @@ public abstract class AbstractIntegrationTest {
   @Autowired protected MockMvc mockMvc;
 
   @BeforeEach
-  void setUp(WebApplicationContext wac){
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-        .defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
-        .apply(SharedHttpSessionConfigurer.sharedHttpSession())
-        // .alwaysExpect(status().isOk())
-        // .alwaysExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-        .build();
-
+  void setUp(WebApplicationContext wac) {
+    this.mockMvc =
+        MockMvcBuilders.webAppContextSetup(wac)
+            .defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
+            .apply(SharedHttpSessionConfigurer.sharedHttpSession())
+            // .alwaysExpect(status().isOk())
+            // .alwaysExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .build();
   }
 
   @Autowired protected ObjectMapper objectMapper;

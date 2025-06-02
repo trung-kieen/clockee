@@ -36,6 +36,7 @@ const CheckoutAddressPage = () => {
       logger.error(error);
       toast.error("Có lỗi xảy ra vui lòng thử lại");
     }
+    // Refresh cart details
     fetchCart();
   };
 

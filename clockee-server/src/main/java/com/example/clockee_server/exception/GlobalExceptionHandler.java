@@ -95,7 +95,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       AuthorizationDeniedException e) {
     log.info("Handling AuthorizationDeniedException: {}", e.getMessage());
     HttpErrorResponse response = HttpErrorResponse.of(null, 403, null, null);
-    return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   /*

@@ -63,39 +63,6 @@ services:
     networks:
       - clockee-network
 
-  # clockee-server:
-  #   build:
-  #     context: ./clockee-server/
-  #     dockerfile: Dockerfile.prod
-  #   image: clockee-server
-  #   container_name: clockee-server
-  #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     - DBMS_HOST=clockee-db
-  #     - SPRING_PROFILES_ACTIVE=prod
-  #     - SPRING_PROFILES_ACTIVE=sa
-  #     - SPRING_PROFILES_ACTIVE=example_123
-  #     - SPRING_MAIL_HOST=clockee-mail-server
-  #     - APP=clockee-mail-server
-  #     - FRONTEND_HOST=clockee-web
-
-  #   networks:
-  #     - clockee-network
-
-
-  # clockee-web:
-  #   build:
-  #     context: ./clockee-ui/
-  #     dockerfile: Dockerfile.prod
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - .:/usr/src/app
-  #     - /usr/src/app/node_modules
-
-  #   networks:
-  #     - clockee-network
 
 
 networks:

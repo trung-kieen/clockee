@@ -8,9 +8,7 @@
   <h2 th:text="'Xin chào ' + ${orderEmailInfo.customerName} + ','"></h2>
 
   <p>
-    Chúng tôi xin thông báo đơn hàng
-    <strong th:text="${orderEmailInfo.orderCode}"></strong>
-    của bạn đã được giao cho đơn vị vận chuyển vào lúc
+    Chúng tôi xin thông báo đơn hàng của bạn đã được giao cho đơn vị vận chuyển vào lúc
     <strong th:text="${orderEmailInfo.shippedDate}"></strong>.
   </p>
 

@@ -3,11 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserDetailResponse = {
-    userId?: number;
-    email?: string;
-    name?: string;
-    phone?: string;
-    isDeleted?: boolean;
-    address?: string;
+  userId?: number;
+  email?: string;
+  name?: string;
+  phone?: string;
+  isDeleted?: boolean;
+  address?: string;
 };
-

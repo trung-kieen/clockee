@@ -2,10 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PurchaseItemResponse } from './PurchaseItemResponse';
+import type { PurchaseItemResponse } from "./PurchaseItemResponse";
 export type PurchaseResponse = {
-    purchaseId?: number;
-    items?: Array<PurchaseItemResponse>;
-    totalPrice?: number;
+  purchaseId?: number;
+  items?: Array<PurchaseItemResponse>;
+  totalPrice?: number;
 };
-

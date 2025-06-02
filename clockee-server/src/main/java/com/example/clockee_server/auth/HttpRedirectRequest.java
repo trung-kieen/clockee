@@ -1,5 +1,6 @@
 package com.example.clockee_server.auth;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -10,12 +11,9 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.log4j.Log4j2;
-
 @Configuration
 @Log4j2
 public class HttpRedirectRequest {
-
 
   @Value("${server.insecure-port:8081}")
   private int insecurePort;

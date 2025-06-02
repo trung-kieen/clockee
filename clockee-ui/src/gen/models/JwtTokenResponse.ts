@@ -3,11 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type JwtTokenResponse = {
-    accessToken?: string;
-    type?: string;
-    userId?: number;
-    username?: string;
-    roles?: Array<string>;
-    verified?: boolean;
+  accessToken?: string;
+  type?: string;
+  userId?: number;
+  username?: string;
+  roles?: Array<string>;
+  verified?: boolean;
 };
-

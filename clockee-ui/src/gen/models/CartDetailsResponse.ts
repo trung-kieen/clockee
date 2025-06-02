@@ -2,9 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CartItemDetails } from './CartItemDetails';
+import type { CartItemDetails } from "./CartItemDetails";
 export type CartDetailsResponse = {
-    items?: Array<CartItemDetails>;
-    totalPrice?: number;
+  items?: Array<CartItemDetails>;
+  totalPrice?: number;
 };
-
