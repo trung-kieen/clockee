@@ -1,13 +1,23 @@
-# Require maven to perform any action here
-#####################
+# Author: trung-kieen
+############################################
+# Require maven to perform any action here #
+############################################
+
+
+# Run dev profile use mssql port 1433
 run:
 	mvn spring-boot:run -Dspring.profiles.active=dev,redis
 
+# For Unix
 build:
 	mvn spring-boot:run -Dspring.profiles.active=prod,redis
 
+# For window when apply production profile will be tricky
+# Apply port 1434 for mssql (docker container) to avoid port conflict in target machine in production level
+# Do not use mvn spring-boot:run without any specify prod profile. It will not work!
 build-window:
-	mvn spring-boot:run -Dspring.datasource.url=jdbc:sqlserver://localhost:1434;encrypt=true;trustServerCertificate=true;databaseName=clockeedb;useUnicode=true;characterEncoding=UTF-8
+	mvn package -D maven.test.skip=true
+	java -jar .\target\clockee-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 
 # Require docker service to perform intergration test
 test:
