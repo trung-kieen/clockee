@@ -15,7 +15,11 @@ export const AdminSideBar = () => {
         <div className="text-gray-950 text-xl">
           <div className="p-2.5 mt-1 flex items-center">
             <Link href={"/"}>
-              <Logo />
+              <img
+                className="mr-[-9px] mt-[-5px] cursor-pointer"
+                src="/logoAdmin.svg"
+                alt="logo login"
+        />
             </Link>
           </div>
           <div className="my-2  h-[1px]"></div>

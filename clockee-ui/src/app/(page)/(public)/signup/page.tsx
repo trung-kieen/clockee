@@ -56,7 +56,7 @@ const RegisterForm = () => {
       <div className="w-full md:w-[380px] bg-white p-8 rounded-lg shadow-lg border border-yellow-300">
         {/* Tiêu đề */}
         <div className="flex justify-between items-center bg-White rounded-md">
-          <h2 className="text-xl font-bold text-black">Đăng ký</h2>
+          <h2 className="text-xl font-bold text-black">ĐĂNG KÝ</h2>
         </div>
         {/* Form Đăng ký */}
         <input
@@ -179,7 +179,7 @@ const RegisterForm = () => {
 
 export default function RegisterUser() {
   return (
-    <div className="w-full min-h-screen flex flex-col items-center bg-white">
+    <div className="w-full flex flex-col items-center bg-white">
       {/* Header */}
       {/* Main Content */}
       <div className="bg-[#FFDA3E] w-full h-[604px] flex justify-center items-center ">

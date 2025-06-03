@@ -1,6 +1,4 @@
 "use client";
-import { ProductImage } from "@/app/components/common/base-64-image";
-import Thumbnail from "@/app/components/common/thumbnail";
 import ConfirmModal from "@/app/components/modal/confirm-modal";
 import { AdminProductResponse } from "@/gen/models/AdminProductResponse";
 import { AdminProductControllerService } from "@/gen/services/AdminProductControllerService";
@@ -30,6 +28,14 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
       toast(e as string);
     }
   };
+
+  const formatVND = (value?: number) =>
+    new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value ?? 0);
+
+  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
 
   return (
     <tr>
@@ -61,14 +67,15 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
         {/* Action delete */}
         <i className="fa fa-trash"></i>
         <ConfirmModal
-          isOpen={isOpenConfirm}
           onClose={() => setIsOpenConfirm(false)}
+          isOpen={isOpenConfirm}
           onConfirm={handleDelete}
           title={"Xác nhận"}
-          content={"Bạn có muốn xóa nhãn hàng này?"}
+          content={`Xóa sản phẩm "${item.name}"?`}
         />
-      </td>
-    </tr>
+      )}
+    </>
+    
   );
 };
 export default ProductTableRow;

@@ -12,7 +12,7 @@ export const adminMenuItems: Array<SidebarItem> = [
       },
       {
         title: "Người dùng",
-        href: "/admin/user/",
+        href: "/admin/users/",
         subItems: [],
       },
       {

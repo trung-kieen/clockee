@@ -32,7 +32,7 @@ function EditProductPage() {
   }, []);
 
   return (
-    <AdminMainCard title="Sản phẩm mới" goBack={true}>
+    <AdminMainCard title="Chi tiết sản phẩm" goBack={true}>
       {product && <EditProductForm model={product} />}
     </AdminMainCard>
   );

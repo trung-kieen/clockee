@@ -4,7 +4,6 @@ import { LoginForm } from "./reset/components/login-form";
 export default function LoginPage() {
   return (
     <div className="w-full flex flex-col items-center bg-white">
-      {/* Header */}
       {/* Main Content */}
       <div className="bg-[#FFDA3E] w-full h-[604px] flex justify-center items-center ">
         <main className="w-full max-w-5xl  flex flex-col  md:flex-row items-center bg-[#FFDA3E]">
