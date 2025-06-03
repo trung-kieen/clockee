@@ -31,9 +31,6 @@ export default function ProductAdminPage() {
     usePageSearch<PageAdminProductResponse>({
       fetchData: fetchProducts,
     });
-  function onChangeSearchQuery(event: ChangeEvent<HTMLInputElement>): void {
-    setQuery(event.target.value);
-  }
   return (
     <AdminMainCard title="Sản phẩm" goBack={false}>
       <div className="flex justify-between items-center mb-6">

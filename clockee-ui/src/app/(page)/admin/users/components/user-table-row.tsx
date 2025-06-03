@@ -33,7 +33,7 @@ const UserTableRow = ({ item, refreshCallBack, roleName}: UserRowProps) => {
       <td className={`${tdStyle}`}>{item.name}</td>
       <td className={`${tdStyle}`}>{item.email}</td>
       <td className={`${tdStyle}`}>{roleName || "Đang tải"}</td>
-      <td className={`${tdStyle}`}>{item.isDeleted  ? "Đang khóa" : "Đang mở"}</td>
+      <td className={`${tdStyle}`}>{item.isDeleted  ? "Đã bị xóa" : "Đang hoạt động"}</td>
       <td className={`hover:bg-gray-200 ${tdStyle}`}>
         {canToggleAccount(roleName) ? (
           <i
@@ -50,8 +50,9 @@ const UserTableRow = ({ item, refreshCallBack, roleName}: UserRowProps) => {
       </td>
   
       {/* Nút xem thông tin chi tiết của người dùng */}
-      <td className= {`hover:bg-gray-200 ${tdStyle} border-r-4`}>
-        <Link href={`/admin/users/${item.userId}`}>
+      <td className={`hover:bg-gray-200 ${tdStyle} border-r-4`}>
+        <Link href={`/admin/users/${item.userId}/roles`}>
+
           {/* Action edit */}
           <i className="fa fa-external-link-alt  cursor-pointer"></i>
         </Link>
