@@ -9,7 +9,7 @@ services:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: ${SA_PASSWORD:-example_123}
     ports:
-      - 1433:1433
+      - 1434:1433
     networks:
       - clockee-network
     volumes:
@@ -57,12 +57,14 @@ services:
       - SPRING_DATASOURCE_PASSWORD=example_123
       - SPRING_MAIL_HOST=clockee-mail-server
       - FRONTEND_HOST=clockee-web
-
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://clockee-db;encrypt=true;trustServerCertificate=true;databaseName=clockeedb;useUnicode=true;characterEncoding=UTF-8
     networks:
       - clockee-network
 
     depends_on:
       clockee-db:
+        condition: service_healthy
+      clockee-mail-server:
         condition: service_healthy
 
   clockee-web:
@@ -81,6 +83,9 @@ services:
     depends_on:
       clockee-db:
         condition: service_healthy
+
+      clockee-server:
+        condition: service_started
 
 
 networks:
