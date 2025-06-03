@@ -1,11 +1,5 @@
 package com.example.clockee_server.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-
 import com.example.clockee_server.config.ApplicationProperties;
 import com.example.clockee_server.email.EmailService;
 import com.example.clockee_server.email.dto.OrderEmailContext;
@@ -15,9 +9,12 @@ import com.example.clockee_server.entity.VerificationCode;
 import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.repository.UserRepository;
 import com.example.clockee_server.repository.VerificationCodeRepository;
-
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +26,6 @@ public class SendEmailServiceImpl implements SendEmailService {
   private final TemplateEngine templateEngine;
   private final EmailService emailService;
   private final VerificationCodeRepository verificationCodeRepository;
-
 
   @Override
   public void sendWelcomeEmail(Long userId) {

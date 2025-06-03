@@ -6,8 +6,7 @@
 
 # Run dev profile use mssql port 1433
 run:
-	mvn spring-boot:run -Dspring.profiles.active=dev,redis
-
+	mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev,redis"
 # For Unix
 build:
 	mvn spring-boot:run -Dspring.profiles.active=prod,redis
@@ -18,6 +17,11 @@ build:
 build-window:
 	mvn package -D maven.test.skip=true
 	java -jar .\target\clockee-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+
+
+
+local:
+	mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local,redis"
 
 # Require docker service to perform intergration test
 test:

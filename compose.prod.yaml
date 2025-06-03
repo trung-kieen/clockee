@@ -67,7 +67,7 @@ services:
       clockee-db:
         condition: service_healthy
       clockee-mail-server:
-        condition: service_healthy
+        condition: service_started
 
   clockee-web:
     image: trungkieen/clockee-web

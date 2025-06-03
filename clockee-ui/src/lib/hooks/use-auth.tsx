@@ -102,7 +102,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
   const isAdmin = () => {
     return (
-      roles.includes("PRODUCT_ADMIN") || roles.includes("INVENTORY_MANAGER")
+      roles.includes("ROLE_PRODUCT_ADMIN") ||
+      roles.includes("ROLE_INVENTORY_MANAGER") ||
+      roles.includes("PRODUCT_ADMIN") ||
+      roles.includes("INVENTORY_MANAGER")
     );
   };
   const _refreshAuth = async () => {

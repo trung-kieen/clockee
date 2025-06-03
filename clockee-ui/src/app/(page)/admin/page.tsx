@@ -10,9 +10,9 @@ const AdminPage = () => {
 
   const redirectDefaultPage = () => {
     const roles = getRoles();
-    if (roles.includes(RoleName.PRODUCT_ADMIN)) {
+    if (roles.includes(RoleName.PRODUCT_ADMIN) || roles.includes("ROLE_" + RoleName.PRODUCT_ADMIN)) {
       router.push("admin/dashboard");
-    } else if (roles.includes(RoleName.INVENTORY_MANAGER)) {
+    } else if (roles.includes(RoleName.INVENTORY_MANAGER) || roles.includes("ROLE_" + RoleName.INVENTORY_MANAGER)) {
       router.push("admin/suppliers");
     } else {
       router.push("forbidden");

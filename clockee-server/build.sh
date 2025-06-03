@@ -1,2 +1,3 @@
-mvn clean package -Dmaven.test.skip=true
-ec
+#!/bin/bash
+
+docker
