@@ -48,8 +48,6 @@ services:
   clockee-server:
     image: trungkieen/clockee-server
     container_name: clockee-server
-    ports:
-      - "8080:8080"
     environment:
       - DBMS_HOST=clockee-db
       - SPRING_PROFILES_ACTIVE=prod
@@ -60,6 +58,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:sqlserver://clockee-db;encrypt=true;trustServerCertificate=true;databaseName=clockeedb;useUnicode=true;characterEncoding=UTF-8
     networks:
       - clockee-network
+    ports:
+      - "8080:8080"
+      - "8081:8081"
 
     depends_on:
       clockee-db:

@@ -1,3 +1,5 @@
+# Require maven to perform any action here
+#####################
 run:
 	mvn spring-boot:run -Dspring.profiles.active=dev,redis
 
