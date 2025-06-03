@@ -78,7 +78,8 @@ export default function ProductAdminPage() {
           data={pageInfo?.content || []}
           emptyMessage="Không tìm thấy sản phẩm nào"
           headers={[
-            "ID sản phẩm",
+            "Mã sản phẩm",
+            "Hình ảnh",
             "Tên sản phẩm",
             "Giá gốc",
             "Giá bán",

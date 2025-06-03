@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import EditBrandModal from "./edit-brand-modal";
 import { toast } from "react-toastify";
 
-type BrandRowProps = { 
+type BrandRowProps = {
   item: BrandDTO;
-  refreshCallBack: () => void 
+  refreshCallBack: () => void;
 };
 
 const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
@@ -26,9 +26,8 @@ const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   const [isEditModal, setIsEditModal] = useState(false);
-  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
   return (
-    <tr className="whitespace-nowrap text-xl text-center">
+    <tr className="whitespace-nowrap text-center">
       <EditBrandModal
         isOpen={isEditModal}
         onClose={() => setIsEditModal(false)}
@@ -42,15 +41,15 @@ const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
         title={"Xác nhận"}
         content={"Bạn có muốn xóa nhãn hàng này?"}
       />
-      <td className={`${tdStyle}`}>{item.brandId}</td>
-      <td className= {`${tdStyle}`}>{item.name}</td>
-      <td onClick={() => setIsEditModal(true)} className={`hover:bg-gray-200 ${tdStyle}`}>
+      <td>{item.brandId}</td>
+      <td>{item.name}</td>
+      <td onClick={() => setIsEditModal(true)} className={`hover:bg-gray-200 `}>
         {/* Action edit */}
         <i className="fa fa-edit"></i>
       </td>
       <td
         onClick={() => setIsOpenConfirmModal(true)}
-        className={`hover:bg-gray-200 ${tdStyle}`}
+        className={`hover:bg-gray-200`}
       >
         {/* Action delete */}
         <i className={`fa fa-trash `}></i>

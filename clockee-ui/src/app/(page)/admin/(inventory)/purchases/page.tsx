@@ -43,9 +43,8 @@ const PurchasesPage = () => {
             data={purchasePage.content || []}
             emptyMessage="Không có dữ liệu"
             headers={[
-              "", // Image
+              "Mã nhập hàng", // Image
               "Thời gian tạo",
-              "Trạng thái",
               "Người tạo",
               "Thành tiền",
               "", // Edit

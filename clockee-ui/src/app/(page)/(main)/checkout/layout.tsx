@@ -1,8 +1,10 @@
 "use client";
 
 import { ProtectedRoute } from "@/app/components/route/protected";
+import { UserControllerService } from "@/gen";
 import { useAuth } from "@/lib/hooks/use-auth";
 import { useCart } from "@/lib/hooks/use-cart";
+import { logger } from "@/util/logger";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -17,10 +19,18 @@ export default function CheckoutLayout({
 
   const { user } = useAuth();
   useEffect(() => {
-    const refuteUserNotVerfied = () => {
+    const refuteUserNotVerfied = async () => {
       if (user === null || !user.verified) {
-        toast.warn("Bạn cần xác thực email để thực hiện đặt hàng");
-        redirect("/me");
+        // Retry validate in server
+        try {
+          const resp = await UserControllerService.currentUserDetails();
+          if (!resp.verified) {
+            toast.warn("Bạn cần xác thực email để thực hiện đặt hàng");
+            redirect("/me");
+          }
+        } catch (error) {
+          logger.error(error);
+        }
       }
     };
     refuteUserNotVerfied();

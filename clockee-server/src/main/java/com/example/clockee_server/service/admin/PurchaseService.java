@@ -3,7 +3,6 @@ package com.example.clockee_server.service.admin;
 import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.entity.Purchase;
 import com.example.clockee_server.entity.PurchaseItem;
-import com.example.clockee_server.entity.PurchaseStatus;
 import com.example.clockee_server.entity.Supplier;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.exception.ApiException;
@@ -78,8 +77,7 @@ public class PurchaseService {
       supplierIdToSupplier.put(supplier.getSupplierId(), supplier);
     }
 
-    Purchase purchase =
-        Purchase.builder().status(PurchaseStatus.PENDING).createdBy(autditUser).build();
+    Purchase purchase = Purchase.builder().createdBy(autditUser).build();
 
     Set<PurchaseItem> purchaseItems =
         MapperUtil.mapSet(
@@ -97,6 +95,14 @@ public class PurchaseService {
     Double totalPrice =
         purchaseItems.stream().mapToDouble((item) -> item.getQuantity() * item.getPrice()).sum();
     purchase.setTotalPrice(totalPrice);
+
+    // Update stock
+    for (PurchaseItemRequest item : purchaseRequest.getItems()) {
+      Product prod = productIdToProduct.get(item.getProductId());
+      Long oldStock = prod.getStock();
+      prod.setStock(oldStock + item.getQuantity());
+    }
+    productRepository.saveAll(productIdToProduct.values());
 
     // Save will be cascade
     Purchase savedPurchase = purchaseRepository.save(purchase);

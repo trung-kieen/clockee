@@ -39,7 +39,7 @@ export type { PageSupplierDTO } from "./models/PageSupplierDTO";
 export type { Product } from "./models/Product";
 export type { ProductDetailsResponse } from "./models/ProductDetailsResponse";
 export type { ProductSummaryResponse } from "./models/ProductSummaryResponse";
-export { Purchase } from "./models/Purchase";
+export type { Purchase } from "./models/Purchase";
 export type { PurchaseDetails } from "./models/PurchaseDetails";
 export type { PurchaseItem } from "./models/PurchaseItem";
 export type { PurchaseItemDetails } from "./models/PurchaseItemDetails";

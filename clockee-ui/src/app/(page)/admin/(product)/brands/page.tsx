@@ -69,7 +69,7 @@ export default function BrandAdminPage() {
            */}
           <DataTable<BrandDTO>
             data={pageInfo.content || []}
-            headers={["Mã thương hiệu", "Tên thương hiệu",]}
+            headers={["Mã thương hiệu", "Tên thương hiệu"]}
             renderRow={(item, index) => {
               return (
                 <BrandTableRow

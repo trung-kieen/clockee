@@ -15,6 +15,7 @@ import com.example.clockee_server.entity.VerificationCode;
 import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.exception.ResourceNotFoundException;
 import com.example.clockee_server.jobs.requests.SendWelcomeEmailJob;
+import com.example.clockee_server.mapper.MapperUtil;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
 import com.example.clockee_server.repository.RoleRepository;
@@ -102,12 +103,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     String jwtToken = jwtTokenProvider.genenerateToken(currentUser);
     String refreshToken = jwtTokenProvider.generateRefreshToken(currentUser);
-    var resp = new JwtTokenResponse();
-    resp.setUsername(currentUser.getEmail());
-    resp.setUserId(currentUser.getUserId());
+
+    var resp = MapperUtil.mapObject(currentUser, JwtTokenResponse.class);
     resp.setAccessToken(jwtToken);
-    resp.setRoles(roles);
-    resp.setVerified(currentUser.isVerified());
+    resp.setRoles(currentUser.getRoles().stream().map(Role::getAuthority).toList());
 
     addRefreshTokenAsCookie(ApplicationConstants.REFRESH_COOKIE_NAME, refreshToken, response);
 
@@ -126,11 +125,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     String newAccessToken = jwtTokenProvider.genenerateToken(user);
-    return RefreshTokenResponse.builder()
-        .accessToken(newAccessToken)
-        .username(user.getUsername())
-        .roles(user.getRoles().stream().map(Role::getAuthority).toList())
-        .build();
+    var tokenResponse = MapperUtil.mapObject(user, RefreshTokenResponse.class);
+    tokenResponse.setAccessToken(newAccessToken);
+    tokenResponse.setRoles(user.getRoles().stream().map(Role::getAuthority).toList());
+    return tokenResponse;
   }
 
   /** Save refresh token to http only cookie on response */

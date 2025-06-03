@@ -4,8 +4,6 @@ import com.example.clockee_server.util.Client;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,10 +38,6 @@ public class Purchase {
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
   private Set<PurchaseItem> items;
-
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private PurchaseStatus status = PurchaseStatus.PENDING;
 
   @CreationTimestamp
   @Column(name = "created_at", nullable = false, updatable = false)

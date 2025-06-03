@@ -50,11 +50,6 @@ const PurchaseSummaryTableRow = ({
     <tr>
       <td>{item.purchaseId}</td>
       <td>{item.createdAt}</td>
-      <td>
-        <span className="badge badge-md font-medium  badge-soft badge-neutral">
-          {item.status}
-        </span>
-      </td>
       <td>{item.createdByUsername}</td>
       <td>{formatVND(item.totalPrice)}</td>
       <td onClick={handleViewPurchaseDetails} className="hover:bg-gray-200">

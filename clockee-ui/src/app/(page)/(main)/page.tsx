@@ -45,12 +45,16 @@ export default function HomePage() {
       />
 
       <div className="lg:w-3/4 mx-auto">
-        <h3 className="text-2xl font-bold p-10 text-center text-[1.6em]">Sản phẩm mới nhất</h3>
+        <h3 className="text-2xl font-bold p-10 text-center text-[1.6em]">
+          Sản phẩm mới nhất
+        </h3>
         <ProductCollection products={latestProducts?.content || []} />
       </div>
 
       <div className="lg:w-3/4 mx-auto">
-        <h3 className="text-2xl font-bold text-center text-[1.6em] p-10 ">Sản phẩm bán chạy</h3>
+        <h3 className="text-2xl font-bold text-center text-[1.6em] p-10 ">
+          Sản phẩm bán chạy
+        </h3>
         <ProductCollection products={bestSellingProducts} />
       </div>
     </>

@@ -31,7 +31,7 @@ export default function ResetPassword() {
               onClick={() => router.push("/login")}
               className="px-[10px] py-[1px]"
             >
-              <img src="/goBack.svg"/>
+              <img src="/goBack.svg" />
             </button>
             <div className="flex justify-center w-[300px]">
               <h2 className="text-xl font-bold text-black inte">

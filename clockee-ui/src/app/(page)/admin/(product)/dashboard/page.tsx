@@ -21,8 +21,10 @@ const EMPTY_CHART_VALUE = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, bgColor }) => (
   <div className="bg-white p-4 rounded-lg shadow flex items-center border-2">
-    <div className={`w-20 h-20 rounded-full flex items-center justify-center mr-6 ${bgColor}`}>
-      <img src={`${icon}`} className="ml-1"/>
+    <div
+      className={`w-20 h-20 rounded-full flex items-center justify-center mr-6 ${bgColor}`}
+    >
+      <img src={`${icon}`} className="ml-1" />
     </div>
     <div>
       <div className="text-gray-600 text-2xl">{title}</div>
@@ -89,8 +91,18 @@ const SalesChart: React.FC<{ year: number }> = ({ year }) => {
           type: "bar",
           data: {
             labels: [
-              "Tháng 1","Tháng 2","Tháng 3","Tháng 4","Tháng 5","Tháng 6",
-              "Tháng 7","Tháng 8","Tháng 9","Tháng 10","Tháng 11","Tháng 12",
+              "Tháng 1",
+              "Tháng 2",
+              "Tháng 3",
+              "Tháng 4",
+              "Tháng 5",
+              "Tháng 6",
+              "Tháng 7",
+              "Tháng 8",
+              "Tháng 9",
+              "Tháng 10",
+              "Tháng 11",
+              "Tháng 12",
             ],
             datasets: [
               {
@@ -235,9 +247,7 @@ const AdminDashboardPage: React.FC = () => {
         </div>
         <SalesChart year={selectedYear} />
       </div>
-
     </AdminMainCard>
-    
   );
 };
 

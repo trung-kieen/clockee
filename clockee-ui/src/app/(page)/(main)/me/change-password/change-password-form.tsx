@@ -25,7 +25,7 @@ const ChangePasswordForm = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const toggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setter(prev => !prev);
+    setter((prev) => !prev);
   };
 
   const onSubmit: SubmitHandler<ChangePasswordRequest> = async (data) => {
@@ -44,7 +44,8 @@ const ChangePasswordForm = () => {
     if (val.length < 6) return "Mật khẩu phải ít nhất 6 ký tự";
     if (!/[A-Z]/.test(val)) return "Mật khẩu phải có chữ in hoa";
     if (!/[0-9]/.test(val)) return "Mật khẩu phải có số";
-    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(val)) return "Mật khẩu phải có ký tự đặc biệt";
+    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(val))
+      return "Mật khẩu phải có ký tự đặc biệt";
     return;
   };
 
@@ -54,7 +55,9 @@ const ChangePasswordForm = () => {
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
       {/* Mật khẩu cũ */}
       <div className="space-y-1">
-        <label className="block text-sm font-medium text-gray-700">Mật khẩu cũ:</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Mật khẩu cũ:
+        </label>
         <div className="relative">
           <input
             type={showOld ? "text" : "password"}
@@ -77,7 +80,9 @@ const ChangePasswordForm = () => {
 
       {/* Mật khẩu mới */}
       <div className="space-y-1">
-        <label className="block text-sm font-medium text-gray-700">Mật khẩu mới:</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Mật khẩu mới:
+        </label>
         <div className="relative">
           <input
             type={showNew ? "text" : "password"}
@@ -101,7 +106,9 @@ const ChangePasswordForm = () => {
 
       {/* Xác nhận mật khẩu */}
       <div className="space-y-1">
-        <label className="block text-sm font-medium text-gray-700">Xác nhận mật khẩu mới:</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Xác nhận mật khẩu mới:
+        </label>
         <div className="relative">
           <input
             type={showConfirm ? "text" : "password"}

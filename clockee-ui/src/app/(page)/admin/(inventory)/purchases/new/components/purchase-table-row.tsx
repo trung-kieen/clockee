@@ -35,43 +35,40 @@ const PurchaseTableRow = ({
     onChange(item, newItemValue);
   };
 
-  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
-
   return (
     <>
-      <tr className="whitespace-nowrap text-xl text-center">
-      <td>
-        <Thumbnail className="size-[4rem]">
-          <ProductImage data={item.productImage} />
-        </Thumbnail>
-      </td>
-      <td>{item.productName}</td>
-      <td>{item.supplierName}</td>
-      <td>{item.quantity}</td>
-      <td>{formatVND(item.price)}</td>
-      <td
-        onClick={() => {
-          setIsEditModalOpen(true);
-        }}
-        className={`hover:bg-gray-200`}
-      >
-        {/* Action edit */}
-        <i className="fa fa-edit cursor-pointer"></i>
-      </td >
-      <td onClick={handleDelete} className= {`hover:bg-gray-200`}> 
-        {/* Action delete */}
-        <i className="fa fa-trash cursor-pointer"></i>
-      </td>
+      <tr className="whitespace-nowrap text-center">
+        <td>
+          <Thumbnail className="size-[4rem]">
+            <ProductImage data={item.productImage} />
+          </Thumbnail>
+        </td>
+        <td>{item.productName}</td>
+        <td>{item.supplierName}</td>
+        <td>{item.quantity}</td>
+        <td>{formatVND(item.price)}</td>
+        <td
+          onClick={() => {
+            setIsEditModalOpen(true);
+          }}
+          className={`hover:bg-gray-200`}
+        >
+          {/* Action edit */}
+          <i className="fa fa-edit cursor-pointer"></i>
+        </td>
+        <td onClick={handleDelete} className={`hover:bg-gray-200`}>
+          {/* Action delete */}
+          <i className="fa fa-trash cursor-pointer"></i>
+        </td>
 
-      <EditPurchaseItemModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        handleAddItem={handleChange}
-        model={item}
-      />
-    </tr>
+        <EditPurchaseItemModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          handleAddItem={handleChange}
+          model={item}
+        />
+      </tr>
     </>
-    
   );
 };
 export default PurchaseTableRow;

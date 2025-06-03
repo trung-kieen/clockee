@@ -3,7 +3,7 @@ type SearchProps = {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
-const   Search = ({ value, onChange }: SearchProps) => {
+const Search = ({ value, onChange }: SearchProps) => {
   return (
     <div className="relative flex items-center w-1/3">
       <svg

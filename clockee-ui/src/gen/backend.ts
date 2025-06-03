@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-02 18:40:10.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-03 12:31:38.
 
 export interface Brand {
   brandId: number;
@@ -54,7 +54,6 @@ export interface Product {
 export interface Purchase {
   purchaseId: number;
   items: PurchaseItem[];
-  status: PurchaseStatus;
   createdAt: Date;
   totalPrice: number;
   createdBy: User;
@@ -160,12 +159,6 @@ export const enum RoleName {
   CUSTOMER = "CUSTOMER",
   PRODUCT_ADMIN = "PRODUCT_ADMIN",
   INVENTORY_MANAGER = "INVENTORY_MANAGER",
-}
-
-export const enum PurchaseStatus {
-  PENDING = "PENDING",
-  PROCESSING = "PROCESSING",
-  SUCCESS = "SUCCESS",
 }
 
 function uriEncoding(

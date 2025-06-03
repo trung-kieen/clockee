@@ -19,7 +19,7 @@ export const AdminSideBar = () => {
                 className="mr-[-9px] mt-[-5px] cursor-pointer"
                 src="/logoAdmin.svg"
                 alt="logo login"
-        />
+              />
             </Link>
           </div>
           <div className="my-2  h-[1px]"></div>
