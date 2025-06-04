@@ -1,11 +1,11 @@
 
 update:
 	- git pull
-	- docker pull trungkieen/clockee-web:latest
-	- docker pull trungkieen/clockee-server:latest
+	- docker pull trungkieen/clockee-web:1.0.0
+	- docker pull trungkieen/clockee-server:1.0.0
 
 build:
-	- docker-compose -f compose.prod.yaml up --build
+	- docker-compose -f compose.prod.yaml up --build --force-recreate
 
 stop:
 	- docker-compose stop

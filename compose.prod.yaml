@@ -46,7 +46,7 @@ services:
 
 
   clockee-server:
-    image: trungkieen/clockee-server
+    image: trungkieen/clockee-server:1.0.0
     container_name: clockee-server
     environment:
       - DBMS_HOST=clockee-db
@@ -70,7 +70,7 @@ services:
         condition: service_started
 
   clockee-web:
-    image: trungkieen/clockee-web
+    image: trungkieen/clockee-web:1.0.0
     container_name: clockee-web
     ports:
       - "3000:3000"

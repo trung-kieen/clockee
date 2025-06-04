@@ -1,0 +1,9 @@
+node_modules
+.git
+*.md
+.gitignore
+tests
+__tests__
+coverage
+*.log
+.next/cache
