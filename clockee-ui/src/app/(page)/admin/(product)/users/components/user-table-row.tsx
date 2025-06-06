@@ -1,8 +1,6 @@
 "use client";
 import Link from "next/link";
 import { AdminUserControllerService, UserDetailResponse } from "@/gen";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 type UserRowProps = {
   item: UserDetailResponse;
@@ -23,20 +21,19 @@ const UserTableRow = ({ item, refreshCallBack, roleName }: UserRowProps) => {
       console.error("Lỗi cập nhật trạng thái user:", err);
     }
   };
-  const tdStyle = "border-2 border-t-0 border-b-4 border-gray-200 px-4 py-3";
   const canToggleAccount = (role?: string) => role === "CUSTOMER";
   return (
-    <tr className="whitespace-nowrap text-xl text-center">
-      <td className={`${tdStyle}`}>
+    <tr >
+      <td>
         <i className="fa fa-user"></i>
       </td>
-      <td className={`${tdStyle}`}>{item.name}</td>
-      <td className={`${tdStyle}`}>{item.email}</td>
-      <td className={`${tdStyle}`}>{roleName || "Đang tải"}</td>
-      <td className={`${tdStyle}`}>
+      <td>{item.name}</td>
+      <td>{item.email}</td>
+      <td>{roleName || "Đang tải"}</td>
+      <td>
         {item.isDeleted ? "Đang khóa" : "Đang mở"}
       </td>
-      <td className={`hover:bg-gray-200 ${tdStyle}`}>
+      <td>
         {canToggleAccount(roleName) ? (
           <i
             className={`fa cursor-pointer ${item.isDeleted ? "fa-unlock" : "fa-lock"}`}
@@ -52,8 +49,8 @@ const UserTableRow = ({ item, refreshCallBack, roleName }: UserRowProps) => {
       </td>
 
       {/* Nút xem thông tin chi tiết của người dùng */}
-      <td className={`hover:bg-gray-200 ${tdStyle} border-r-4`}>
-        <Link href={`/admin/users/${item.userId}`}>
+      <td>
+        <Link href={`/admin/users/${item.userId}/roles`}>
           {/* Action edit */}
           <i className="fa fa-external-link-alt  cursor-pointer"></i>
         </Link>

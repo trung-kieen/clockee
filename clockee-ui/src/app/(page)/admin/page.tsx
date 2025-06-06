@@ -1,5 +1,5 @@
 "use client";
-import { LoadingScreen } from "@/app/components/common/loading"; // this is
+import { LoadingScreen } from "@/app/components/common/loading"; 
 import { RoleName } from "@/gen/backend";
 import { useAuth } from "@/lib/hooks/use-auth";
 import { useRouter } from "next/navigation";

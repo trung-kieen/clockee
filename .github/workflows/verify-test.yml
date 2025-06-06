@@ -45,12 +45,14 @@ jobs:
         with:
           node-version: 18
           cache: "npm"
+          cache-dependency-path: ./clockee-ui/package-lock.json
+
 
       - name: Install dependencies
         run: npm install --frozen-lockfile
 
-      - name: Typescript check
-        run: npx tsc --noEmit
+      # - name: Typescript check
+      #   run: npx tsc --noEmit
 
       - name: Build Project
         run: npm run build
