@@ -1,7 +1,7 @@
     create table brands (
         is_deleted bit,
         brand_id bigint identity not null,
-        name varchar(255) not null,
+        name nvarchar(255) not null,
         primary key (brand_id)
     );
 
@@ -28,7 +28,7 @@
         order_id bigint identity not null,
         user_id bigint not null,
         phone varchar(11) not null,
-        address TEXT not null,
+        address nvarchar(255) not null,
         status varchar(255) not null check (status in ('PENDING','PROCESSING','SHIPPED','RETURNING','RETURNED','CANCELLED','COMPLETED')),
         primary key (order_id)
     );
@@ -43,21 +43,29 @@
         created_at datetime2(6),
         product_id bigint identity not null,
         stock BIGINT DEFAULT 0 not null,
-        type varchar(50),
-        description TEXT,
         image_url varchar(255),
-        name varchar(255) not null,
+        name nvarchar(255) not null,
+        type varchar(255),
+        description nvarchar(max),
         primary key (product_id)
     );
 
-    create table purchases (
+    create table purchase_items (
         price float(34) not null,
-        total_price float(34) not null,
         created_at datetime2(6) not null,
         product_id bigint not null,
-        purchase_id bigint identity not null,
+        purchase_id bigint not null,
+        purchase_item_id bigint identity not null,
         quantity bigint not null,
         supplier_id bigint not null,
+        primary key (purchase_item_id)
+    );
+
+    create table purchases (
+        total_price float(53),
+        created_at datetime2(6) not null,
+        created_by bigint not null,
+        purchase_id bigint identity not null,
         primary key (purchase_id)
     );
 
@@ -77,19 +85,20 @@
         is_deleted bit,
         supplier_id bigint identity not null,
         phone varchar(11),
-        address TEXT,
         email varchar(255),
-        name varchar(255) not null,
+        name nvarchar(255) not null,
+        address nvarchar(max),
         primary key (supplier_id)
     );
 
     create table users (
         is_deleted bit,
+        is_verified bit,
         user_id bigint identity not null,
         phone varchar(20),
-        address TEXT,
+        address nvarchar(255),
         email varchar(255) not null,
-        name varchar(255) not null,
+        name nvarchar(255) not null,
         password varchar(255) not null,
         primary key (user_id)
     );
@@ -141,15 +150,25 @@
        foreign key (brand_id)
        references brands;
 
-    alter table purchases
-       add constraint FKcacbvw28fu31rv1vrhnkcbe28
+    alter table purchase_items
+       add constraint FKbwtjp8gfcre77l1mxverb6up0
        foreign key (product_id)
        references products;
 
-    alter table purchases
-       add constraint FK9ho3w23v5du4x0hrp6rqs1wmh
+    alter table purchase_items
+       add constraint FKhcski0jcuja0o3vhb7o15yqvi
+       foreign key (purchase_id)
+       references purchases;
+
+    alter table purchase_items
+       add constraint FKe7092p2yo6goyufxlcw5xnx7l
        foreign key (supplier_id)
        references suppliers;
+
+    alter table purchases
+       add constraint FKal92jfnl4o3ueqvq8t6ivfdml
+       foreign key (created_by)
+       references users;
 
     alter table roles_users
        add constraint FKsmos02hm32191ogexm2ljik9x
