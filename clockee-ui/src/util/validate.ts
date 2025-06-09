@@ -1,4 +1,3 @@
-
 export const getPasswordError = (val?: string): string | undefined => {
   if (!val) return;
   if (val.length < 6) return "Mật khẩu phải ít nhất 6 ký tự";

@@ -18,9 +18,8 @@ const RegisterForm = () => {
     handleSubmit,
     watch,
     setError,
-    formState: { errors }
+    formState: { errors },
   } = useForm<CreateUserRequest>();
-
 
   const password = watch("password");
 
@@ -28,15 +27,14 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<CreateUserRequest> = async (data) => {
     try {
       await AuthControllerService.register(data);
-      toast.success("Đăng ký tài khoản thành công vui lòng kiểm tra email để xác nhận tài khoản")
+      toast.success(
+        "Đăng ký tài khoản thành công vui lòng kiểm tra email để xác nhận tài khoản",
+      );
       router.push("/login");
     } catch (error) {
       mapApiErrorsToForm(error, setError);
-
     }
-
-
-  }
+  };
   return (
     <form action="" onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full md:w-[380px] bg-white p-8 rounded-lg shadow-lg border border-yellow-300">
@@ -50,16 +48,13 @@ const RegisterForm = () => {
           placeholder="Email"
           autoFocus
           className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
-          {...register("email",
-            {
-              required: "Email không được để trống",
-              pattern: {
-                value: EMAIL_PATTERN,
-                message: "Email không hợp lệ"
-
-              }
-            }
-          )}
+          {...register("email", {
+            required: "Email không được để trống",
+            pattern: {
+              value: EMAIL_PATTERN,
+              message: "Email không hợp lệ",
+            },
+          })}
         />
         <p className="text-red-500 mt-2 text-sm">
           {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
@@ -68,12 +63,9 @@ const RegisterForm = () => {
           type="text"
           placeholder="Họ và tên"
           className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
-          {...register("name",
-            {
-              required: "Tên không được để trống",
-            }
-          )}
-
+          {...register("name", {
+            required: "Tên không được để trống",
+          })}
         />
         <div className="text-red-500 mt-2 text-sm">
           {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
@@ -106,12 +98,14 @@ const RegisterForm = () => {
             className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
             {...register("passwordConfirmation", {
               required: "Vui lòng xác nhận lại mật khẩu",
-              validate: (val) => val === password || "Mật khẩu xác nhận không khớp",
+              validate: (val) =>
+                val === password || "Mật khẩu xác nhận không khớp",
             })}
-
           />
           <div className="text-red-500 mt-2 text-sm">
-            {errors.passwordConfirmation&& <ErrorText>{errors.passwordConfirmation.message}</ErrorText>}
+            {errors.passwordConfirmation && (
+              <ErrorText>{errors.passwordConfirmation.message}</ErrorText>
+            )}
             {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
           </div>
           <button
@@ -122,9 +116,7 @@ const RegisterForm = () => {
             {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
-        <button
-          className="w-full bg-yellow-400 text-white p-3 rounded mt-3 font-semibold shadow-md disabled:opacity-50"
-        >
+        <button className="w-full bg-yellow-400 text-white p-3 rounded mt-3 font-semibold shadow-md disabled:opacity-50">
           Đăng Ký
         </button>
 

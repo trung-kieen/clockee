@@ -3,8 +3,6 @@ package com.example.clockee_server.auth.jwt;
 import com.example.clockee_server.auth.SecurityUtil;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.repository.UserRepository;
-
-import io.jsonwebtoken.ExpiredJwtException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

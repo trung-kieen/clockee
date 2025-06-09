@@ -70,7 +70,8 @@ const HttpClient = () => {
         }
       }
 
-      const unauthorized = error.response.status === HttpStatusCode.Unauthorized;
+      const unauthorized =
+        error.response.status === HttpStatusCode.Unauthorized;
       const noAccessTokenAndForbidden =
         error.response.status === HttpStatusCode.Forbidden &&
         !AuthManager.getAccessToken();

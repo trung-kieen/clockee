@@ -20,7 +20,7 @@ import com.example.clockee_server.config.ApplicationConstants;
 import com.example.clockee_server.entity.Role;
 import com.example.clockee_server.payload.PageResponse;
 import com.example.clockee_server.payload.dto.UserDetailResponse;
-import com.example.clockee_server.service.AdminUserService;
+import com.example.clockee_server.service.admin.AdminUserService;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

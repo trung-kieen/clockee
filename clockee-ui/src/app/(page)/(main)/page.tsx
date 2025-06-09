@@ -6,7 +6,9 @@ import {
 } from "@/gen";
 import React, { useEffect, useState } from "react";
 import { logger } from "@/util/logger";
-import ProductCollection from "@/app/components/product/product-collection";
+import ProductCollection, {
+  ProductCollectionPreload,
+} from "@/app/components/product/product-collection";
 
 export default function HomePage() {
   const [bestSellingProducts, setBestSelingProducts] = useState<
@@ -48,14 +50,22 @@ export default function HomePage() {
         <h3 className="text-2xl font-bold p-10 text-center text-[1.6em]">
           Sản phẩm mới nhất
         </h3>
-        <ProductCollection products={latestProducts?.content || []} />
+        {latestProducts.content ? (
+          <ProductCollection products={latestProducts.content || []} />
+        ) : (
+          <ProductCollectionPreload />
+        )}
       </div>
 
       <div className="lg:w-3/4 mx-auto">
         <h3 className="text-2xl font-bold text-center text-[1.6em] p-10 ">
           Sản phẩm bán chạy
         </h3>
-        <ProductCollection products={bestSellingProducts} />
+        {bestSellingProducts.length > 0 ? (
+          <ProductCollection products={bestSellingProducts} />
+        ) : (
+          <ProductCollectionPreload />
+        )}
       </div>
     </>
   );
