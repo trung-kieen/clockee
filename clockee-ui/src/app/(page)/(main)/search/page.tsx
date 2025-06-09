@@ -5,6 +5,7 @@ import ProductCollection from "@/app/components/product/product-collection";
 import { UNIT } from "@/config/app-config";
 import {
   AdminBrandControllerService,
+  BrandControllerService,
   BrandDTO,
   PageResponseProductSummaryResponse,
   UserProductControllerService,
@@ -18,7 +19,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
 const types = ["Specialty", "General", "Luxury", "Local"];
-const DEFAULT_MAX_PRICE = 50;
+const DEFAULT_MAX_PRICE = 100;
 const MAX_PRICE = 500;
 
 type FilterProps = {
@@ -139,16 +140,10 @@ const FilterSidebar = ({
   selectedFilters,
   setSelectedFilters,
 }: FilterSidebarProps) => {
-  // const handleTypeChange = (type: string) => {
-  //   setSelectedFilters((prev) => ({
-  //     ...prev,
-  //     type: type === prev.type ? '' : type,
-  //   }));
-  // };
 
   const { fetchMore, pageInfo } = useLazyPage<BrandDTO>({
     fetchData: async (page, query) => {
-      return await AdminBrandControllerService.getAllBrands(
+      return await BrandControllerService.getAllBrands1(
         page,
         undefined,
         query,

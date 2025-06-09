@@ -30,7 +30,7 @@ const UserTableRow = ({ item, refreshCallBack, roleName }: UserRowProps) => {
       <td>{item.name}</td>
       <td>{item.email}</td>
       <td>{roleName || "Đang tải"}</td>
-      <td>{ item.enabled ? "Đang mở" : "Đang khóa"}</td>
+      <td>{item.enabled ? "Đang mở" : "Đang khóa"}</td>
       <td>
         {canToggleAccount(roleName) ? (
           <i

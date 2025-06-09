@@ -28,4 +28,14 @@ const ProductSummaryCard = ({
   );
 };
 
+export const ProductSummaryPreload = () => {
+  return (
+    <div className="card skeleton bg-base-100 w-50 shadow-sm cursor-pointer transition-transform hover:scale-105">
+      <figure className="pt-6">
+        {<Thumbnail className="h-[18rem] w-[18rem] skeleton"></Thumbnail>}
+      </figure>
+    </div>
+  );
+};
+
 export default ProductSummaryCard;

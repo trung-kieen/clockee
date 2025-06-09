@@ -1,11 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-09 10:20:03.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-09 21:53:24.
 
 export interface Brand {
   brandId: number;
   name: string;
   isDeleted: boolean;
+  products: Product[];
 }
 
 export interface CartItem {
@@ -95,8 +96,8 @@ export interface User extends UserDetails {
   purchases: Purchase[];
   verificationCode: VerificationCode;
   roles: Role[];
-  verified: boolean;
   roleIds: number[];
+  verified: boolean;
 }
 
 export interface VerificationCode {
@@ -123,12 +124,12 @@ export interface GrantedAuthority extends Serializable {
 
 export interface UserDetails extends Serializable {
   enabled: boolean;
+  username: string;
+  password: string;
   authorities: GrantedAuthority[];
   accountNonExpired: boolean;
   accountNonLocked: boolean;
   credentialsNonExpired: boolean;
-  username: string;
-  password: string;
 }
 
 export interface Serializable {}

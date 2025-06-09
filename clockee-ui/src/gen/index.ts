@@ -65,6 +65,7 @@ export { AdminPurchaseControllerService } from "./services/AdminPurchaseControll
 export { AdminSupplierControllerService } from "./services/AdminSupplierControllerService";
 export { AdminUserControllerService } from "./services/AdminUserControllerService";
 export { AuthControllerService } from "./services/AuthControllerService";
+export { BrandControllerService } from "./services/BrandControllerService";
 export { CartControllerService } from "./services/CartControllerService";
 export { FinancialReportControllerService } from "./services/FinancialReportControllerService";
 export { OrderControllerService } from "./services/OrderControllerService";

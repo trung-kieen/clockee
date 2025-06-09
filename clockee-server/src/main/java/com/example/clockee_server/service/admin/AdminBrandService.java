@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class BrandService {
+public class AdminBrandService {
   @Autowired private BrandRepository brandRepository;
 
   public Page<BrandDTO> getAllBrands(int page, int size, @NotNull String name) {
