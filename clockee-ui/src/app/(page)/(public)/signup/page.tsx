@@ -1,58 +1,44 @@
 "use client";
-import { FormEvent, useState } from "react";
-import { Eye, EyeOff, CheckCircle } from "lucide-react";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { AuthControllerService, CreateUserRequest } from "@/gen";
 import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { EMAIL_PATTERN } from "@/config/pattern";
+import ErrorText from "@/app/components/typography/error-text";
+import { getPasswordError } from "@/util/validate";
+import { mapApiErrorsToForm } from "@/util/form";
+import { toast } from "react-toastify";
 const RegisterForm = () => {
-  const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors }
+  } = useForm<CreateUserRequest>();
 
-  // Regex kiểm tra kí tự có dấu
-  const hasVietnameseChars = (str: string) => /[À-Ỹà-ỹ]/.test(str);
-  const isValidEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isValidPhone = (phone: string) => /^\d{10}$/.test(phone);
-  // Kiểm tra điều kiện mật khẩu
-  const isPasswordValid = password.length >= 6;
-  const isPasswordNoDiacritics = !hasVietnameseChars(password);
-  const passwordMatch =
-    password && confirmPassword && password == confirmPassword;
-  const isFormValid =
-    isPasswordValid &&
-    isPasswordNoDiacritics &&
-    passwordMatch &&
-    isValidEmail(email) &&
-    fullName.trim() !== "" &&
-    isValidPhone(phoneNumber);
+
+  const password = watch("password");
 
   const router = useRouter();
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const createUserRequest: CreateUserRequest = {
-      email: email,
-      password: password,
-      passwordConfirmation: confirmPassword,
-      name: fullName,
-    };
-
+  const onSubmit: SubmitHandler<CreateUserRequest> = async (data) => {
     try {
-      const res = await AuthControllerService.register(createUserRequest);
-      // TODO: redirect to login/success page to notice user confirm email
-      console.log(res);
+      await AuthControllerService.register(data);
+      toast.success("Đăng ký tài khoản thành công vui lòng kiểm tra email để xác nhận tài khoản")
       router.push("/login");
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      mapApiErrorsToForm(error, setError);
+
     }
-  };
+
+
+  }
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <form action="" onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full md:w-[380px] bg-white p-8 rounded-lg shadow-lg border border-yellow-300">
         {/* Tiêu đề */}
         <div className="flex justify-between items-center bg-White rounded-md">
@@ -62,41 +48,44 @@ const RegisterForm = () => {
         <input
           type="text"
           placeholder="Email"
+          autoFocus
           className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email",
+            {
+              required: "Email không được để trống",
+              pattern: {
+                value: EMAIL_PATTERN,
+                message: "Email không hợp lệ"
+
+              }
+            }
+          )}
         />
-        {email && !isValidEmail(email) && (
-          <p className="text-red-500 mt-2 text-sm">Email không hợp lệ!</p>
-        )}
+        <p className="text-red-500 mt-2 text-sm">
+          {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+        </p>
         <input
           type="text"
           placeholder="Họ và tên"
           className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
-          onChange={(e) => setFullName(e.target.value)}
+          {...register("name",
+            {
+              required: "Tên không được để trống",
+            }
+          )}
+
         />
-        {fullName.trim() === "" && (
-          <p className="text-red-500 mt-2 text-sm">Vui lòng nhập họ và tên!</p>
-        )}
-        <input
-          type="text"
-          placeholder="Số điện thoại"
-          className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        {phoneNumber && !isValidPhone(phoneNumber) && (
-          <p className="text-red-500 mt-2 text-sm">
-            Số điện thoại chưa hợp lệ!
-          </p>
-        )}
-        {/*Xử lý mật khẩu nhập*/}
+        <div className="text-red-500 mt-2 text-sm">
+          {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
+        </div>
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Mật khẩu"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", {
+              required: "Mật khẩu không được để trống",
+              validate: () => getPasswordError(password) ?? true,
+            })}
             className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
           />
           <button
@@ -106,34 +95,25 @@ const RegisterForm = () => {
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
-          {isPasswordValid && (
-            <CheckCircle
-              size={20}
-              className="absolute inset-y-0 top-[22px] right-10 text-green-500"
-            />
-          )}
         </div>
-        {/* Cảnh báo nếu nhập chưa đủ 6 ký tự */}
-        {password && !isPasswordValid && (
-          <p className="text-red-500 mt-2 text-sm">
-            Mật khẩu phải có ít nhất 6 kí tự!
-          </p>
-        )}
-        {/* Cảnh báo nếu mật khẩu chứa dấu tiếng việt */}
-        {password && !isPasswordNoDiacritics && (
-          <p className="text-red-500 mt-2 text-sm">
-            Mật khẩu không được có dấu!
-          </p>
-        )}
-        {/* Xử lý nhập lại mật khẩu */}
+        <div className="text-red-500 mt-2 text-sm">
+          {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+        </div>
         <div className="relative">
           <input
             type={showConfirmPassword ? "text" : "password"}
             placeholder="Xác nhận mật khẩu"
             className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            {...register("passwordConfirmation", {
+              required: "Vui lòng xác nhận lại mật khẩu",
+              validate: (val) => val === password || "Mật khẩu xác nhận không khớp",
+            })}
+
           />
+          <div className="text-red-500 mt-2 text-sm">
+            {errors.passwordConfirmation&& <ErrorText>{errors.passwordConfirmation.message}</ErrorText>}
+            {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
+          </div>
           <button
             type="button"
             className="absolute top-3 inset-y-0 right-3 flex items-center"
@@ -141,28 +121,13 @@ const RegisterForm = () => {
           >
             {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
-          {passwordMatch && isPasswordValid && isPasswordNoDiacritics && (
-            <CheckCircle
-              size={20}
-              className="absolute inset-y-0 top-[22px] right-10 text-green-500"
-            />
-          )}
         </div>
-        {/* Cảnh báo nếu mật khẩu nhập lại không khớp*/}
-        {confirmPassword &&
-          !passwordMatch &&
-          isPasswordValid &&
-          isPasswordNoDiacritics && (
-            <p className="text-red-500 mt-2 text-sm">Mat khau khong khop!</p>
-          )}
         <button
           className="w-full bg-yellow-400 text-white p-3 rounded mt-3 font-semibold shadow-md disabled:opacity-50"
-          disabled={!isFormValid}
         >
           Đăng Ký
         </button>
 
-        {/* Link quên mật khẩu & đăng ký */}
         <div className="flex justify-center text-sm text-gray-600 mt-3 border-t border-gray-300 pt-4">
           <span className="text-gray-600 pr-2 ">Bạn đã có tài khoản?</span>
           <Link

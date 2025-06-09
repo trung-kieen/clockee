@@ -6,6 +6,7 @@ import ErrorText from "@/app/components/typography/error-text";
 import { ChangePasswordRequest, UserControllerService } from "@/gen";
 import { mapApiErrorsToForm } from "@/util/form";
 import { Eye, EyeOff } from "lucide-react";
+import { getPasswordError } from "@/util/validate";
 
 const ChangePasswordForm = () => {
   const {
@@ -16,9 +17,7 @@ const ChangePasswordForm = () => {
     formState: { errors, touchedFields },
   } = useForm<ChangePasswordRequest>();
 
-  const oldPassword = watch("oldPassword");
   const newPassword = watch("newPassword");
-  const newPasswordConfirmation = watch("newPasswordConfirmation");
 
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
@@ -38,16 +37,6 @@ const ChangePasswordForm = () => {
   };
 
   // Kiểm tra điều kiện và chỉ trả về lỗi đầu tiên
-  const getPasswordError = (val?: string): string | undefined => {
-    if (!val) return;
-    if (val === oldPassword) return "Không được trùng với mật khẩu cũ";
-    if (val.length < 6) return "Mật khẩu phải ít nhất 6 ký tự";
-    if (!/[A-Z]/.test(val)) return "Mật khẩu phải có chữ in hoa";
-    if (!/[0-9]/.test(val)) return "Mật khẩu phải có số";
-    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(val))
-      return "Mật khẩu phải có ký tự đặc biệt";
-    return;
-  };
 
   const passwordError = getPasswordError(newPassword);
 

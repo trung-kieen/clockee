@@ -27,7 +27,7 @@ public class CreateUserRequest {
   private String email;
 
   @NotBlank(message = "mật khẩu không được trống")
-  @Length(min = 8, message = "Mật khẩu cần tối thiểu 8 ký tự")
+  @Length(min = 6, message = "Mật khẩu cần tối thiểu 8 ký tự")
   @Pattern(
       regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
       message = "must contain at least one uppercase letter, one lowercase letter, and one digit.")

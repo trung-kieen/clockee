@@ -16,6 +16,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +62,9 @@ public class User implements UserDetails {
   @Column(length = 20)
   private String phone;
 
-  @Column @Nationalized private String address;
+  @Column
+  @Nationalized
+  private String address;
 
   @Builder.Default
   @Column(name = "is_deleted")
@@ -70,22 +73,18 @@ public class User implements UserDetails {
   @Column(name = "is_verified")
   private boolean isVerified = false;
 
+  @Column(name = "enabled", nullable = false, columnDefinition = "bit default 1")
+  private Boolean enabled;
+
   @OneToMany(mappedBy = "createdBy")
   @Column
   private List<Purchase> purchases;
 
-  @OneToOne(
-      mappedBy = "user",
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
+  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private VerificationCode verificationCode;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "roles_users",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   @JsonManagedReference
   Set<Role> roles;
 
@@ -99,6 +98,8 @@ public class User implements UserDetails {
     this.name = req.getName();
     this.email = req.getEmail();
     this.password = passwordEncoder.encode(req.getPassword());
+    this.enabled = true;
+    this.isDeleted = false;
   }
 
   public void updatePassword(String newPassword) {
@@ -133,12 +134,24 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    // Alow user to login before verified
-    return true;
+    if (this.enabled == null){
+      // Default value;
+      return true;
+    }
+    return Boolean.TRUE.equals(this.enabled);
+  }
+
+  @PrePersist
+  public void prePersist() {
+    if (enabled == null) {
+      enabled = true;
+    }
+
   }
 
   public List<Long> getRoleIds() {
-    if (roles == null) return new ArrayList<>();
+    if (roles == null)
+      return new ArrayList<>();
     return roles.stream().map(Role::getRoleId).collect(Collectors.toList());
   }
 }

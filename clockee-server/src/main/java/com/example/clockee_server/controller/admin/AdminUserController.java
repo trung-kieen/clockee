@@ -56,10 +56,10 @@ public class AdminUserController {
     return ResponseEntity.ok(roles);
   }
 
-  @PatchMapping("/{id}/deleted")
-  public ResponseEntity<String> updateUserdeletedStatus(
+  @PatchMapping("/{id}/enabled")
+  public ResponseEntity<String> updateUserEnableStatus(
       @PathVariable Long id, @RequestParam("isDeleted") Boolean isDeleted) {
-    adminUserService.updateDeletedStatus(id, isDeleted);
+    adminUserService.updateEnableStatus(id, isDeleted);
     return ResponseEntity.noContent().build();
   }
 }

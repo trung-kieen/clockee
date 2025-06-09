@@ -12,9 +12,9 @@ const UserTableRow = ({ item, refreshCallBack, roleName }: UserRowProps) => {
   const handleUpdate = async () => {
     if (!item.userId) return;
     try {
-      await AdminUserControllerService.updateUserdeletedStatus(
+      await AdminUserControllerService.updateUserEnableStatus(
         item.userId,
-        !item.isDeleted,
+        !item.enabled,
       );
       refreshCallBack(); // Reload lại bảng user sau khi update
     } catch (err) {
@@ -23,21 +23,19 @@ const UserTableRow = ({ item, refreshCallBack, roleName }: UserRowProps) => {
   };
   const canToggleAccount = (role?: string) => role === "CUSTOMER";
   return (
-    <tr >
+    <tr>
       <td>
         <i className="fa fa-user"></i>
       </td>
       <td>{item.name}</td>
       <td>{item.email}</td>
       <td>{roleName || "Đang tải"}</td>
-      <td>
-        {item.isDeleted ? "Đang khóa" : "Đang mở"}
-      </td>
+      <td>{ item.enabled ? "Đang mở" : "Đang khóa"}</td>
       <td>
         {canToggleAccount(roleName) ? (
           <i
-            className={`fa cursor-pointer ${item.isDeleted ? "fa-unlock" : "fa-lock"}`}
-            title={item.isDeleted ? "Mở khóa" : "Khóa"}
+            className={`fa cursor-pointer ${item.enabled ? "fa-unlock" : "fa-lock"}`}
+            title={item.enabled ? "Chặn" : "Mở chặn"}
             onClick={handleUpdate}
           ></i>
         ) : (

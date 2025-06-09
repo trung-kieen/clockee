@@ -14,6 +14,7 @@ export type User = {
   phone?: string;
   address?: string;
   isDeleted?: boolean;
+  enabled?: boolean;
   purchases?: Array<Purchase>;
   verificationCode?: VerificationCode;
   roles?: Array<Role>;
@@ -24,5 +25,4 @@ export type User = {
   accountNonLocked?: boolean;
   credentialsNonExpired?: boolean;
   roleIds?: Array<number>;
-  enabled?: boolean;
 };

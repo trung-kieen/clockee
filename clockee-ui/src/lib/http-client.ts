@@ -1,5 +1,5 @@
 import { API_BASE, USERNAME_COOKIE_KEY } from "@/config/app-config";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { AuthManager } from "@/lib/auth/AuthManager";
 import { toast } from "react-toastify";
 import { logger } from "@/util/logger";
@@ -70,11 +70,9 @@ const HttpClient = () => {
         }
       }
 
-      const unAuthorizedStatus = 401;
-      const fobiddenStatus = 403;
-      const unauthorized = error.response.status === unAuthorizedStatus;
+      const unauthorized = error.response.status === HttpStatusCode.Unauthorized;
       const noAccessTokenAndForbidden =
-        error.response.status === fobiddenStatus &&
+        error.response.status === HttpStatusCode.Forbidden &&
         !AuthManager.getAccessToken();
       if (unauthorized || noAccessTokenAndForbidden) {
         if (originalConfig.retry) {
@@ -85,6 +83,7 @@ const HttpClient = () => {
 
           // Logout
           logger.warn("Unable refresh token, TODO: redirect login");
+          window.location.href = "/login";
           return Promise.reject(error);
         } else {
           logger.info("Refresh token retry");

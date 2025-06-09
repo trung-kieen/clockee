@@ -1,14 +1,13 @@
-"use client"
-import { useParams } from 'next/navigation'; 
-import { toast } from 'react-toastify'; 
-import { AdminUserControllerService, Role, UserDetailResponse } from '@/gen';
-import { useEffect, useState } from 'react';
-import AdminMainCard from '@/app/components/card/admin-card';
-
+"use client";
+import { useParams } from "next/navigation";
+import { toast } from "react-toastify";
+import { AdminUserControllerService, Role, UserDetailResponse } from "@/gen";
+import { useEffect, useState } from "react";
+import AdminMainCard from "@/app/components/card/admin-card";
 
 const UserDetailPage = () => {
-  const params = useParams(); 
-  const id = Number(params?.id); 
+  const params = useParams();
+  const id = Number(params?.id);
 
   const [user, setUser] = useState<UserDetailResponse | null>(null);
   const [userRoles, setUserRoles] = useState<Array<Role> | null>();
@@ -18,21 +17,23 @@ const UserDetailPage = () => {
       return;
     }
     const fetchData = async () => {
-    try {
-      const res = await AdminUserControllerService.getUserById(Number(id));
+      try {
+        const res = await AdminUserControllerService.getUserById(Number(id));
         setUser(res);
-        const roleRes = await AdminUserControllerService.getRoleById(Number(id));
-        setUserRoles(roleRes)
-    } catch (error) {
-      toast.error("Không thể lấy dữ liệu người dùng hoặc vai trò");
-    }
+        const roleRes = await AdminUserControllerService.getRoleById(
+          Number(id),
+        );
+        setUserRoles(roleRes);
+      } catch (error) {
+        toast.error("Không thể lấy dữ liệu người dùng hoặc vai trò");
+      }
     };
     fetchData();
   }, [id]);
 
   return (
     <>
-      <AdminMainCard title='Chi tiết người dùng' goBack={true}>
+      <AdminMainCard title="Chi tiết người dùng" goBack={true}>
         {user ? (
           <form className="space-y-4">
             <div>
@@ -56,7 +57,9 @@ const UserDetailPage = () => {
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-lg font-medium">Số điện thoại</label>
+                <label className="block text-lg font-medium">
+                  Số điện thoại
+                </label>
                 <input
                   type="text"
                   value={user.phone || ""}
@@ -80,9 +83,11 @@ const UserDetailPage = () => {
               <div className=" rounded-box grid h-20 grow ">
                 <label className="block text-lg font-medium">Vai trò</label>
                 <input
-                  value={userRoles && userRoles.length > 0
-                          ? userRoles.map((r) => r.roleName).join(", ")
-                          : "Không có vai trò"}
+                  value={
+                    userRoles && userRoles.length > 0
+                      ? userRoles.map((r) => r.roleName).join(", ")
+                      : "Không có vai trò"
+                  }
                   type="text"
                   disabled
                   className="w-full border p-2 rounded"
@@ -96,8 +101,8 @@ const UserDetailPage = () => {
                     user?.isDeleted === true
                       ? "Đã bị xóa"
                       : user?.isDeleted === false
-                      ? "Đang hoạt động"
-                      : "Không rõ"
+                        ? "Đang hoạt động"
+                        : "Không rõ"
                   }
                   disabled
                   className="w-full border p-2 rounded"
@@ -105,9 +110,9 @@ const UserDetailPage = () => {
               </div>
             </div>
           </form>
-      ) : (
-        <p>Đang tải dữ liệu người dùng...</p>
-      )}
+        ) : (
+          <p>Đang tải dữ liệu người dùng...</p>
+        )}
       </AdminMainCard>
     </>
   );

@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminMainCard from "@/app/components/card/admin-card";
 import DataTable from "@/app/components/common/data-table";
 import UserTableRow from "./components/user-table-row";
@@ -51,18 +51,12 @@ export default function UserAdminPage() {
     } catch (err) {
       console.warn(err);
     }
-
-
-
   };
 
-  const { pageInfo, setPage, query, setQuery, setPageInfo, page } =
+  const { pageInfo, setPage, setPageInfo, page } =
     usePageSearch<PageResponseUserDetailResponse>({
       fetchData: fetchUsers,
     });
-
-
-
 
   return (
     <AdminMainCard title="Danh sách người dùng" goBack={false}>
@@ -73,13 +67,7 @@ export default function UserAdminPage() {
         <DataTable<UserDetailResponse>
           data={pageInfo.content || []}
           emptyMessage="Không tìm thấy sản phẩm nào"
-          headers={[
-            "",
-            "Tên người dùng",
-            "Email",
-            "Vai trò",
-            "Trạng thái",
-          ]}
+          headers={["", "Tên người dùng", "Email", "Vai trò", "Trạng thái"]}
           renderRow={(item, index) => (
             <UserTableRow
               key={index}
