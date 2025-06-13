@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-09 21:53:24.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-13 15:59:03.
 
 export interface Brand {
   brandId: number;
@@ -96,8 +96,8 @@ export interface User extends UserDetails {
   purchases: Purchase[];
   verificationCode: VerificationCode;
   roles: Role[];
-  roleIds: number[];
   verified: boolean;
+  roleIds: number[];
 }
 
 export interface VerificationCode {
@@ -160,6 +160,7 @@ export const enum RoleName {
   CUSTOMER = "CUSTOMER",
   PRODUCT_ADMIN = "PRODUCT_ADMIN",
   INVENTORY_MANAGER = "INVENTORY_MANAGER",
+  SYS_ADMIN = "SYS_ADMIN",
 }
 
 function uriEncoding(

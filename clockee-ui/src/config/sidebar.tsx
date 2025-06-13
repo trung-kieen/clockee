@@ -1,3 +1,4 @@
+import { RoleName } from "@/gen/backend";
 import { SidebarItem } from "@/model/SidebarItem";
 
 export const adminMenuItems: Array<SidebarItem> = [
@@ -8,27 +9,27 @@ export const adminMenuItems: Array<SidebarItem> = [
       {
         title: "Danh sách đơn hàng",
         href: "/admin/orders/",
-        subItems: [],
+        roles: [RoleName.PRODUCT_ADMIN]
       },
       {
         title: "Người dùng",
         href: "/admin/users/",
-        subItems: [],
+        roles: [RoleName.PRODUCT_ADMIN]
       },
       {
         title: "Sản phẩm",
         href: "/admin/products",
-        subItems: [],
+        roles: [RoleName.PRODUCT_ADMIN]
       },
       {
         title: "Thương hiệu",
         href: "/admin/brands",
-        subItems: [],
+        roles: [RoleName.PRODUCT_ADMIN]
       },
       {
         title: "Thống kê",
         href: "/admin/dashboard",
-        subItems: [],
+        roles: [RoleName.PRODUCT_ADMIN]
       },
     ],
   },
@@ -39,18 +40,29 @@ export const adminMenuItems: Array<SidebarItem> = [
       {
         title: "Nhà cung cấp",
         href: "/admin/suppliers/",
-        subItems: [],
+        roles: [RoleName.INVENTORY_MANAGER]
       },
       {
         title: "Nhập hàng",
         href: "/admin/purchases/",
-        subItems: [],
+        roles: [RoleName.INVENTORY_MANAGER]
       },
     ],
   },
   {
-    title: "Đăng xuất",
-    href: "/logout",
-    subItems: [],
+    title: "Hệ thống",
+    href: "#",
+    subItems: [
+      {
+        title: "Quản trị",
+        href: "/admin/account/",
+        roles: [RoleName.SYS_ADMIN]
+      },
+      {
+        title: "Đăng xuất",
+        href: "/logout",
+        subItems: [],
+      },
+    ],
   },
 ];

@@ -38,7 +38,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
       } catch (error) {
         logger.warn(error);
       }
-    }
+    };
     fetchBrands();
   }, []);
 
@@ -59,23 +59,26 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           // Quick filter product by gender, branch, ...
           filter && (
             <div className="flex justify-around mt-3  px-10 space-x-10 text-gray-700 font-medium ">
-
               <div className="dropdown dropdown-hover">
-                <label tabIndex={0} className="hover:text-yellow-500 font-bold m-1 cursor-pointer">
-                  <Link href={"/brands"}>
-                    Thương hiệu
-                  </Link>
+                <label
+                  tabIndex={0}
+                  className="hover:text-yellow-500 font-bold m-1 cursor-pointer"
+                >
+                  <Link href={"/brands"}>Thương hiệu</Link>
                 </label>
-                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  {
-                    popularBrands.map((brand) => {
-                      return (
-                        <li key={brand.brandId}>
-                          <Link href={`/search?brandId=${brand.brandId}`} >{brand.name}</Link>
-                        </li>
-                      )
-                    })
-                  }
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  {popularBrands.map((brand) => {
+                    return (
+                      <li key={brand.brandId}>
+                        <Link href={`/search?brandId=${brand.brandId}`}>
+                          {brand.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -105,11 +108,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
         {isAuthenticated ? (
           <>
             <div className="dropdown dropdown-end ">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn border-none"
-              >
+              <div tabIndex={0} role="button" className="btn border-none">
                 <User className="text-gray-700 hover:text-black" />
               </div>
 

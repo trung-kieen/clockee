@@ -16,4 +16,5 @@ public class ApplicationConstants {
   public static final String _CUSTOMER = "CUSTOMER";
   public static final String _PRODUCT_ADMIN = "PRODUCT_ADMIN";
   public static final String _INVENTORY_MANAGER = "INVENTORY_MANAGER";
+  public static final String _SYS_ADMIN = "SYS_ADMIN";
 }

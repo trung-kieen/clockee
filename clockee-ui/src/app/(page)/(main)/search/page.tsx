@@ -140,14 +140,9 @@ const FilterSidebar = ({
   selectedFilters,
   setSelectedFilters,
 }: FilterSidebarProps) => {
-
   const { fetchMore, pageInfo } = useLazyPage<BrandDTO>({
     fetchData: async (page, query) => {
-      return await BrandControllerService.getAllBrands1(
-        page,
-        undefined,
-        query,
-      );
+      return await BrandControllerService.getAllBrands1(page, undefined, query);
     },
   });
   const brandPage = pageInfo;

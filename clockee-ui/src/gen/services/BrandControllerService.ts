@@ -21,7 +21,7 @@ export class BrandControllerService {
   ): CancelablePromise<PageBrandDTO> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/brand",
+      url: "/brands",
       query: {
         page: page,
         size: size,
@@ -39,7 +39,7 @@ export class BrandControllerService {
   ): CancelablePromise<Array<any>> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/brand/popular",
+      url: "/brands/popular",
       query: {
         size: size,
       },

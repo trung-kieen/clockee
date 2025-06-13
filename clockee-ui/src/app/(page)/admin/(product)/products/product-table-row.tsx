@@ -44,6 +44,7 @@ const ProductTableRow = ({ item, refreshCallBack }: ProductRowProps) => {
       <td>{item.name}</td>
       <td>{formatVND(item.actualPrice)}</td>
       <td>{formatVND(item.sellPrice)}</td>
+      <td>{item.stock}</td>
       <td>{item.type}</td>
       <td>{item.brand?.name}</td>
       <td className="hover:bg-gray-200">
