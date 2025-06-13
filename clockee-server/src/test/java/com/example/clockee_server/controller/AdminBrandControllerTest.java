@@ -1,24 +1,35 @@
 package com.example.clockee_server.controller;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-import static org.springframework.test.web.servlet.setup.SharedHttpSessionConfigurer.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.http.MediaType;
 
-import com.example.clockee_server.common.AbstractIntegrationTest;
-import com.example.clockee_server.config.ApplicationConstants;
-import com.example.clockee_server.controller.admin.AdminBrandController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.example.clockee_server.common.AbstractIntegrationTest;
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.controller.admin.AdminBrandController;
+import com.example.clockee_server.entity.Brand;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /** AdminBrandControllerTest {@link AdminBrandController} */
 public class AdminBrandControllerTest extends AbstractIntegrationTest {
 
+  private Brand brandRequest;
+
+  private ObjectMapper objectMapper;
+
   @BeforeEach
-  private void init() {}
+  private void init() {
+    brandRequest = Brand.builder()
+    .name("Tisco")
+    .build();
+    objectMapper = new ObjectMapper();
+
+  }
 
   @Test
   @WithMockUser(username = "test_user", roles = ApplicationConstants._PRODUCT_ADMIN)
@@ -28,14 +39,14 @@ public class AdminBrandControllerTest extends AbstractIntegrationTest {
 
   @Test
   @WithMockUser(username = "test_user")
-  public void getProductWithoutRole_fail() throws Exception {
-    mockMvc.perform(get("/admin/brands").secure(true)).andExpect(status().isUnauthorized());
+  public void createProductWithoutRole_farl() throws Exception {
+    String requestBody = objectMapper.writeValueAsString(brandRequest);
+    mockMvc.perform(post("/admin/brands")
+      .secure(true)
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+      .content(requestBody)
+    )
+      .andExpect(status().isUnauthorized());
   }
 
-  // Status code 401 or 403 ??? Checkout AuthEntryPoint
-  // @Test
-  // @WithMockUser(username = "test_user", roles = ApplicationConstants._INVENTORY_MANAGER)
-  // public void getProductWrongRole_fail() throws Exception {
-  //   mockMvc.perform(get("/admin/brands").secure(true)).andExpect(status().isForbidden());
-  // }
 }

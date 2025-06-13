@@ -1,10 +1,5 @@
 package com.example.clockee_server.controller.admin;
 
-import com.example.clockee_server.config.ApplicationConstants;
-import com.example.clockee_server.payload.dto.BrandDTO;
-import com.example.clockee_server.service.admin.AdminBrandService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.clockee_server.config.ApplicationConstants;
+import com.example.clockee_server.payload.dto.BrandDTO;
+import com.example.clockee_server.service.admin.AdminBrandService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +36,6 @@ public class AdminBrandController {
   }
 
   @PostMapping
-  // @IsProductAdmin
   @PreAuthorize("hasRole('PRODUCT_ADMIN')")
   public ResponseEntity<BrandDTO> addBrand(@Valid @RequestBody BrandDTO dto) {
     return ResponseEntity.ok(adminBrandService.addBrand(dto));
@@ -49,6 +50,7 @@ public class AdminBrandController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasRole('PRODUCT_ADMIN')")
   public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
     adminBrandService.deleteBrand(id);
     return ResponseEntity.noContent().build();
