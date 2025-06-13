@@ -16,10 +16,14 @@ import { filterLinks } from "@/config/filter-links";
 import { userMenuItems } from "@/config/user-menu-items";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BrandControllerService, BrandDTO } from "@/gen";
+import { logger } from "@/util/logger";
 
 export const MainHeader = ({ searchBar = true, filter = true }) => {
   const { isAuthenticated, isAdmin } = useAuth();
   const { totalItems } = useCart();
+  const [popularBrands, setPopularBrands] = useState<BrandDTO[]>([]);
+
   const [username] = useLocalStorage<string>(USERNAME_COOKIE_KEY, "");
   const router = useRouter();
 
@@ -27,6 +31,15 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
 
   useEffect(() => {
     setMounted(true);
+    const fetchBrands = async () => {
+      try {
+        const brands = await BrandControllerService.getPopularBrand();
+        setPopularBrands(brands);
+      } catch (error) {
+        logger.warn(error);
+      }
+    };
+    fetchBrands();
   }, []);
 
   // Handle hydration failed
@@ -46,11 +59,28 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           // Quick filter product by gender, branch, ...
           filter && (
             <div className="flex justify-around mt-3  px-10 space-x-10 text-gray-700 font-medium ">
-              {filterLinks.map(({ label, href }) => (
-                <Link key={href} href={href} className="hover:text-yellow-500">
-                  {label}
-                </Link>
-              ))}
+              <div className="dropdown dropdown-hover">
+                <label
+                  tabIndex={0}
+                  className="hover:text-yellow-500 font-bold m-1 cursor-pointer"
+                >
+                  <Link href={"/brands"}>Thương hiệu</Link>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  {popularBrands.map((brand) => {
+                    return (
+                      <li key={brand.brandId}>
+                        <Link href={`/search?brandId=${brand.brandId}`}>
+                          {brand.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </div>
           )
         }
@@ -61,7 +91,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
           // Display button login, register base in authentication status
           isAuthenticated && (
             <div>
-              <div className="indicator">
+              <div className="indicator btn">
                 {isAuthenticated && (
                   <span className="indicator-item badge badge-xs badge-neutral">
                     {totalItems}
@@ -77,12 +107,8 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
 
         {isAuthenticated ? (
           <>
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn border-none bg-white"
-              >
+            <div className="dropdown dropdown-end ">
+              <div tabIndex={0} role="button" className="btn border-none">
                 <User className="text-gray-700 hover:text-black" />
               </div>
 
@@ -95,7 +121,7 @@ export const MainHeader = ({ searchBar = true, filter = true }) => {
                     onClick={() => {
                       router.push("/admin");
                     }}
-                    className="hover:bg-gray-100 cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full"
+                    className="cursor-pointer p-2 text-gray-700 flex items-start gap-2 w-full"
                   >
                     <div className="flex items-center gap-2 w-full">
                       <Shield size={18} />

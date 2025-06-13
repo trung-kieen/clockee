@@ -13,11 +13,14 @@ import { ROLES_COOKIE_KEY, USERNAME_COOKIE_KEY } from "@/config/app-config";
 import { logger } from "@/util/logger";
 import { useLocalStorage } from "usehooks-ts";
 import { getRefreshToken } from "../http-client";
+import { RoleName } from "@/gen/backend";
 
 type UserDetails = Omit<JwtTokenResponse, "accessToken" | "refreshToken">;
 type AuthContextType = {
   user: UserDetails | null;
   token: string | null;
+  containRole: (role: RoleName) => boolean;
+  containAnyRoles: (roles: Array<RoleName>) => boolean;
   isAuthenticated: boolean;
   saveUserDetails: (authDetails: JwtTokenResponse) => void;
   isAdmin: () => boolean;
@@ -71,6 +74,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Save username as flag islogin if user refresh browser
     setUsername(authDetails.username || "");
     setRoles(authDetails.roles || []);
+  };
+  const containRole = (role: RoleName) => {
+    const roles = getRoles();
+    return roles.includes(role) || roles.includes("ROLE_" + String(role));
+  };
+  const containAnyRoles = (roles: Array<RoleName>) => {
+    for (const role of roles) {
+      if (containRole(role)) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const logout = async () => {
@@ -130,6 +145,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout,
         isAdmin,
         getRoles,
+        containRole,
+        containAnyRoles,
       }}
     >
       {children}

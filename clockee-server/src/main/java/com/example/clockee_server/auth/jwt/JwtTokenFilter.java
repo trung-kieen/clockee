@@ -3,6 +3,7 @@ package com.example.clockee_server.auth.jwt;
 import com.example.clockee_server.auth.SecurityUtil;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.repository.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,21 +31,28 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     // get header token
 
     final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+
     if (!isValidBearHeader(header)) {
       filterChain.doFilter(request, response);
       return;
     }
 
     String token = header.split(" ")[1].trim();
-    String userEmail = tokenProvider.getUsername(token);
-    User user = userRepository.findByEmail(userEmail).orElse(null);
+    String userEmail;
+    User user;
+    try {
+      userEmail = tokenProvider.getUsername(token);
+      user = userRepository.findByEmail(userEmail).orElse(null);
+      if (!isValidUserWithToken(user, token)) {
+        filterChain.doFilter(request, response);
+        return;
+      }
 
-    if (!isValidUserWithToken(user, token)) {
-      filterChain.doFilter(request, response);
-      return;
+      SecurityUtil.setPricipalToSecurityContext(user, request);
+    } catch (ExpiredJwtException e) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
-    SecurityUtil.setPricipalToSecurityContext(user, request);
     filterChain.doFilter(request, response);
   }
 

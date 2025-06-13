@@ -28,6 +28,8 @@ npm install
 npm run dev 
 ```
 # For demo 
+🚧 This project is currently in progress. Video walkthrough: [YouTube Demo](https://www.youtube.com/watch?v=4C7IJjjg0o0&list=PL6XbmwursK7Zlu8Vv41GYQTuETwrh30zr&index=1)
+
 Seed account for test environment 
 - User: `user@clockee.com`/`clockee123`
 - Product admin: `admin@clockee.com`/`clockee123`

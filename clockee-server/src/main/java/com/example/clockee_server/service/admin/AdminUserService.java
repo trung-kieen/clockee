@@ -1,4 +1,4 @@
-package com.example.clockee_server.service;
+package com.example.clockee_server.service.admin;
 
 import com.example.clockee_server.entity.Role;
 import com.example.clockee_server.entity.User;
@@ -32,29 +32,28 @@ public class AdminUserService {
   }
 
   public UserDetailResponse getUserById(Long id) {
-    User user =
-        userRepository
-            .findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    User user = getOrThrowUser(id);
     return userMapper.userToUserDetailResponse(user);
   }
 
   public Set<Role> getRolesByUserId(Long userId) {
-    User user =
-        userRepository
-            .findByIdWithRoles(userId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    User user = getOrThrowUser(userId);
     return user.getRoles();
   }
 
-  public void updateDeletedStatus(Long id, boolean isDeleted) {
+  public void updateEnableStatus(Long id, boolean isEnabled) {
+    User user = getOrThrowUser(id);
+
+    user.setEnabled(isEnabled);
+
+    userRepository.save(user);
+  }
+
+  private User getOrThrowUser(Long id) {
     User user =
         userRepository
             .findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-    user.setIsDeleted(isDeleted);
-
-    userRepository.save(user);
+    return user;
   }
 }

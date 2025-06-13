@@ -85,6 +85,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(value = BadCredentialsException.class)
   public ResponseEntity<HttpErrorResponse> handleBadCredentialsException(
       BadCredentialsException e) {
+
     log.info("Handling BadCredentialsException: {}", e.getMessage());
     HttpErrorResponse response = HttpErrorResponse.of(null, 401, null, null);
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);

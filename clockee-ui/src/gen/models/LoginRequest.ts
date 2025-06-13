@@ -4,5 +4,5 @@
 /* eslint-disable */
 export type LoginRequest = {
   email: string;
-  password?: string;
+  password: string;
 };

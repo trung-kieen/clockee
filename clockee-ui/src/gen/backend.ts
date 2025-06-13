@@ -1,11 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-03 22:25:58.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-13 22:23:20.
 
 export interface Brand {
   brandId: number;
   name: string;
   isDeleted: boolean;
+  products: Product[];
 }
 
 export interface CartItem {
@@ -123,12 +124,12 @@ export interface GrantedAuthority extends Serializable {
 
 export interface UserDetails extends Serializable {
   enabled: boolean;
+  username: string;
+  password: string;
   authorities: GrantedAuthority[];
   accountNonExpired: boolean;
   accountNonLocked: boolean;
   credentialsNonExpired: boolean;
-  username: string;
-  password: string;
 }
 
 export interface Serializable {}
@@ -159,6 +160,7 @@ export const enum RoleName {
   CUSTOMER = "CUSTOMER",
   PRODUCT_ADMIN = "PRODUCT_ADMIN",
   INVENTORY_MANAGER = "INVENTORY_MANAGER",
+  SYS_ADMIN = "SYS_ADMIN",
 }
 
 function uriEncoding(

@@ -9,4 +9,5 @@ export type UserDetailResponse = {
   phone?: string;
   isDeleted?: boolean;
   address?: string;
+  enabled?: boolean;
 };

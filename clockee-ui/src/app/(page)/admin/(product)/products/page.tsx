@@ -83,6 +83,7 @@ export default function ProductAdminPage() {
             "Tên sản phẩm",
             "Giá gốc",
             "Giá bán",
+            "Còn lại",
             "Loại",
             "Thương hiệu",
           ]}

@@ -38,10 +38,9 @@ interface RoleRouteProps {
 export const RoleRoute = ({ children, role }: RoleRouteProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
-  const { getRoles, isAuthenticated } = useAuth();
-  const storedRole = getRoles();
+  const { containRole } = useAuth();
   useEffect(() => {
-    if (!(storedRole.includes(role) || storedRole.includes("ROLE_" + String(role)))) {
+    if (!containRole(role)) {
       router.push("/forbidden");
     } else {
       setLoading(false);
@@ -51,7 +50,7 @@ export const RoleRoute = ({ children, role }: RoleRouteProps) => {
 
   if (loading) return <LoadingScreen />;
 
-  return storedRole.includes(role) || storedRole.includes("ROLE_" + String(role)) ? <>{children}</> : <></>;
+  return containRole(role) ? <>{children}</> : <></>;
 };
 
 // Example usage:

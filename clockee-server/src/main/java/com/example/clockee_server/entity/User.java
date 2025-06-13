@@ -16,6 +16,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,6 +71,9 @@ public class User implements UserDetails {
   @Column(name = "is_verified")
   private boolean isVerified = false;
 
+  @Column(name = "enabled", nullable = false, columnDefinition = "bit default 1")
+  private Boolean enabled;
+
   @OneToMany(mappedBy = "createdBy")
   @Column
   private List<Purchase> purchases;
@@ -99,6 +103,8 @@ public class User implements UserDetails {
     this.name = req.getName();
     this.email = req.getEmail();
     this.password = passwordEncoder.encode(req.getPassword());
+    this.enabled = true;
+    this.isDeleted = false;
   }
 
   public void updatePassword(String newPassword) {
@@ -133,8 +139,18 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    // Alow user to login before verified
-    return true;
+    if (this.enabled == null) {
+      // Default value;
+      return true;
+    }
+    return Boolean.TRUE.equals(this.enabled);
+  }
+
+  @PrePersist
+  public void prePersist() {
+    if (enabled == null) {
+      enabled = true;
+    }
   }
 
   public List<Long> getRoleIds() {

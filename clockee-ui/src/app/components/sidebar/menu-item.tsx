@@ -1,3 +1,6 @@
+"use client";
+import { RoleName } from "@/gen/backend";
+import { useAuth } from "@/lib/hooks/use-auth";
 import { SidebarItem } from "@/model/SidebarItem";
 import Link from "next/link";
 
@@ -5,6 +8,10 @@ import Link from "next/link";
  * Use to diplay common action for admin to quick navigate: logout, products, brands, etc
  */
 export const MenuItem = ({ item }: { item: SidebarItem }) => {
+  const { containAnyRoles } = useAuth();
+  const validRoles = (roles?: Array<RoleName>) => {
+    return !roles || containAnyRoles(roles);
+  };
   return (
     <>
       {/* Item in sidebar with link */}
@@ -25,20 +32,25 @@ export const MenuItem = ({ item }: { item: SidebarItem }) => {
         className="text-left text-sm mt-2 w-4/5 mx-auto text-gray-500 font-bold"
         id="submenu"
       >
-        {
-          // Sub item menu - current support max depth is 2 for items structure
-          item.subItems.map((subItem, index) => {
-            return (
-              <div key={index}>
-                <Link href={subItem.href}>
-                  <h1 className="cursor-pointer p-2 hover:bg-gray-300 rounded-md mt-1">
-                    {subItem.title}
-                  </h1>
+        {// Sub item menu - current support max depth is 2 for items structure
+        item.subItems?.map((subItem, index) => {
+          return (
+            <div key={index}>
+              {validRoles(subItem.roles) ? (
+                <Link
+                  href={subItem.href}
+                  className="block p-2 hover:bg-gray-300 rounded-md mt-1 cursor-pointer"
+                >
+                  {subItem.title}
                 </Link>
-              </div>
-            );
-          })
-        }
+              ) : (
+                <div className="block p-2 rounded-md mt-1 cursor-not-allowed text-gray-400">
+                  {subItem.title}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </>
   );

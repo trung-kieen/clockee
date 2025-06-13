@@ -67,13 +67,14 @@ const EditBrandModal = ({
           {/* Save & cancel button  */}
           <div className="modal-action">
             <button
+              type="submit"
               className="btn bg-primary rounded-lg text-white"
               onClick={refreshCallBack}
               style={{ marginRight: "10px" }}
             >
               Lưu
             </button>
-            <button type="submit" className="btn" onClick={onClose}>
+            <button className="btn" onClick={onClose}>
               Hủy
             </button>
           </div>

@@ -15,13 +15,13 @@ export class AdminUserControllerService {
    * @returns string OK
    * @throws ApiError
    */
-  public static updateUserdeletedStatus(
+  public static updateUserEnableStatus(
     id: number,
     isDeleted: boolean,
   ): CancelablePromise<string> {
     return __request(OpenAPI, {
       method: "PATCH",
-      url: "/admin/users/{id}/deleted",
+      url: "/admin/users/{id}/enabled",
       path: {
         id: id,
       },

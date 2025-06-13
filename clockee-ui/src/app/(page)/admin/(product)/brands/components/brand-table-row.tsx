@@ -45,14 +45,14 @@ const BrandTableRow = ({ item, refreshCallBack }: BrandRowProps) => {
       <td>{item.name}</td>
       <td onClick={() => setIsEditModal(true)} className={`hover:bg-gray-200 `}>
         {/* Action edit */}
-        <i className="fa fa-edit"></i>
+        <i className="fa fa-edit cursor-pointer"></i>
       </td>
       <td
         onClick={() => setIsOpenConfirmModal(true)}
         className={`hover:bg-gray-200`}
       >
         {/* Action delete */}
-        <i className={`fa fa-trash `}></i>
+        <i className={`fa fa-trash cursor-pointer `}></i>
       </td>
     </tr>
   );

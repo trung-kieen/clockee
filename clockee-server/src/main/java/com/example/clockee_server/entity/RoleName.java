@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum RoleName {
   CUSTOMER(ApplicationConstants._CUSTOMER),
   PRODUCT_ADMIN(ApplicationConstants._PRODUCT_ADMIN),
-  INVENTORY_MANAGER(ApplicationConstants._INVENTORY_MANAGER);
+  INVENTORY_MANAGER(ApplicationConstants._INVENTORY_MANAGER),
+  SYS_ADMIN(ApplicationConstants._SYS_ADMIN);
 
   @Getter private String name;
 
