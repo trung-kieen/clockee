@@ -4,7 +4,6 @@ import { AuthManager } from "@/lib/auth/AuthManager";
 import { toast } from "react-toastify";
 import { logger } from "@/util/logger";
 import { redirectAuthenticateAndGoBack } from "@/util/route";
-import { unauthorized } from "next/navigation";
 
 // https://github.com/nextauthjs/next-auth/discussions/3550
 
