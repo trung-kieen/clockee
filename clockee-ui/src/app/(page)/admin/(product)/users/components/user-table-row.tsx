@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { AdminUserControllerService, UserDetailResponse } from "@/gen";
+import { getRoleNameLabel } from "@/util/role-utils";
 
 type UserRowProps = {
   item: UserDetailResponse;
@@ -23,14 +24,14 @@ const UserTableRow = ({ item, refreshCallBack, roleName }: UserRowProps) => {
   };
   const canToggleAccount = (role?: string) => role === "CUSTOMER";
   return (
-    <tr>
+    <tr className={canToggleAccount(roleName) ? "" : "cursor-not-allowed"}>
       <td>
         <i className="fa fa-user"></i>
       </td>
       <td>{item.name}</td>
       <td>{item.email}</td>
-      <td>{roleName || "Đang tải"}</td>
-      <td>{item.enabled ? "Đang mở" : "Đang khóa"}</td>
+      <td>{getRoleNameLabel(roleName || "")}</td>
+      <td>{item.enabled ? "Đang mở" : "Đang chặn"}</td>
       <td>
         {canToggleAccount(roleName) ? (
           <i

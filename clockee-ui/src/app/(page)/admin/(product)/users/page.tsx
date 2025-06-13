@@ -10,6 +10,7 @@ import {
 } from "@/gen";
 import { usePageSearch } from "@/lib/hooks/use-page-search";
 import PageController from "@/app/components/common/page-controller";
+import { getRoleNameLabel } from "@/util/role-utils";
 
 export default function UserAdminPage() {
   const [userRoles, setUserRoles] = useState<Record<number, string>>({});

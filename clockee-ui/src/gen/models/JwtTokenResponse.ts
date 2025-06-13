@@ -7,6 +7,7 @@ export type JwtTokenResponse = {
   type?: string;
   userId?: number;
   username?: string;
+  name?: string;
   roles?: Array<string>;
   verified?: boolean;
 };

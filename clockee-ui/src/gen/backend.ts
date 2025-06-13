@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-13 15:59:03.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-13 16:19:45.
 
 export interface Brand {
   brandId: number;

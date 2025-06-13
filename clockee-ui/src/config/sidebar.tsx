@@ -9,27 +9,27 @@ export const adminMenuItems: Array<SidebarItem> = [
       {
         title: "Danh sách đơn hàng",
         href: "/admin/orders/",
-        roles: [RoleName.PRODUCT_ADMIN]
+        roles: [RoleName.PRODUCT_ADMIN],
       },
       {
         title: "Người dùng",
         href: "/admin/users/",
-        roles: [RoleName.PRODUCT_ADMIN]
+        roles: [RoleName.PRODUCT_ADMIN],
       },
       {
         title: "Sản phẩm",
         href: "/admin/products",
-        roles: [RoleName.PRODUCT_ADMIN]
+        roles: [RoleName.PRODUCT_ADMIN],
       },
       {
         title: "Thương hiệu",
         href: "/admin/brands",
-        roles: [RoleName.PRODUCT_ADMIN]
+        roles: [RoleName.PRODUCT_ADMIN],
       },
       {
         title: "Thống kê",
         href: "/admin/dashboard",
-        roles: [RoleName.PRODUCT_ADMIN]
+        roles: [RoleName.PRODUCT_ADMIN],
       },
     ],
   },
@@ -40,12 +40,12 @@ export const adminMenuItems: Array<SidebarItem> = [
       {
         title: "Nhà cung cấp",
         href: "/admin/suppliers/",
-        roles: [RoleName.INVENTORY_MANAGER]
+        roles: [RoleName.INVENTORY_MANAGER],
       },
       {
         title: "Nhập hàng",
         href: "/admin/purchases/",
-        roles: [RoleName.INVENTORY_MANAGER]
+        roles: [RoleName.INVENTORY_MANAGER],
       },
     ],
   },
@@ -56,7 +56,7 @@ export const adminMenuItems: Array<SidebarItem> = [
       {
         title: "Quản trị",
         href: "/admin/account/",
-        roles: [RoleName.SYS_ADMIN]
+        roles: [RoleName.SYS_ADMIN],
       },
       {
         title: "Đăng xuất",

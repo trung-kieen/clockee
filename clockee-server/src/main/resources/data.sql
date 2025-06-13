@@ -81,7 +81,17 @@ SET IDENTITY_INSERT users OFF;
 
 
 INSERT INTO roles_users (user_id, role_id)
-  VALUES (12, 3),
+  VALUES (1, 1),
+         (2, 1),
+         (3, 1),
+         (4, 1),
+         (5, 1),
+         (6, 1),
+         (7, 1),
+         (8, 1),
+         (10, 1),
+         (11, 1),
+         (12, 3),
          (13, 2),
          (14, 1);
 
