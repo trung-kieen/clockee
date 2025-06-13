@@ -7,7 +7,6 @@ import { ProductImage } from "@/app/components/common/base-64-image";
 import { OrderStatus as OrderStatusType } from "@/gen/backend";
 import { logger } from "@/util/logger";
 import {
-  disableReturnOrder,
   enableCancelOrder,
   getOrderStatusLabel,
 } from "@/util/order-utils";
