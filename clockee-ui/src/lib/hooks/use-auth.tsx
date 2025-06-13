@@ -61,7 +61,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     _refreshAuth();
   }, []);
 
-
   const _updateToken = (token: string) => {
     setAccessToken(token);
     AuthManager.setAccessToken(token);

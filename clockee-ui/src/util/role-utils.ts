@@ -7,7 +7,7 @@ export const roleNameDescription = (status: string) => {
 };
 
 export function getRoleNameLabel(role: string | RoleName): string {
-  const roleString = String(role)
+  const roleString = String(role);
   switch (String(roleString)) {
     case String(RoleNameDict.PRODUCT_ADMIN):
     case "ROLE_" + String(RoleNameDict.PRODUCT_ADMIN):

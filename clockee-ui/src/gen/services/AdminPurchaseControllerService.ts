@@ -13,12 +13,16 @@ export class AdminPurchaseControllerService {
   /**
    * @param page
    * @param size
+   * @param startDate
+   * @param endDate
    * @returns PageResponsePurchaseSummary OK
    * @throws ApiError
    */
   public static getPurchaseHistory(
     page?: number,
     size: number = 10,
+    startDate?: string,
+    endDate?: string,
   ): CancelablePromise<PageResponsePurchaseSummary> {
     return __request(OpenAPI, {
       method: "GET",
@@ -26,6 +30,8 @@ export class AdminPurchaseControllerService {
       query: {
         page: page,
         size: size,
+        startDate: startDate,
+        endDate: endDate,
       },
     });
   }

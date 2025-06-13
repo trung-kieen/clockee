@@ -27,19 +27,19 @@ export const AdminSideBar = () => {
           <div className="my-2  h-[1px]"></div>
         </div>
         <div className="text-left pl-4">
-          {
-            user && (
-              <div>
-                <p className="font-bold">{user.name}</p>
-                {
-                  getRoles().map(role => (
-                    <p className="badge badge-sm font-medium  badge-soft" key={role}>{getRoleNameLabel(role)}</p>
-                  )
-                  )
-                }
-              </div>
-            )
-          }
+          {user && (
+            <div>
+              <p className="font-bold">{user.name}</p>
+              {getRoles().map((role) => (
+                <p
+                  className="badge badge-sm font-medium  badge-soft"
+                  key={role}
+                >
+                  {getRoleNameLabel(role)}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
 
         {

@@ -23,7 +23,8 @@ public class AdminBrandControllerTest extends AbstractIntegrationTest {
 
   @BeforeEach
   private void init() {
-    brandRequest = Brand.builder().name("Tisco").build();
+    brandRequest = new Brand();
+    brandRequest.setName("Tisco");
     objectMapper = new ObjectMapper();
   }
 

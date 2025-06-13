@@ -11,6 +11,7 @@ import com.example.clockee_server.payload.response.PurchaseSummary;
 import com.example.clockee_server.service.admin.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,10 @@ public class AdminPurchaseController {
   @GetMapping
   public ResponseEntity<PageResponse<PurchaseSummary>> getPurchaseHistory(
       @RequestParam(defaultValue = ApplicationConstants.PAGE_NUMBER) int page,
-      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size) {
-    var purchaseHistory = purchaseService.getPurchaseHistory(page, size);
+      @RequestParam(defaultValue = ApplicationConstants.PAGE_SIZE) int size,
+      @RequestParam(name = "startDate", required = false) LocalDate startDate,
+      @RequestParam(name = "endDate", required = false) LocalDate endDate) {
+    var purchaseHistory = purchaseService.getPurchaseHistory(page, size, startDate, endDate);
     return ResponseEntity.ok(purchaseHistory);
   }
 

@@ -21,7 +21,9 @@ import com.example.clockee_server.payload.response.PurchaseSummary;
 import com.example.clockee_server.repository.ProductRepository;
 import com.example.clockee_server.repository.PurchaseRepository;
 import com.example.clockee_server.repository.SupplierRepository;
+import com.example.clockee_server.specification.PurchaseSpecification;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -110,9 +113,11 @@ public class PurchaseService {
     return purchaseMapper.purchaseToResponse(savedPurchase);
   }
 
-  public PageResponse<PurchaseSummary> getPurchaseHistory(int page, int size) {
+  public PageResponse<PurchaseSummary> getPurchaseHistory(
+      int page, int size, LocalDate startDate, LocalDate endDate) {
+    Specification<Purchase> specification = PurchaseSpecification.dateBetween(startDate, endDate);
     Pageable pageable = PageRequest.of(page, size, Direction.DESC, "createdAt");
-    Page<Purchase> purchasePage = purchaseRepository.findAll(pageable);
+    Page<Purchase> purchasePage = purchaseRepository.findAll(specification, pageable);
     return MapperUtil.mapPageResponse(purchasePage, purchaseMapper::purchaseToSummary);
   }
 
