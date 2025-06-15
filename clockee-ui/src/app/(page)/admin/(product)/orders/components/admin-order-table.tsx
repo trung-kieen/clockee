@@ -40,6 +40,10 @@ const AdminOrderTable = ({
       toast.error("Có lỗi xảy ra");
     }
   };
+  const handleClick = () => {
+    sessionStorage.setItem('selectedOrder', JSON.stringify(orders));
+  };
+
   return (
     <div className="tab-content bg-base-100 border-base-300 p-6">
       <table className="table table-zebra w-full">
@@ -75,8 +79,10 @@ const AdminOrderTable = ({
                 </span>
               </td>
               <td className="flex gap-2">
-                <Link href={`/orders/${order.orderId}`}>
-                  <button className="btn btn-sm btn-outline">Chi tiết</button>
+                <Link href={`/admin/orders/${order.orderId}`}>
+                  <button onClick = {() => {
+                    sessionStorage.setItem('selectedOrder', JSON.stringify(order));
+                  }} className="btn btn-sm btn-outline">Chi tiết</button>
                 </Link>
               </td>
               <td className="flex gap-1">
