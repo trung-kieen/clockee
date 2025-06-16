@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import AdminMainCard from "@/app/components/card/admin-card";
-import {
-  AdminProductControllerService,
-  AdminProductResponse,
-} from "@/gen";
+import { AdminProductControllerService, AdminProductResponse } from "@/gen";
 import { logger } from "@/util/logger";
 import EditProductForm from "./components/edit-product-form";
 

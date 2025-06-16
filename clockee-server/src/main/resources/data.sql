@@ -57,7 +57,8 @@ INSERT INTO brands (name, is_deleted) VALUES
 INSERT INTO roles (role_name)
 VALUES ('CUSTOMER'),
        ('PRODUCT_ADMIN'),
-       ('INVENTORY_MANAGER');
+       ('INVENTORY_MANAGER'),
+       ('SYS_ADMIN');
 
 -- Insert into User
 SET IDENTITY_INSERT users ON;
@@ -73,10 +74,11 @@ VALUES (1, 'nguyen.van.a@gmail.com', 'hashedpassword1', N'Nguyễn Văn An', '09
        (9, 'do.van.k@hotmail.com', 'hashedpassword9', N'Đỗ Văn Khánh', '0923123456', N'67 Hai Bà Trưng, Cần Thơ', 0, 1),
        (10, 'ngo.thi.l@gmail.com', 'hashedpassword10', N'Ngô Thị Lan', '0956123456', N'45 Tôn Đức Thắng, Hải Phòng', 0, 1),
        (11, 'truong.van.m@yahoo.com', 'hashedpassword11', N'Trương Văn Minh', '0938123456', N'90 Lê Đại Hành, Vinh', 0, 1),
-       (12, 'quanlykho@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van a', NULL, NULL, 0, 1),
+       (12, 'inventory@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van a', NULL, NULL, 0, 1),
        (13, 'admin@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van b', NULL, NULL, 0, 1),
        (14, 'user@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van c', NULL, NULL, 0, 1),
-       (15, 'ly.thi.n@gmail.com', 'hashedpassword12', N'Lý Thị Nga', N'0917123456', '15 Pasteur, Quy Nhơn', 0, 1);
+       (15, 'sys@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'Nguyen Van Khanh', NULL, NULL, 0, 1),
+       (16, 'ly.thi.n@gmail.com', 'hashedpassword12', N'Lý Thị Nga', N'0917123456', '15 Pasteur, Quy Nhơn', 0, 1);
 SET IDENTITY_INSERT users OFF;
 
 
@@ -93,6 +95,8 @@ INSERT INTO roles_users (user_id, role_id)
          (11, 1),
          (12, 3),
          (13, 2),
+         (15, 4),
+         (16, 2),
          (14, 1);
 
 INSERT INTO products (name, description, image_url, actual_price, sell_price, type, stock, brand_id, is_active, visible, is_deleted)

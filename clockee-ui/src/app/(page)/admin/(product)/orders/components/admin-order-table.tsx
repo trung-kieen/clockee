@@ -41,7 +41,7 @@ const AdminOrderTable = ({
     }
   };
   const handleClick = () => {
-    sessionStorage.setItem('selectedOrder', JSON.stringify(orders));
+    sessionStorage.setItem("selectedOrder", JSON.stringify(orders));
   };
 
   return (
@@ -80,9 +80,17 @@ const AdminOrderTable = ({
               </td>
               <td className="flex gap-2">
                 <Link href={`/admin/orders/${order.orderId}`}>
-                  <button onClick = {() => {
-                    sessionStorage.setItem('selectedOrder', JSON.stringify(order));
-                  }} className="btn btn-sm btn-outline">Chi tiết</button>
+                  <button
+                    onClick={() => {
+                      sessionStorage.setItem(
+                        "selectedOrder",
+                        JSON.stringify(order),
+                      );
+                    }}
+                    className="btn btn-sm btn-outline"
+                  >
+                    Chi tiết
+                  </button>
                 </Link>
               </td>
               <td className="flex gap-1">

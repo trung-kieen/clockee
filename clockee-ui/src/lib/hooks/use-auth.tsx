@@ -116,12 +116,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return user?.roles ?? roles;
   };
   const isAdmin = () => {
-    return (
-      roles.includes("ROLE_PRODUCT_ADMIN") ||
-      roles.includes("ROLE_INVENTORY_MANAGER") ||
-      roles.includes("PRODUCT_ADMIN") ||
-      roles.includes("INVENTORY_MANAGER")
-    );
+    return containAnyRoles([
+      RoleName.INVENTORY_MANAGER,
+      RoleName.PRODUCT_ADMIN,
+      RoleName.SYS_ADMIN,
+    ]);
   };
   const _refreshAuth = async () => {
     try {

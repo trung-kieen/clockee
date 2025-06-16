@@ -13,6 +13,8 @@ const AdminPage = () => {
       router.push("admin/dashboard");
     } else if (containRole(RoleName.INVENTORY_MANAGER)) {
       router.push("admin/suppliers");
+    } else if (containRole(RoleName.SYS_ADMIN)) {
+      router.push("admin/accounts");
     } else {
       router.push("forbidden");
     }

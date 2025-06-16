@@ -30,4 +30,5 @@ public enum MessageKey {
   ALREADY_VERIFIED,
   ACCESS_DENIED,
   EMPTY_LIST,
+  ROLE_NOT_EXIST,
 }

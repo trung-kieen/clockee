@@ -53,7 +53,7 @@ const PurchasesPage = () => {
   return (
     <>
       <AdminMainCard title="Lịch sử nhập hàng">
-        <div className="flex flex-row space-x-3  flex-1">
+        <div className="flex flex-row space-x-20">
           <div>
             <div className="text-sm text-gray-600">
               <p>
@@ -81,7 +81,7 @@ const PurchasesPage = () => {
                 <span>&nbsp;Nhập hàng</span>
               </PrimaryButton>
             </Link>
-            <div className="text-center flex-1 w-full flex">
+            <div className="flex-1 w-full flex p-4">
               <DataTable<PurchaseSummary>
                 data={purchasePage.content || []}
                 emptyMessage="Không có dữ liệu"
@@ -96,13 +96,15 @@ const PurchasesPage = () => {
                   <PurchaseSummaryTableRow
                     key={index}
                     item={item}
-                    onDelete={() => { }}
-                    onChange={() => { }}
+                    onDelete={() => {}}
+                    onChange={() => {}}
                   />
                 )}
               />
             </div>
-            <PageController setPage={setPage} page={purchasePage} />
+            {!purchasePage.empty && (
+              <PageController setPage={setPage} page={purchasePage} />
+            )}
           </div>
         </div>
       </AdminMainCard>
