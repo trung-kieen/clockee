@@ -13,8 +13,8 @@ export type PageAdminProductResponse = {
   content?: Array<AdminProductResponse>;
   number?: number;
   sort?: SortObject;
+  numberOfElements?: number;
   first?: boolean;
   last?: boolean;
-  numberOfElements?: number;
   empty?: boolean;
 };

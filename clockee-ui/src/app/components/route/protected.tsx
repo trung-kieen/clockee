@@ -67,7 +67,7 @@ interface AdminRouteProps {
   children: ReactNode;
 }
 
-export const AdminRoute = ({ children }: AdminRouteProps) => {
+export const ProductAdminRoute = ({ children }: AdminRouteProps) => {
   return <RoleRoute role={RoleName.PRODUCT_ADMIN}>{children}</RoleRoute>;
 };
 
@@ -75,6 +75,14 @@ interface ManagerRouteProps {
   children: ReactNode;
 }
 
-export const ManagerRoute = ({ children }: ManagerRouteProps) => {
+export const InventoryManagerRoute = ({ children }: ManagerRouteProps) => {
   return <RoleRoute role={RoleName.INVENTORY_MANAGER}>{children}</RoleRoute>;
+};
+
+interface SysRouteProps {
+  children: ReactNode;
+}
+
+export const SysAdminRoute = ({ children }: SysRouteProps) => {
+  return <RoleRoute role={RoleName.SYS_ADMIN}>{children}</RoleRoute>;
 };

@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import { AdminUserControllerService, Role, UserDetailResponse } from "@/gen";
 import { useEffect, useState } from "react";
 import AdminMainCard from "@/app/components/card/admin-card";
+import { logger } from "@/util/logger";
 
-const UserDetailPage = () => {
+const UserDetailsPage = () => {
   const params = useParams();
   const id = Number(params?.id);
 
@@ -26,6 +27,7 @@ const UserDetailPage = () => {
         setUserRoles(roleRes);
       } catch (error) {
         toast.error("Không thể lấy dữ liệu người dùng hoặc vai trò");
+        logger.error(error);
       }
     };
     fetchData();
@@ -118,4 +120,4 @@ const UserDetailPage = () => {
   );
 };
 
-export default UserDetailPage;
+export default UserDetailsPage;

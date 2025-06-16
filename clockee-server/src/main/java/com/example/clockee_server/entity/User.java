@@ -1,6 +1,7 @@
 package com.example.clockee_server.entity;
 
 import com.example.clockee_server.auth.dto.CreateUserRequest;
+import com.example.clockee_server.payload.request.CreateLoginRequest;
 import com.example.clockee_server.util.ApplicationContextProvider;
 import com.example.clockee_server.util.Client;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -85,7 +86,7 @@ public class User implements UserDetails {
       orphanRemoval = true)
   private VerificationCode verificationCode;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(
       name = "roles_users",
       joinColumns = @JoinColumn(name = "user_id"),
@@ -99,6 +100,15 @@ public class User implements UserDetails {
   }
 
   public User(CreateUserRequest req) {
+    PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
+    this.name = req.getName();
+    this.email = req.getEmail();
+    this.password = passwordEncoder.encode(req.getPassword());
+    this.enabled = true;
+    this.isDeleted = false;
+  }
+
+  public User(CreateLoginRequest req) {
     PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
     this.name = req.getName();
     this.email = req.getEmail();
@@ -156,5 +166,15 @@ public class User implements UserDetails {
   public List<Long> getRoleIds() {
     if (roles == null) return new ArrayList<>();
     return roles.stream().map(Role::getRoleId).collect(Collectors.toList());
+  }
+
+  public void addRole(Role role) {
+    this.roles.add(role);
+    role.getUsers().add(this);
+  }
+
+  public void removeRole(Role role) {
+    this.roles.remove(role);
+    role.getUsers().remove(this);
   }
 }
