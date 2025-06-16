@@ -57,7 +57,8 @@ INSERT INTO brands (name, is_deleted) VALUES
 INSERT INTO roles (role_name)
 VALUES ('CUSTOMER'),
        ('PRODUCT_ADMIN'),
-       ('INVENTORY_MANAGER');
+       ('INVENTORY_MANAGER'),
+       ('SYS_ADMIN');
 
 -- Insert into User
 SET IDENTITY_INSERT users ON;
@@ -73,10 +74,11 @@ VALUES (1, 'nguyen.van.a@gmail.com', 'hashedpassword1', N'Nguyễn Văn An', '09
        (9, 'do.van.k@hotmail.com', 'hashedpassword9', N'Đỗ Văn Khánh', '0923123456', N'67 Hai Bà Trưng, Cần Thơ', 0, 1),
        (10, 'ngo.thi.l@gmail.com', 'hashedpassword10', N'Ngô Thị Lan', '0956123456', N'45 Tôn Đức Thắng, Hải Phòng', 0, 1),
        (11, 'truong.van.m@yahoo.com', 'hashedpassword11', N'Trương Văn Minh', '0938123456', N'90 Lê Đại Hành, Vinh', 0, 1),
-       (12, 'quanlykho@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van a', NULL, NULL, 0, 1),
+       (12, 'inventory@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van a', NULL, NULL, 0, 1),
        (13, 'admin@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van b', NULL, NULL, 0, 1),
        (14, 'user@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'nguyen van c', NULL, NULL, 0, 1),
-       (15, 'ly.thi.n@gmail.com', 'hashedpassword12', N'Lý Thị Nga', N'0917123456', '15 Pasteur, Quy Nhơn', 0, 1);
+       (15, 'sys@clockee.com', '$2a$10$QPefYSDWQ35ZyVjzv34kGuX.5Gv/YKxWxZoDllX.HmdYd.hUwyNsi', N'Nguyen Van Khanh', NULL, NULL, 0, 1),
+       (16, 'ly.thi.n@gmail.com', 'hashedpassword12', N'Lý Thị Nga', N'0917123456', '15 Pasteur, Quy Nhơn', 0, 1);
 SET IDENTITY_INSERT users OFF;
 
 
@@ -93,6 +95,8 @@ INSERT INTO roles_users (user_id, role_id)
          (11, 1),
          (12, 3),
          (13, 2),
+         (15, 4),
+         (16, 2),
          (14, 1);
 
 INSERT INTO products (name, description, image_url, actual_price, sell_price, type, stock, brand_id, is_active, visible, is_deleted)
@@ -130,32 +134,32 @@ VALUES (1, 1, 1),
 
 -- Insert into Order
 INSERT INTO orders (user_id, created_at, address, phone, total_price, status)
-VALUES (1, '2025-01-15', N'123 Nguyễn Trãi, Hà Nội', '0912345678', 230000000, 'PENDING'),
-       (2, '2025-01-20', N'456 Lê Lợi, TP.HCM', '0987654321', 330000000, 'SHIPPED'),
-       (3, '2025-02-05', N'78 Hùng Vương, Đà Nẵng', '0909123456', 6600000, 'SHIPPED'),
-       (4, '2025-02-18', N'12 Trần Phú, Huế', '0935123456', 11000000, 'PENDING'),
-       (5, '2025-03-01', N'34 Nguyễn Huệ, Nha Trang', '0978123456', 170000000, 'SHIPPED'),
-       (6, '2025-03-10', N'56 Phạm Ngũ Lão, Hà Nội', '0918765432', 30000000, 'SHIPPED'),
-       (7, '2025-03-15', N'89 Điện Biên Phủ, TP.HCM', '0945123456', 14000000, 'PENDING'),
-       (8, '2025-03-25', N'23 Lý Thường Kiệt, Đà Lạt', '0967123456', 110000000, 'SHIPPED'),
-       (9, '2025-04-01', N'67 Hai Bà Trưng, Cần Thơ', '0923123456', 13500000, 'SHIPPED'),
-       (10, '2025-04-03', N'45 Tôn Đức Thắng, Hải Phòng', '0956123456', 1150000000, 'PENDING');
+VALUES (1, '2025-01-15', N'123 Nguyễn Trãi, Hà Nội', '0912345678', 250000000, 'PENDING'),
+       (2, '2025-01-20', N'456 Lê Lợi, TP.HCM', '0987654321', 360000000, 'SHIPPED'),
+       (3, '2025-02-05', N'78 Hùng Vương, Đà Nẵng', '0909123456', 14500000, 'SHIPPED'),
+       (4, '2025-02-18', N'12 Trần Phú, Huế', '0935123456', 12000000, 'PENDING'),
+       (5, '2025-03-01', N'34 Nguyễn Huệ, Nha Trang', '0978123456', 225000000, 'SHIPPED'),
+       (6, '2025-03-10', N'56 Phạm Ngũ Lão, Hà Nội', '0918765432', 32000000, 'SHIPPED'),
+       (7, '2025-03-15', N'89 Điện Biên Phủ, TP.HCM', '0945123456', 15000000, 'PENDING'),
+       (8, '2025-03-25', N'23 Lý Thường Kiệt, Đà Lạt', '0967123456', 120000000, 'SHIPPED'),
+       (9, '2025-04-01', N'67 Hai Bà Trưng, Cần Thơ', '0923123456', 15000000, 'SHIPPED'),
+       (10, '2025-04-03', N'45 Tôn Đức Thắng, Hải Phòng', '0956123456', 1200000000, 'PENDING');
 -- Insert into Order
 
 
 INSERT INTO order_items (product_id, order_id, quantity, price)
-VALUES (1, 1, 1, 230000000),
-       (2, 2, 2, 165000000),
-       (3, 3, 3, 2200000),
-       (4, 4, 1, 11000000),
-       (5, 5, 2, 85000000),
-       (6, 6, 4, 7500000),
-       (7, 7, 1, 14000000),
-       (8, 8, 2, 55000000),
-       (9, 9, 3, 4500000),
-       (10, 10, 1, 1150000000),
-       (11, 3, 2, 3200000),
-       (12, 5, 1, 42000000);
+VALUES (1, 1, 1, 250000000),
+       (2, 2, 2, 180000000),
+       (3, 3, 3, 2500000),
+       (4, 4, 1, 12000000),
+       (5, 5, 2, 90000000),
+       (6, 6, 4, 8000000),
+       (7, 7, 1, 15000000),
+       (8, 8, 2, 60000000),
+       (9, 9, 3, 5000000),
+       (10, 10, 1, 1200000000),
+       (11, 3, 2, 3500000),
+       (12, 5, 1, 45000000);
 
 -- Insert into Supplier
 INSERT INTO suppliers (name, address, phone, email, is_deleted)

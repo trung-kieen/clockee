@@ -33,4 +33,5 @@ npm run dev
 Seed account for test environment 
 - User: `user@clockee.com`/`clockee123`
 - Product admin: `admin@clockee.com`/`clockee123`
-- Inventory manager: `quanlykho@clockee.com`/`clockee123`
+- Inventory manager: `inventory@clockee.com`/`clockee123`
+- Sys admin: `sys@clockee.com`/`clockee123`

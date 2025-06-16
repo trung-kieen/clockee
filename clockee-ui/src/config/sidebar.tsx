@@ -54,8 +54,8 @@ export const adminMenuItems: Array<SidebarItem> = [
     href: "#",
     subItems: [
       {
-        title: "Quản trị",
-        href: "/admin/account/",
+        title: "Quản trị cộng tác viên",
+        href: "/admin/accounts/",
         roles: [RoleName.SYS_ADMIN],
       },
       {

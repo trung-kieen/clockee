@@ -6,11 +6,7 @@ import Thumbnail from "@/app/components/common/thumbnail";
 import { ProductImage } from "@/app/components/common/base-64-image";
 import { OrderStatus as OrderStatusType } from "@/gen/backend";
 import { logger } from "@/util/logger";
-import {
-  disableReturnOrder,
-  enableCancelOrder,
-  getOrderStatusLabel,
-} from "@/util/order-utils";
+import { enableCancelOrder, getOrderStatusLabel } from "@/util/order-utils";
 import { formatVND } from "@/util/currency";
 import Link from "next/link";
 import { toast } from "react-toastify";

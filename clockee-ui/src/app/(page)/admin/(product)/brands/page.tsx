@@ -8,7 +8,7 @@ import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
 import DataTable from "@/app/components/common/data-table";
 import Search from "@/app/components/form/search";
-import { AdminRoute } from "@/app/components/route/protected";
+import { ProductAdminRoute } from "@/app/components/route/protected";
 import BrandTableRow from "./components/brand-table-row";
 import { usePageSearch } from "@/lib/hooks/use-page-search";
 
@@ -38,7 +38,7 @@ export default function BrandAdminPage() {
   }
 
   return (
-    <AdminRoute>
+    <ProductAdminRoute>
       <AdminMainCard title="Thương hiệu" goBack={false}>
         <div className="flex justify-between items-center mb-6">
           <div onClick={() => setIsAddModalOpen(true)}>
@@ -92,6 +92,6 @@ export default function BrandAdminPage() {
           />
         </div>
       </AdminMainCard>
-    </AdminRoute>
+    </ProductAdminRoute>
   );
 }
