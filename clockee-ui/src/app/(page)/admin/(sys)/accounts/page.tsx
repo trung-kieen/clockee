@@ -49,7 +49,7 @@ export default function UserAccessPage() {
           headers={["", "Tên người dùng", "Email", "Vai trò", "Trạng thái"]}
           renderRow={(item, index) => (
             <UserTableRow
-              key={index}
+              key={item.userId}
               item={item}
               refreshCallBack={fetchUsers}
             />
