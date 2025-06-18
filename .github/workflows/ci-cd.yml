@@ -30,7 +30,7 @@ jobs:
           file: ./clockee-server/Dockerfile.prod
           push: ${{ github.event_name == 'push' }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/clockee-server:1.2.0
+            ${{ secrets.DOCKERHUB_USERNAME }}/clockee-server:1.3.0
             ${{ secrets.DOCKERHUB_USERNAME }}/clockee-server:${{ github.sha }}
 
       - name: Build and push clockee-web image
@@ -40,5 +40,5 @@ jobs:
           file: ./clockee-ui/Dockerfile.prod
           push: ${{ github.event_name == 'push' }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/clockee-web:1.2.0
+            ${{ secrets.DOCKERHUB_USERNAME }}/clockee-web:1.3.0
             ${{ secrets.DOCKERHUB_USERNAME }}/clockee-web:${{ github.sha }}

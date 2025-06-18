@@ -30,7 +30,8 @@ export const LoginForm = () => {
     }
   }, []);
 
-  const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
+  const onSubmit: SubmitHandler<LoginRequest> = async (data, event) => {
+    event?.preventDefault();
     try {
       const res = await AuthControllerService.login(data);
       saveUserDetails(res);
@@ -44,22 +45,14 @@ export const LoginForm = () => {
       }
     } catch (e) {
       mapApiErrorsToForm(e, setError);
-      if (e instanceof ApiError && e.body) {
-        const errorResponse = e.body as HttpErrorResponse;
-        if (
-          errorResponse.status === HttpStatusCode.BadRequest ||
-          errorResponse.status === HttpStatusCode.Unauthorized
-        ) {
-          setError("root", {
-            message: "Tài khoản hoặc mật khẩu không chính xác",
-          });
-        }
-      }
+      setError("root", {
+        message: "Tài khoản hoặc mật khẩu không chính xác",
+      });
     }
   };
 
   return (
-    <form action="" onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative">
         <input
           autoFocus
@@ -67,7 +60,7 @@ export const LoginForm = () => {
           placeholder="Email"
           className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-7 rounded"
           {...register("email", {
-            // required: "Email không được trống",
+            required: "Email không được trống",
             pattern: {
               value: EMAIL_PATTERN,
               message: "Email không hợp lệ",
@@ -87,22 +80,20 @@ export const LoginForm = () => {
             required: "Mật khẩu không được để trống",
           })}
         />
-        <button
+        <div
           className="absolute inset-y-0 right-3 top-6 flex items-center"
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-        </button>
+        </div>
         <div className="absolute text-red-500 mt-1 ml-1 text-sm">
           {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
           {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
         </div>
       </div>
-      <button
-        type="submit"
-        className={`w-full bg-yellow-400 text-white p-3 rounded mt-7 font-semibold shadow-md hover:opacity-75"`}
-      >
-        Tiếp theo
+
+      <button className={`w-full bg-yellow-400 text-white p-3 rounded mt-7 font-semibold shadow-md hover:opacity-75"`}>
+        Đăng nhập
       </button>
     </form>
   );

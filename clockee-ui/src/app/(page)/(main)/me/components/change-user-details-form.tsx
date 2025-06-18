@@ -8,7 +8,7 @@ import {
   UpdateUserDetailsRequest,
   UserControllerService,
 } from "@/gen";
-import { mapApiErrorsToForm } from "@/util/form";
+import { mapApiErrorsToForm, popupRequestError } from "@/util/form";
 import { HttpErrorResponse } from "@/model/HttpErrorResponse";
 const ChangeUserDetailsForm = () => {
   const [isVerified, setIsVerified] = useState<boolean | undefined>();
@@ -45,14 +45,7 @@ const ChangeUserDetailsForm = () => {
         "Email xác thực đã được gửi vui lòng kiểm tra hòm thư của bạn",
       );
     } catch (error) {
-      if (error instanceof ApiError && error.body) {
-        const errorResponse = error.body as HttpErrorResponse;
-
-        // Set form-wide error message
-        if (errorResponse.message) {
-          toast.error(errorResponse.message);
-        }
-      }
+      popupRequestError(error);
     }
   };
 
