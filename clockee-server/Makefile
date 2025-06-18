@@ -9,7 +9,7 @@ run:
 	mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev,redis"
 # For Unix
 build:
-	mvn spring-boot:run -Dspring.profiles.active=prod,redis
+	mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,redis"
 
 # For window when apply production profile will be tricky
 # Apply port 1434 for mssql (docker container) to avoid port conflict in target machine in production level

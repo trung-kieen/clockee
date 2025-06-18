@@ -80,7 +80,6 @@ const CreateProductForm = () => {
   const onSubmit: SubmitHandler<CreateProductWithImage> = async (
     data: CreateProductWithImage,
   ) => {
-    console.log(data);
     try {
       // Create product with data content
       const productNoImg = data as AdminProductRequest;
@@ -99,6 +98,7 @@ const CreateProductForm = () => {
       toast("Thêm thành công");
       setFocus("name");
       reset();
+      setSelectedFile("");
     } catch (e) {
       mapApiErrorsToForm(e, setError);
     }

@@ -46,7 +46,7 @@ services:
 
 
   clockee-server:
-    image: trungkieen/clockee-server:1.2.0
+    image: trungkieen/clockee-server:1.3.0
     container_name: clockee-server
     environment:
       - DBMS_HOST=clockee-db
@@ -55,7 +55,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=example_123
       - SPRING_MAIL_HOST=clockee-mail-server
       - FRONTEND_HOST=clockee-web
-      - APP_ALLOWED_ORIGINS=http://localhost:3000,http://clockee-web:3000
+      - APP_ALLOWED_ORIGINS=http://localhost:3000,http://clockee-web:3000,http://clockee-nginx
       - SPRING_DATASOURCE_URL=jdbc:sqlserver://clockee-db;encrypt=true;trustServerCertificate=true;databaseName=clockeedb;useUnicode=true;characterEncoding=UTF-8
     networks:
       - clockee-network
@@ -70,7 +70,7 @@ services:
         condition: service_started
 
   clockee-web:
-    image: trungkieen/clockee-web:1.2.0
+    image: trungkieen/clockee-web:1.3.0
     container_name: clockee-web
     ports:
       - "3000:3000"
@@ -88,6 +88,23 @@ services:
 
       clockee-server:
         condition: service_started
+
+
+  nginx:
+    image: nginx:alpine
+    container_name: clockee-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/nginx.conf
+
+
+    networks:
+      - clockee-network
+
+    depends_on:
+      - clockee-web
 
 
 networks:
