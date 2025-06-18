@@ -80,13 +80,12 @@ const RegisterForm = () => {
             })}
             className="w-full border border-yellow-400 bg-transparent text-gray-700 p-2 mt-3 rounded"
           />
-          <button
-            type="button"
+          <div
             className="absolute top-3 inset-y-0 right-3 flex items-center"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
+          </div>
         </div>
         <div className="text-red-500 mt-2 text-sm">
           {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
@@ -108,13 +107,12 @@ const RegisterForm = () => {
             )}
             {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
           </div>
-          <button
-            type="button"
+          <div
             className="absolute top-3 inset-y-0 right-3 flex items-center"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
           >
             {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
+          </div>
         </div>
         <button className="w-full bg-yellow-400 text-white p-3 rounded mt-3 font-semibold shadow-md disabled:opacity-50">
           Đăng Ký

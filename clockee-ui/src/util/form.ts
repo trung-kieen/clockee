@@ -1,6 +1,7 @@
 import { ApiError } from "@/gen";
 import { HttpErrorResponse } from "@/model/HttpErrorResponse";
 import { FieldValues, UseFormSetError } from "react-hook-form";
+import { toast } from "react-toastify";
 
 /**
  * Server validation input
@@ -28,3 +29,18 @@ export const mapApiErrorsToForm = <T extends FieldValues>(
     }
   }
 };
+
+/**
+ * Popup senmantic error (message) if HttpErrorResponse is catch
+ */
+export const popupRequestError = (error: unknown) => {
+  if (error instanceof ApiError && error.body) {
+    const errorResponse = error.body as HttpErrorResponse;
+
+    // Set form-wide error message
+    if (errorResponse.message) {
+      toast.error(errorResponse.message);
+    }
+  }
+
+}

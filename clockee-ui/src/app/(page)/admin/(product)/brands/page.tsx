@@ -73,7 +73,7 @@ export default function BrandAdminPage() {
             renderRow={(item, index) => {
               return (
                 <BrandTableRow
-                  key={index}
+                  key={item.brandId}
                   item={item}
                   refreshCallBack={fetchBrands}
                 />
