@@ -33,12 +33,12 @@ export class OrderControllerService {
   }
   /**
    * @param requestBody
-   * @returns any OK
+   * @returns OrderSummaryResponse OK
    * @throws ApiError
    */
   public static createOrder(
     requestBody: CreateOrderRequest,
-  ): CancelablePromise<Record<string, any>> {
+  ): CancelablePromise<OrderSummaryResponse> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/user/order",

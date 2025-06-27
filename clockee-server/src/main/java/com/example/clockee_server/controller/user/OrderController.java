@@ -44,9 +44,9 @@ public class OrderController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createOrder(
+  public ResponseEntity<OrderSummaryResponse> createOrder(
       @CurrentUser User user, @RequestBody CreateOrderRequest request) {
-    orderService.createOrder(user, request);
-    return ResponseEntity.accepted().build();
+    var order = orderService.createOrder(user, request);
+    return ResponseEntity.ok(order);
   }
 }

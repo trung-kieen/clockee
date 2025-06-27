@@ -10,45 +10,15 @@ Clocke is a pet project for pratice building simple ecommerce system in java
 - MSSQL 2022
 
 
-# Getting started
-**Prerequisites**
-- Docker and Docker Compose 
-- GNU Make 
 
-## Docker compose 
-Services
-``` 
-:80 Nginx
-:1080 Maildev 
-:1434 MSSQL Server 
-:6327 Redis 
-:8080 Spring Boot http
-:8081 Spring Boot https
-:3000 Next.js
-```
+# Main features 
+- Payment with Stripe
+- Order approval process & email sending 
+- Manager cron job with JobRunr
+- Role Based Access Control
+- Full client and server authenticate and authorize with access token and refresh token (http only)
 
-In the entry run: 
-``` 
-make build 
-```
-
-## For explore 
-
-Seed account for test environment 
-- User: `user@clockee.com`/`clockee123`
-- Product admin: `admin@clockee.com`/`clockee123`
-- Inventory manager: `inventory@clockee.com`/`clockee123`
-- Sys admin: `sys@clockee.com`/`clockee123`
-
-[API document](https://localhost:8081/api/swagger-ui/index.html#/)
-![swagger-ui](./assets/swagger.png)
-[Maildev](http://localhost:1080/#/)
-![maildev](./assets/mail-dev.png)
-[JobRunr](http://localhost:8000/dashboard/jobs)
-![JobRunr](./assets/jobrunr.png)
-
-# Screenshots 
-[Video walkthroughs](https://www.youtube.com/watch?v=4C7IJjjg0o0&list=PL6XbmwursK7Zlu8Vv41GYQTuETwrh30zr&index=1)
+[Video walkthrough](https://www.youtube.com/watch?v=4C7IJjjg0o0&list=PL6XbmwursK7Zlu8Vv41GYQTuETwrh30zr&index=1)
 
   <table>
       <tbody>
@@ -76,7 +46,57 @@ Seed account for test environment
           </tr>
       </tbody>
   </table>
-
-
 # License
+
 Licensed under the MIT License
+
+
+# Getting started
+**Prerequisites**
+- Docker and Docker Compose 
+- GNU Make 
+
+## Docker compose 
+Services
+``` 
+:80 Nginx
+:1080 Maildev 
+:1434 MSSQL Server 
+:6327 Redis 
+:8080 Spring Boot http
+:8081 Spring Boot https
+:3000 Next.js
+```
+
+In the entry run: 
+``` 
+make build 
+```
+
+## For explore 
+
+
+Seed account for test environment 
+- User: `user@clockee.com`/`clockee123`
+- Product admin: `admin@clockee.com`/`clockee123`
+- Inventory manager: `inventory@clockee.com`/`clockee123`
+- Sys admin: `sys@clockee.com`/`clockee123`
+
+[API document](https://localhost:8081/api/swagger-ui/index.html#/)
+![swagger-ui](./assets/swagger.png)
+[Maildev](http://localhost:1080/#/)
+![maildev](./assets/mail-dev.png)
+[JobRunr](http://localhost:8000/dashboard/jobs)
+![JobRunr](./assets/jobrunr.png)
+
+
+### Stripe 
+
+**Prerequisites**
+- Config `.env` for Next.js in `clockee-ui/`
+- Set system variable `$STRIPE_KEY_SECRET` 
+
+[Example card](https://docs.stripe.com/testing) for stimulate payment
+
+[View transaction history](https://dashboard.stripe.com/test/payments)
+
