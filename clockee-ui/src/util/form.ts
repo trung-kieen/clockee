@@ -42,5 +42,4 @@ export const popupRequestError = (error: unknown) => {
       toast.error(errorResponse.message);
     }
   }
-
-}
+};

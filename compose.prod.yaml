@@ -54,6 +54,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=example_123
       - SPRING_MAIL_HOST=clockee-mail-server
+      - APP_FRONTEND_BASE_URL=clockee-web:3000
       - FRONTEND_HOST=clockee-web
       - APP_ALLOWED_ORIGINS=http://localhost:3000,http://clockee-web:3000,http://clockee-nginx
       - SPRING_DATASOURCE_URL=jdbc:sqlserver://clockee-db;encrypt=true;trustServerCertificate=true;databaseName=clockeedb;useUnicode=true;characterEncoding=UTF-8

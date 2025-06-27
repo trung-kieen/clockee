@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-16 15:58:30.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-27 15:33:14.
 
 export interface Brand {
   brandId: number;
@@ -25,6 +25,7 @@ export interface Order {
   totalPrice: number;
   status: OrderStatus;
   orderItems: OrderItem[];
+  payment: Payment;
 }
 
 export interface OrderItem {
@@ -34,6 +35,15 @@ export interface OrderItem {
   quantity: number;
   price: number;
   totalPrice: number;
+}
+
+export interface Payment {
+  productId: number;
+  method: PaymentMethod;
+  amount: number;
+  createdAt: Date;
+  status: PaymentStatus;
+  order: Order;
 }
 
 export interface Product {
@@ -161,6 +171,16 @@ export const enum RoleName {
   PRODUCT_ADMIN = "PRODUCT_ADMIN",
   INVENTORY_MANAGER = "INVENTORY_MANAGER",
   SYS_ADMIN = "SYS_ADMIN",
+}
+
+export const enum PaymentMethod {
+  COD = "COD",
+  STRIPE = "STRIPE",
+}
+
+export const enum PaymentStatus {
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
 }
 
 function uriEncoding(
