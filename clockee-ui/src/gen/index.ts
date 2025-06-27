@@ -38,6 +38,7 @@ export type { PageResponsePurchaseSummary } from "./models/PageResponsePurchaseS
 export type { PageResponseUserAccessDetailsResponse } from "./models/PageResponseUserAccessDetailsResponse";
 export type { PageResponseUserDetailResponse } from "./models/PageResponseUserDetailResponse";
 export type { PageSupplierDTO } from "./models/PageSupplierDTO";
+export type { PaymentResponse } from "./models/PaymentResponse";
 export type { Product } from "./models/Product";
 export type { ProductDetailsResponse } from "./models/ProductDetailsResponse";
 export type { ProductSummaryResponse } from "./models/ProductSummaryResponse";
@@ -75,5 +76,6 @@ export { CartControllerService } from "./services/CartControllerService";
 export { FinancialReportControllerService } from "./services/FinancialReportControllerService";
 export { IamControllerService } from "./services/IamControllerService";
 export { OrderControllerService } from "./services/OrderControllerService";
+export { StripeControllerService } from "./services/StripeControllerService";
 export { UserControllerService } from "./services/UserControllerService";
 export { UserProductControllerService } from "./services/UserProductControllerService";

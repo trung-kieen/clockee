@@ -8,6 +8,7 @@ import com.example.clockee_server.entity.Product;
 import com.example.clockee_server.entity.User;
 import com.example.clockee_server.exception.ApiException;
 import com.example.clockee_server.exception.ResourceNotFoundException;
+import com.example.clockee_server.mapper.MapperUtil;
 import com.example.clockee_server.mapper.OrderMapper;
 import com.example.clockee_server.message.AppMessage;
 import com.example.clockee_server.message.MessageKey;
@@ -81,7 +82,7 @@ public class OrderService {
   }
 
   @Transactional
-  public void createOrder(User user, CreateOrderRequest request) {
+  public OrderSummaryResponse createOrder(User user, CreateOrderRequest request) {
 
     // Only allow user to create order from items in cart => Search item in cart
     // with map
@@ -147,5 +148,6 @@ public class OrderService {
     orderItemRepository.saveAll(orderItems);
     // Alternative, change flag to not display in user cart instead delete
     cartRepository.deleteAll(pendingDeleteCartItems);
+    return MapperUtil.mapObject(order, OrderSummaryResponse.class);
   }
 }

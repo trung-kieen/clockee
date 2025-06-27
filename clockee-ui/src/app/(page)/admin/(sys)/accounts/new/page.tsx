@@ -11,20 +11,28 @@ import { getRoleNameLabel } from "@/util/role-utils";
 import { getPasswordError } from "@/util/validate";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { Controller, ControllerFieldState, ControllerRenderProps, FieldValues, SubmitHandler, useForm, UseFormStateReturn } from "react-hook-form";
+import {
+  Controller,
+  ControllerFieldState,
+  ControllerRenderProps,
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  UseFormStateReturn,
+} from "react-hook-form";
 import Select, { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 type RoleOption = {
-  label: string,
-  value: string,
-}
-const roles: RoleOption[] = Object.values(RoleNameDict).map(r => {
+  label: string;
+  value: string;
+};
+const roles: RoleOption[] = Object.values(RoleNameDict).map((r) => {
   const option: RoleOption = {
     label: getRoleNameLabel(r),
     value: String(r),
-  }
+  };
   return option;
-})
+});
 const UserAccessDetailsPage = () => {
   const params = useParams();
   const id = Number(params?.id);
@@ -43,13 +51,12 @@ const UserAccessDetailsPage = () => {
   const password = watch("password");
   const [selectedOptions, setSelectedOptions] = useState<RoleOption[]>([]);
 
-
   const onSubmit: SubmitHandler<CreateLoginRequest> = async (
     data: CreateLoginRequest,
   ) => {
     try {
       const resp = await IamControllerService.addLoginAccess(data);
-      toast.success("Tài khoản tạo thành công")
+      toast.success("Tài khoản tạo thành công");
     } catch (e) {
       mapApiErrorsToForm(e, setError);
     }
@@ -59,7 +66,6 @@ const UserAccessDetailsPage = () => {
     <>
       <AdminMainCard title="Chi tiết người dùng" goBack={true}>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-
           <div className="flex space-x-4">
             <div className="flex-1">
               <label className="block text-lg font-medium">Họ và tên</label>
@@ -73,7 +79,6 @@ const UserAccessDetailsPage = () => {
             </div>
           </div>
 
-
           <div>
             <label className="block text-lg font-medium">Email</label>
             <input
@@ -83,12 +88,11 @@ const UserAccessDetailsPage = () => {
                 required: "Email không được trống",
                 pattern: {
                   value: EMAIL_PATTERN,
-                  message: "Định dạng email không hợp lệ"
-                }
+                  message: "Định dạng email không hợp lệ",
+                },
               })}
             />
           </div>
-
 
           <div>
             <label className="block text-lg font-medium">Mật khẩu</label>
@@ -103,9 +107,10 @@ const UserAccessDetailsPage = () => {
             />
           </div>
 
-
           <div>
-            <label className="block text-lg font-medium">Xác nhận mật khẩu</label>
+            <label className="block text-lg font-medium">
+              Xác nhận mật khẩu
+            </label>
             <input
               type="password"
               placeholder="Xác nhận mật khẩu"
@@ -118,16 +123,13 @@ const UserAccessDetailsPage = () => {
             />
           </div>
 
-
           <div className="flex w-full">
             <div className=" rounded-box grid h-20 grow ">
               <label className="block text-lg font-medium">Vai trò</label>
               <Controller
                 control={control}
                 name="roles"
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                }) => (
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
                   <Select<RoleOption, true>
                     options={roles}
                     // isLoading={isLoading}
@@ -138,13 +140,14 @@ const UserAccessDetailsPage = () => {
                     }}
                     isMulti
                     onBlur={onBlur}
-                    value={selectedOptions.filter((option) => (value || []).includes(option.value))}
+                    value={selectedOptions.filter((option) =>
+                      (value || []).includes(option.value),
+                    )}
                     name={name}
                     ref={ref}
                   />
                 )}
               />
-
             </div>
           </div>
 
@@ -152,9 +155,7 @@ const UserAccessDetailsPage = () => {
           <div className="flex items-center gap-2">
             <div className="validator-hint">
               {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
-              {errors.email && (
-                <ErrorText>{errors.email.message}</ErrorText>
-              )}
+              {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
               {errors.password && (
                 <ErrorText>{errors.password.message}</ErrorText>
               )}
@@ -173,7 +174,7 @@ const UserAccessDetailsPage = () => {
         </form>
       </AdminMainCard>
     </>
-  )
-}
+  );
+};
 
 export default UserAccessDetailsPage;

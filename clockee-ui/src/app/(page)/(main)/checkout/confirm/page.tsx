@@ -1,7 +1,7 @@
 "use client";
 import { MapPin, CreditCard } from "lucide-react";
 import { useCart } from "@/lib/hooks/use-cart";
-import React, { MouseEvent } from "react";
+import React, { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import { formatVND } from "@/util/currency";
 import { OrderControllerService } from "@/gen";
 import { logger } from "@/util/logger";
@@ -20,10 +20,11 @@ const CheckoutAddressPage = () => {
   } = useCart();
   const router = useRouter();
 
-  const createOrderHanler = (event: MouseEvent<HTMLButtonElement>) => {
+  const [paymentMethod, setPaymentMethod] = useState<string>("cod");
+  const createOrderHanler = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      OrderControllerService.createOrder({
+      const order = await OrderControllerService.createOrder({
         phone: deliveryDetails.phone,
         address: String(deliveryDetails.address),
         items: selectedItems.map((item) => ({
@@ -31,7 +32,12 @@ const CheckoutAddressPage = () => {
           quantity: item.quantity,
         })),
       });
-      router.push("/checkout/success");
+
+      if (paymentMethod === "cod") {
+        router.push("/checkout/success");
+      } else if (paymentMethod === "stripe") {
+        router.push(`/payment/stripe/${order.orderId}`);
+      }
     } catch (error) {
       logger.error(error);
       toast.error("Có lỗi xảy ra vui lòng thử lại");
@@ -39,6 +45,12 @@ const CheckoutAddressPage = () => {
     // Refresh cart details
     fetchCart();
   };
+
+  function handlePaymentMethodChange(
+    event: ChangeEvent<HTMLInputElement>,
+  ): void {
+    setPaymentMethod(event.target.value);
+  }
 
   return (
     <div className="py-8">
@@ -125,7 +137,10 @@ const CheckoutAddressPage = () => {
             <CreditCard size={18} />
             <h3 className="font-medium text-sm">Phương thức thanh toán</h3>
           </div>
-          <div className="flex items-center gap-2 mt-2">
+          <div
+            onChange={handlePaymentMethodChange}
+            className="flex items-center gap-2 mt-2"
+          >
             <input
               type="radio"
               name="payment"
@@ -136,6 +151,16 @@ const CheckoutAddressPage = () => {
             />
             <label htmlFor="cod" className="text-sm">
               Thanh toán khi nhận hàng
+            </label>
+            <input
+              type="radio"
+              name="payment"
+              value="stripe"
+              id="stripe"
+              className="accent-red-600"
+            />
+            <label htmlFor="cod" className="text-sm">
+              Thanh toán online bằng Stripe
             </label>
           </div>
         </div>

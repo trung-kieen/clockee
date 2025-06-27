@@ -92,7 +92,9 @@ export const LoginForm = () => {
         </div>
       </div>
 
-      <button className={`w-full bg-yellow-400 text-white p-3 rounded mt-7 font-semibold shadow-md hover:opacity-75"`}>
+      <button
+        className={`w-full bg-yellow-400 text-white p-3 rounded mt-7 font-semibold shadow-md hover:opacity-75"`}
+      >
         Đăng nhập
       </button>
     </form>
