@@ -7,10 +7,63 @@ import { logger } from "@/util/logger";
 import { getOrderStatusLabel } from "@/util/order-utils";
 import OrderTab from "./components/order-tabs";
 import { ProtectedRoute } from "@/app/components/route/protected";
+import { useSearchParams } from "next/navigation";
+import { useStripe } from "@stripe/react-stripe-js";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const OrderHistoryPage = () => {
   const [currentStatus, setCurrentStatus] = useState<OrderStatusType>();
   const [orders, setOrders] = useState<OrderSummaryResponse[]>([]);
+
+  const router = useRouter();
+
+  const stripe = useStripe();
+
+  useEffect(() => {
+
+    const fetchPaymentStatus = async () => {
+      const clientSecret = new URLSearchParams(window.location.search).get(
+        'payment_intent_client_secret'
+      );
+      if (!stripe || !clientSecret) {
+        return;
+      }
+
+
+      const intentDetails = await stripe.retrievePaymentIntent(clientSecret);
+      switch (intentDetails.paymentIntent?.status) {
+
+        case 'succeeded':
+          toast.success('Success! Payment received.');
+          break;
+
+        case 'processing':
+          toast.info("Payment processing. We'll update you when payment is received.");
+          break;
+
+        case 'requires_payment_method':
+          // Redirect your user back to your payment page to attempt collecting
+          // payment again
+
+          toast.error('Payment failed. Please try another payment method.');
+          router.back();
+          break;
+
+        default:
+          toast.error('Something went wrong.');
+          break;
+      }
+
+
+    }
+
+    fetchPaymentStatus();
+
+  }, []);
+
+
+
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentStatus(event.target.value as OrderStatusType);
   };

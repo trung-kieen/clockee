@@ -5,7 +5,7 @@ import {
   AdminProductResponse,
   PageAdminProductResponse,
 } from "@/gen";
-import React  from "react";
+import React from "react";
 import Link from "next/link";
 import AdminMainCard from "@/app/components/card/admin-card";
 import PrimaryButton from "@/app/components/button/button";
