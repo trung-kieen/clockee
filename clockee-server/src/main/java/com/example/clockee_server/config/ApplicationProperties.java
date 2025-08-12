@@ -27,4 +27,5 @@ public class ApplicationProperties {
   private String messagesFile;
   private String cookieName;
   private String refreshCookieName;
+  private String frontendBaseUrl;
 }
