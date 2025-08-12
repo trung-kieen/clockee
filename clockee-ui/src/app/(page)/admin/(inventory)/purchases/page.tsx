@@ -62,7 +62,7 @@ const PurchasesPage = () => {
               </p>
               <p>
                 Đến ngày:{" "}
-                {endDate ? endDate.toLocaleDateString() : "Not selected"}
+                {endDate ? endDate.toLocaleDateString() : "chưa chọn"}
               </p>
             </div>
             <div>
